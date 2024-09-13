@@ -77,7 +77,7 @@ export default function Home({ templates }) {
 
 // Fetch data at server side using getServerSideProps
 export async function getServerSideProps() {
-  const res = await fetch('http://localhost:3000/api/templates');
+  const res = await fetch('http://localhost:3001/api/templates');
   const templates = await res.json();
 
   return {
