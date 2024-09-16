@@ -3,6 +3,7 @@ import { generateHTMLPDF } from "../utils/generateHTMLPDF";
 import Papa from "papaparse";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import ProtectedPage from './protected';
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
 
@@ -92,26 +93,29 @@ export default function UploadCSV() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Upload CSV File</h1>
-      <input
-        type="file"
-        accept=".csv"
-        onChange={handleFileUpload}
-        className="mb-4"
-      />
-      {invoices.length > 0 && (
-          <pre className="bg-gray-100 p-4 rounded">
-            {JSON.stringify(invoices, null, 2)}
-          </pre>
-        ) && (
-          <button
-            onClick={handleDownloadZip}
-            className="bg-blue-500 text-white p-2 rounded"
-          >
-            Download Invoices as ZIP
-          </button>
-        )}
-    </div>
+    <ProtectedPage>
+      <div className="container mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-4">Upload CSV File</h1>
+        <input
+          type="file"
+          accept=".csv"
+          onChange={handleFileUpload}
+          className="mb-4"
+        />
+        {invoices.length > 0 && (
+            <pre className="bg-gray-100 p-4 rounded">
+              {JSON.stringify(invoices, null, 2)}
+            </pre>
+          ) && (
+            <button
+              onClick={handleDownloadZip}
+              className="bg-blue-500 text-white p-2 rounded"
+            >
+              Download Invoices as ZIP
+            </button>
+          )}
+      </div>
+    </ProtectedPage>
   );
 }
+
