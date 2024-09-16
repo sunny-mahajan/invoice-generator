@@ -3,11 +3,11 @@ import "../styles/globals.css";
 
 const Header = () => {
   return (
-    <div
+    <header
       className="sidebar d-flex justify-content-between relative"
     >
-      <div className="sidebar-top absolute">
-        <div className="sidebar-logo-wrap absolute top-50 left-50">
+      <div className="sidebar-top h-24 w-24">
+        <div className="sidebar-logo-wrap">
           <div className="sidebar-logo-wrap-bg-top"></div>
           <div className="sidebar-logo-wrap-bg-bottom"></div>
           <div className="sidebar-logowrap-logo">
@@ -26,16 +26,16 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <div className="sidebar-bottom">
-        <div className="sidebar-avatar d-flex justify-content-center">
+      <div className="sidebar-bottom d-flex items-center justify-content-center">
+        <div className="sidebar-avatar">
           <img
-            className="cursor-pointer"
+            className="cursor-pointer rounded-full"
             src="https://lh3.googleusercontent.com/a/ACg8ocIr7E-n5mDlr5ZC_u523ybEEoEm2bbyiRSwyA-VgvfDLqXnmg=s96-c"
             alt="User Avatar"
           />
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 

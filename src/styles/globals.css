@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body, #__next {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Spartan';
+  --sidebar-color: #252945;
+  --primary-color: #141625;
+  --secondary-color: #252945;
+  color: #fff;
+}
+
 .sidebar {
   background-color: var(--sidebar-color);
   min-width: 100%;
@@ -51,7 +64,11 @@
 }
 
 .sidebar-avatar {
-  padding: 35px 0;
+  padding: 0px 35px;
+}
+
+.sidebar-bottom {
+  border-left: 1px solid #888eb0;
 }
 
 .sidebar-them-action {
@@ -74,16 +91,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Optional: shadow for better visual */
   padding: 10px;
   z-index: 100; /* Ensure the menu is on top */
-}
-
-
-body {
-  margin: 0;
-  font-family: 'Spartan';
-  --sidebar-color: #252945;
-  --primary-color: #141625;
-  --secondary-color: #252945;
-  color: #fff;
 }
 
 * {
@@ -152,9 +159,8 @@ p {
   color: #dfe3fa;
 }
 
-.main {
+.layout {
   width: 100%;
-  display: flex;
   justify-content: flex-start;
   background-color: var(--primary-color);
 }
@@ -202,7 +208,6 @@ p {
 .content {
   width: 100%;
   padding-top: 60px;
-  height: 100%;
 }
 
 .no-invoice-content-wrap {
