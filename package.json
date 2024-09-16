@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-oauth/google": "^0.12.1",
     "csv-parser": "^3.0.0",
     "file-saver": "^2.0.5",
     "html-pdf": "^3.0.1",
