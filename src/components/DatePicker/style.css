@@ -1,0 +1,116 @@
+.date-picker {
+  width: fit-content;
+  max-width: 300px;
+  padding: 16px;
+  z-index: 1000;
+  background-color: #141625;
+  border-radius: 8px;
+  box-shadow: 0px 7px 12px rgba(255, 255, 255, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.nav-arrow {
+  cursor: pointer;
+}
+
+.current-month {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.day {
+  width: 27px;
+  height: 30px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.day:hover {
+  opacity: 0.8;
+}
+
+.day.selected {
+  color: #8b5cf6;
+}
+
+.day.adjacent-month {
+  color: #f8f8f8;
+  opacity: 0.5;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  user-select: none;
+  width: 100%;
+  position: relative;
+}
+
+.input-title {
+  color: #dfe3fa;
+  user-select: none;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.input-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  height: 50px;
+  border-radius: 4px;
+  border: 1px solid #20233d;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  user-select: none;
+  background-color: #252945;
+  color: #f8f8f8;
+  margin-bottom: 10px;
+}
+
+.date-picker-container {
+  position: absolute;
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+  width: 99%;
+}
+.input-field {
+  filter: brightness(0.8);
+}
+
+.input-field span {
+  filter: brightness(0.5);
+}
+
+.input-field.disabled {
+  filter: brightness(0.8);
+}
+
+.input-field span.disabled {
+  filter: brightness(0.5);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

@@ -6,6 +6,7 @@ const Header = () => {
     <header
       className="sidebar d-flex justify-content-between relative"
     >
+      <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap" rel="stylesheet"></link>
       <div className="sidebar-top h-24 w-24">
         <div className="sidebar-logo-wrap">
           <div className="sidebar-logo-wrap-bg-top"></div>

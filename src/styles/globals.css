@@ -12,6 +12,7 @@ body {
   --sidebar-color: #252945;
   --primary-color: #141625;
   --secondary-color: #252945;
+  --border: 1px solid #888eb0;
   color: #fff;
 }
 
@@ -68,7 +69,7 @@ body {
 }
 
 .sidebar-bottom {
-  border-left: 1px solid #888eb0;
+  border-left: var(--border);
 }
 
 .sidebar-them-action {
@@ -223,4 +224,8 @@ p {
 .no-invoice-content h2 {
   font-size: 28px;
   margin-bottom: 20px;
+}
+
+.footer {
+  border-top: var(--border)
 }

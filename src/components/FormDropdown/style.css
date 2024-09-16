@@ -1,0 +1,73 @@
+.FormDropdown-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.FormDropdown-title {
+  color: #dfe3fa;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.FormDropdown {
+  width: 100%;
+  padding: 10px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 4px;
+  border: 1px solid #20233d;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  background-color: #252945;
+  color: #f8f8f8;
+  margin-bottom: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.FormDropdown-selected {
+  padding: 10px;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.FormDropdown-selected.open > svg {
+  transform: rotate(180deg);
+}
+
+.FormDropdown-menu {
+  position: absolute;
+  top: 112%;
+  left: 0;
+  right: 0;
+  border-radius: 4px;
+  box-shadow: 0px 7px 12px rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  max-height: 300px;
+  scrollbar-width: none;
+  border-radius: 10px;
+  overflow-y: auto;
+  display: none;
+  background-color: #141625;
+}
+
+.FormDropdown-menu.open {
+  display: block;
+}
+
+.FormDropdown-item {
+  padding: 20px;
+  cursor: pointer;
+}
+
+.FormDropdown-item:hover {
+  opacity: 0.6;
+}
