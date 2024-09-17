@@ -83,9 +83,6 @@ body {
 }
 
 .sidebar-menu {
-  position: absolute;
-  left: 4.6%;
-  bottom: 10%;
   background-color: #1e2139; /* Menu background */
   border-radius: 8px;
   border-bottom-left-radius: 0px;

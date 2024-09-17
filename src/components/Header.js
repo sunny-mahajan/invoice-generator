@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+import CustomButton from "./Button";
 import "../styles/globals.css";
+import { signOut } from "next-auth/react";
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // adjust sidebar menu position
+  const avatarRef = useRef(null);
+  const [menuPosition, setMenuPosition] = useState({ left: 0, top: 0 });
+
+  const handleProfileClick = () => {
+    const avatarRect = avatarRef.current.getBoundingClientRect();
+    console.log(`avatarRect: `, avatarRect);
+    setMenuPosition({
+      left: avatarRect.left > 100 ? avatarRect.left - 100 : avatarRect.left,
+      top: avatarRect.bottom,
+    });
+    setIsMenuOpen(!isMenuOpen);
+  }
+
+  const handleLogout = () => {
+    signOut();
+    setIsMenuOpen(false);
+  };
+  
   return (
     <header
       className="sidebar d-flex justify-content-between relative"
@@ -28,14 +51,27 @@ const Header = () => {
         </div>
       </div>
       <div className="sidebar-bottom d-flex items-center justify-content-center">
-        <div className="sidebar-avatar">
-          <img
-            className="cursor-pointer rounded-full"
-            src="https://lh3.googleusercontent.com/a/ACg8ocIr7E-n5mDlr5ZC_u523ybEEoEm2bbyiRSwyA-VgvfDLqXnmg=s96-c"
-            alt="User Avatar"
-          />
+        <div className="sidebar-avatar" ref={avatarRef}>
+            <img
+              // src={user?.picture ?? ImageAvatar}
+              alt="User Avatar"
+              onClick={handleProfileClick}
+              style={{ cursor: "pointer" }}
+            />
         </div>
       </div>
+      
+      {isMenuOpen && ( // Conditionally render the side menu
+        <div className="sidebar-menu" style={{ position: "fixed", left: menuPosition.left, top: menuPosition.top }}>
+          <CustomButton
+            type="red"
+            onClick={handleLogout}
+            className="sidebar-logout-button"
+          >
+            Logout
+          </CustomButton>
+        </div>
+      )}
     </header>
   );
 };
