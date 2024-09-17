@@ -1,4 +1,79 @@
-.w-100.invoices-list {
+  body {
+    color: #fff;
+    background-color: #141625; /* Set the background color for the entire app */
+    font-size: 16px; /* Set the base font size for the entire app */
+    font-family: Arial, sans-serif; /* Set a common font family */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  img {
+    max-width: 100%;
+  }
+  
+  ul,
+  p,
+  ol {
+    list-style-type: none;
+    padding: 0;
+    margin: 0
+  }
+  
+  a {
+    color: unset;
+    text-decoration: unset;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    padding: 0;
+  }
+  
+  input:focus,
+  textarea:focus,
+  select:focus,
+  a {
+    outline: none;
+  }
+  
+  h1 {
+    font-size: 32px;
+    line-height: 36px;
+    letter-spacing: -1px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: -0.63px;
+  }
+  
+  h3 {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.80px;
+  }
+  
+  h4 {
+    font-size: 12px;
+    line-height: 15px;
+    letter-spacing: -0.25px;
+  }
+  
+  p {
+    color: #dfe3fa;
+  }
+  .w-100.invoices-list {
     gap: 15px;
     display: flex;
     flex-direction: column;
@@ -61,5 +136,41 @@
     align-items: center;
     height: 100%;
     cursor: pointer;
+  }
+  .login-container-cls {
+    height: 100vh;
+  }
+
+  .login-container-wrapper {
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+  }
+
+  .login-social-container {
+    padding-top: 60px;
+    height: 100%;
+  }
+
+  .social-btn-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: auto;
+    span {
+      display: flex;
+      align-items: center;
+    }
+    .social-btn-text {
+      color: #3c4043;
+      font-family: "Google Sans", arial, sans-serif;
+      font-size: 14px;
+    }
   }
   
