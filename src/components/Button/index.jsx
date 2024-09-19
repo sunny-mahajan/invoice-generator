@@ -1,10 +1,11 @@
 import React from "react";
 import "./style.css";
-const CustomButton = ({ children, type = "white", buttonStyle, onClick }) => {
+const CustomButton = ({ children, type = "white", buttonStyle, onClick, disabled }) => {
   return (
     <button
       style={buttonStyle}
       onClick={onClick}
+      disabled={disabled}
       className={
         type === "white"
           ? "white-button"
