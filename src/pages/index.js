@@ -18,6 +18,25 @@ const InvoiceForm = ({ templates }) => {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [downloadInvoiceIsDisabled, setDownloadInvoiceIsDisabled] = useState(true);
 
+  const handleKeyDown = (event) => {
+    const allowedKeys = [
+      'Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', 'End', 'Home'
+    ];
+
+    if (
+      allowedKeys.includes(event.key) ||
+      (event.key >= '0' && event.key <= '9') ||
+      (event.key === 'Numpad0' || event.key === 'Numpad1' || event.key === 'Numpad2' || 
+       event.key === 'Numpad3' || event.key === 'Numpad4' || event.key === 'Numpad5' || 
+       event.key === 'Numpad6' || event.key === 'Numpad7' || event.key === 'Numpad8' || 
+       event.key === 'Numpad9')
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -29,7 +48,6 @@ const InvoiceForm = ({ templates }) => {
   const fetchTemplates = async () => {
     const res = await fetch(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/templates`);
     const templates = await res.json();
-    console.log(`templates: `, templates);
     setTemplates(templates);
   }
 
@@ -144,6 +162,13 @@ const InvoiceForm = ({ templates }) => {
 
   const validateForm = () => {
     const newErrors = {};
+    if (!formData.invoiceNo) newErrors.invoiceNo = "Required field";
+    if (!formData.sender?.name) newErrors.senderName = "Required field";
+    if (!formData.sender?.contactNo) newErrors.senderContactNo = "Required field";
+    if (!formData.sender?.email) newErrors.senderEmail = "Required field";
+    if (!formData.senderAddress?.state) newErrors.clientState = "Required field";
+    if (!formData.clientContactNo) newErrors.clientContactNo = "Required field";
+    if (!formData.clientAddress?.state) newErrors.invoiceState = "Required field";
     if (!formData.clientName) newErrors.clientName = "Required field";
     if (!formData.clientEmail || !/\S+@\S+\.\S+/.test(formData.clientEmail))
       newErrors.clientEmail = "Invalid Email";
@@ -172,17 +197,6 @@ const InvoiceForm = ({ templates }) => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  const getCurrentDate = () => {
-    const date = new Date();
-    
-    // Get month, day, and year
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so we add 1
-    const day = String(date.getDate()).padStart(2, '0');
-    const year = date.getFullYear();
-    
-    // Return in MM-DD-YYYY format
-    return `${month}-${day}-${year}`;
-  };
   const handleSubmit = async (e, saveAsDraft) => {
     e.preventDefault();
     if (!saveAsDraft && !validateForm()) return;
@@ -208,13 +222,11 @@ const InvoiceForm = ({ templates }) => {
     // formData["Remarks"] = formData.;
 
     // add invoice issue date
-    formData["Invoice Issue Date"] = getCurrentDate();
+    formData["Invoice Issue Date"] = formData.createdAt;
 
     // add invoice due date
     const paymentDueDate = addDays(formData["Invoice Issue Date"], formData.paymentTerms);
-    formData["Invoice Due Date"] = formatDate(paymentDueDate);
-
-    
+    formData["Invoice Due Date"] = paymentDueDate;
 
     const pdfBlob = await generateHTMLPDF(formData);
     // Create a temporary URL for the blob
@@ -225,7 +237,7 @@ const InvoiceForm = ({ templates }) => {
 
     // Set the download attribute with a filename
     link.href = blobURL;
-    link.download = "document.pdf";
+    link.download = `${formData["Invoice No."]}.pdf`;
 
     // Programmatically trigger the download by clicking the link
     document.body.appendChild(link);
@@ -333,12 +345,10 @@ const InvoiceForm = ({ templates }) => {
                   value={formData?.invoiceNo}
                   onChange={handleChange}
                   style={styles.input}
+                  required={true}
                 />
                 {errors?.invoiceNo && (
                   <p style={styles.error}>{errors.invoiceNo}</p>
-                )}
-                {errors["invoiceNo"] && (
-                  <p style={styles.error}>{errors["invoiceNo"]}</p>
                 )}
               </div>
               
@@ -366,12 +376,10 @@ const InvoiceForm = ({ templates }) => {
                       value={formData?.sender?.name}
                       onChange={handleChange}
                       style={styles.input}
+                      required={true}
                     />
                     {errors?.senderName && (
                       <p style={styles.error}>{errors.senderName}</p>
-                    )}
-                    {errors["sender.name"] && (
-                      <p style={styles.error}>{errors["sender.name"]}</p>
                     )}
                   </div>
 
@@ -386,16 +394,15 @@ const InvoiceForm = ({ templates }) => {
                     <CustomInput
                       type="text"
                       name="sender.contactNo"
-                      title="Contact No"
+                      title="Contact No."
                       value={formData?.sender?.contactNo}
+                      onKeyDown={handleKeyDown}
                       onChange={handleChange}
                       style={styles.input}
+                      required={true}
                     />
                     {errors?.senderContactNo && (
                       <p style={styles.error}>{errors.senderContactNo}</p>
-                    )}
-                    {errors["sender.contactNo"] && (
-                      <p style={styles.error}>{errors["sender.contactNo"]}</p>
                     )}
                   </div>
 
@@ -414,12 +421,10 @@ const InvoiceForm = ({ templates }) => {
                       value={formData?.sender?.email}
                       onChange={handleChange}
                       style={styles.input}
+                      required={true}
                     />
                     {errors?.senderEmail && (
                       <p style={styles.error}>{errors.senderEmail}</p>
-                    )}
-                    {errors["sender.email"] && (
-                      <p style={styles.error}>{errors["sender.email"]}</p>
                     )}
                   </div>
                 </div>
@@ -444,12 +449,10 @@ const InvoiceForm = ({ templates }) => {
                       value={formData?.senderAddress?.street}
                       onChange={handleChange}
                       style={styles.input}
+                      required={true}
                     />
                     {errors?.clientStreetAddress && (
                       <p style={styles.error}>{errors.clientStreetAddress}</p>
-                    )}
-                    {errors["senderAddress.street"] && (
-                      <p style={styles.error}>{errors["senderAddress.street"]}</p>
                     )}
                   </div>
                   
@@ -468,12 +471,10 @@ const InvoiceForm = ({ templates }) => {
                       value={formData?.senderAddress?.city}
                       onChange={handleChange}
                       style={styles.input}
+                      required={true}
                     />
                     {errors?.clientCity && (
                       <p style={styles.error}>{errors.clientCity}</p>
-                    )}
-                    {errors["senderAddress.city"] && (
-                      <p style={styles.error}>{errors["senderAddress.city"]}</p>
                     )}
                   </div>
 
@@ -492,12 +493,10 @@ const InvoiceForm = ({ templates }) => {
                       value={formData?.senderAddress?.state}
                       onChange={handleChange}
                       style={styles.input}
+                      required={true}
                     />
                     {errors?.clientState && (
                       <p style={styles.error}>{errors.clientState}</p>
-                    )}
-                    {errors["senderAddress.state"] && (
-                      <p style={styles.error}>{errors["senderAddress.state"]}</p>
                     )}
                   </div>
                 </div>
@@ -525,12 +524,10 @@ const InvoiceForm = ({ templates }) => {
                       value={formData?.senderAddress?.postCode}
                       onChange={handleChange}
                       style={styles.input}
+                      required={true}
                     />
                     {errors?.clientPostalCode && (
                       <p style={styles.error}>{errors.clientPostalCode}</p>
-                    )}
-                    {errors["senderAddress.postCode"] && (
-                      <p style={styles.error}>{errors["senderAddress.postCode"]}</p>
                     )}
                   </div>
                   <div
@@ -548,12 +545,10 @@ const InvoiceForm = ({ templates }) => {
                       value={formData?.senderAddress?.country}
                       onChange={handleChange}
                       style={styles.input}
+                      required={true}
                     />
                     {errors?.clientCountry && (
                       <p style={styles.error}>{errors.clientCountry}</p>
-                    )}
-                    {errors["senderAddress.country"] && (
-                      <p style={styles.error}>{errors["senderAddress.country"]}</p>
                     )}
                   </div>
                 </div>
@@ -588,6 +583,7 @@ const InvoiceForm = ({ templates }) => {
                         value={formData.clientName}
                         onChange={handleChange}
                         style={styles.input}
+                        required={true}
                       />
                       {errors?.clientName ? (
                         <p style={styles.error}>{errors.clientName}</p>
@@ -608,10 +604,12 @@ const InvoiceForm = ({ templates }) => {
                       <CustomInput
                         type="text"
                         name="clientContactNo"
-                        title="Client's Contact No"
+                        title="Client's Contact No."
                         value={formData.clientContactNo}
                         onChange={handleChange}
+                        onKeyDown={handleKeyDown}
                         style={styles.input}
+                        required={true}
                       />
                       {errors?.clientContactNo ? (
                         <p style={styles.error}>{errors.clientContactNo}</p>
@@ -638,6 +636,7 @@ const InvoiceForm = ({ templates }) => {
                         value={formData.clientEmail}
                         onChange={handleChange}
                         style={styles.input}
+                        required={true}
                       />
                       {errors?.clientEmail ? (
                         <p style={styles.error}>{errors.clientEmail}</p>
@@ -670,12 +669,10 @@ const InvoiceForm = ({ templates }) => {
                         onChange={handleChange}
                         title="Street Address"
                         style={styles.input}
+                        required={true}
                       />
                       {errors?.invoiceStreetAddress && (
                         <p style={styles.error}>{errors.invoiceStreetAddress}</p>
-                      )}
-                      {errors["clientAddress.street"] && (
-                        <p style={styles.error}>{errors["clientAddress.street"]}</p>
                       )}
                     </div>
                     <div
@@ -693,12 +690,10 @@ const InvoiceForm = ({ templates }) => {
                         onChange={handleChange}
                         title="City"
                         style={styles.input}
+                        required={true}
                       />
                       {errors?.invoiceCity && (
                         <p style={styles.error}>{errors.invoiceCity}</p>
-                      )}
-                      {errors["clientAddress.city"] && (
-                        <p style={styles.error}>{errors["clientAddress.city"]}</p>
                       )}
                     </div>
                     <div
@@ -714,14 +709,12 @@ const InvoiceForm = ({ templates }) => {
                         name="clientAddress.state"
                         value={formData?.clientAddress?.state}
                         onChange={handleChange}
-                        title="City"
+                        title="State"
                         style={styles.input}
+                        required={true}
                       />
                       {errors?.invoiceState && (
                         <p style={styles.error}>{errors.invoiceState}</p>
-                      )}
-                      {errors["clientAddress.state"] && (
-                        <p style={styles.error}>{errors["clientAddress.state"]}</p>
                       )}
                     </div>
 
@@ -750,12 +743,10 @@ const InvoiceForm = ({ templates }) => {
                         onChange={handleChange}
                         title={"Post Code"}
                         style={styles.input}
+                        required={true}
                       />
                       {errors?.invoicePostcode && (
                         <p style={styles.error}>{errors.invoicePostcode}</p>
-                      )}
-                      {errors["clientAddress.postCode"] && (
-                        <p style={styles.error}>{errors["clientAddress.postCode"]}</p>
                       )}
                     </div>
                     <div
@@ -773,16 +764,63 @@ const InvoiceForm = ({ templates }) => {
                         onChange={handleChange}
                         title="Country"
                         style={styles.input}
+                        required={true}
                       />
                       {errors?.invoiceCountry && (
                         <p style={styles.error}>{errors.invoiceCountry}</p>
                       )}
-                      {errors["clientAddress.country"] && (
-                        <p style={styles.error}>{errors["clientAddress.country"]}</p>
-                      )}
                     </div>
                   </div>
 
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="gstin"
+                        value={formData.gstin}
+                        onChange={handleChange}
+                        style={styles.input}
+                        title="GSTIN"
+                      />
+
+                      {errors?.gstin && (
+                        <p style={styles.error}>{errors.gstin}</p>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="panCardNo"
+                        title="PAN"
+                        value={formData.panCardNo}
+                        onChange={handleChange}
+                        style={styles.input}
+                      />
+                      {errors?.panCardNo && (
+                        <p style={styles.error}>{errors.panCardNo}</p>
+                      )}
+                    </div>
+                  </div>
                   <div
                     style={{
                       display: "flex",
@@ -855,9 +893,6 @@ const InvoiceForm = ({ templates }) => {
                     {errors?.projectDescription && (
                       <p style={styles.error}>{errors.projectDescription}</p>
                     )}
-                    {errors["description"] && (
-                      <p style={styles.error}>{errors["description"]}</p>
-                    )}
                   </div>
                 </div>
               </div>
@@ -877,6 +912,7 @@ const InvoiceForm = ({ templates }) => {
                         inputStyle={{
                           flex: "2 1 auto", // Larger space for Item Name
                         }}
+                        required={true}
                       />
 
                       <CustomInput
@@ -893,6 +929,7 @@ const InvoiceForm = ({ templates }) => {
                           flex: "0.3 1 auto", // Smaller space for Quantity
                           maxWidth: "70px", // Ensure it doesn't get too large
                         }}
+                        required={true}
                       />
 
                       <CustomInput
@@ -906,6 +943,7 @@ const InvoiceForm = ({ templates }) => {
                           flex: "1 1 auto", // Medium space for Price
                           maxWidth: "100px", // Control the size of the price input
                         }}
+                        required={true}
                       />
 
                       <CustomInput
