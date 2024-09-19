@@ -44,10 +44,10 @@
 .purple-button {
   background-color: #7c5dfa;
   color: #f8f8f8;
-  padding: 15px;
+  padding: 12px;
   padding-left: 20px;
   padding-right: 20px;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,3 +84,12 @@
 .red-button:hover {
   filter: brightness(1.4);
 }
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+button:disabled:hover {
+  filter: none;
+}
+

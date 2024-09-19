@@ -1,11 +1,11 @@
 import React from "react";
 import "./style.css";
-const CustomButton = ({ children, type = "white", buttonStyle, onClick, disabled }) => {
+import Loader from "./loader";
+const CustomButton = ({ children, type = "white", buttonStyle, onClick, isLoading=false, disabled }) => {
   return (
     <button
       style={buttonStyle}
       onClick={onClick}
-      disabled={disabled}
       className={
         type === "white"
           ? "white-button"
@@ -17,8 +17,9 @@ const CustomButton = ({ children, type = "white", buttonStyle, onClick, disabled
           ? "red-button"
           : ""
       }
+      disabled={isLoading || disabled}
     >
-      {children}
+      {isLoading ? <Loader /> : children} 
     </button>
   );
 };

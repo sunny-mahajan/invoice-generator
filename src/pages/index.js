@@ -980,9 +980,7 @@ const InvoiceForm = ({ templates }) => {
 
             <div style={styles.buttons}>
               <div style={{ display: "flex", gap: "5px" }}>
-                <CustomButton type="purple"
-                  onClick={(e) => handleSubmit(e, false)}
-                  disabled={downloadInvoiceIsDisabled ? true : false}>
+                <CustomButton type="purple" onClick={(e) => handleSubmit(e, false)}  buttonStyle={{ minWidth: "150px" }} isLoading={false} disabled={downloadInvoiceIsDisabled ? true : false}>
                   Download Invoice
                 </CustomButton>
               </div>
