@@ -170,6 +170,8 @@ const InvoiceForm = ({ templates }) => {
     if (!formData.clientContactNo) newErrors.clientContactNo = "Required field";
     if (!formData.clientAddress?.state) newErrors.invoiceState = "Required field";
     if (!formData.clientName) newErrors.clientName = "Required field";
+    if (!formData.sender?.email || !/\S+@\S+\.\S+/.test(formData.sender?.email))
+      newErrors.senderEmail = "Invalid Email";
     if (!formData.clientEmail || !/\S+@\S+\.\S+/.test(formData.clientEmail))
       newErrors.clientEmail = "Invalid Email";
     if (!formData.senderAddress?.street)
