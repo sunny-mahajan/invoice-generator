@@ -15,6 +15,8 @@ import { addDays, formatDate } from '../utils/helpers';
 const InvoiceForm = ({ templates }) => {
   const [user, setUser] = useState(null);
   const [invoiceTemplates, setTemplates] = useState([]);
+  const [selectedTemplateId, setSelectedTemplateId] = useState(null);
+  const [downloadInvoiceIsDisabled, setDownloadInvoiceIsDisabled] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -135,28 +137,10 @@ const InvoiceForm = ({ templates }) => {
     }));
   };
 
-  const fetchDataBasedId = async () => {
-    // if (user) {
-    //   const response = await fetch(
-    //     `http://localhost:5000/api/invoices/${invoiceFormId}`,
-    //     {
-    //       method: "GET",
-    //       headers: {
-    //         Authorization: `Bearer ${user.token}`,
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
-    //   const data = await response.json();
-
-    //   setInitalValues(data);
-    //   setFormData(data);
-    // }
+  const handleSelectTemplate = (templateId) => {
+    setSelectedTemplateId(templateId);
+    setDownloadInvoiceIsDisabled(false);
   };
-
-  useEffect(() => {
-    fetchDataBasedId();
-  }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -203,7 +187,7 @@ const InvoiceForm = ({ templates }) => {
     e.preventDefault();
     if (!saveAsDraft && !validateForm()) return;
     formData["Invoice No."] = formData.invoiceNo;
-    formData["Template Id"] = "TPL001";
+    formData["Template Id"] = selectedTemplateId;
     formData["Items"] = formData.items;
     formData["Sender's Name"] = formData.sender.name;
     formData["Sender's Address"] = formData.senderAddress.street;
@@ -230,7 +214,7 @@ const InvoiceForm = ({ templates }) => {
     const paymentDueDate = addDays(formData["Invoice Issue Date"], formData.paymentTerms);
     formData["Invoice Due Date"] = formatDate(paymentDueDate);
 
-
+    
 
     const pdfBlob = await generateHTMLPDF(formData);
     // Create a temporary URL for the blob
@@ -974,20 +958,31 @@ const InvoiceForm = ({ templates }) => {
             <div className='templates-container flex flex-wrap'>
               {invoiceTemplates.map((invoiceTemplate) => (
                 
-                <div key={invoiceTemplate.id} className='template-tile w-1/3 p-2 flex items-center flex-col'>
-                  <div className='template-preview-image-container'>
-                    <img className='template-preview-image' src={invoiceTemplate.previewUrl} style={styles['template-preview-image']}></img>
+                <div key={invoiceTemplate.id}
+                  className={`template-tile w-1/3 p-2 flex items-center flex-col `}
+                  >
+
+                  <div className={`template-content flex items-center flex-col ${ selectedTemplateId === invoiceTemplate.id ? "selected-invoice-template" : "" }`}
+                    onClick={() => handleSelectTemplate(invoiceTemplate.id)}>
+
+                    <div className='template-preview-image-container'>
+                      <img className='template-preview-image' src={invoiceTemplate.previewUrl} style={styles['template-preview-image']}></img>
+                    </div>
+                    <div className='template-name'>
+                      <span>{invoiceTemplate.name}</span>
+                    </div>
+
                   </div>
-                  <div className='template-name'>
-                    <span>{invoiceTemplate.name}</span>
-                  </div>
+
                 </div>
               ))}
             </div>
 
             <div style={styles.buttons}>
               <div style={{ display: "flex", gap: "5px" }}>
-                <CustomButton type="purple" onClick={(e) => handleSubmit(e, false)}>
+                <CustomButton type="purple"
+                  onClick={(e) => handleSubmit(e, false)}
+                  disabled={downloadInvoiceIsDisabled ? true : false}>
                   Download Invoice
                 </CustomButton>
               </div>
