@@ -5,6 +5,9 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import ProtectedPage from './protected';
 import Layout from '../components/Layout';
+import CustomButton from "../components/Button";
+import "./style.css";
+
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
 
@@ -93,18 +96,28 @@ export default function UploadCSV() {
     });
   };
 
+  const handleDownloadCSV = () => {
+    const link = document.createElement('a');
+    link.href = 'assets/docs/sample.csv'; // Path to the sample CSV file
+    link.setAttribute('download', 'sample.csv'); // Name of the downloaded file
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <ProtectedPage>
       <Layout>
-        <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-4">Upload CSV File</h1>
-          <input
-            type="file"
-            accept=".csv"
-            onChange={handleFileUpload}
-            className="mb-4"
-          />
-          {invoices.length > 0 && (
+        <div className="container mx-auto p-4 upload-container-cls">
+          <div>
+            <h1 className="text-2xl font-bold mb-4">Upload CSV File</h1>
+            <input
+              type="file"
+              accept=".csv"
+              onChange={handleFileUpload}
+              className="mb-4"
+            />
+            {invoices.length > 0 && (
               <pre className="bg-gray-100 p-4 rounded">
                 {JSON.stringify(invoices, null, 2)}
               </pre>
@@ -116,6 +129,10 @@ export default function UploadCSV() {
                 Download Invoices as ZIP
               </button>
             )}
+          </div>
+          <div>
+            <CustomButton type="purple" onClick={handleDownloadCSV}  buttonStyle={{ minWidth: "250px" }} isLoading={false}> Download Sample CSV File</CustomButton>
+          </div>
         </div>
       </Layout>
     </ProtectedPage>
