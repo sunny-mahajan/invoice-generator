@@ -337,7 +337,7 @@ const InvoiceForm = ({ templates }) => {
               <div
                 style={{
                   display: "flex",
-                  "margin-bottom": "20px",
+                  marginBottom: "20px",
                   width: "100%",
                   flexDirection: "column",
                 }}
@@ -1001,7 +1001,7 @@ const InvoiceForm = ({ templates }) => {
 
 const styles = {
   "template-preview-image": {
-    "max-height": "300px"
+    maxHeight: "300px"
   },
   title: {
     padding: "35px 40px",
