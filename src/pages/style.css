@@ -188,3 +188,7 @@ p {
   border-radius: var(--border-radius);
   transition: border 0.2s ease-in-out;
 }
+.upload-container-cls {
+  display: flex !important;
+  justify-content: space-between !important;
+}
