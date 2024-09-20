@@ -202,9 +202,11 @@ const DatePicker = ({
   return (
     <div className={`input-container ${containerClass ? containerClass : ""}`}>
       {title && (
-        <label className={`input-title ${lableClass ? lableClass : ""}`}>
-          {title}
-        </label>
+        <div className="invoice-title-container">
+          <label className={`input-title ${lableClass ? lableClass : ""}`}>
+            {title}
+          </label>
+        </div>
       )}
 
       <div

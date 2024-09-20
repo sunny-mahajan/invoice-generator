@@ -40,9 +40,11 @@ const FormCustomDropdown = ({
       }`}
     >
       {title && (
-        <label className={`FormDropdown-title ${lableClass ? lableClass : ""}`}>
-          {title}
-        </label>
+        <div className="invoice-title-container">
+          <label className={`FormDropdown-title ${lableClass ? lableClass : ""}`}>
+            {title}
+          </label>
+        </div>
       )}
       <div className="FormDropdown" onClick={handleToggle}>
         <div className={`FormDropdown-selected ${isOpen ? "open" : ""}`}>
