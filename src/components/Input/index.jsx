@@ -5,6 +5,7 @@ const CustomInput = ({
   placeholder,
   value,
   onChange,
+  onKeyDown,
   title,
   inputClass,
   inputStyle,
@@ -13,6 +14,7 @@ const CustomInput = ({
   lableClass,
   containerClass,
   isText = false,
+  required = false
 }) => {
   return (
     <div
@@ -20,12 +22,15 @@ const CustomInput = ({
       style={containerStyle}
     >
       {title && (
-        <label
-          className={`input-title ${lableClass ? lableClass : ""}`}
-          style={titleStyle}
-        >
-          {title}
-        </label>
+        <div className="invoice-title-container">
+          <label
+            className={`input-title ${lableClass ? lableClass : ""}`}
+            style={titleStyle}
+          >
+            {title}
+          </label>
+          {required && (<span className="text-red-700">*</span>)}
+        </div>
       )}
       {!isText ? (
         <input
@@ -36,6 +41,7 @@ const CustomInput = ({
           value={value}
           className={`input-field ${inputClass ? inputClass : ""}`}
           onChange={onChange}
+          onKeyDown={onKeyDown}
         />
       ) : (
         <div className="input-field-text">{value}</div>

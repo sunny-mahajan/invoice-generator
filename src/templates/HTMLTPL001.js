@@ -8,6 +8,17 @@ export default function generateHTMLTPL001(invoiceData) {
     subAmount += parseFloat(item["price"]) * item["quantity"] || 0;
   });
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = `0${d.getMonth() + 1}`.slice(-2); // Adding leading zero
+    const day = `0${d.getDate()}`.slice(-2); // Adding leading zero
+    return `${month}-${day}-${year}`;
+  };
+
+  invoiceData['Invoice Issue Date'] = formatDate(invoiceData['Invoice Issue Date']);
+  invoiceData['Invoice Due Date'] = formatDate(invoiceData['Invoice Due Date']);
+
   // Retrieve tax percentage from invoice data
   const taxPercentage = parseFloat(invoiceData["Tax percentage"]) || 0;
 
