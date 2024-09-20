@@ -65,20 +65,20 @@ body {
 .sidebar-inner-items {
   display: flex;
   margin-right: auto;
-  margin-left: 40px;
+  margin-left: 65px;
 }
 
 .sidebar-items{
   display: flex;
-  gap:40px;
   align-items: center;
   cursor: pointer;
 }
-
-.item-hover-cls:hover {
-  background: rgba(255, 255, 255, 0.1);
+.item-hover-cls {
   padding: 6px 10px;
   border-radius: 18px;
+}
+.item-hover-cls:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-item.active {
