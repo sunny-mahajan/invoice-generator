@@ -261,3 +261,7 @@ button:disabled:hover {
   cursor: not-allowed;
   filter: unset;
 }
+main.main {
+  padding-left: clamp(50px,10%, 200px);
+  padding-right: clamp(50px,10%, 200px);
+}

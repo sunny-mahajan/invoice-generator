@@ -1,4 +1,4 @@
-import Layout from '../components/Layout';
+import Layout from "../components/Layout";
 import React, { useEffect, useState } from "react";
 import CustomButton from "../components/Button";
 import CustomInput from "../components/Input";
@@ -6,11 +6,11 @@ import FormCustomDropdown from "../components/FormDropdown";
 import { DeleteIcon, PlusIcon } from "../components/icons";
 import CustomDatePicker from "../components/DatePicker";
 import { toast } from "react-toastify";
-import Link from 'next/link';
+import Link from "next/link";
 import "./style.css";
-import ProtectedPage from './protected';
+import ProtectedPage from "./protected";
 import { generateHTMLPDF } from "../utils/generateHTMLPDF";
-import { addDays, formatDate } from '../utils/helpers';
+import { addDays, formatDate } from "../utils/helpers";
 
 const InvoiceForm = ({ templates }) => {
   const [user, setUser] = useState(null);
@@ -46,10 +46,12 @@ const InvoiceForm = ({ templates }) => {
   }, []);
 
   const fetchTemplates = async () => {
-    const res = await fetch(`http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/templates`);
+    const res = await fetch(
+      `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/templates`
+    );
     const templates = await res.json();
     setTemplates(templates);
-  }
+  };
 
   const formatDateToISO = (date) => {
     return date.toISOString().split("T")[0];
@@ -191,7 +193,6 @@ const InvoiceForm = ({ templates }) => {
       newErrors.invoiceCountry = "Required field";
     if (!formData.createdAt) newErrors.issueDate = "Required field";
     if (!formData.paymentTerms) newErrors.paymentTerm = "Required field";
-    if (!formData.description) newErrors.projectDescription = "Required field";
     if (
       formData.items.some((item) => !item.name || !item.quantity || !item.price)
     )
@@ -315,262 +316,294 @@ const InvoiceForm = ({ templates }) => {
   return (
     <ProtectedPage>
       <Layout>
-        <div className='content d-flex flex-direction-column'>
+        <div className="content d-flex flex-direction-column">
           <div
-            // style={{
-            //   maxWidth: "600px",
-            //   maxHeight: "100vh",
-            //   height: "100%",
-            //   position: "absolute",
-            //   // display: invoiceFormId === null ? "none" : "flex",
-            //   flexDirection: "column",
-            //   borderRadius: "8px",
-            //   zIndex: "1",
-            //   backgroundColor: "#141625",
-            // }}
+          // style={{
+          //   maxWidth: "600px",
+          //   maxHeight: "100vh",
+          //   height: "100%",
+          //   position: "absolute",
+          //   // display: invoiceFormId === null ? "none" : "flex",
+          //   flexDirection: "column",
+          //   borderRadius: "8px",
+          //   zIndex: "1",
+          //   backgroundColor: "#141625",
+          // }}
           >
             <h2 style={styles.title}>New Invoice</h2>
             <div style={styles.mainSection}>
-
               <div
                 style={{
                   display: "flex",
-                  marginBottom: "20px",
-                  width: "100%",
-                  flexDirection: "column",
+                  gap: "20px",
                 }}
               >
-                <CustomInput
-                  type="text"
-                  name="invoiceNo"
-                  title="Invoice No."
-                  value={formData?.invoiceNo}
-                  onChange={handleChange}
-                  style={styles.input}
-                  required={true}
-                />
-                {errors?.invoiceNo && (
-                  <p style={styles.error}>{errors.invoiceNo}</p>
-                )}
-              </div>
-              
-              <div style={styles.section}>
-                <h3 style={styles.titleText}>Bill From</h3>
                 <div
                   style={{
                     display: "flex",
-                    gap: "20px",
-                  }}
-                >
-                  
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="sender.name"
-                      title="Name"
-                      value={formData?.sender?.name}
-                      onChange={handleChange}
-                      style={styles.input}
-                      required={true}
-                    />
-                    {errors?.senderName && (
-                      <p style={styles.error}>{errors.senderName}</p>
-                    )}
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="sender.contactNo"
-                      title="Contact No."
-                      value={formData?.sender?.contactNo}
-                      onKeyDown={handleKeyDown}
-                      onChange={handleChange}
-                      style={styles.input}
-                      required={true}
-                    />
-                    {errors?.senderContactNo && (
-                      <p style={styles.error}>{errors.senderContactNo}</p>
-                    )}
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="sender.email"
-                      title="Email"
-                      value={formData?.sender?.email}
-                      onChange={handleChange}
-                      style={styles.input}
-                      required={true}
-                    />
-                    {errors?.senderEmail && (
-                      <p style={styles.error}>{errors.senderEmail}</p>
-                    )}
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderAddress.street"
-                      title="Street Address"
-                      value={formData?.senderAddress?.street}
-                      onChange={handleChange}
-                      style={styles.input}
-                      required={true}
-                    />
-                    {errors?.clientStreetAddress && (
-                      <p style={styles.error}>{errors.clientStreetAddress}</p>
-                    )}
-                  </div>
-                  
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderAddress.city"
-                      title="City"
-                      value={formData?.senderAddress?.city}
-                      onChange={handleChange}
-                      style={styles.input}
-                      required={true}
-                    />
-                    {errors?.clientCity && (
-                      <p style={styles.error}>{errors.clientCity}</p>
-                    )}
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderAddress.state"
-                      title="State"
-                      value={formData?.senderAddress?.state}
-                      onChange={handleChange}
-                      style={styles.input}
-                      required={true}
-                    />
-                    {errors?.clientState && (
-                      <p style={styles.error}>{errors.clientState}</p>
-                    )}
-                  </div>
-                </div>
-
-                
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderAddress.postCode"
-                      title="Post Code"
-                      value={formData?.senderAddress?.postCode}
-                      onChange={handleChange}
-                      style={styles.input}
-                      required={true}
-                    />
-                    {errors?.clientPostalCode && (
-                      <p style={styles.error}>{errors.clientPostalCode}</p>
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderAddress.country"
-                      title="Country"
-                      value={formData?.senderAddress?.country}
-                      onChange={handleChange}
-                      style={styles.input}
-                      required={true}
-                    />
-                    {errors?.clientCountry && (
-                      <p style={styles.error}>{errors.clientCountry}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div style={styles.section}>
-                <h3 style={styles.titleText}>Bill To</h3>
-                <div
-                  style={{
-                    display: "flex",
+                    marginBottom: "20px",
+                    width: "25%",
                     flexDirection: "column",
                   }}
                 >
+                  <CustomInput
+                    type="text"
+                    name="invoiceNo"
+                    title="Invoice No."
+                    value={formData?.invoiceNo}
+                    onChange={handleChange}
+                    style={styles.input}
+                  required={true}
+                  />
+                  {errors?.invoiceNo && (
+                    <p style={styles.error}>{errors.invoiceNo}</p>
+                  )}
+                </div>
+
                 <div
                   style={{
                     display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
+                    width: "25%",
+                    flexDirection: "column",
                   }}
                 >
+                  <CustomDatePicker
+                    name="createdAt"
+                    title="Invoice Date"
+                    value={formData.createdAt}
+                    onChange={handleChange}
+                  />
+
+                  {errors?.issueDate && (
+                    <p style={styles.error}>{errors.issueDate}</p>
+                  )}
+                </div>
+              </div>
+              <div className="parties-details-container flex justify-between gap-12">
+                <div
+                  className="bill-from-container w-3/6"
+                  style={styles.section}
+                >
+                  <h3 style={styles.titleText}>Bill From</h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="sender.name"
+                        title="Name"
+                        value={formData?.sender?.name}
+                        onChange={handleChange}
+                        style={styles.input}
+                      required={true}
+                      />
+                      {errors?.senderName && (
+                        <p style={styles.error}>{errors.senderName}</p>
+                      )}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="sender.contactNo"
+                        title="Contact No."
+                        value={formData?.sender?.contactNo}
+                        onKeyDown={handleKeyDown}
+                        onChange={handleChange}
+                        style={styles.input}
+                        required={true}
+                      />
+                      {errors?.senderContactNo && (
+                        <p style={styles.error}>{errors.senderContactNo}</p>
+                      )}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="sender.email"
+                        title="Email"
+                        value={formData?.sender?.email}
+                        onChange={handleChange}
+                        style={styles.input}
+                      required={true}
+                      />
+                      {errors?.senderEmail && (
+                        <p style={styles.error}>{errors.senderEmail}</p>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="senderAddress.street"
+                        title="Street Address"
+                        value={formData?.senderAddress?.street}
+                        onChange={handleChange}
+                        style={styles.input}
+                      required={true}
+                      />
+                      {errors?.clientStreetAddress && (
+                        <p style={styles.error}>{errors.clientStreetAddress}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="senderAddress.city"
+                        title="City"
+                        value={formData?.senderAddress?.city}
+                        onChange={handleChange}
+                        style={styles.input}
+                        required={true}
+                      />
+                      {errors?.clientCity && (
+                        <p style={styles.error}>{errors.clientCity}</p>
+                      )}
+                      {errors["senderAddress.city"] && (
+                        <p style={styles.error}>
+                          {errors["senderAddress.city"]}
+                        </p>
+                      )}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="senderAddress.state"
+                        title="State"
+                        value={formData?.senderAddress?.state}
+                        onChange={handleChange}
+                        style={styles.input}
+                        required={true}
+                      />
+                      {errors?.clientState && (
+                        <p style={styles.error}>{errors.clientState}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="senderAddress.postCode"
+                        title="Post Code"
+                        value={formData?.senderAddress?.postCode}
+                        onChange={handleChange}
+                        style={styles.input}
+                        required={true}
+                      />
+                      {errors?.clientPostalCode && (
+                        <p style={styles.error}>{errors.clientPostalCode}</p>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="senderAddress.country"
+                        title="Country"
+                        value={formData?.senderAddress?.country}
+                        onChange={handleChange}
+                        style={styles.input}
+                        required={true}
+                      />
+                      {errors?.clientCountry && (
+                        <p style={styles.error}>{errors.clientCountry}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bill-to-container w-3/6" style={styles.section}>
+                  <h3 style={styles.titleText}>Bill To</h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
                     <div
                       style={{
                         display: "flex",
@@ -621,7 +654,15 @@ const InvoiceForm = ({ templates }) => {
                         )
                       )}
                     </div>
+                  </div>
 
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
                     <div
                       style={{
                         display: "flex",
@@ -642,20 +683,12 @@ const InvoiceForm = ({ templates }) => {
                       />
                       {errors?.clientEmail ? (
                         <p style={styles.error}>{errors.clientEmail}</p>
-                      ) : errors["clientEmail"] && (
-                        <p style={styles.error}>{errors["clientEmail"]}</p>
+                      ) : (
+                        errors["clientEmail"] && (
+                          <p style={styles.error}>{errors["clientEmail"]}</p>
+                        )
                       )}
                     </div>
-
-                  </div>
-                  
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "20px",
-                      marginTop: "10px",
-                    }}
-                  >
                     <div
                       style={{
                         display: "flex",
@@ -671,12 +704,21 @@ const InvoiceForm = ({ templates }) => {
                         onChange={handleChange}
                         title="Street Address"
                         style={styles.input}
-                        required={true}
                       />
                       {errors?.invoiceStreetAddress && (
-                        <p style={styles.error}>{errors.invoiceStreetAddress}</p>
+                        <p style={styles.error}>
+                          {errors.invoiceStreetAddress}
+                        </p>
                       )}
                     </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
                     <div
                       style={{
                         display: "flex",
@@ -719,9 +761,7 @@ const InvoiceForm = ({ templates }) => {
                         <p style={styles.error}>{errors.invoiceState}</p>
                       )}
                     </div>
-
                   </div>
-
 
                   <div
                     style={{
@@ -773,8 +813,71 @@ const InvoiceForm = ({ templates }) => {
                       )}
                     </div>
                   </div>
+                </div>
+              </div>
+              <div style={styles.section}>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    marginTop: "10px",
+                  }}
+                ></div>
 
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                  }}
+                >
                   <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                      width: "25%",
+                    }}
+                  >
+                    <FormCustomDropdown
+                      name="paymentTerms"
+                      title="Payment Terms"
+                      label={formData.paymentTerms}
+                      onSelect={handleChange}
+                      style={styles.input}
+                      options={[
+                        { label: "Net 1 Day", value: 1 },
+                        { label: "Net 7 Day", value: 7 },
+                        { label: "Net 14 Day", value: 14 },
+                        { label: "Net 30 Day", value: 30 },
+                      ]}
+                    />
+                    {errors?.paymentTerm && (
+                      <p style={styles.error}>{errors.paymentTerm}</p>
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "25%",
+                      marginTop: "10px",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <CustomInput
+                      type="text"
+                      name="description"
+                      value={formData.description}
+                      onChange={handleChange}
+                      title="Project Description"
+                      placeholder="e.g.Graphic Design Service"
+                      style={styles.input}
+                    />
+                    {errors?.projectDescription && (
+                      <p style={styles.error}>{errors.projectDescription}</p>
+                    )}
+                  </div>
+                </div>
+                <div
                     style={{
                       display: "flex",
                       gap: "20px",
@@ -785,7 +888,7 @@ const InvoiceForm = ({ templates }) => {
                       style={{
                         display: "flex",
 
-                        width: "100%",
+                        width: "25%",
                         flexDirection: "column",
                       }}
                     >
@@ -806,7 +909,7 @@ const InvoiceForm = ({ templates }) => {
                       style={{
                         display: "flex",
 
-                        width: "100%",
+                        width: "25%",
                         flexDirection: "column",
                       }}
                     >
@@ -823,84 +926,7 @@ const InvoiceForm = ({ templates }) => {
                       )}
                     </div>
                   </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "20px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomDatePicker
-                        name="createdAt"
-                        title="Invoice Date"
-                        value={formData.createdAt}
-                        onChange={handleChange}
-                      />
-
-                      {errors?.issueDate && (
-                        <p style={styles.error}>{errors.issueDate}</p>
-                      )}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <FormCustomDropdown
-                        name="paymentTerms"
-                        title="Payment Terms"
-                        label={formData.paymentTerms}
-                        onSelect={handleChange}
-                        style={styles.input}
-                        options={[
-                          { label: "Net 1 Day", value: 1 },
-                          { label: "Net 7 Day", value: 7 },
-                          { label: "Net 14 Day", value: 14 },
-                          { label: "Net 30 Day", value: 30 },
-                        ]}
-                      />
-                      {errors?.paymentTerm && (
-                        <p style={styles.error}>{errors.paymentTerm}</p>
-                      )}
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      title="Project Description"
-                      placeholder="e.g.Graphic Design Service"
-                      style={styles.input}
-                    />
-                    {errors?.projectDescription && (
-                      <p style={styles.error}>{errors.projectDescription}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div style={styles.section}>
-                <h3 style={styles.itemListTitle}>Item List</h3>
+                <h3 style={styles.titleText}>Item List</h3>
                 {formData.items &&
                   formData.items.map((item, index) => (
                     <div key={index} style={styles.itemContainer}>
@@ -974,7 +1000,11 @@ const InvoiceForm = ({ templates }) => {
                     </div>
                   ))}
                 {errors?.items && <p style={styles.error}>{errors.items}</p>}
-                {(errors[`items[0].name`] || errors[`items[0].price`] || errors[`items[0].quantity`]) && <p style={styles.error}>Required fields</p>}
+                {(errors[`items[0].name`] ||
+                  errors[`items[0].price`] ||
+                  errors[`items[0].quantity`]) && (
+                  <p style={styles.error}>Required fields</p>
+                )}
                 <CustomButton
                   type="gray"
                   onClick={(e) => {
@@ -982,7 +1012,7 @@ const InvoiceForm = ({ templates }) => {
                     handleAddItem();
                   }}
                   buttonStyle={{
-                    width: "100%",
+                    width: "25%",
                     display: "flex",
                     alignItems: "center",
                     gap: "5px",
@@ -995,32 +1025,44 @@ const InvoiceForm = ({ templates }) => {
 
             <h2 style={styles.title}>Select Template</h2>
 
-            <div className='templates-container flex flex-wrap'>
+            <div className="templates-container flex flex-wrap">
               {invoiceTemplates.map((invoiceTemplate) => (
-                
-                <div key={invoiceTemplate.id}
+                <div
+                  key={invoiceTemplate.id}
                   className={`template-tile w-1/3 p-2 flex items-center flex-col `}
+                >
+                  <div
+                    className={`template-content flex items-center flex-col ${
+                      selectedTemplateId === invoiceTemplate.id
+                        ? "selected-invoice-template"
+                        : ""
+                    }`}
+                    onClick={() => handleSelectTemplate(invoiceTemplate.id)}
                   >
-
-                  <div className={`template-content flex items-center flex-col ${ selectedTemplateId === invoiceTemplate.id ? "selected-invoice-template" : "" }`}
-                    onClick={() => handleSelectTemplate(invoiceTemplate.id)}>
-
-                    <div className='template-preview-image-container'>
-                      <img className='template-preview-image' src={invoiceTemplate.previewUrl} style={styles['template-preview-image']}></img>
+                    <div className="template-preview-image-container">
+                      <img
+                        className="template-preview-image"
+                        src={invoiceTemplate.previewUrl}
+                        style={styles["template-preview-image"]}
+                      ></img>
                     </div>
-                    <div className='template-name'>
+                    <div className="template-name">
                       <span>{invoiceTemplate.name}</span>
                     </div>
-
                   </div>
-
                 </div>
               ))}
             </div>
 
             <div style={styles.buttons}>
               <div style={{ display: "flex", gap: "5px" }}>
-                <CustomButton type="purple" onClick={(e) => handleSubmit(e, false)}  buttonStyle={{ minWidth: "150px" }} isLoading={false} disabled={downloadInvoiceIsDisabled ? true : false}>
+                <CustomButton
+                  type="purple"
+                  onClick={(e) => handleSubmit(e, false)}
+                  buttonStyle={{ minWidth: "150px" }}
+                  isLoading={false}
+                  disabled={downloadInvoiceIsDisabled ? true : false}
+                >
                   Download Invoice
                 </CustomButton>
               </div>
@@ -1034,21 +1076,19 @@ const InvoiceForm = ({ templates }) => {
 
 const styles = {
   "template-preview-image": {
-    maxHeight: "300px"
+    maxHeight: "300px",
   },
   title: {
-    padding: "35px 40px",
-    paddingTop: "40px",
+    padding: "35px 0px",
   },
   titleText: {
     color: "#7C5DFA",
     fontSize: "15px",
-    marginBottom: "25px",
+    marginTop: "15px",
+    marginBottom: "10px",
   },
   mainSection: {
-    padding: "20px",
-    paddingLeft: "40px",
-    paddingRight: "40px",
+    padding: "20px 0px",
     // maxWidth: "600px",
     height: "100%",
     overflow: "auto",
