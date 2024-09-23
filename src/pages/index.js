@@ -11,10 +11,10 @@ import "./style.css";
 import ProtectedPage from "./protected";
 import { generateHTMLPDF } from "../utils/generateHTMLPDF";
 import { addDays, formatDate } from "../utils/helpers";
+import InvoiceTemplates from './components/InvoiceTemplates';
 
 const InvoiceForm = ({ templates }) => {
   const [user, setUser] = useState(null);
-  const [invoiceTemplates, setTemplates] = useState([]);
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [downloadInvoiceIsDisabled, setDownloadInvoiceIsDisabled] = useState(true);
 
@@ -42,16 +42,7 @@ const InvoiceForm = ({ templates }) => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-    fetchTemplates();
   }, []);
-
-  const fetchTemplates = async () => {
-    const res = await fetch(
-      `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/templates`
-    );
-    const templates = await res.json();
-    setTemplates(templates);
-  };
 
   const formatDateToISO = (date) => {
     return date.toISOString().split("T")[0];
@@ -159,7 +150,7 @@ const InvoiceForm = ({ templates }) => {
 
   const handleSelectTemplate = (templateId) => {
     setSelectedTemplateId(templateId);
-    setDownloadInvoiceIsDisabled(false);
+    setDownloadInvoiceIsDisabled(false);  // Enable the download button
   };
 
   const validateForm = () => {
@@ -1022,38 +1013,9 @@ const InvoiceForm = ({ templates }) => {
                 </CustomButton>
               </div>
             </div>
-
-            <h2 style={styles.title}>Select Template</h2>
-
-            <div className="templates-container flex flex-wrap">
-              {invoiceTemplates.map((invoiceTemplate) => (
-                <div
-                  key={invoiceTemplate.id}
-                  className={`template-tile w-1/3 p-2 flex items-center flex-col `}
-                >
-                  <div
-                    className={`template-content flex items-center flex-col ${
-                      selectedTemplateId === invoiceTemplate.id
-                        ? "selected-invoice-template"
-                        : ""
-                    }`}
-                    onClick={() => handleSelectTemplate(invoiceTemplate.id)}
-                  >
-                    <div className="template-preview-image-container">
-                      <img
-                        className="template-preview-image"
-                        src={invoiceTemplate.previewUrl}
-                        style={styles["template-preview-image"]}
-                      ></img>
-                    </div>
-                    <div className="template-name">
-                      <span>{invoiceTemplate.name}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div>
+               <InvoiceTemplates handleSelectTemplates={handleSelectTemplate} selectable = {true}/>
             </div>
-
             <div style={styles.buttons}>
               <div style={{ display: "flex", gap: "5px" }}>
                 <CustomButton
@@ -1075,9 +1037,6 @@ const InvoiceForm = ({ templates }) => {
 };
 
 const styles = {
-  "template-preview-image": {
-    maxHeight: "300px",
-  },
   title: {
     padding: "35px 0px",
   },

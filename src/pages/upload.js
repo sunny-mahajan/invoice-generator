@@ -7,14 +7,19 @@ import ProtectedPage from './protected';
 import Layout from '../components/Layout';
 import CustomButton from "../components/Button";
 import "./style.css";
+import InvoiceTemplates from "./components/InvoiceTemplates";
+import { DropImageIcon } from "../utils/icons";
 
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
+  const [selectedFileName, setSelectedFileName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
 
     if (file) {
+      setSelectedFileName(file.name); // Set the file name
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
@@ -28,7 +33,6 @@ export default function UploadCSV() {
 
   const processInvoices = (data) => {
     const invoicesMap = new Map();
-
     let lastInvoiceNo = "";
 
     data.forEach((row) => {
@@ -40,7 +44,7 @@ export default function UploadCSV() {
       };
 
       // new invoice no
-      if (invoiceNo != lastInvoiceNo && invoiceNo.trim() != "") {
+      if (invoiceNo !== lastInvoiceNo && invoiceNo.trim() !== "") {
         invoicesMap.set(invoiceNo, {
           "Invoice No.": invoiceNo,
           "Template Id": row['Template Id'],
@@ -71,7 +75,7 @@ export default function UploadCSV() {
         // previous invoice no
         invoicesMap.get(lastInvoiceNo).Items.push(item);
       }
-      if (invoiceNo.trim() != "") {
+      if (invoiceNo.trim() !== "") {
         lastInvoiceNo = invoiceNo;
       }
     });
@@ -82,17 +86,17 @@ export default function UploadCSV() {
   };
 
   const handleDownloadZip = async () => {
+    setLoading(true); // Start loading
 
     const zip = new JSZip();
     for (const invoice of invoices) {
-      // const pdfBlob = generatePDF(invoice);
       const pdfBlob = await generateHTMLPDF(invoice);
-      console.log(`pdfBlob: `, pdfBlob);
       zip.file(`invoice_${invoice["Invoice No."]}.pdf`, pdfBlob);
     }
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, "invoices.zip");
+      setLoading(false); // End loading
     });
   };
 
@@ -105,34 +109,81 @@ export default function UploadCSV() {
     document.body.removeChild(link);
   };
 
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    const droppedFile = e.dataTransfer.files[0];
+    if (droppedFile) {
+      setSelectedFileName(droppedFile.name); // Set the file name
+      Papa.parse(droppedFile, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (result) => {
+          const data = result.data;
+          processInvoices(data);
+        },
+      });
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <ProtectedPage>
       <Layout>
-        <div className="container mx-auto p-4 upload-container-cls">
-          <div>
-            <h1 className="text-2xl font-bold mb-4">Upload CSV File</h1>
-            <input
-              type="file"
-              accept=".csv"
-              onChange={handleFileUpload}
-              className="mb-4"
-            />
-            {invoices.length > 0 && (
-              <pre className="bg-gray-100 p-4 rounded">
-                {JSON.stringify(invoices, null, 2)}
-              </pre>
-            ) && (
-              <button
-                onClick={handleDownloadZip}
-                className="bg-blue-500 text-white p-2 rounded"
+        <div className="container mx-auto p-4 px-0 upload-container-cls">
+          <div className="flex flex-col items-center">
+            <div
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full max-w-[400px] h-[400px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[400px]"
+            >
+              <label
+                htmlFor="fileInput"
+                className="flex flex-col items-center justify-center w-full h-full cursor-pointer"
               >
-                Download Invoices as ZIP
-              </button>
+                <DropImageIcon />
+                <span className="text-white mt-2">
+                  {selectedFileName
+                    ? `Selected File: ${selectedFileName}`
+                    : "Drop your CSV file here or click to upload"}
+                </span>
+                <input
+                  id="fileInput"
+                  type="file"
+                  accept=".csv"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+              </label>
+            </div>
+
+            {invoices.length > 0 && (
+              <div className="mt-6">
+                <CustomButton
+                  type="purple"
+                  onClick={handleDownloadZip}
+                  buttonStyle={{ marginTop: "1rem", minWidth: "250px" }}
+                  isLoading={loading}
+                >
+                  {loading ? "Generating ZIP..." : "Download Invoices as ZIP"}
+                </CustomButton>
+              </div>
             )}
           </div>
-          <div>
-            <CustomButton type="purple" onClick={handleDownloadCSV}  buttonStyle={{ minWidth: "250px" }} isLoading={false}> Download Sample CSV File</CustomButton>
+          <div className="mt-4">
+            <CustomButton
+              type="purple"
+              onClick={handleDownloadCSV}
+              buttonStyle={{ minWidth: "250px" }}
+            >
+              Download Sample CSV File
+            </CustomButton>
           </div>
+        </div>
+        <div className="mt-8 p-4 mx-auto">
+          <InvoiceTemplates />
         </div>
       </Layout>
     </ProtectedPage>
