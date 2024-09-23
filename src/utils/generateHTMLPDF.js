@@ -1,4 +1,4 @@
-import generateHTMLTPL001 from "../templates/HTMLTPL001";
+import generateHTMLTPL001 from "../templates/HTMLTPL002";
 
 export async function generateHTMLPDF(invoiceData) {
   try {
@@ -13,7 +13,7 @@ export async function generateHTMLPDF(invoiceData) {
       //   case "TPL003":
       //     HTMLTemplate = generateHTMLTPL003(invoiceData);
     }
-
+ 
     const response = await fetch("/api/generate-pdf2", {
       method: "POST",
       headers: {

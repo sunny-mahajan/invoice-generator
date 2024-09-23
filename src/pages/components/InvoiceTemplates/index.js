@@ -63,7 +63,7 @@ const InvoiceTemplates = ({ handleSelectTemplates = null, selectable = false }) 
                  <span>{invoiceTemplate.name}</span>
                 )}
                 { !selectable && (
-                <span>Inovice Id:{invoiceTemplate.id}</span>
+                <span>Template Id:{invoiceTemplate.id}</span>
                 )}
               </div>
             </div>

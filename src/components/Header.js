@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: session } = useSession();
+  const [googleProfileImage, setGoogleProfileImage] = useState(false);
 
   // adjust sidebar menu position
   const avatarRef = useRef(null);
@@ -25,6 +26,17 @@ const Header = () => {
   useEffect(() => { 
     setActiveUpload(router.pathname === "/upload" ? "bulk" : "single");
   }, [router]);
+  const fetchImage = async () => {
+    if (session?.user?.image) {
+      const response = await fetch(session.user.image);
+      if(response.ok){
+        setGoogleProfileImage(true);
+      }
+    }
+  }
+  useEffect(() => {
+    fetchImage();
+  }, []);
     
 
   // Handler to set active upload option
@@ -82,15 +94,28 @@ const Header = () => {
           </span>
        </div>
       </div>
+
       <div className="sidebar-bottom d-flex items-center justify-content-center">
-        <div className="sidebar-avatar" ref={avatarRef}>
+        {!googleProfileImage ? (
+          <div 
+          className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-4" 
+          ref={avatarRef} 
+          onClick={handleProfileClick}
+        >
+         <span className="text-lg" style={{ marginTop: "1px" }}>{session?.user?.name.charAt(0).toUpperCase()}</span>
+        </div>
+        ) : (
+          <div className="sidebar-avatar" ref={avatarRef} >
             <img
+            loading="lazy"
               src={session?.user?.image}
               alt="User Avatar"
               onClick={handleProfileClick}
               style={{ cursor: "pointer", borderRadius: "50%" }}
             />
         </div>
+        )}
+        
       </div>
       
       {isMenuOpen && ( // Conditionally render the side menu
