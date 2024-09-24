@@ -1,5 +1,4 @@
-export default function generateHTMLTPL002(invoiceData) {
-    console.log(invoiceData, "invoiceData");
+export default function generateHTMLTPL003(invoiceData) {
   // Initialize the sub-amount
   let subAmount = 0;
 
@@ -47,7 +46,9 @@ export default function generateHTMLTPL002(invoiceData) {
       padding: 0;
     }
     .container {
+    margin-top: 20px;
       padding: 20px;
+      border-top: #007BFF solid 20px;
     }
     .header {
       display: flex;
@@ -56,8 +57,7 @@ export default function generateHTMLTPL002(invoiceData) {
     }
     .company-info {
       text-align: left;
-      p {
-        margin: 0;
+      p{
         max-width: 200px;
       }
     }
@@ -65,9 +65,11 @@ export default function generateHTMLTPL002(invoiceData) {
       text-align: right;
       font-size: 24px;
       color: #007BFF;
-      h2 {
-        margin: 0;
-      }
+    }
+    .invoice-details-heading {
+      width: 120px;
+      display: inline-block;
+      font-weight: bold;
     }
     .bill-ship {
       display: flex;
@@ -75,7 +77,6 @@ export default function generateHTMLTPL002(invoiceData) {
       margin-top: 20px;
       p {
         margin: 8px 0;
-        max-width: 270px;
       }
     }
     h2 {
@@ -89,69 +90,73 @@ export default function generateHTMLTPL002(invoiceData) {
       border-collapse: collapse;
     }
     .items th, .items td {
-      border: 1px solid #ddd;
       padding: 8px;
       text-align: right;
     }
-    .items th {
-      background-color: #f4f4f4 !important;
-      text-align: center;
+    .items th:first-child, .items td:first-child {
+      text-align: left;
     }
-    .items td:first-child {
-      text-align: center;
+    .total-section {
+      margin: 40px 0;
     }
-    .total {
-      text-align: right;
-      margin-top: 20px;
-    }
-    .sub-total {
-      margin: 10px 0;
-    }
-    .grand-total {
-      margin: 10px 0;
+    .total-details {
+      border-top: 2px solid;
+      border-bottom: 4px solid;
+      display: flex;
+      justify-content: space-between;
     }
     .footer {
-      margin-top:50px;
+      margin-top: 50px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Header Section -->
     <div class="header">
-      <div class="invoice-title">
-        <h2>INVOICE</h2>
-      </div>
       <div class="company-info">
-        <p>${invoiceData["Sender's Zipcode"]},${invoiceData["Sender's Address"]}, ${invoiceData["Sender's City"]}, <br>Phone: ${invoiceData["Sender's Contact No"]}</p>
+        <p>${invoiceData["Sender's Zipcode"]},${invoiceData["Sender's Address"]}, ${invoiceData["Sender's City"]},<br>Phone: ${invoiceData["Sender's Contact No"]}</p>
       </div>
     </div>
-    
+
     <div class="bill-ship">
       <div class="bill">
-        <h2>Bill To</h2>
+        <h2>BILL TO</h2>
         <p>${invoiceData["Sender's Name"]}</p>
         <p>${invoiceData["Sender's Address"]},${invoiceData["Sender's City"]}, ${invoiceData["Sender's State"]}</p>
         <p>${invoiceData["Sender's Email"]}</p>
       </div>
       <div class="ship">
-        <h2>Ship To</h2>
+        <h2>SHIP TO</h2>
         <p>${invoiceData["Receiver's Name"]}</p>
         <p>${invoiceData["Receiver's Address"]},${invoiceData["Receiver's City"]}, ${invoiceData["Receiver's State"]}</p>
         <p>${invoiceData["Receiver's email"]}</p>
       </div>
       <div class="invoice-info">
-        <h2>Invoice Details</h2>
-        <p><strong>Invoice No.:</strong> ${invoiceData["Invoice No."]}</p>
-        <p><strong>Date:</strong> ${invoiceData["Invoice Issue Date"]}</p>
-        <p><strong>Due Date:</strong> ${invoiceData["Invoice Due Date"]}</p>
+        <h2>INVOICE DETAILS</h2>
+        <div>
+            <span class="invoice-details-heading" style="margin: 8px 0;">INVOICE NO.</span><span>${invoiceData["Invoice No."]}</span>
+        </div>
+        <div>
+            <span class="invoice-details-heading" style="margin: 0 0 8px 0;">DATE</span><span>${invoiceData["Invoice Issue Date"]}</span>
+        </div>
+        <div>
+            <span class="invoice-details-heading" style="margin: 0 0 8px 0;">DUE DATE</span><span>${invoiceData["Invoice Due Date"]}</span>
+        </div>
       </div>
+    </div>
+
+    <div class="total-section">
+        <div class="total-details">
+            <h1><strong>Invoice Total</strong></h1>
+            <h1><strong>${totalAmount}</strong></h1>
+        </div>
     </div>
 
     <table class="items">
       <thead>
         <tr>
           <th>QTY</th>
+          <th>ITEM DESCRIPTION</th>
           <th>ITEM NAME</th>
           <th>ITEM PRICE</th>
         </tr>
@@ -160,20 +165,17 @@ export default function generateHTMLTPL002(invoiceData) {
       ${invoiceData["Items"]
         .map( (item) => `<tr>
           <td>${item["quantity"]}</td>
+          <td>this is descrption</td>
           <td>${item["name"]}</td>
           <td>${item["price"]}</td>
         </tr>`).join("")}
         <tr>
-          <td colspan="2" style="text-align:right; border: none;">Subtotal</td>
-          <td>${subAmount}</td>
+          <td colspan="3" style="text-align:right; padding-top: 30px;">Subtotal</td>
+          <td style="padding-top: 30px;">${subAmount}</td>
         </tr>
         <tr>
-          <td colspan="2" style="text-align:right; border: none">GST ${invoiceData["Tax percentage"]}%</td>
+          <td colspan="3" style="text-align:right;">GST ${invoiceData["Tax percentage"]}%</td>
           <td>${taxAmount}</td>
-        </tr>
-        <tr>
-          <td colspan="2" style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
-          <td style="background-color: #f4f4f4; font-weight: bold;">${totalAmount}</td>
         </tr>
       </tbody>
     </table>
@@ -182,6 +184,5 @@ export default function generateHTMLTPL002(invoiceData) {
   </div>
 </body>
 </html>
-
     `;
 }
