@@ -5,7 +5,7 @@ export default function generateHTMLTPL001(invoiceData) {
   // Calculate the sub-amount by summing item prices
   invoiceData.Items.forEach((item) => {
     // Convert item price to a number
-    subAmount += parseFloat(item["price"]) || 0;
+    subAmount += parseFloat(item["price"]) * parseFloat(item["quantity"]) || 0;
   });
 
   const formatDate = (date) => {

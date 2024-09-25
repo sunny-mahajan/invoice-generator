@@ -17,7 +17,8 @@ const InvoiceForm = ({ templates }) => {
   const [user, setUser] = useState(null);
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [downloadInvoiceIsDisabled, setDownloadInvoiceIsDisabled] = useState(true);
-
+  const [loading, setLoading] = useState(false);
+  
   const handleKeyDown = (event) => {
     const allowedKeys = [
       'Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', 'End', 'Home'
@@ -192,8 +193,10 @@ const InvoiceForm = ({ templates }) => {
     return Object.keys(newErrors).length === 0;
   };
   const handleSubmit = async (e, saveAsDraft) => {
+    
     e.preventDefault();
     if (!saveAsDraft && !validateForm()) return;
+    setLoading(true);
     formData["Invoice No."] = formData.invoiceNo;
     formData["Template Id"] = selectedTemplateId;
     formData["Items"] = formData.items;
@@ -223,6 +226,9 @@ const InvoiceForm = ({ templates }) => {
     formData["Invoice Due Date"] = paymentDueDate;
 
     const pdfBlob = await generateHTMLPDF(formData);
+    if (pdfBlob) {
+      setLoading(false);
+    }
     // Create a temporary URL for the blob
     const blobURL = URL.createObjectURL(pdfBlob);
 
@@ -1022,7 +1028,7 @@ const InvoiceForm = ({ templates }) => {
                   type="purple"
                   onClick={(e) => handleSubmit(e, false)}
                   buttonStyle={{ minWidth: "150px" }}
-                  isLoading={false}
+                  isLoading={loading}
                   disabled={downloadInvoiceIsDisabled ? true : false}
                 >
                   Download Invoice
