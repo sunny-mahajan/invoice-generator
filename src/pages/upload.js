@@ -38,9 +38,9 @@ export default function UploadCSV() {
     data.forEach((row) => {
       const invoiceNo = row["Invoice No."];
       const item = {
-        "Item name": row["Item name"],
-        "Item quantity": row["Item quantity"],
-        "Item price": row["Item price"],
+        "name": row["Item name"],
+        "quantity": row["Item quantity"],
+        "price": row["Item price"],
       };
 
       // new invoice no
@@ -68,6 +68,8 @@ export default function UploadCSV() {
           "Receiver's Zipcode": row["Receiver's Zipcode"],
           "Receiver's Contact No": row["Receiver's Contact No"],
           "Receiver's email": row["Receiver's email"],
+          "Tax percentage": row["Tax percentage"],
+          "Tax name": row["Tax name"],
           Remarks: row["Remarks"],
           Items: [item],
         });

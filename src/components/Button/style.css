@@ -1,11 +1,11 @@
 .white-button {
   background-color: #f8f8f8;
   color: #7e88c3;
-  padding: 15px;
+  padding: 12px;
   padding-left: 20px;
   padding-right: 20px;
   border-radius: 30px;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,10 +23,10 @@
 .gray-button {
   background-color: #34374b; /* #888eb0 */
   color: #dfe3fa;
-  padding: 15px;
+  padding: 12px;
   padding-left: 20px;
   padding-right: 20px;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,10 +69,10 @@
 .red-button {
   background-color: #ec5757;
   color: #f8f8f8;
-  padding: 15px;
+  padding: 12px;
   padding-left: 20px;
   padding-right: 20px;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;

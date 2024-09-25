@@ -5,7 +5,7 @@ export default function generateHTMLTPL001(invoiceData) {
   // Calculate the sub-amount by summing item prices
   invoiceData.Items.forEach((item) => {
     // Convert item price to a number
-    subAmount += parseFloat(item["price"]) * item["quantity"] || 0;
+    subAmount += parseFloat(item["price"]) * parseFloat(item["quantity"]) || 0;
   });
 
   const formatDate = (date) => {
@@ -21,7 +21,6 @@ export default function generateHTMLTPL001(invoiceData) {
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = parseFloat(invoiceData["Tax percentage"]) || 0;
-
   // Calculate tax amount
   const taxAmount = (subAmount * taxPercentage) / 100;
 
