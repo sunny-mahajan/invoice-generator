@@ -79,6 +79,7 @@ const InvoiceForm = ({ templates }) => {
     items: [
       {
         name: "",
+        itemDescription: "",
         quantity: "",
         price: "",
       },
@@ -146,7 +147,7 @@ const InvoiceForm = ({ templates }) => {
   const handleAddItem = () => {
     setFormData((prev) => ({
       ...prev,
-      items: [...prev.items, { name: "", quantity: "", price: "" }],
+      items: [...prev.items, { name: "", itemDescription: "", quantity: "", price: "" }],
     }));
   };
 
@@ -195,7 +196,7 @@ const InvoiceForm = ({ templates }) => {
     if (!formData.createdAt) newErrors.issueDate = "Required field";
     if (!formData.paymentTerms) newErrors.paymentTerm = "Required field";
     if (
-      formData.items.some((item) => !item.name || !item.quantity || !item.price)
+      formData.items.some((item) => !item.name || !item.itemDescription || !item.quantity || !item.price)
     )
       newErrors.items = "Required fields";
     setErrors(newErrors);
@@ -954,6 +955,19 @@ const InvoiceForm = ({ templates }) => {
                       />
 
                       <CustomInput
+                        type="text"
+                        name="itemDescription"
+                        title="Item Description"
+                        containerStyle={{ width: "fit-content" }}
+                        value={item.itemDescription}
+                        onChange={(e) => handleItemChange(index, e)}
+                        inputStyle={{
+                          flex: "2 1 auto", // Larger space for Item Name
+                        }}
+                        required={true}
+                      />
+
+                      <CustomInput
                         type="number"
                         name="quantity"
                         title="Qty."
@@ -1012,6 +1026,7 @@ const InvoiceForm = ({ templates }) => {
                 {errors?.items && <p style={styles.error}>{errors.items}</p>}
                 {(errors[`items[0].name`] ||
                   errors[`items[0].price`] ||
+                  errors[`items[0].itemDescription`] ||
                   errors[`items[0].quantity`]) && (
                   <p style={styles.error}>Required fields</p>
                 )}
