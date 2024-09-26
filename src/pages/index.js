@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CustomButton from "../components/Button";
 import CustomInput from "../components/Input";
 import FormCustomDropdown from "../components/FormDropdown";
@@ -12,13 +12,22 @@ import ProtectedPage from "./protected";
 import { generateHTMLPDF } from "../utils/generateHTMLPDF";
 import { addDays, formatDate } from "../utils/helpers";
 import InvoiceTemplates from './components/InvoiceTemplates';
+import useClickOutside from '../hooks/useClickOutside';
 
 const InvoiceForm = ({ templates }) => {
   const [user, setUser] = useState(null);
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [downloadInvoiceIsDisabled, setDownloadInvoiceIsDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+
+  const customDatePickerRef = useRef(null);
+  const datePickerInputRef = useRef(null);
+  useClickOutside([customDatePickerRef, datePickerInputRef], () => setIsDatePickerOpen(false));
+
+  const handleDatePickerInputClick = () => {
+    setIsDatePickerOpen((prevState) => !prevState);
+  }
   const handleKeyDown = (event) => {
     const allowedKeys = [
       'Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', 'End', 'Home'
@@ -363,12 +372,16 @@ const InvoiceForm = ({ templates }) => {
                     width: "25%",
                     flexDirection: "column",
                   }}
+                  ref={datePickerInputRef}
+                  onClick={handleDatePickerInputClick}
                 >
                   <CustomDatePicker
                     name="createdAt"
                     title="Invoice Date"
                     value={formData.createdAt}
                     onChange={handleChange}
+                    isDatePickerOpen={isDatePickerOpen}
+                    customDatePickerRef={customDatePickerRef}
                   />
 
                   {errors?.issueDate && (

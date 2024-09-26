@@ -11,6 +11,8 @@ const DatePicker = ({
   lableClass,
   inputClass,
   onChange,
+  isDatePickerOpen,
+  customDatePickerRef,
 }) => {
   const parseDateFromString = (dateString) => {
     if (!dateString) return null;
@@ -227,8 +229,10 @@ const DatePicker = ({
         </span>
       </div>
 
-      {isOpen && (
-        <span className="date-picker-container">
+      {(isDatePickerOpen) && (
+        <span className="date-picker-container"
+          ref={customDatePickerRef}
+        >
           <Calendar />
         </span>
       )}
