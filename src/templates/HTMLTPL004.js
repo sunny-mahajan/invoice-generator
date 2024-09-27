@@ -127,6 +127,7 @@ export default function generateHTMLTPL004(invoiceData) {
             <thead>
                 <tr>
                     <th>Product Name</th>
+                    <th>Description</th>
                     <th>Qty</th>
                     <th>Price</th>
                     <th>Total</th>
@@ -138,6 +139,7 @@ export default function generateHTMLTPL004(invoiceData) {
                   (item) => `
                   <tr>
                       <td>${item["name"]}</td>
+                      <td>${item["itemDescription"] ?? ""}</td>
                       <td>${item["quantity"]}</td>
                       <td>${item["price"]}</td>
                       <td>${item["price"] * item["quantity"]}</td>

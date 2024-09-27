@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import useClickOutside from '../hooks/useClickOutside';
 import CustomButton from "./Button";
 import "../styles/globals.css";
 import { signOut } from "next-auth/react";
@@ -9,6 +10,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: session } = useSession();
   const [googleProfileImage, setGoogleProfileImage] = useState(false);
+  const menuRef = useRef(null);
 
   // adjust sidebar menu position
   const avatarRef = useRef(null);
@@ -37,7 +39,8 @@ const Header = () => {
   useEffect(() => {
     fetchImage();
   }, []);
-    
+
+  useClickOutside([avatarRef, menuRef], () => setIsMenuOpen(false));
 
   // Handler to set active upload option
   const handleUploadClick = (type) => {
@@ -119,7 +122,10 @@ const Header = () => {
       </div>
       
       {isMenuOpen && ( // Conditionally render the side menu
-        <div className="sidebar-menu" style={{ position: "fixed", left: menuPosition.left, top: menuPosition.top }}>
+        <div className="sidebar-menu"
+          ref={menuRef}
+          style={{ position: "fixed", left: menuPosition.left, top: menuPosition.top}}
+        >
           <CustomButton
             type="red"
             onClick={handleLogout}

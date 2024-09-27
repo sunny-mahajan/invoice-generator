@@ -153,6 +153,7 @@ export default function generateHTMLTPL002(invoiceData) {
         <tr>
           <th>QTY</th>
           <th>ITEM NAME</th>
+          <th>ITEM DESCRIPTION</th>
           <th>ITEM PRICE</th>
         </tr>
       </thead>
@@ -161,18 +162,19 @@ export default function generateHTMLTPL002(invoiceData) {
         .map( (item) => `<tr>
           <td>${item["quantity"]}</td>
           <td>${item["name"]}</td>
+          <td>${item["itemDescription"] ?? ""}</td>
           <td>${item["price"]}</td>
         </tr>`).join("")}
         <tr>
-          <td colspan="2" style="text-align:right; border: none;">Subtotal</td>
+          <td colspan="3" style="text-align:right; border: none;">Subtotal</td>
           <td>${subAmount}</td>
         </tr>
         <tr>
-          <td colspan="2" style="text-align:right; border: none">GST ${invoiceData["Tax percentage"]}%</td>
+          <td colspan="3" style="text-align:right; border: none">GST ${invoiceData["Tax percentage"]}%</td>
           <td>${taxAmount}</td>
         </tr>
         <tr>
-          <td colspan="2" style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
+          <td colspan="3" style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
           <td style="background-color: #f4f4f4; font-weight: bold;">${totalAmount}</td>
         </tr>
       </tbody>

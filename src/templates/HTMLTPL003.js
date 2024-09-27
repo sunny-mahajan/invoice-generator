@@ -165,7 +165,7 @@ export default function generateHTMLTPL003(invoiceData) {
       ${invoiceData["Items"]
         .map( (item) => `<tr>
           <td>${item["quantity"]}</td>
-          <td>this is descrption</td>
+          <td>${item["itemDescription"] ?? ""}</td>
           <td>${item["name"]}</td>
           <td>${item["price"]}</td>
         </tr>`).join("")}
