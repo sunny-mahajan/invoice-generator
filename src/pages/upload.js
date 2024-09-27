@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { generateHTMLPDF } from "../utils/generateHTMLPDF";
 import Papa from "papaparse";
 import JSZip from "jszip";
@@ -15,11 +15,14 @@ export default function UploadCSV() {
   const [selectedFileName, setSelectedFileName] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const fileInputRef = useRef(null); // Create a reference for the file input
+
   const handleFileUpload = (event) => {
+    event.preventDefault();
     const file = event.target.files[0];
 
     if (file) {
-      setSelectedFileName(file.name); // Set the file name
+      setSelectedFileName(file.name);
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
@@ -43,7 +46,7 @@ export default function UploadCSV() {
         "price": row["Item price"],
       };
 
-      // new invoice no
+      // New invoice no
       if (invoiceNo !== lastInvoiceNo && invoiceNo.trim() !== "") {
         invoicesMap.set(invoiceNo, {
           "Invoice No.": invoiceNo,
@@ -74,7 +77,7 @@ export default function UploadCSV() {
           Items: [item],
         });
       } else {
-        // previous invoice no
+        // Previous invoice no
         invoicesMap.get(lastInvoiceNo).Items.push(item);
       }
       if (invoiceNo.trim() !== "") {
@@ -98,8 +101,19 @@ export default function UploadCSV() {
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, "invoices.zip");
+      setInvoices([]);
+      setSelectedFileName("");
       setLoading(false); // End loading
     });
+  };
+
+  const handleDeselectFile = (event) => {
+    event.stopPropagation(); // Prevent the file input from opening
+    setSelectedFileName("");
+    setInvoices([]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset the file input
+    }
   };
 
   const handleDownloadCSV = () => {
@@ -115,7 +129,7 @@ export default function UploadCSV() {
     e.preventDefault();
     const droppedFile = e.dataTransfer.files[0];
     if (droppedFile) {
-      setSelectedFileName(droppedFile.name); // Set the file name
+      setSelectedFileName(droppedFile.name);
       Papa.parse(droppedFile, {
         header: true,
         skipEmptyLines: true,
@@ -139,10 +153,10 @@ export default function UploadCSV() {
             <div
               onDrop={handleDrop}
               onDragOver={handleDragOver}
-              className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full max-w-[400px] h-[400px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[400px]"
+              className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full max-w-[400px] h-[100px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[400px]"
             >
-              <label
-                htmlFor="fileInput"
+              <div
+                onClick={() => fileInputRef.current.click()}
                 className="flex flex-col items-center justify-center w-full h-full cursor-pointer"
               >
                 <DropImageIcon />
@@ -151,14 +165,23 @@ export default function UploadCSV() {
                     ? `Selected File: ${selectedFileName}`
                     : "Drop your CSV file here or click to upload"}
                 </span>
-                <input
-                  id="fileInput"
-                  type="file"
-                  accept=".csv"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
-              </label>
+                {selectedFileName && (
+                  <button
+                    type="button"
+                    onClick={handleDeselectFile}
+                    className="text-red-500 mt-2"
+                  >
+                    ✖ Remove
+                  </button>
+                )}
+              </div>
+              <input
+                ref={fileInputRef} // Assign ref to the file input
+                type="file"
+                accept=".csv"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
             </div>
 
             {invoices.length > 0 && (
@@ -169,7 +192,7 @@ export default function UploadCSV() {
                   buttonStyle={{ marginTop: "1rem", minWidth: "250px" }}
                   isLoading={loading}
                 >
-                  {loading ? "Generating ZIP..." : "Download Invoices as ZIP"}
+                  {loading ? "Generating ZIP..." : "Generate Invoices as ZIP"}
                 </CustomButton>
               </div>
             )}
@@ -191,4 +214,5 @@ export default function UploadCSV() {
     </ProtectedPage>
   );
 }
+
 

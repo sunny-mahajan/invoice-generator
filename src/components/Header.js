@@ -93,7 +93,7 @@ const Header = () => {
             className={`sidebar-item ${activeUpload === "bulk" ? "active" : ""} item-hover-cls`}
             onClick={() => handleUploadClick("bulk")}
           >
-            Bulk Generate Invoices
+            Bulk Generate
           </span>
        </div>
       </div>

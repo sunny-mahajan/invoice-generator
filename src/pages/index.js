@@ -235,29 +235,24 @@ const InvoiceForm = ({ templates }) => {
     const paymentDueDate = addDays(formData["Invoice Issue Date"], formData.paymentTerms);
     formData["Invoice Due Date"] = paymentDueDate;
 
+
     const pdfBlob = await generateHTMLPDF(formData);
+
     if (pdfBlob) {
       setLoading(false);
+      
+      // Create a temporary URL for the blob
+      const blobURL = URL.createObjectURL(pdfBlob);
+
+      // Open the PDF in a new tab
+      window.open(blobURL, '_blank');
+
+      // Clean up: revoke the object URL to free memory after a short delay
+      setTimeout(() => {
+        URL.revokeObjectURL(blobURL);
+      }, 100); // Adjust time as needed
     }
-    // Create a temporary URL for the blob
-    const blobURL = URL.createObjectURL(pdfBlob);
-
-    // Create an <a> element
-    const link = document.createElement("a");
-
-    // Set the download attribute with a filename
-    link.href = blobURL;
-    link.download = `${formData["Invoice No."]}.pdf`;
-
-    // Programmatically trigger the download by clicking the link
-    document.body.appendChild(link);
-    link.click();
-
-    // Clean up and remove the link after triggering the download
-    document.body.removeChild(link);
-
-    // Revoke the object URL to free memory
-    URL.revokeObjectURL(blobURL);
+    
     // try {
     //   if (!user || !user.token) {
     //     throw new Error("User is not authenticated");
@@ -1059,7 +1054,7 @@ const InvoiceForm = ({ templates }) => {
                   isLoading={loading}
                   disabled={downloadInvoiceIsDisabled ? true : false}
                 >
-                  Download Invoice
+                  Generate Invoice
                 </CustomButton>
               </div>
             </div>

@@ -14,7 +14,7 @@
   font-family: inherit;
   border: 0;
   cursor: pointer;
-  line-height: 1.2;
+  line-height: 1;
 }
 .white-button:hover {
   filter: brightness(1.4);
@@ -36,7 +36,7 @@
   font-family: inherit;
   border: 0;
   cursor: pointer;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .gray-button:hover {
@@ -59,7 +59,7 @@
   font-family: inherit;
   border: 0;
   cursor: pointer;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .purple-button:hover {
@@ -82,7 +82,7 @@
   font-family: inherit;
   border: 0;
   cursor: pointer;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .red-button:hover {
