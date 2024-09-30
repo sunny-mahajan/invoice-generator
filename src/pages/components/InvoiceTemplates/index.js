@@ -89,7 +89,7 @@ const InvoiceTemplates = ({ handleSelectTemplates = () => {}, selectable = false
                   {selectable ? (
                     <span>{invoiceTemplate.name}</span>
                   ) : (
-                    <span>Template Id: {invoiceTemplate.id}</span>
+                    <span style={{ fontSize: '12px' }}>Template Id: {invoiceTemplate.id}</span>
                   )}
                 </div>
               </div>

@@ -183,7 +183,7 @@ export default function generateHTMLTPL001(invoiceData) {
                     (item) => `
                     <div class="sub-sec4-item">
                         <p>${item["name"]}</p>
-                        <p>${item["itemDescription"] ?? ""}</p>
+                        <p>${item["description"] ?? ""}</p>
                         <p>${item["quantity"]}</p>
                         <p>${item["price"]}</p>
                     </div>

@@ -59,6 +59,7 @@ const InvoiceForm = ({ templates }) => {
   };
   const formDataInitialValues = {
     createdAt: formatDateToISO(new Date()),
+    dueDate: formatDateToISO(addDays(new Date(), 30)),
     description: "",
     paymentTerms: 30,
     clientName: "",
@@ -69,22 +70,27 @@ const InvoiceForm = ({ templates }) => {
       city: "",
       postCode: "",
       country: "",
+      gstin: "",
+      panCardNo: "",
     },
     clientAddress: {
       street: "",
       city: "",
       postCode: "",
       country: "",
+      gstin: "",
+      panCardNo: "",
     },
     items: [
       {
         name: "",
-        itemDescription: "",
+        description: "",
         quantity: "",
         price: "",
       },
     ],
     total: 0,
+    currency: "INR",
   };
 
   const [formData, setFormData] = useState(formDataInitialValues);
@@ -147,7 +153,7 @@ const InvoiceForm = ({ templates }) => {
   const handleAddItem = () => {
     setFormData((prev) => ({
       ...prev,
-      items: [...prev.items, { name: "", itemDescription: "", quantity: "", price: "" }],
+      items: [...prev.items, { name: "", description: "", quantity: "", price: "" }],
     }));
   };
 
@@ -180,12 +186,17 @@ const InvoiceForm = ({ templates }) => {
       newErrors.clientEmail = "Invalid Email";
     if (!formData.senderAddress?.street)
       newErrors.clientStreetAddress = "Required field";
+    
 
     if (!formData.senderAddress?.city) newErrors.clientCity = "Required field";
     if (!formData.senderAddress?.postCode)
       newErrors.clientPostalCode = "Required field";
     if (!formData.senderAddress?.country)
       newErrors.clientCountry = "Required field";
+    if(!formData.senderAddress.gstin)
+      newErrors.senderGstin = "Required field";
+    if(!formData.senderAddress.panCardNo)
+      newErrors.SenderPancard = "Required field";
     if (!formData.clientAddress?.street)
       newErrors.invoiceStreetAddress = "Required field";
     if (!formData.clientAddress?.city) newErrors.invoiceCity = "Required field";
@@ -193,16 +204,23 @@ const InvoiceForm = ({ templates }) => {
       newErrors.invoicePostcode = "Required field";
     if (!formData.clientAddress?.country)
       newErrors.invoiceCountry = "Required field";
+    if(!formData.clientAddress.gstin) 
+      newErrors.ClientGstin = "Required field";
+    if(!formData.clientAddress.panCardNo)
+      newErrors.ClientPancard = "Required field";
     if (!formData.createdAt) newErrors.issueDate = "Required field";
+    if (!formData.dueDate) newErrors.dueDate = "Required field";
     if (!formData.paymentTerms) newErrors.paymentTerm = "Required field";
+    if(!formData.currency) newErrors.currency = "Required field";
     if (
-      formData.items.some((item) => !item.name || !item.itemDescription || !item.quantity || !item.price)
+      formData.items.some((item) => !item.name || !item.description || !item.quantity || !item.price)
     )
       newErrors.items = "Required fields";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
   const handleSubmit = async (e, saveAsDraft) => {
+    console.log("saveAsDraft", saveAsDraft, formData);
     
     e.preventDefault();
     if (!saveAsDraft && !validateForm()) return;
@@ -217,6 +235,7 @@ const InvoiceForm = ({ templates }) => {
     formData["Sender's Contact No"] = formData.sender.contactNo;
     formData["Sender's Email"] = formData.sender.email;
     formData["Sender's Zipcode"] = formData.senderAddress.postCode;
+
     // formData["Sender's Company Name"] = formData.;
     formData["Receiver's Name"] = formData.clientName;
     formData["Receiver's Address"] = formData.clientAddress.street;
@@ -228,12 +247,14 @@ const InvoiceForm = ({ templates }) => {
     // formData["Receiver's Company Name"] = formData.;
     // formData["Remarks"] = formData.;
 
+    //add currency
+    formData["Currency"] = formData.currency;
     // add invoice issue date
     formData["Invoice Issue Date"] = formData.createdAt;
 
     // add invoice due date
-    const paymentDueDate = addDays(formData["Invoice Issue Date"], formData.paymentTerms);
-    formData["Invoice Due Date"] = paymentDueDate;
+    // const paymentDueDate = addDays(formData["Invoice Issue Date"], formData.paymentTerms);
+    formData["Invoice Due Date"] = formData.dueDate;
 
 
     const pdfBlob = await generateHTMLPDF(formData);
@@ -599,6 +620,56 @@ const InvoiceForm = ({ templates }) => {
                       )}
                     </div>
                   </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="senderAddress.gstin"
+                        value={formData.senderAddress.gstin}
+                        onChange={handleChange}
+                        style={styles.input}
+                        title="GSTIN"
+                      />
+
+                      {errors?.senderGstin && (
+                        <p style={styles.error}>{errors.senderGstin}</p>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="senderAddress.panCardNo"
+                        title="PAN11"
+                        value={formData.senderAddress.panCardNo}
+                        onChange={handleChange}
+                        style={styles.input}
+                      />
+                      {errors?.SenderPancard && (
+                        <p style={styles.error}>{errors.SenderPancard}</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="bill-to-container w-3/6" style={styles.section}>
@@ -819,6 +890,55 @@ const InvoiceForm = ({ templates }) => {
                       )}
                     </div>
                   </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="clientAddress.gstin"
+                        value={formData.clientAddress.gstin}
+                        onChange={handleChange}
+                        style={styles.input}
+                        title="GSTIN"
+                      />
+
+                      {errors?.ClientGstin && (
+                        <p style={styles.error}>{errors.ClientGstin}</p>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="clientAddress.panCardNo"
+                        title="PAN"
+                        value={formData.clientAddress.panCardNo}
+                        onChange={handleChange}
+                        style={styles.input}
+                      />
+                      {errors?.ClientPancard && (
+                        <p style={styles.error}>{errors.ClientPancard}</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
               <div style={styles.section}>
@@ -839,26 +959,24 @@ const InvoiceForm = ({ templates }) => {
                   <div
                     style={{
                       display: "flex",
-                      gap: "20px",
-                      marginTop: "10px",
                       width: "25%",
+                      marginTop: "10px",
+                      flexDirection: "column",
                     }}
+                    ref={datePickerInputRef}
+                    onClick={handleDatePickerInputClick}
                   >
-                    <FormCustomDropdown
-                      name="paymentTerms"
-                      title="Payment Terms"
-                      label={formData.paymentTerms}
-                      onSelect={handleChange}
-                      style={styles.input}
-                      options={[
-                        { label: "Net 1 Day", value: 1 },
-                        { label: "Net 7 Day", value: 7 },
-                        { label: "Net 14 Day", value: 14 },
-                        { label: "Net 30 Day", value: 30 },
-                      ]}
+                    <CustomDatePicker
+                      name="dueDate"
+                      title="Due Date"
+                      value={formData.dueDate}
+                      onChange={handleChange}
+                      isDatePickerOpen={isDatePickerOpen}
+                      customDatePickerRef={customDatePickerRef}
                     />
-                    {errors?.paymentTerm && (
-                      <p style={styles.error}>{errors.paymentTerm}</p>
+
+                    {errors?.dueDate && (
+                      <p style={styles.error}>{errors.dueDate}</p>
                     )}
                   </div>
                   <div
@@ -869,69 +987,28 @@ const InvoiceForm = ({ templates }) => {
                       flexDirection: "column",
                     }}
                   >
-                    <CustomInput
-                      type="text"
-                      name="description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      title="Project Description"
-                      placeholder="e.g.Graphic Design Service"
+                    <FormCustomDropdown
+                      name="currency"
+                      title="Currency"
+                      label={formData.currency}
+                      onSelect={handleChange}
                       style={styles.input}
+                      options={[
+                        { label: "USD - US Dollar", value: "USD" },
+                        { label: "EUR - Euro", value: "EUR" },
+                        { label: "GBP - British Pound", value: "GBP" },
+                        { label: "JPY - Japanese Yen", value: "JPY" },
+                        { label: "AUD - Australian Dollar", value: "AUD" },
+                        { label: "CAD - Canadian Dollar", value: "CAD" },
+                        { label: "INR - Indian Rupee", value: "INR" },
+                        { label: "CNY - Chinese Yuan", value: "CNY" },
+                      ]}
                     />
-                    {errors?.projectDescription && (
-                      <p style={styles.error}>{errors.projectDescription}</p>
+                    {errors?.currency && (
+                      <p style={styles.error}>{errors.currency}</p>
                     )}
                   </div>
                 </div>
-                <div
-                    style={{
-                      display: "flex",
-                      gap: "20px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-
-                        width: "25%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomInput
-                        type="text"
-                        name="gstin"
-                        value={formData.gstin}
-                        onChange={handleChange}
-                        style={styles.input}
-                        title="GSTIN"
-                      />
-
-                      {errors?.gstin && (
-                        <p style={styles.error}>{errors.gstin}</p>
-                      )}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-
-                        width: "25%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomInput
-                        type="text"
-                        name="panCardNo"
-                        title="PAN"
-                        value={formData.panCardNo}
-                        onChange={handleChange}
-                        style={styles.input}
-                      />
-                      {errors?.panCardNo && (
-                        <p style={styles.error}>{errors.panCardNo}</p>
-                      )}
-                    </div>
-                  </div>
                 <h3 style={styles.titleText}>Item List</h3>
                 {formData.items &&
                   formData.items.map((item, index) => (
@@ -951,10 +1028,10 @@ const InvoiceForm = ({ templates }) => {
 
                       <CustomInput
                         type="text"
-                        name="itemDescription"
+                        name="description"
                         title="Item Description"
                         containerStyle={{ width: "fit-content" }}
-                        value={item.itemDescription}
+                        value={item.description}
                         onChange={(e) => handleItemChange(index, e)}
                         inputStyle={{
                           flex: "2 1 auto", // Larger space for Item Name
@@ -965,7 +1042,7 @@ const InvoiceForm = ({ templates }) => {
                       <CustomInput
                         type="number"
                         name="quantity"
-                        title="Qty."
+                        title="Qty/Hrs."
                         containerStyle={{ width: "fit-content" }}
                         value={item.quantity}
                         onChange={(e) => handleItemChange(index, e)}
@@ -997,7 +1074,23 @@ const InvoiceForm = ({ templates }) => {
                         title={"Total"}
                         containerStyle={{ width: "fit-content" }}
                         isText={true}
-                        value={item.total || 0}
+                        value={(() => {
+                          const currencySymbols = {
+                            USD: "$",  // US Dollar
+                            EUR: "€",  // Euro
+                            GBP: "£",  // British Pound
+                            JPY: "¥",  // Japanese Yen
+                            AUD: "A$", // Australian Dollar
+                            CAD: "C$", // Canadian Dollar
+                            INR: "₹",  // Indian Rupee
+                            CNY: "¥",  // Chinese Yuan
+                          };
+                        
+                          const selectedCurrency = formData.currency;
+                          const symbol = currencySymbols[selectedCurrency] || ''; // Default to empty if currency not found
+                        
+                          return selectedCurrency ? `${symbol} ${item.total || 0}` : item.total || 0;
+                        })()}
                         inputStyle={{
                           flex: "1 1 auto", // Adjust size as needed for Total
                         }}
@@ -1012,6 +1105,7 @@ const InvoiceForm = ({ templates }) => {
                           justifyContent: "center",
                           height: "100%",
                           flex: "0 1 auto",
+                          paddingTop: "20px",
                         }}
                       >
                         <DeleteIcon />
@@ -1021,7 +1115,7 @@ const InvoiceForm = ({ templates }) => {
                 {errors?.items && <p style={styles.error}>{errors.items}</p>}
                 {(errors[`items[0].name`] ||
                   errors[`items[0].price`] ||
-                  errors[`items[0].itemDescription`] ||
+                  errors[`items[0].description`] ||
                   errors[`items[0].quantity`]) && (
                   <p style={styles.error}>Required fields</p>
                 )}
@@ -1036,6 +1130,7 @@ const InvoiceForm = ({ templates }) => {
                     display: "flex",
                     alignItems: "center",
                     gap: "5px",
+                    float: "right",
                   }}
                 >
                   <PlusIcon f={"#dfe3fa"} /> Add New Item

@@ -42,6 +42,7 @@ export default function UploadCSV() {
       const invoiceNo = row["Invoice No."];
       const item = {
         "name": row["Item name"],
+        "description": row["Item description"],
         "quantity": row["Item quantity"],
         "price": row["Item price"],
       };
@@ -103,6 +104,9 @@ export default function UploadCSV() {
       saveAs(content, "invoices.zip");
       setInvoices([]);
       setSelectedFileName("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // Reset the file input
+      }
       setLoading(false); // End loading
     });
   };
@@ -201,9 +205,9 @@ export default function UploadCSV() {
             <CustomButton
               type="purple"
               onClick={handleDownloadCSV}
-              buttonStyle={{ minWidth: "250px" }}
+              buttonStyle={{ minWidth: "170px" }}
             >
-              Download Sample CSV File
+              Get Sample CSV
             </CustomButton>
           </div>
         </div>

@@ -23,7 +23,7 @@ body {
   background-color: var(--sidebar-color);
   min-width: 100%;
   max-width: 100px;
-  z-index: 1;
+  z-index: 9999;
   overflow: hidden;
 }
 
@@ -117,18 +117,30 @@ body {
   display: flex;
   align-items: center;
   cursor: pointer;
+  gap: 10px;
 }
 .item-hover-cls {
   padding: 6px 10px;
   border-radius: 18px;
 }
-.item-hover-cls:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
 
 .sidebar-item.active {
   filter: brightness(1.4);
   color: rgb(238, 130, 238);
+  background-color: rgba(238, 130, 238, 0.1);
+  transition: all 0.3s ease; /* Smooth transition */
+  box-shadow: 0px 0 4px rgba(238, 130, 238, 0.2), /* Slight shadow below */
+              0px 0 4px rgba(238, 130, 238, 0.1), /* Slight shadow above */
+              2px 0px 4px rgba(238, 130, 238, 0.2), /* Right shadow */
+              -2px 0px 4px rgba(238, 130, 238, 0.2); /* Left shadow */
+}
+
+/* Hover effect for all items */
+.item-hover-cls:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgb(255, 255, 255);
+  transform: scale(1.02);
+  transition: all 0.2s ease-in-out;
 }
 
 .sidebar-avatar img {
@@ -277,7 +289,7 @@ p {
 
 .content {
   width: 100%;
-  padding-top: 60px;
+  padding-top: 10px;
 }
 
 .no-invoice-content-wrap {
