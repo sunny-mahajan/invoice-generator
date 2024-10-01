@@ -8,12 +8,14 @@ import Layout from '../components/Layout';
 import CustomButton from "../components/Button";
 import "./style.css";
 import InvoiceTemplates from "./components/InvoiceTemplates";
-import { DropImageIcon } from "../utils/icons";
+import { DropImageIcon, infoIcon } from "../utils/icons";
+import DialogBox  from '../components/DialogBox/index'
 
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const fileInputRef = useRef(null); // Create a reference for the file input
 
@@ -149,6 +151,13 @@ export default function UploadCSV() {
     e.preventDefault();
   };
 
+  const handleOpenDialog = () => setIsDialogOpen(true);
+  const handleCloseDialog = () => setIsDialogOpen(false);
+  const handleConfirm = () => {
+    console.log('Confirmed!');
+    setIsDialogOpen(false);
+  };
+
   return (
     <ProtectedPage>
       <Layout>
@@ -157,7 +166,7 @@ export default function UploadCSV() {
             <div
               onDrop={handleDrop}
               onDragOver={handleDragOver}
-              className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full max-w-[400px] h-[100px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[400px]"
+              className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full max-w-[400px] h-[100px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[300px]"
             >
               <div
                 onClick={() => fileInputRef.current.click()}
@@ -167,7 +176,7 @@ export default function UploadCSV() {
                 <span className="text-white mt-2">
                   {selectedFileName
                     ? `Selected File: ${selectedFileName}`
-                    : "Drop your CSV file here or click to upload"}
+                    : "Drop or Upload CSV file"}
                 </span>
                 {selectedFileName && (
                   <button
@@ -201,7 +210,7 @@ export default function UploadCSV() {
               </div>
             )}
           </div>
-          <div className="mt-4">
+          <div className="flex items-center">
             <CustomButton
               type="purple"
               onClick={handleDownloadCSV}
@@ -209,7 +218,21 @@ export default function UploadCSV() {
             >
               Get Sample CSV
             </CustomButton>
+            <div className="ml-4 cursor-pointer" onClick={() => handleOpenDialog()}>
+            {infoIcon()}
           </div>
+          <div>
+          <DialogBox  
+            isOpen={isDialogOpen}
+            onClose={handleCloseDialog}
+            title="Instructions"
+            content={`1. Download the sample CSV file for the correct format.\n2. Choose an invoice template from the list, and input the correct template ID in the CSV.\n3. Fill in your data following the sample format.\n4. Upload your CSV file.\n5. Click 'Generate Invoices as ZIP' to download your invoices.`}
+            confirmText="Got it!"
+            cancelText=""
+            onConfirm={handleCloseDialog} />
+          </div>
+          </div>
+          
         </div>
         <div className="mt-8 p-4 mx-auto">
           <InvoiceTemplates />

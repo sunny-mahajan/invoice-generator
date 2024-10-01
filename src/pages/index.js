@@ -20,13 +20,20 @@ const InvoiceForm = ({ templates }) => {
   const [downloadInvoiceIsDisabled, setDownloadInvoiceIsDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [isDueDatePickerOpen, setIsDueDatePickerOpen] = useState(false);
 
   const customDatePickerRef = useRef(null);
   const datePickerInputRef = useRef(null);
+  const dueDatePickerInputRef = useRef(null);
+  const dueCustomDatePickerRef = useRef(null);
   useClickOutside([customDatePickerRef, datePickerInputRef], () => setIsDatePickerOpen(false));
+  useClickOutside([dueCustomDatePickerRef, dueDatePickerInputRef], () => setIsDueDatePickerOpen(false));
 
   const handleDatePickerInputClick = () => {
     setIsDatePickerOpen((prevState) => !prevState);
+  }
+  const handleDueDatePickerInputClick = () => {
+    setIsDueDatePickerOpen((prevState) => !prevState);
   }
   const handleKeyDown = (event) => {
     const allowedKeys = [
@@ -158,6 +165,9 @@ const InvoiceForm = ({ templates }) => {
   };
 
   const handleRemoveItem = (index) => {
+    if (formData.items.length <= 1) {
+      return;
+    }
     const newItems = formData.items.filter((_, i) => i !== index);
     setFormData((prev) => ({
       ...prev,
@@ -405,10 +415,34 @@ const InvoiceForm = ({ templates }) => {
                     <p style={styles.error}>{errors.issueDate}</p>
                   )}
                 </div>
+
+                <div
+                    style={{
+                      display: "flex",
+                      width: "25%",
+                      marginBottom: "20px",
+                      flexDirection: "column",
+                    }}
+                    ref={dueDatePickerInputRef}
+                    onClick={handleDueDatePickerInputClick}
+                  >
+                    <CustomDatePicker
+                      name="dueDate"
+                      title="Invoice Due Date"
+                      value={formData.dueDate}
+                      onChange={handleChange}
+                      isDatePickerOpen={isDueDatePickerOpen}
+                      customDatePickerRef={dueCustomDatePickerRef}
+                    />
+
+                    {errors?.dueDate && (
+                      <p style={styles.error}>{errors.dueDate}</p>
+                    )}
+                  </div>
               </div>
               <div className="parties-details-container flex justify-between gap-12">
                 <div
-                  className="bill-from-container w-3/6"
+                  className="bill-from-container w-3/6  p-4 rounded-lg"
                   style={styles.section}
                 >
                   <h3 style={styles.titleText}>Bill From</h3>
@@ -660,7 +694,7 @@ const InvoiceForm = ({ templates }) => {
                       <CustomInput
                         type="text"
                         name="senderAddress.panCardNo"
-                        title="PAN11"
+                        title="PAN"
                         value={formData.senderAddress.panCardNo}
                         onChange={handleChange}
                         style={styles.input}
@@ -672,7 +706,7 @@ const InvoiceForm = ({ templates }) => {
                   </div>
                 </div>
 
-                <div className="bill-to-container w-3/6" style={styles.section}>
+                <div className="bill-to-container w-3/6 p-4 rounded-lg" style={styles.section}>
                   <h3 style={styles.titleText}>Bill To</h3>
                   <div
                     style={{
@@ -956,29 +990,6 @@ const InvoiceForm = ({ templates }) => {
                     gap: "20px",
                   }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      width: "25%",
-                      marginTop: "10px",
-                      flexDirection: "column",
-                    }}
-                    ref={datePickerInputRef}
-                    onClick={handleDatePickerInputClick}
-                  >
-                    <CustomDatePicker
-                      name="dueDate"
-                      title="Due Date"
-                      value={formData.dueDate}
-                      onChange={handleChange}
-                      isDatePickerOpen={isDatePickerOpen}
-                      customDatePickerRef={customDatePickerRef}
-                    />
-
-                    {errors?.dueDate && (
-                      <p style={styles.error}>{errors.dueDate}</p>
-                    )}
-                  </div>
                   <div
                     style={{
                       display: "flex",
