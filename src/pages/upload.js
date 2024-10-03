@@ -154,7 +154,6 @@ export default function UploadCSV() {
   const handleOpenDialog = () => setIsDialogOpen(true);
   const handleCloseDialog = () => setIsDialogOpen(false);
   const handleConfirm = () => {
-    console.log('Confirmed!');
     setIsDialogOpen(false);
   };
 
@@ -229,7 +228,7 @@ export default function UploadCSV() {
             content={`1. Download the sample CSV file for the correct format.\n2. Choose an invoice template from the list, and input the correct template ID in the CSV.\n3. Fill in your data following the sample format.\n4. Upload your CSV file.\n5. Click 'Generate Invoices as ZIP' to download your invoices.`}
             confirmText="Got it!"
             cancelText=""
-            onConfirm={handleCloseDialog} />
+            onConfirm={handleConfirm} />
           </div>
           </div>
           
