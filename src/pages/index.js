@@ -96,6 +96,15 @@ const InvoiceForm = ({ templates }) => {
         price: "",
       },
     ],
+    bankDetails: {
+      bankName: "",
+      accountNumber: "",
+      confirmAccountNumber: "",
+      ifscCode: "",
+      accounHolderName: "",
+      bankAccountType: "",
+      currency: "INR",
+    },
     total: 0,
     currency: "INR",
   };
@@ -203,10 +212,10 @@ const InvoiceForm = ({ templates }) => {
       newErrors.clientPostalCode = "Required field";
     if (!formData.senderAddress?.country)
       newErrors.clientCountry = "Required field";
-    if(!formData.senderAddress.gstin)
-      newErrors.senderGstin = "Required field";
-    if(!formData.senderAddress.panCardNo)
-      newErrors.SenderPancard = "Required field";
+    // if(!formData.senderAddress.gstin)
+    //   newErrors.senderGstin = "Required field";
+    // if(!formData.senderAddress.panCardNo)
+    //   newErrors.SenderPancard = "Required field";
     if (!formData.clientAddress?.street)
       newErrors.invoiceStreetAddress = "Required field";
     if (!formData.clientAddress?.city) newErrors.invoiceCity = "Required field";
@@ -214,14 +223,18 @@ const InvoiceForm = ({ templates }) => {
       newErrors.invoicePostcode = "Required field";
     if (!formData.clientAddress?.country)
       newErrors.invoiceCountry = "Required field";
-    if(!formData.clientAddress.gstin) 
-      newErrors.ClientGstin = "Required field";
-    if(!formData.clientAddress.panCardNo)
-      newErrors.ClientPancard = "Required field";
+    // if(!formData.clientAddress.gstin) 
+    //   newErrors.ClientGstin = "Required field";
+    // if(!formData.clientAddress.panCardNo)
+    //   newErrors.ClientPancard = "Required field";
     if (!formData.createdAt) newErrors.issueDate = "Required field";
-    if (!formData.dueDate) newErrors.dueDate = "Required field";
+    // if (!formData.dueDate) newErrors.dueDate = "Required field";
     if (!formData.paymentTerms) newErrors.paymentTerm = "Required field";
     if(!formData.currency) newErrors.currency = "Required field";
+    if (formData.bankDetails.accountNumber && 
+      formData.bankDetails.accountNumber !== formData.bankDetails.confirmAccountNumber) {
+    newErrors.confirmAccountNumber = "Account number and confirm account number should be the same.";
+  }
     if (
       formData.items.some((item) => !item.name || !item.description || !item.quantity || !item.price)
     )
@@ -230,7 +243,7 @@ const InvoiceForm = ({ templates }) => {
     return Object.keys(newErrors).length === 0;
   };
   const handleSubmit = async (e, saveAsDraft) => {
-    console.log("saveAsDraft", saveAsDraft, formData);
+    console.log("saveAsDraft", formData, 'submit');
     
     e.preventDefault();
     if (!saveAsDraft && !validateForm()) return;
@@ -1147,6 +1160,138 @@ const InvoiceForm = ({ templates }) => {
                   <PlusIcon f={"#dfe3fa"} /> Add New Item
                 </CustomButton>
               </div>
+              <div className="mt-20 rounded-lg" style={styles.section}>
+                  <h3 style={styles.titleText}>Bank Details</h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="bankDetails.bankName"
+                        title="Bank Name"
+                        value={formData.bankDetails.bankName}
+                        onChange={handleChange}
+                        style={styles.input}
+                      />
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="bankDetails.accountNumber"
+                        title="Account No."
+                        value={formData.bankDetails.accountNumber}
+                        onChange={handleChange}
+                        onKeyDown={handleKeyDown}
+                        style={styles.input}
+                      />
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="bankDetails.confirmAccountNumber"
+                        title="Confirm Account No."
+                        placeholder=""
+                        value={formData.bankDetails.confirmAccountNumber}
+                        onChange={handleChange}
+                        style={styles.input}
+                      />
+                      {errors?.confirmAccountNumber && (
+                        <p style={styles.error}>{errors.confirmAccountNumber}</p>
+                      )}
+                    </div>
+
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="bankDetails.ifscCode"
+                        title="IFSC Code"
+                        placeholder=""
+                        value={formData.bankDetails.ifscCode}
+                        onChange={handleChange}
+                        style={styles.input}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="bankDetails.accounHolderName"
+                        value={formData?.bankDetails.accounHolderName}
+                        onChange={handleChange}
+                        title="Account Holder Name"
+                        style={styles.input}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="bankDetails.bankAccountType"
+                        title="Account Type"
+                        placeholder=""
+                        value={formData.bankDetails.bankAccountType}
+                        onChange={handleChange}
+                        style={styles.input}
+                      />
+                    </div>
+                    
+                  </div>
+
+                </div>
             </div>
             <div>
                <InvoiceTemplates handleSelectTemplates={handleSelectTemplate} selectable = {true}/>

@@ -177,6 +177,7 @@ export default function generateHTMLTPL001(invoiceData) {
                     <h2>Item Description</h2>
                     <h2>Item Quantity</h2>
                     <h2>Item Price</h2>
+                    <h2>Total</h2>
                 </div>
                 ${invoiceData["Items"]
                   .map(
@@ -186,6 +187,7 @@ export default function generateHTMLTPL001(invoiceData) {
                         <p>${item["description"] ?? ""}</p>
                         <p>${item["quantity"]}</p>
                         <p>${item["price"]}</p>
+                        <td>${item["price"] * item["quantity"]}</td>
                     </div>
                 `
                   )

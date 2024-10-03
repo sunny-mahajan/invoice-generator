@@ -159,6 +159,7 @@ export default function generateHTMLTPL003(invoiceData) {
           <th>ITEM DESCRIPTION</th>
           <th>ITEM NAME</th>
           <th>ITEM PRICE</th>
+          <th>TOTAL</th>
         </tr>
       </thead>
       <tbody>
@@ -168,6 +169,7 @@ export default function generateHTMLTPL003(invoiceData) {
           <td>${item["description"] ?? ""}</td>
           <td>${item["name"]}</td>
           <td>${item["price"]}</td>
+          <td>${item["price"] * item["quantity"]}</td>
         </tr>`).join("")}
         <tr>
           <td colspan="3" style="text-align:right; padding-top: 30px;">Subtotal</td>
