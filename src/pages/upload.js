@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { generateHTMLPDF } from "../utils/generateHTMLPDF";
 import Papa from "papaparse";
 import JSZip from "jszip";
@@ -8,18 +8,23 @@ import Layout from '../components/Layout';
 import CustomButton from "../components/Button";
 import "./style.css";
 import InvoiceTemplates from "./components/InvoiceTemplates";
-import { DropImageIcon } from "../utils/icons";
+import { DropImageIcon, infoIcon } from "../utils/icons";
+import DialogBox  from '../components/DialogBox/index'
 
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const fileInputRef = useRef(null); // Create a reference for the file input
 
   const handleFileUpload = (event) => {
+    event.preventDefault();
     const file = event.target.files[0];
 
     if (file) {
-      setSelectedFileName(file.name); // Set the file name
+      setSelectedFileName(file.name);
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
@@ -39,11 +44,12 @@ export default function UploadCSV() {
       const invoiceNo = row["Invoice No."];
       const item = {
         "name": row["Item name"],
+        "description": row["Item description"],
         "quantity": row["Item quantity"],
         "price": row["Item price"],
       };
 
-      // new invoice no
+      // New invoice no
       if (invoiceNo !== lastInvoiceNo && invoiceNo.trim() !== "") {
         invoicesMap.set(invoiceNo, {
           "Invoice No.": invoiceNo,
@@ -74,7 +80,7 @@ export default function UploadCSV() {
           Items: [item],
         });
       } else {
-        // previous invoice no
+        // Previous invoice no
         invoicesMap.get(lastInvoiceNo).Items.push(item);
       }
       if (invoiceNo.trim() !== "") {
@@ -98,8 +104,22 @@ export default function UploadCSV() {
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, "invoices.zip");
+      setInvoices([]);
+      setSelectedFileName("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // Reset the file input
+      }
       setLoading(false); // End loading
     });
+  };
+
+  const handleDeselectFile = (event) => {
+    event.stopPropagation(); // Prevent the file input from opening
+    setSelectedFileName("");
+    setInvoices([]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset the file input
+    }
   };
 
   const handleDownloadCSV = () => {
@@ -115,7 +135,7 @@ export default function UploadCSV() {
     e.preventDefault();
     const droppedFile = e.dataTransfer.files[0];
     if (droppedFile) {
-      setSelectedFileName(droppedFile.name); // Set the file name
+      setSelectedFileName(droppedFile.name);
       Papa.parse(droppedFile, {
         header: true,
         skipEmptyLines: true,
@@ -131,6 +151,12 @@ export default function UploadCSV() {
     e.preventDefault();
   };
 
+  const handleOpenDialog = () => setIsDialogOpen(true);
+  const handleCloseDialog = () => setIsDialogOpen(false);
+  const handleConfirm = () => {
+    setIsDialogOpen(false);
+  };
+
   return (
     <ProtectedPage>
       <Layout>
@@ -139,26 +165,35 @@ export default function UploadCSV() {
             <div
               onDrop={handleDrop}
               onDragOver={handleDragOver}
-              className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full max-w-[400px] h-[400px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[400px]"
+              className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full max-w-[400px] h-[100px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[300px]"
             >
-              <label
-                htmlFor="fileInput"
+              <div
+                onClick={() => fileInputRef.current.click()}
                 className="flex flex-col items-center justify-center w-full h-full cursor-pointer"
               >
                 <DropImageIcon />
                 <span className="text-white mt-2">
                   {selectedFileName
                     ? `Selected File: ${selectedFileName}`
-                    : "Drop your CSV file here or click to upload"}
+                    : "Drop or Upload CSV file"}
                 </span>
-                <input
-                  id="fileInput"
-                  type="file"
-                  accept=".csv"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
-              </label>
+                {selectedFileName && (
+                  <button
+                    type="button"
+                    onClick={handleDeselectFile}
+                    className="text-red-500 mt-2"
+                  >
+                    ✖ Remove
+                  </button>
+                )}
+              </div>
+              <input
+                ref={fileInputRef} // Assign ref to the file input
+                type="file"
+                accept=".csv"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
             </div>
 
             {invoices.length > 0 && (
@@ -169,20 +204,34 @@ export default function UploadCSV() {
                   buttonStyle={{ marginTop: "1rem", minWidth: "250px" }}
                   isLoading={loading}
                 >
-                  {loading ? "Generating ZIP..." : "Download Invoices as ZIP"}
+                  {loading ? "Generating ZIP..." : "Generate Invoices as ZIP"}
                 </CustomButton>
               </div>
             )}
           </div>
-          <div className="mt-4">
+          <div className="flex items-center">
             <CustomButton
               type="purple"
               onClick={handleDownloadCSV}
-              buttonStyle={{ minWidth: "250px" }}
+              buttonStyle={{ minWidth: "170px" }}
             >
-              Download Sample CSV File
+              Get Sample CSV
             </CustomButton>
+            <div className="ml-4 cursor-pointer" onClick={() => handleOpenDialog()}>
+            {infoIcon()}
           </div>
+          <div>
+          <DialogBox  
+            isOpen={isDialogOpen}
+            onClose={handleCloseDialog}
+            title="Instructions"
+            content={`1. Download the sample CSV file for the correct format.\n2. Choose an invoice template from the list, and input the correct template ID in the CSV.\n3. Fill in your data following the sample format.\n4. Upload your CSV file.\n5. Click 'Generate Invoices as ZIP' to download your invoices.`}
+            confirmText="Got it!"
+            cancelText=""
+            onConfirm={handleConfirm} />
+          </div>
+          </div>
+          
         </div>
         <div className="mt-8 p-4 mx-auto">
           <InvoiceTemplates />
@@ -191,4 +240,5 @@ export default function UploadCSV() {
     </ProtectedPage>
   );
 }
+
 

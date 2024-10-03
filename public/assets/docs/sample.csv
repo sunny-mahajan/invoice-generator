@@ -1,9 +1,9 @@
-Template Id,Invoice No.,Invoice Issue Date,Invoice Due Date,Sender's Company Name,Sender's Name,Sender's Address,Sender's City,Sender's State,Sender's Zipcode,Sender's Contact No,Sender's Email,Sender's Bank,Sender's Account no,Receiver's Company Name,Receiver's Name,Receiver's Address,Receiver's City,Receiver's State,Receiver's Zipcode,Receiver's Contact No,Receiver's email,Remarks,Item name,Item quantity,Item price,Tax name,Tax percentage
-TPL001,INV-1,8/27/2024,8/30/2024,TEST LLC,Harry,addr1,city1,state1,zip1,1234567890,sender1@email.com,Acorda Bank,54687582,UAT LLC,Messi,Raddr1,Rcity1,Rstate1,Rzip1,5489652580,receiver1@email.com,Thank you.,a,2,20,gst,18
-,,,,,,,,,,,,,,,,,,,,,,,b,5,30,,
-,,,,,,,,,,,,,,,,,,,,,,,c,7,50,,
-,,,,,,,,,,,,,,,,,,,,,,,d,5,40,,
-TPL001,INV-2,8/28/2024,8/31/2024,DEMO LLC,Andy,addr2,city2,state2,zip1,4567894250,sender2@email.com,Wells Fargo,87652158,QA LLC,Ronaldo,Raddr2,Rcity2,Rstate2,Rzip2,4568756980,receiver2@email.com,Please pay before due date. Thanks.,e,6,10,gst,18
-,,,,,,,,,,,,,,,,,,,,,,,f,5,80,,
-,,,,,,,,,,,,,,,,,,,,,,,g,1,90,,
-,,,,,,,,,,,,,,,,,,,,,,,h,7,70,,
+Template Id,Invoice No.,Invoice Issue Date,Invoice Due Date,Sender's Company Name,Sender's Name,Sender's Address,Sender's City,Sender's State,Sender's Zipcode,Sender's Contact No,Sender's Email,Sender's Bank,Sender's Account no,Receiver's Company Name,Receiver's Name,Receiver's Address,Receiver's City,Receiver's State,Receiver's Zipcode,Receiver's Contact No,Receiver's email,Remarks,Item name,Item quantity,Item price,Item description,Tax name,Tax percentage
+TPL001,INV-1,8/27/2024,8/30/2024,ABC Corp,John Doe,123 Elm St,New York,NY,10001,1234567890,john.doe@abccorp.com,Bank of America,12345678,XYZ LLC,Jane Smith,456 Oak St,Los Angeles,CA,90001,9876543210,jane.smith@xyzllc.com,Thank you for your business.,Product A,2,100,High-quality widget,Sales Tax,8
+,,,,,,,,,,,,,,,,,,,,,,,Product B,5,200,Custom-built device,,
+,,,,,,,,,,,,,,,,,,,,,,,Product C,7,150,Standard tool kit,,
+,,,,,,,,,,,,,,,,,,,,,,,Product D,5,120,Advanced measuring equipment,,
+TPL004,INV-2,8/28/2024,8/31/2024,Tech Solutions,Michael Brown,789 Pine St,Chicago,IL,60601,9876543212,michael.brown@techsolutions.com,Chase Bank,87654321,Innovate Inc,Sarah Johnson,321 Maple St,Houston,TX,77001,6549873210,sarah.johnson@innovateinc.com,Please pay by the due date.,Service A,6,500,IT consulting services,Sales Tax,8
+,,,,,,,,,,,,,,,,,,,,,,,Service B,3,400,Cloud setup and configuration,,
+,,,,,,,,,,,,,,,,,,,,,,,Service C,1,900,Custom software development,,
+,,,,,,,,,,,,,,,,,,,,,,,Service D,2,750,Data migration services,,

@@ -5,6 +5,7 @@ import "../styles/globals.css";
 import { signOut } from "next-auth/react";
 import { useSession } from 'next-auth/react';
 import { useRouter } from "next/router";
+import { logOutIcon } from "../utils/icons";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -58,7 +59,7 @@ const Header = () => {
   
   return (
     <header
-      className="sidebar d-flex justify-content-between relative"
+      className="sidebar d-flex justify-content-between sticky top-0"
     >
       <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap" rel="stylesheet"></link>
       <div className="sidebar-top h-16 w-16">
@@ -93,7 +94,7 @@ const Header = () => {
             className={`sidebar-item ${activeUpload === "bulk" ? "active" : ""} item-hover-cls`}
             onClick={() => handleUploadClick("bulk")}
           >
-            Bulk Generate Invoices
+            Bulk Generate
           </span>
        </div>
       </div>
@@ -122,16 +123,17 @@ const Header = () => {
       </div>
       
       {isMenuOpen && ( // Conditionally render the side menu
-        <div className="sidebar-menu"
+        <div className="sidebar-menu mt-1"
           ref={menuRef}
-          style={{ position: "fixed", left: menuPosition.left, top: menuPosition.top}}
+          style={{ position: "fixed", top: menuPosition.top, right: "5px"}}
         >
           <CustomButton
             type="red"
             onClick={handleLogout}
             className="sidebar-logout-button"
           >
-            Logout
+            {logOutIcon()}
+            <span className="pl-1">Logout</span>
           </CustomButton>
         </div>
       )}
