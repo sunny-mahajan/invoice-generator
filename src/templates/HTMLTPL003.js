@@ -1,4 +1,5 @@
 export default function generateHTMLTPL003(invoiceData) {
+  console.log(invoiceData, "invoiceData");
   // Initialize the sub-amount
   let subAmount = 0;
 
@@ -15,6 +16,24 @@ export default function generateHTMLTPL003(invoiceData) {
     const day = `0${d.getDate()}`.slice(-2); // Adding leading zero
     return `${month}-${day}-${year}`;
   };
+
+  const currencySymbol = (currency) => {
+    const currencySymbols = {
+      USD: "$",  // US Dollar
+      EUR: "€",  // Euro
+      GBP: "£",  // British Pound
+      JPY: "¥",  // Japanese Yen
+      AUD: "A$", // Australian Dollar
+      CAD: "C$", // Canadian Dollar
+      INR: "₹",  // Indian Rupee
+      CNY: "¥",  // Chinese Yuan
+    };
+  
+    const symbol = currencySymbols[currency] || 'INR'; // Default to empty if currency not found
+    console.log(symbol, "symbol", currency);
+    return symbol;
+  };
+  
 
   invoiceData["Invoice Issue Date"] = formatDate(invoiceData["Invoice Issue Date"]);
   invoiceData["Invoice Due Date"] = formatDate(invoiceData["Invoice Due Date"]);
@@ -96,6 +115,11 @@ export default function generateHTMLTPL003(invoiceData) {
     .items th:first-child, .items td:first-child {
       text-align: left;
     }
+    .items th:nth-child(2), .items td:nth-child(2) {
+        /* Your styles for the second column here */
+        text-align: center;
+        width: 300px;
+    }
     .total-section {
       margin: 40px 0;
     }
@@ -124,12 +148,16 @@ export default function generateHTMLTPL003(invoiceData) {
         <p>${invoiceData["Sender's Name"]}</p>
         <p>${invoiceData["Sender's Address"]},${invoiceData["Sender's City"]}, ${invoiceData["Sender's State"]}</p>
         <p>${invoiceData["Sender's Email"]}</p>
+        <p>${invoiceData["Sender's GST"]}</p>
+        <p>${invoiceData["Sender's PAN"]}</p>
       </div>
       <div class="ship">
         <h2>SHIP TO</h2>
         <p>${invoiceData["Receiver's Name"]}</p>
         <p>${invoiceData["Receiver's Address"]},${invoiceData["Receiver's City"]}, ${invoiceData["Receiver's State"]}</p>
         <p>${invoiceData["Receiver's email"]}</p>
+        <p>${invoiceData["Receiver's GST"]}</p>
+        <p>${invoiceData["Receiver's PAN"]}</p>
       </div>
       <div class="invoice-info">
         <h2>INVOICE DETAILS</h2>
@@ -148,7 +176,7 @@ export default function generateHTMLTPL003(invoiceData) {
     <div class="total-section">
         <div class="total-details">
             <h1><strong>Invoice Total</strong></h1>
-            <h1><strong>${totalAmount}</strong></h1>
+            <h1><strong>${currencySymbol(invoiceData["Currency"])}${totalAmount}</strong></h1>
         </div>
     </div>
 
@@ -168,16 +196,16 @@ export default function generateHTMLTPL003(invoiceData) {
           <td>${item["quantity"]}</td>
           <td>${item["description"] ?? ""}</td>
           <td>${item["name"]}</td>
-          <td>${item["price"]}</td>
-          <td>${item["price"] * item["quantity"]}</td>
+          <td>${currencySymbol(invoiceData["Currency"])}${item["price"]}</td>
+          <td>${currencySymbol(invoiceData["Currency"])}${item["price"] * item["quantity"]}</td>
         </tr>`).join("")}
         <tr>
-          <td colspan="3" style="text-align:right; padding-top: 30px;">Subtotal</td>
-          <td style="padding-top: 30px;">${subAmount}</td>
+          <td colspan="4" style="text-align:right; padding-top: 30px;">Subtotal</td>
+          <td style="padding-top: 30px;text-align:right; width: auto">${currencySymbol(invoiceData["Currency"])}${subAmount}</td>
         </tr>
         <tr>
-          <td colspan="3" style="text-align:right;">GST ${invoiceData["Tax percentage"]}%</td>
-          <td>${taxAmount}</td>
+          <td colspan="4" style="text-align:right;">${invoiceData["Tax Type"]} ${invoiceData["Tax percentage"]}%</td>
+          <td style="text-align:right; width: auto">${currencySymbol(invoiceData["Currency"])}${taxAmount}</td>
         </tr>
       </tbody>
     </table>

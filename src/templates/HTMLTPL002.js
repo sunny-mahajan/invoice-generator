@@ -16,6 +16,23 @@ export default function generateHTMLTPL002(invoiceData) {
     return `${month}-${day}-${year}`;
   };
 
+  const currencySymbol = (currency) => {
+    const currencySymbols = {
+      USD: "$",  // US Dollar
+      EUR: "€",  // Euro
+      GBP: "£",  // British Pound
+      JPY: "¥",  // Japanese Yen
+      AUD: "A$", // Australian Dollar
+      CAD: "C$", // Canadian Dollar
+      INR: "₹",  // Indian Rupee
+      CNY: "¥",  // Chinese Yuan
+    };
+  
+    const symbol = currencySymbols[currency] || 'INR'; // Default to empty if currency not found
+    console.log(symbol, "symbol", currency);
+    return symbol;
+  };
+
   invoiceData["Invoice Issue Date"] = formatDate(invoiceData["Invoice Issue Date"]);
   invoiceData["Invoice Due Date"] = formatDate(invoiceData["Invoice Due Date"]);
 
@@ -99,6 +116,12 @@ export default function generateHTMLTPL002(invoiceData) {
     .items td:first-child {
       text-align: center;
     }
+    .items td:nth-child(2) {
+        text-align: center;
+    }
+    .items td:nth-child(3) {
+        text-align: left;
+    }
     .total {
       text-align: right;
       margin-top: 20px;
@@ -132,12 +155,17 @@ export default function generateHTMLTPL002(invoiceData) {
         <p>${invoiceData["Sender's Name"]}</p>
         <p>${invoiceData["Sender's Address"]},${invoiceData["Sender's City"]}, ${invoiceData["Sender's State"]}</p>
         <p>${invoiceData["Sender's Email"]}</p>
+        <p>${invoiceData["Sender's GST"]}</p>
+        <p>${invoiceData["Sender's PAN"]}</p>
       </div>
       <div class="ship">
         <h2>Ship To</h2>
         <p>${invoiceData["Receiver's Name"]}</p>
         <p>${invoiceData["Receiver's Address"]},${invoiceData["Receiver's City"]}, ${invoiceData["Receiver's State"]}</p>
         <p>${invoiceData["Receiver's email"]}</p>
+        <p>${invoiceData["Receiver's GST"]}</p>
+        <p>${invoiceData["Receiver's PAN"]}</p>
+
       </div>
       <div class="invoice-info">
         <h2>Invoice Details</h2>
@@ -163,20 +191,20 @@ export default function generateHTMLTPL002(invoiceData) {
           <td>${item["quantity"]}</td>
           <td>${item["name"]}</td>
           <td>${item["description"] ?? ""}</td>
-          <td>${item["price"]}</td>
-          <td>${item["price"] * item["quantity"]}</td>
+          <td>${currencySymbol(invoiceData["Currency"])}${item["price"]}</td>
+          <td>${currencySymbol(invoiceData["Currency"])}${item["price"] * item["quantity"]}</td>
         </tr>`).join("")}
         <tr>
-          <td colspan="3" style="text-align:right; border: none;">Subtotal</td>
-          <td>${subAmount}</td>
+          <td colspan="4" style="text-align:right; border: none;">Subtotal</td>
+          <td>${currencySymbol(invoiceData["Currency"])}${subAmount}</td>
         </tr>
         <tr>
-          <td colspan="3" style="text-align:right; border: none">GST ${invoiceData["Tax percentage"]}%</td>
-          <td>${taxAmount}</td>
+          <td colspan="4" style="text-align:right; border: none">${invoiceData["Tax Type"]} ${invoiceData["Tax percentage"]}%</td>
+          <td>${currencySymbol(invoiceData["Currency"])}${taxAmount}</td>
         </tr>
         <tr>
-          <td colspan="3" style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
-          <td style="background-color: #f4f4f4; font-weight: bold;">${totalAmount}</td>
+          <td colspan="4" style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
+          <td style="background-color: #f4f4f4; font-weight: bold;">${currencySymbol(invoiceData["Currency"])}${totalAmount}</td>
         </tr>
       </tbody>
     </table>

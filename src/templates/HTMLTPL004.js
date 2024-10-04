@@ -15,6 +15,23 @@ export default function generateHTMLTPL004(invoiceData) {
       const day = `0${d.getDate()}`.slice(-2); // Adding leading zero
       return `${month}-${day}-${year}`;
     };
+
+    const currencySymbol = (currency) => {
+        const currencySymbols = {
+          USD: "$",  // US Dollar
+          EUR: "€",  // Euro
+          GBP: "£",  // British Pound
+          JPY: "¥",  // Japanese Yen
+          AUD: "A$", // Australian Dollar
+          CAD: "C$", // Canadian Dollar
+          INR: "₹",  // Indian Rupee
+          CNY: "¥",  // Chinese Yuan
+        };
+      
+        const symbol = currencySymbols[currency] || 'INR'; // Default to empty if currency not found
+        console.log(symbol, "symbol", currency);
+        return symbol;
+      };
   
     invoiceData["Invoice Issue Date"] = formatDate(invoiceData["Invoice Issue Date"]);
     invoiceData["Invoice Due Date"] = formatDate(invoiceData["Invoice Due Date"]);
@@ -42,10 +59,8 @@ export default function generateHTMLTPL004(invoiceData) {
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            border: 1px solid #ccc;
         }
         h1 {
             font-size: 36px;
@@ -70,14 +85,25 @@ export default function generateHTMLTPL004(invoiceData) {
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-        .product-description th, .product-description td {
+        .product-description th {
             border: 1px solid #000;
             padding: 8px;
-            text-align: left;
+            text-align: center;
+        }
+        .product-description td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: right;
+        }
+        .product-description td:first-child {
+            text-align: center !important;
+        }
+        .product-description td:nth-child(2) {
+            text-align: left !important;
+            width: 300px;
         }
         .product-description th {
-            background-color: #000;
-            color: #fff;
+            background-color: #d9d9d9;
         }
         .totals {
             display: flex;
@@ -114,6 +140,9 @@ export default function generateHTMLTPL004(invoiceData) {
             <p>${invoiceData["Receiver's Contact No"]}</p>
             <p>${invoiceData["Receiver's Address"]},${invoiceData["Receiver's City"]}, ${invoiceData["Receiver's State"]}</p>
             <p>${invoiceData["Receiver's email"]}</p>
+            <p>${invoiceData["Receiver's GST"]}</p>
+            <p>${invoiceData["Receiver's PAN"]}</p>
+
         </div>
         <div class="invoice-info">
             <p><strong>Invoice #</strong>: ${invoiceData["Invoice No."]}</p>
@@ -141,35 +170,29 @@ export default function generateHTMLTPL004(invoiceData) {
                       <td>${item["name"]}</td>
                       <td>${item["description"] ?? ""}</td>
                       <td>${item["quantity"]}</td>
-                      <td>${item["price"]}</td>
-                      <td>${item["price"] * item["quantity"]}</td>
+                      <td>${currencySymbol(invoiceData["Currency"])}${item["price"]}</td>
+                      <td>${currencySymbol(invoiceData["Currency"])}${item["price"] * item["quantity"]}</td>
                   </tr>
               `
                 )
                 .join("")}
+                <tr>
+                    <td colspan="4" style="text-align:right !important; border: none;">Sub Total</td>
+                    <td style="width: auto; text-align:right !important;">${currencySymbol(invoiceData["Currency"])}${subAmount}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:right !important; border: none;">${invoiceData["Tax Type"]} ${invoiceData["Tax percentage"]}%</td>
+                    <td style="width: auto; text-align:right !important;">${currencySymbol(invoiceData["Currency"])}${taxAmount}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:right !important; border: none;"><strong>Total Due</strong></td>
+                    <td style="background-color: #d9d9d9; width: auto; text-align:right !important"><strong>${currencySymbol(invoiceData["Currency"])}${totalAmount}</strong></td>
+                </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="totals">
-        <div></div>
-        <div>
-            <table>
-                <tr>
-                    <td>Sub Total</td>
-                    <td>${subAmount}</td>
-                </tr>
-                <tr>
-                    <td>Tax Vat ${invoiceData["Tax percentage"]}%</td>
-                    <td>${taxAmount}</td>
-                </tr>
-                <tr>
-                    <td><strong>Total Due</strong></td>
-                    <td><strong>${totalAmount}</strong></td>
-                </tr>
-            </table>
-        </div>
-    </div>
+    
 
     <div class="footer">
         <div>
@@ -177,6 +200,8 @@ export default function generateHTMLTPL004(invoiceData) {
             <p>${invoiceData["Sender's Address"]}, ${invoiceData["Sender's City"]}, ${invoiceData["Sender's State"]}</p>
             <p>${invoiceData["Sender's Contact No"]}</p>
             <p>${invoiceData["Sender's Email"]}</p>
+            <p>${invoiceData["Sender's GST"]}</p>
+            <p>${invoiceData["Sender's PAN"]}</p>
         </div>
     </div>
 </body>

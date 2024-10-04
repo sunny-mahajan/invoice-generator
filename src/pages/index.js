@@ -67,8 +67,6 @@ const InvoiceForm = ({ templates }) => {
   const formDataInitialValues = {
     createdAt: formatDateToISO(new Date()),
     dueDate: formatDateToISO(addDays(new Date(), 30)),
-    description: "",
-    paymentTerms: 30,
     clientName: "",
     clientEmail: "",
     status: "draft",
@@ -77,6 +75,8 @@ const InvoiceForm = ({ templates }) => {
       city: "",
       postCode: "",
       country: "",
+      taxType:"GST",
+      taxPercentage: 0,
       gstin: "",
       panCardNo: "",
     },
@@ -85,6 +85,8 @@ const InvoiceForm = ({ templates }) => {
       city: "",
       postCode: "",
       country: "",
+      taxType:"GST",
+      taxPercentage: 0,
       gstin: "",
       panCardNo: "",
     },
@@ -103,7 +105,6 @@ const InvoiceForm = ({ templates }) => {
       ifscCode: "",
       accounHolderName: "",
       bankAccountType: "",
-      currency: "INR",
     },
     total: 0,
     currency: "INR",
@@ -113,6 +114,7 @@ const InvoiceForm = ({ templates }) => {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
+    console.log("evnt", e);
     if (Object.keys(errors).length !== 0) {
       validateForm();
     }
@@ -134,10 +136,21 @@ const InvoiceForm = ({ templates }) => {
         }));
       }
     } else if (e?.name) {
-      setFormData((prev) => ({
-        ...prev,
-        [e?.name]: e?.value,
-      }));
+      if (e?.name.includes(".")) {
+        const [parent, child] = e?.name.split(".");
+        setFormData((prev) => ({
+          ...prev,
+          [parent]: {
+            ...prev[parent],
+            [child]: e?.value,
+          },
+        }));
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          [e?.name]: e?.value,
+        }));
+      }
     }
   };
 
@@ -229,7 +242,7 @@ const InvoiceForm = ({ templates }) => {
     //   newErrors.ClientPancard = "Required field";
     if (!formData.createdAt) newErrors.issueDate = "Required field";
     // if (!formData.dueDate) newErrors.dueDate = "Required field";
-    if (!formData.paymentTerms) newErrors.paymentTerm = "Required field";
+    // if (!formData.paymentTerms) newErrors.paymentTerm = "Required field";
     if(!formData.currency) newErrors.currency = "Required field";
     if (formData.bankDetails.accountNumber && 
       formData.bankDetails.accountNumber !== formData.bankDetails.confirmAccountNumber) {
@@ -667,7 +680,66 @@ const InvoiceForm = ({ templates }) => {
                       )}
                     </div>
                   </div>
+ <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
 
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                     <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                    <FormCustomDropdown
+                      name="senderAddress.taxType"
+                      title="Tax Type"
+                      label={formData.senderAddress.taxType}
+                      onSelect={handleChange}
+                      style={styles.input}
+                      options={[
+                        { label: "Sales Tax", value: "Sales Tax" }, // USA
+                        { label: "VAT", value: "VAT" }, // Europe, UK, China
+                        { label: "Consumption Tax", value: "Consumption Tax" }, // Japan
+                        { label: "GST", value: "GST" }, // Australia, India
+                        { label: "GST/HST", value: "GST/HST" }, // Canada
+                      ]}
+                    />
+                    </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="senderAddress.taxPercentage"
+                        title="Tax Percentage"
+                        value={formData.senderAddress.taxPercentage}
+                        onChange={handleChange}
+                        style={styles.input}
+                      />
+                      {/* {errors?.SenderPancard && (
+                        <p style={styles.error}>{errors.SenderPancard}</p>
+                      )} */}
+                    </div>
+                  </div>
                   <div
                     style={{
                       display: "flex",
@@ -689,33 +761,36 @@ const InvoiceForm = ({ templates }) => {
                         value={formData.senderAddress.gstin}
                         onChange={handleChange}
                         style={styles.input}
-                        title="GSTIN"
+                        title={formData.senderAddress.taxType + " Number"}
                       />
 
                       {errors?.senderGstin && (
                         <p style={styles.error}>{errors.senderGstin}</p>
                       )}
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
+                    { formData.senderAddress.taxType === "GST" && (
+                      <div
+                        style={{
+                          display: "flex",
 
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomInput
-                        type="text"
-                        name="senderAddress.panCardNo"
-                        title="PAN"
-                        value={formData.senderAddress.panCardNo}
-                        onChange={handleChange}
-                        style={styles.input}
-                      />
-                      {errors?.SenderPancard && (
-                        <p style={styles.error}>{errors.SenderPancard}</p>
-                      )}
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="senderAddress.panCardNo"
+                          title="PAN"
+                          value={formData.senderAddress.panCardNo}
+                          onChange={handleChange}
+                          style={styles.input}
+                        />
+                        {errors?.SenderPancard && (
+                          <p style={styles.error}>{errors.SenderPancard}</p>
+                        )}
                     </div>
+                    )}
+
                   </div>
                 </div>
 
@@ -952,18 +1027,35 @@ const InvoiceForm = ({ templates }) => {
                         flexDirection: "column",
                       }}
                     >
-                      <CustomInput
+                      {/* <CustomInput
                         type="text"
                         name="clientAddress.gstin"
                         value={formData.clientAddress.gstin}
                         onChange={handleChange}
                         style={styles.input}
-                        title="GSTIN"
+                        title="Tax Type"
                       />
 
                       {errors?.ClientGstin && (
                         <p style={styles.error}>{errors.ClientGstin}</p>
-                      )}
+                      )} */}
+                      <FormCustomDropdown
+                      name="clientAddress.taxType"
+                      title="Tax Type"
+                      label={formData.clientAddress.taxType}
+                      onSelect={handleChange}
+                      style={styles.input}
+                      options={[
+                        { label: "Sales Tax", value: "Sales Tax" }, // USA
+                        { label: "VAT", value: "VAT" }, // Europe, UK, China
+                        { label: "Consumption Tax", value: "Consumption Tax" }, // Japan
+                        { label: "GST", value: "GST" }, // Australia, India
+                        { label: "GST/HST", value: "GST/HST" }, // Canada
+                      ]}
+                    />
+                    {/* {errors?.clientTaxType && (
+                      <p style={styles.error}>{errors.clientTaxType}</p>
+                    )} */}
                     </div>
                     <div
                       style={{
@@ -975,8 +1067,58 @@ const InvoiceForm = ({ templates }) => {
                     >
                       <CustomInput
                         type="text"
+                        name="clientAddress.taxPercentage"
+                        title="Tax Percentage"
+                        value={formData.clientAddress.taxPercentage}
+                        onChange={handleChange}
+                        style={styles.input}
+                      />
+                      {/* {errors?.clientTaxPercentage && (
+                        <p style={styles.error}>{errors.clientTaxPercentage}</p>
+                      )} */}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
+                        name="clientAddress.gstin"
+                        value={formData.clientAddress.gstin}
+                        onChange={handleChange}
+                        style={styles.input}
+                        title={formData.clientAddress.taxType + " Number"}
+                      />
+
+                      {errors?.ClientGstin && (
+                        <p style={styles.error}>{errors.ClientGstin}</p>
+                      )}
+                    </div>
+                    { formData.clientAddress.taxType === "GST" && 
+                      <div
+                      style={{
+                        display: "flex",
+
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <CustomInput
+                        type="text"
                         name="clientAddress.panCardNo"
-                        title="PAN"
+                        title="PAN Card Number"
                         value={formData.clientAddress.panCardNo}
                         onChange={handleChange}
                         style={styles.input}
@@ -985,7 +1127,10 @@ const InvoiceForm = ({ templates }) => {
                         <p style={styles.error}>{errors.ClientPancard}</p>
                       )}
                     </div>
+                    }
+                   
                   </div>
+                  
                 </div>
               </div>
               <div style={styles.section}>

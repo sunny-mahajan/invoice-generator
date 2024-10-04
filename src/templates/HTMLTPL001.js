@@ -16,8 +16,27 @@ export default function generateHTMLTPL001(invoiceData) {
     return `${month}-${day}-${year}`;
   };
 
-  invoiceData['Invoice Issue Date'] = formatDate(invoiceData['Invoice Issue Date']);
-  invoiceData['Invoice Due Date'] = formatDate(invoiceData['Invoice Due Date']);
+  const currencySymbol = (currency) => {
+    const currencySymbols = {
+      USD: "$", // US Dollar
+      EUR: "€", // Euro
+      GBP: "£", // British Pound
+      JPY: "¥", // Japanese Yen
+      AUD: "A$", // Australian Dollar
+      CAD: "C$", // Canadian Dollar
+      INR: "₹", // Indian Rupee
+      CNY: "¥", // Chinese Yuan
+    };
+
+    const symbol = currencySymbols[currency] || "INR"; // Default to empty if currency not found
+    console.log(symbol, "symbol", currency);
+    return symbol;
+  };
+
+  invoiceData["Invoice Issue Date"] = formatDate(
+    invoiceData["Invoice Issue Date"]
+  );
+  invoiceData["Invoice Due Date"] = formatDate(invoiceData["Invoice Due Date"]);
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = parseFloat(invoiceData["Tax percentage"]) || 0;
@@ -27,10 +46,12 @@ export default function generateHTMLTPL001(invoiceData) {
   // Calculate the total amount
   const totalAmount = subAmount + taxAmount;
 
-  const remarksUI = invoiceData["Remarks"] ? `<div class="sec6-container">
+  const remarksUI = invoiceData["Remarks"]
+    ? `<div class="sec6-container">
             <p>Notes:</p>
             <p>${invoiceData["Remarks"]}</p>
-        </div>` : "";
+        </div>`
+    : "";
 
   return `
     <!DOCTYPE html>
@@ -79,25 +100,48 @@ export default function generateHTMLTPL001(invoiceData) {
             margin-bottom: 40px;
             box-sizing: border-box;
         }
-        .sec4-container {
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            .sub-sec4-container{
-                width: 100%;
-                min-width: 400px;
-                .sub-sec4-header {
-                    display: flex;
-                    justify-content: space-between;
-                }
-                .sub-sec4-item {
-                    display: flex;
-                    justify-content: space-between;
-                }
-            }
-        }
+             .sec4-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+      }
+      .sub-sec4-container {
+        width: 100%;
+      }
+      .sub-sec4-header,
+      .sub-sec4-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+      }
+      .sub-sec4-header h2,
+      .sub-sec4-item p {
+        width: 18%;
+        text-align: left;
+        margin: 0;
+        padding: 5px 0;
+        box-sizing: border-box;
+      }
+      .sub-sec4-header h2:nth-child(2),
+      .sub-sec4-item p:nth-child(2) {
+        width: 30%;
+        max-width: 30%;
+        word-wrap: break-word;
+      }
+        .sub-sec4-header h2:nth-child(3),
+      .sub-sec4-item p:nth-child(3) {
+        text-align: center;
+      }
+      .sub-sec4-header h2:nth-child(4),
+      .sub-sec4-header h2:nth-child(5),
+      .sub-sec4-item p:nth-child(4),
+      .sub-sec4-item p:nth-child(5) {
+        text-align: right;
+      }
+        
         .sec5-container {
             display: flex;
             width: 100%;
@@ -106,8 +150,12 @@ export default function generateHTMLTPL001(invoiceData) {
             box-sizing: border-box;
             .sub-sec5-container {
                 display: flex;
+                flex-direction: column;
                 align-items: center;
-                gap: 60px;
+                gap: 10px;
+                .sub-sec5-item{
+                    display: flex;
+                    align-items: center;}
                 .sub-sec5-title {
                     margin: 0;
                     width: 110px;
@@ -156,27 +204,35 @@ export default function generateHTMLTPL001(invoiceData) {
             <div>
                 <h2>From</h2>
                 <p>${invoiceData["Sender's Name"]}</p>
-                <p>${invoiceData["Sender's Address"]}, ${invoiceData["Sender's City"]}</p>
+                <p>${invoiceData["Sender's Address"]}, ${
+    invoiceData["Sender's City"]
+  }</p>
                 <p>${invoiceData["Sender's State"]}</p>
                 <p>${invoiceData["Sender's Contact No"]}</p>
                 <p>${invoiceData["Sender's Email"]}</p>
+                <p>${invoiceData["Sender's GST"]}</p>
+                <p>${invoiceData["Sender's PAN"]}</p>
             </div>
             <div>
                 <h2>To</h2>
                 <p>${invoiceData["Receiver's Name"]}</p>
-                <p>${invoiceData["Receiver's Address"]}, ${invoiceData["Receiver's City"]}</p>
+                <p>${invoiceData["Receiver's Address"]}, ${
+    invoiceData["Receiver's City"]
+  }</p>
                 <p>${invoiceData["Receiver's State"]}</p>
                 <p>${invoiceData["Receiver's Contact No"]}</p>
                 <p>${invoiceData["Receiver's email"]}</p>
+                <p>${invoiceData["Receiver's GST"]}</p>
+                <p>${invoiceData["Receiver's PAN"]}</p>
             </div>
         </div>
         <div class="sec4-container">
             <div class="sub-sec4-container">
                  <div class="sub-sec4-header">
                     <h2>Item Name</h2>
-                    <h2>Item Description</h2>
-                    <h2>Item Quantity</h2>
-                    <h2>Item Price</h2>
+                    <h2>Description</h2>
+                    <h2>Qty</h2>
+                    <h2>Price</h2>
                     <h2>Total</h2>
                 </div>
                 ${invoiceData["Items"]
@@ -186,8 +242,8 @@ export default function generateHTMLTPL001(invoiceData) {
                         <p>${item["name"]}</p>
                         <p>${item["description"] ?? ""}</p>
                         <p>${item["quantity"]}</p>
-                        <p>${item["price"]}</p>
-                        <td>${item["price"] * item["quantity"]}</td>
+                        <p>${currencySymbol(invoiceData["Currency"])}${item["price"]}</p>
+                        <p>${currencySymbol(invoiceData["Currency"])}${item["price"] * item["quantity"]}</p>
                     </div>
                 `
                   )
@@ -198,7 +254,22 @@ export default function generateHTMLTPL001(invoiceData) {
         <div class="sec5-container">
             <div>
                 <div class="sub-sec5-container">
-                    <h2 class="sub-sec5-title">Total</h2><span>${totalAmount}</span>
+                    <div class="sub-sec5-item">
+                        <p class="sub-sec5-title">Subtotal</p><span>${currencySymbol(
+                        invoiceData["Currency"]
+                        )}${subAmount}</span>
+                    </div>
+                    <div class="sub-sec5-item">
+                        <p class="sub-sec5-title">${invoiceData["Tax Type"]} ${invoiceData["Tax percentage"]}%</p><span>${currencySymbol(
+                        invoiceData["Currency"]
+                        )}${taxAmount}</span>
+                    </div>
+                     <div class="sub-sec5-item">
+                        <h2 class="sub-sec5-title">Total</h2><span>${currencySymbol(
+                        invoiceData["Currency"]
+                        )}${totalAmount}</span>
+                     </div>
+                   
                 </div>
             </div>
         </div>

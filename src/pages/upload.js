@@ -37,16 +37,17 @@ export default function UploadCSV() {
   };
 
   const processInvoices = (data) => {
+    console.log("Invoices--------------:", data);
     const invoicesMap = new Map();
     let lastInvoiceNo = "";
 
     data.forEach((row) => {
       const invoiceNo = row["Invoice No."];
       const item = {
-        "name": row["Item name"],
-        "description": row["Item description"],
-        "quantity": row["Item quantity"],
-        "price": row["Item price"],
+        "name": row["Item Name"],
+        "description": row["Item Description"],
+        "quantity": row["Item Quantity"],
+        "price": row["Item Price"],
       };
 
       // New invoice no
@@ -55,28 +56,38 @@ export default function UploadCSV() {
           "Invoice No.": invoiceNo,
           "Template Id": row['Template Id'],
           "Invoice Issue Date": row["Invoice Issue Date"],
-          "Invoice Due Date": row["Invoice Due Date"],
-          "Sender's Company Name": row["Sender's Company Name"],
+          "Invoice Due Date": row["Invoice Due Date"],     
           "Sender's Name": row["Sender's Name"],
           "Sender's Address": row["Sender's Address"],
           "Sender's City": row["Sender's City"],
           "Sender's State": row["Sender's State"],
+          "Sender's Country": row["Sender's Country"],
           "Sender's Zipcode": row["Sender's Zipcode"],
           "Sender's Contact No": row["Sender's Contact No"],
           "Sender's Email": row["Sender's Email"],
           "Sender's Bank": row["Sender's Bank"],
           "Sender's Account no": row["Sender's Account no"],
-          "Receiver's Company Name": row["Receiver's Company Name"],
+          "Sender's Account Holder Name": row["Sender's Account Holder Name"],
+          "Sender's IFSC Code": row["Sender's IFSC Code"],
+          "Sender's Account Type": row["Sender's Account Type"],
+          "Tax Type": row["Sender's Tax Type"],
+          "Tax percentage": row["Sender's Tax Percentage"],
+          "Sender's GST": row["Sender's GST"],
+          "Sender's PAN": row["Sender's PAN"],
           "Receiver's Name": row["Receiver's Name"],
           "Receiver's Address": row["Receiver's Address"],
           "Receiver's City": row["Receiver's City"],
           "Receiver's State": row["Receiver's State"],
+          "Receiver's Country": row["Receiver's Country"],
           "Receiver's Zipcode": row["Receiver's Zipcode"],
           "Receiver's Contact No": row["Receiver's Contact No"],
-          "Receiver's email": row["Receiver's email"],
-          "Tax percentage": row["Tax percentage"],
-          "Tax name": row["Tax name"],
+          "Receiver's email": row["Receiver's Email"],
+          "Receiver's Tax Type": row["Receiver's Tax Type"],
+          "Receiver's Tax Percentage": row["Receiver's Tax Percentage"],
+          "Receiver's GST": row["Receiver's GST"],
+          "Receiver's PAN": row["Receiver's PAN"],
           Remarks: row["Remarks"],
+          Currency: row["Currency"],
           Items: [item],
         });
       } else {
