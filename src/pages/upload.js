@@ -37,7 +37,6 @@ export default function UploadCSV() {
   };
 
   const processInvoices = (data) => {
-    console.log("Invoices--------------:", data);
     const invoicesMap = new Map();
     let lastInvoiceNo = "";
 

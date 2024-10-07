@@ -29,9 +29,14 @@ export default function generateHTMLTPL001(invoiceData) {
     };
 
     const symbol = currencySymbols[currency] || "INR"; // Default to empty if currency not found
-    console.log(symbol, "symbol", currency);
     return symbol;
   };
+  const bankDetailsAvailable =
+  invoiceData["Sender's Bank"] ||
+  invoiceData["Sender's Account no"] ||
+  invoiceData["Sender's Account Holder Name"] ||
+  invoiceData["Sender's IFSC Code"] ||
+  invoiceData["Sender's Account Type"];
 
   invoiceData["Invoice Issue Date"] = formatDate(
     invoiceData["Invoice Issue Date"]
@@ -90,14 +95,14 @@ export default function generateHTMLTPL001(invoiceData) {
         .sec2-container {
             text-align: center;
             width: 100%;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             box-sizing: border-box;
         }
         .sec3-container {
             display: flex;
             justify-content: space-between;
             width: 100%;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             box-sizing: border-box;
         }
              .sec4-container {
@@ -146,15 +151,15 @@ export default function generateHTMLTPL001(invoiceData) {
             display: flex;
             width: 100%;
             justify-content: flex-end;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             box-sizing: border-box;
             .sub-sec5-container {
                 display: flex;
                 flex-direction: column;
-                align-items: center;
                 gap: 10px;
                 .sub-sec5-item{
                     display: flex;
+                    justify-content: space-between;
                     align-items: center;}
                 .sub-sec5-title {
                     margin: 0;
@@ -164,16 +169,20 @@ export default function generateHTMLTPL001(invoiceData) {
         }
         .sec6-container {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             box-sizing: border-box;
+            text-align: right;
         }
         .sec7-container {
-            width: 100%;
-            background-color: rgb(240, 80, 80);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
+            .sub-sec7-container {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              margin-bottom: 7px;
+              .sub-sec7-title {
+                width: 130px;
+              }
+            }
         }
         .main-container-cls {
             margin: 0 auto;
@@ -204,10 +213,8 @@ export default function generateHTMLTPL001(invoiceData) {
             <div>
                 <h2>From</h2>
                 <p>${invoiceData["Sender's Name"]}</p>
-                <p>${invoiceData["Sender's Address"]}, ${
-    invoiceData["Sender's City"]
-  }</p>
-                <p>${invoiceData["Sender's State"]}</p>
+                <p>${invoiceData["Sender's Zipcode"]},${invoiceData["Sender's Address"]}, ${invoiceData["Sender's City"]}</p>
+                <p>${invoiceData["Sender's State"]}, ${invoiceData["Sender's Country"]}</p>
                 <p>${invoiceData["Sender's Contact No"]}</p>
                 <p>${invoiceData["Sender's Email"]}</p>
                 <p>${invoiceData["Sender's GST"]}</p>
@@ -216,10 +223,8 @@ export default function generateHTMLTPL001(invoiceData) {
             <div>
                 <h2>To</h2>
                 <p>${invoiceData["Receiver's Name"]}</p>
-                <p>${invoiceData["Receiver's Address"]}, ${
-    invoiceData["Receiver's City"]
-  }</p>
-                <p>${invoiceData["Receiver's State"]}</p>
+                <p>${invoiceData["Receiver's Zipcode"]},${invoiceData["Receiver's Address"]},${invoiceData["Receiver's City"]}</p>
+                <p>${invoiceData["Receiver's State"]}, ${invoiceData["Receiver's Country"]}</p>
                 <p>${invoiceData["Receiver's Contact No"]}</p>
                 <p>${invoiceData["Receiver's email"]}</p>
                 <p>${invoiceData["Receiver's GST"]}</p>
@@ -254,7 +259,8 @@ export default function generateHTMLTPL001(invoiceData) {
         <div class="sec5-container">
             <div>
                 <div class="sub-sec5-container">
-                    <div class="sub-sec5-item">
+                 ${invoiceData["Tax percentage"] > 0 ? `
+                  <div class="sub-sec5-item">
                         <p class="sub-sec5-title">Subtotal</p><span>${currencySymbol(
                         invoiceData["Currency"]
                         )}${subAmount}</span>
@@ -263,17 +269,40 @@ export default function generateHTMLTPL001(invoiceData) {
                         <p class="sub-sec5-title">${invoiceData["Tax Type"]} ${invoiceData["Tax percentage"]}%</p><span>${currencySymbol(
                         invoiceData["Currency"]
                         )}${taxAmount}</span>
-                    </div>
+                    </div>` : ''}
+                    
                      <div class="sub-sec5-item">
                         <h2 class="sub-sec5-title">Total</h2><span>${currencySymbol(
                         invoiceData["Currency"]
                         )}${totalAmount}</span>
                      </div>
-                   
                 </div>
             </div>
         </div>
-        ${remarksUI}
+        ${bankDetailsAvailable ? `<div class="sec7-container">
+          <h2>Bank Details</h2>
+          ${invoiceData["Sender's Bank"] ? `
+          <div class="sub-sec7-container">
+              <span class="sub-sec7-title">Bank Name:</span><span>${invoiceData["Sender's Bank"]}</span>
+          </div>` : ""}
+          ${invoiceData["Sender's Account no"] ? `
+          <div class="sub-sec7-container">
+              <span class="sub-sec7-title">A/c No:</span><span>${invoiceData["Sender's Account no"]}</span>
+          </div>` : ""}
+          ${invoiceData["Sender's Account Holder Name"] ? `
+          <div class="sub-sec7-container">
+              <span class="sub-sec7-title">A/c Holder Name:</span><span>${invoiceData["Sender's Account Holder Name"]}</span>
+          </div>` : ""}
+          ${invoiceData["Sender's IFSC Code"] ? `
+          <div class="sub-sec7-container">
+              <span class="sub-sec7-title">IFSC Code:</span><span>${invoiceData["Sender's IFSC Code"]}</span>
+          </div>` : ""}
+          ${invoiceData["Sender's Account Type"] ? `
+          <div class="sub-sec7-container">
+              <span class="sub-sec7-title">A/c Type:</span><span>${invoiceData["Sender's Account Type"]}</span>
+          </div>` : ""}
+      </div>` : ""}
+      ${remarksUI}
     </div>
 </body>
 </html>

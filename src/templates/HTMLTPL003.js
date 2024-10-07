@@ -1,5 +1,4 @@
 export default function generateHTMLTPL003(invoiceData) {
-  console.log(invoiceData, "invoiceData");
   // Initialize the sub-amount
   let subAmount = 0;
 
@@ -30,7 +29,6 @@ export default function generateHTMLTPL003(invoiceData) {
     };
   
     const symbol = currencySymbols[currency] || 'INR'; // Default to empty if currency not found
-    console.log(symbol, "symbol", currency);
     return symbol;
   };
   
@@ -51,6 +49,13 @@ export default function generateHTMLTPL003(invoiceData) {
             <p>${invoiceData["Remarks"]}</p>
         </div>` : "";
 
+  const bankDetailsAvailable =
+    invoiceData["Sender's Bank"] ||
+    invoiceData["Sender's Account no"] ||
+    invoiceData["Sender's Account Holder Name"] ||
+    invoiceData["Sender's IFSC Code"] ||
+    invoiceData["Sender's Account Type"];
+
   return `
     <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +70,7 @@ export default function generateHTMLTPL003(invoiceData) {
       padding: 0;
     }
     .container {
-    margin-top: 20px;
+      margin-top: 20px;
       padding: 20px;
       border-top: #007BFF solid 20px;
     }
@@ -97,6 +102,9 @@ export default function generateHTMLTPL003(invoiceData) {
       p {
         margin: 8px 0;
       }
+      .bill, .ship {
+        max-width: 200px;
+      }
     }
     h2 {
       font-size: 18px;
@@ -121,7 +129,7 @@ export default function generateHTMLTPL003(invoiceData) {
         width: 300px;
     }
     .total-section {
-      margin: 40px 0;
+      margin: 30px 0;
     }
     .total-details {
       border-top: 2px solid;
@@ -129,8 +137,20 @@ export default function generateHTMLTPL003(invoiceData) {
       display: flex;
       justify-content: space-between;
     }
+    .bank-details-container {
+      .sub-bank-details-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 7px;
+        .sub-bank-details-title {
+          width: 130px;
+        }
+      }
+    }
     .footer {
-      margin-top: 50px;
+      margin-top: 25px;
+      text-align: right;
     }
   </style>
 </head>
@@ -146,7 +166,7 @@ export default function generateHTMLTPL003(invoiceData) {
       <div class="bill">
         <h2>BILL TO</h2>
         <p>${invoiceData["Sender's Name"]}</p>
-        <p>${invoiceData["Sender's Address"]},${invoiceData["Sender's City"]}, ${invoiceData["Sender's State"]}</p>
+        <p>${invoiceData["Sender's Zipcode"]},${invoiceData["Sender's Address"]},${invoiceData["Sender's City"]}, ${invoiceData["Sender's State"]}, ${invoiceData["Sender's Country"]}</p>
         <p>${invoiceData["Sender's Email"]}</p>
         <p>${invoiceData["Sender's GST"]}</p>
         <p>${invoiceData["Sender's PAN"]}</p>
@@ -154,7 +174,7 @@ export default function generateHTMLTPL003(invoiceData) {
       <div class="ship">
         <h2>SHIP TO</h2>
         <p>${invoiceData["Receiver's Name"]}</p>
-        <p>${invoiceData["Receiver's Address"]},${invoiceData["Receiver's City"]}, ${invoiceData["Receiver's State"]}</p>
+        <p>${invoiceData["Receiver's Zipcode"]},${invoiceData["Receiver's Address"]},${invoiceData["Receiver's City"]}, ${invoiceData["Receiver's State"]}, ${invoiceData["Receiver's Country"]}</p>
         <p>${invoiceData["Receiver's email"]}</p>
         <p>${invoiceData["Receiver's GST"]}</p>
         <p>${invoiceData["Receiver's PAN"]}</p>
@@ -199,16 +219,41 @@ export default function generateHTMLTPL003(invoiceData) {
           <td>${currencySymbol(invoiceData["Currency"])}${item["price"]}</td>
           <td>${currencySymbol(invoiceData["Currency"])}${item["price"] * item["quantity"]}</td>
         </tr>`).join("")}
-        <tr>
+         ${invoiceData["Tax percentage"] > 0 ? `
+          <tr>
           <td colspan="4" style="text-align:right; padding-top: 30px;">Subtotal</td>
           <td style="padding-top: 30px;text-align:right; width: auto">${currencySymbol(invoiceData["Currency"])}${subAmount}</td>
         </tr>
         <tr>
           <td colspan="4" style="text-align:right;">${invoiceData["Tax Type"]} ${invoiceData["Tax percentage"]}%</td>
           <td style="text-align:right; width: auto">${currencySymbol(invoiceData["Currency"])}${taxAmount}</td>
-        </tr>
+        </tr>` : ''}
+        
       </tbody>
     </table>
+    ${bankDetailsAvailable ? `<div class="bank-details-container">
+      <h2>Bank Details</h2>
+      ${invoiceData["Sender's Bank"] ? `
+      <div class="sub-bank-details-container">
+          <span class="sub-bank-details-title">Bank Name:</span><span>${invoiceData["Sender's Bank"]}</span>
+      </div>` : ""}
+      ${invoiceData["Sender's Account no"] ? `
+      <div class="sub-bank-details-container">
+          <span class="sub-bank-details-title">A/c No:</span><span>${invoiceData["Sender's Account no"]}</span>
+      </div>` : ""}
+      ${invoiceData["Sender's Account Holder Name"] ? `
+      <div class="sub-bank-details-container">
+          <span class="sub-bank-details-title">A/c Holder Name:</span><span>${invoiceData["Sender's Account Holder Name"]}</span>
+      </div>` : ""}
+      ${invoiceData["Sender's IFSC Code"] ? `
+      <div class="sub-bank-details-container">
+          <span class="sub-bank-details-title">IFSC Code:</span><span>${invoiceData["Sender's IFSC Code"]}</span>
+      </div>` : ""}
+      ${invoiceData["Sender's Account Type"] ? `
+      <div class="sub-bank-details-container">
+          <span class="sub-bank-details-title">A/c Type:</span><span>${invoiceData["Sender's Account Type"]}</span>
+      </div>` : ""}
+  </div>` : ""}
 
     ${remarksUI}
   </div>
