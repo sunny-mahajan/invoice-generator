@@ -887,7 +887,7 @@ const InvoiceForm = ({ templates }) => {
                         type="text"
                         name="clientEmail"
                         title="Client's Email"
-                        placeholder="e.g.email@example.com"
+                        // placeholder="e.g.email@example.com"
                         value={formData.clientEmail}
                         onChange={handleChange}
                         style={styles.input}
