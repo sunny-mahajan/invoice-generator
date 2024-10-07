@@ -1,9 +1,9 @@
-Template Id,Invoice No.,Invoice Issue Date,Invoice Due Date,Sender's Company Name,Sender's Name,Sender's Address,Sender's City,Sender's State,Sender's Zipcode,Sender's Contact No,Sender's Email,Sender's Bank,Sender's Account no,Receiver's Company Name,Receiver's Name,Receiver's Address,Receiver's City,Receiver's State,Receiver's Zipcode,Receiver's Contact No,Receiver's email,Remarks,Item name,Item quantity,Item price,Item description,Tax name,Tax percentage
-TPL001,INV-1,8/27/2024,8/30/2024,ABC Corp,John Doe,123 Elm St,New York,NY,10001,1234567890,john.doe@abccorp.com,Bank of America,12345678,XYZ LLC,Jane Smith,456 Oak St,Los Angeles,CA,90001,9876543210,jane.smith@xyzllc.com,Thank you for your business.,Product A,2,100,High-quality widget,Sales Tax,8
-,,,,,,,,,,,,,,,,,,,,,,,Product B,5,200,Custom-built device,,
-,,,,,,,,,,,,,,,,,,,,,,,Product C,7,150,Standard tool kit,,
-,,,,,,,,,,,,,,,,,,,,,,,Product D,5,120,Advanced measuring equipment,,
-TPL004,INV-2,8/28/2024,8/31/2024,Tech Solutions,Michael Brown,789 Pine St,Chicago,IL,60601,9876543212,michael.brown@techsolutions.com,Chase Bank,87654321,Innovate Inc,Sarah Johnson,321 Maple St,Houston,TX,77001,6549873210,sarah.johnson@innovateinc.com,Please pay by the due date.,Service A,6,500,IT consulting services,Sales Tax,8
-,,,,,,,,,,,,,,,,,,,,,,,Service B,3,400,Cloud setup and configuration,,
-,,,,,,,,,,,,,,,,,,,,,,,Service C,1,900,Custom software development,,
-,,,,,,,,,,,,,,,,,,,,,,,Service D,2,750,Data migration services,,
+Template Id,Invoice No.,Invoice Issue Date,Invoice Due Date,Sender's Name,Sender's Address,Sender's City,Sender's State,Sender's Zipcode,Sender's Country,Sender's Contact No,Sender's Email,Sender's Bank,Sender's Account Holder Name,Sender's Account no,Sender's IFSC Code,Sender's Account Type,Sender's GST,Sender's PAN,Receiver's Name,Receiver's Address,Receiver's City,Receiver's State,Receiver's Zipcode,Receiver's Country,Receiver's Contact No,Receiver's Email,Receiver's GST,Receiver's PAN,Remarks,Item Name,Item Quantity,Item Price,Item Description,Currency,Sender's Tax Type,Sender's Tax Percentage,Receiver's Tax Type,Receiver's Tax Percentage
+TPL001,INV-1,8/27/2024,8/30/2024,John Doe,123 Elm St,New York,NY,10001,USA,1234567890,john.doe@abccorp.com,Bank of America,John Doe,12345678,BOFAUS3N,Checking,ABCGST1234,ABCPAN1234,Jane Smith,456 Oak St,Los Angeles,CA,90001,USA,9876543210,jane.smith@xyzllc.com,XYZGST5678,XYZPAN5678,Thank you for your business.,Product A,2,100,High-quality widget1,INR,GST,18,GST,12
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Product B,3,300,High-quality widget2,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Product C,3,399,High-quality widget3,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Product D,4,19,High-quality widget4,,  ,,,
+TPL003,INV-2,8/28/2024,8/31/2024,Michael Brown,789 Pine St,Chicago,IL,60601,USA,9876543212,michael.brown@techsolutions.com,Chase Bank,Michael Brown,87654321,CHASUS33,Checking,TECHGST9101,TECHPAN9101,Sarah Johnson,321 Maple St,Houston,TX,77001,USA,6549873210,sarah.johnson@innovateinc.com,INNGST2345,INNPAN2345,Please pay by the due date.,Service A,6,500,IT consulting services1,USD,VAT,10,VAT,15
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service B,3,400,IT consulting services2,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service C,3,44,IT consulting services3,,  ,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service D,2,66,IT consulting services4,,  ,,,
