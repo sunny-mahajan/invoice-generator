@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const InvoiceTemplates = ({
   handleSelectTemplates = () => {},
@@ -6,8 +9,6 @@ const InvoiceTemplates = ({
 }) => {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [invoiceTemplates, setTemplates] = useState([]);
-  const [visibleIndex, setVisibleIndex] = useState(0);
-  const templatesToShow = 5; // Number of templates to show at once
 
   useEffect(() => {
     fetchTemplates();
@@ -32,16 +33,37 @@ const InvoiceTemplates = ({
     }
   };
 
-  const nextTemplates = () => {
-    if (visibleIndex + templatesToShow < invoiceTemplates.length) {
-      setVisibleIndex((prev) => prev + 1);
-    }
-  };
-
-  const prevTemplates = () => {
-    if (visibleIndex > 0) {
-      setVisibleIndex((prev) => prev - 1);
-    }
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 300,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   const styles = {
@@ -49,8 +71,8 @@ const InvoiceTemplates = ({
       padding: "20px 0px",
     },
     "template-preview-image": {
-      height: "200px", // Set fixed height
-      width: "100%", // Set width to fill the container
+      height: "200px",
+      width: "100%",
     },
   };
 
@@ -60,62 +82,44 @@ const InvoiceTemplates = ({
         {selectable ? "Select Template" : "Templates"}
       </h2>
 
-      <div className="flex items-center">
-        <button
-          onClick={prevTemplates}
-          disabled={visibleIndex === 0}
-          className="mr-2 p-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
-        >
-          &lt;
-        </button>
-
-        <div className="overflow-x-auto flex space-x-4 pb-4 w-100">
-          {invoiceTemplates
-            .slice(visibleIndex, visibleIndex + templatesToShow)
-            .map((invoiceTemplate) => (
-              <div
-                key={invoiceTemplate.id}
-                className="template-tile w-1/4 p-2 flex items-center flex-col cursor-pointer"
-                onClick={() => selectTemplate(invoiceTemplate.id)}
-              >
-                <div
-                  className={`template-content flex items-center flex-col ${
-                    selectedTemplateId === invoiceTemplate.id && selectable
-                      ? "selected-invoice-template"
-                      : ""
-                  }`}
-                >
-                  <div className="template-preview-image-container w-full h-48 overflow-hidden">
-                    <img
-                      className="template-preview-image object-cover h-full w-full"
-                      src={invoiceTemplate.previewUrl}
-                      alt={invoiceTemplate.name}
-                    />
-                  </div>
-                  <div className="template-name">
-                    {selectable ? (
-                      <span>{invoiceTemplate.name}</span>
-                    ) : (
-                      <span style={{ fontSize: "12px" }}>
-                        Template Id: {invoiceTemplate.id}
-                      </span>
-                    )}
-                  </div>
-                </div>
+      <Slider {...settings}>
+        {invoiceTemplates.map((invoiceTemplate) => (
+          <div
+            key={invoiceTemplate.id}
+            className="template-tile w-1/4 p-2 flex items-center flex-col cursor-pointer"
+            onClick={() => selectTemplate(invoiceTemplate.id)}
+          >
+            <div
+              className={`template-content flex items-center flex-col ${
+                selectedTemplateId === invoiceTemplate.id && selectable
+                  ? "selected-invoice-template"
+                  : ""
+              }`}
+            >
+              <div className="template-preview-image-container w-full h-48 overflow-hidden">
+                <img
+                  className="template-preview-image h-full w-full"
+                  src={invoiceTemplate.previewUrl}
+                  alt={invoiceTemplate.name}
+                />
               </div>
-            ))}
-        </div>
-
-        <button
-          onClick={nextTemplates}
-          disabled={visibleIndex + templatesToShow >= invoiceTemplates.length}
-          className="ml-2 p-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
-        >
-          &gt;
-        </button>
-      </div>
+              <div className="template-name">
+                {selectable ? (
+                  <span>{invoiceTemplate.name}</span>
+                ) : (
+                  <span style={{ fontSize: "12px" }}>
+                    Template Id: {invoiceTemplate.id}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </Slider>
     </div>
   );
 };
 
 export default InvoiceTemplates;
+
+
