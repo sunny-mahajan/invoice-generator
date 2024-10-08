@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import useClickOutside from '../hooks/useClickOutside';
+import useClickOutside from "../hooks/useClickOutside";
 import CustomButton from "./Button";
 import "../styles/globals.css";
 import { signOut } from "next-auth/react";
-import { useSession } from 'next-auth/react';
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { logOutIcon } from "../utils/icons";
 
@@ -25,18 +25,18 @@ const Header = () => {
       top: avatarRect.bottom,
     });
     setIsMenuOpen(!isMenuOpen);
-  }
-  useEffect(() => { 
+  };
+  useEffect(() => {
     setActiveUpload(router.pathname === "/upload" ? "bulk" : "single");
   }, [router]);
   const fetchImage = async () => {
     if (session?.user?.image) {
       const response = await fetch(session.user.image);
-      if(response.ok){
+      if (response.ok) {
         setGoogleProfileImage(true);
       }
     }
-  }
+  };
   useEffect(() => {
     fetchImage();
   }, []);
@@ -48,7 +48,7 @@ const Header = () => {
     if (type === "bulk") {
       router.push("/upload");
     } else {
-      router.push("/");  
+      router.push("/");
     }
   };
 
@@ -56,12 +56,13 @@ const Header = () => {
     signOut();
     setIsMenuOpen(false);
   };
-  
+
   return (
-    <header
-      className="sidebar d-flex justify-content-between sticky top-0"
-    >
-      <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap" rel="stylesheet"></link>
+    <header className="sidebar d-flex justify-content-between sticky top-0">
+      <link
+        href="https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap"
+        rel="stylesheet"
+      ></link>
       <div className="sidebar-top h-16 w-16">
         <div className="sidebar-logo-wrap">
           <div className="sidebar-logo-wrap-bg-top"></div>
@@ -83,49 +84,55 @@ const Header = () => {
         </div>
       </div>
       <div className="sidebar-inner-items">
-       <div className="sidebar-items">
+        <div className="sidebar-items">
           <span
-            className={`sidebar-item ${activeUpload === "single" ? "active" : ""} item-hover-cls`}
+            className={`sidebar-item ${
+              activeUpload === "single" ? "active" : ""
+            } item-hover-cls`}
             onClick={() => handleUploadClick("single")}
           >
             Generate Invoice
           </span>
           <span
-            className={`sidebar-item ${activeUpload === "bulk" ? "active" : ""} item-hover-cls`}
+            className={`sidebar-item ${
+              activeUpload === "bulk" ? "active" : ""
+            } item-hover-cls`}
             onClick={() => handleUploadClick("bulk")}
           >
             Bulk Generate
           </span>
-       </div>
+        </div>
       </div>
 
       <div className="sidebar-bottom d-flex items-center justify-content-center">
         {!googleProfileImage ? (
-          <div 
-          className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-4" 
-          ref={avatarRef} 
-          onClick={handleProfileClick}
-        >
-         <span className="text-lg" style={{ marginTop: "1px" }}>{session?.user?.name.charAt(0).toUpperCase()}</span>
-        </div>
+          <div
+            className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-4"
+            ref={avatarRef}
+            onClick={handleProfileClick}
+          >
+            <span className="text-lg" style={{ marginTop: "1px" }}>
+              {session?.user?.name.charAt(0).toUpperCase()}
+            </span>
+          </div>
         ) : (
-          <div className="sidebar-avatar" ref={avatarRef} >
+          <div className="sidebar-avatar" ref={avatarRef}>
             <img
-            loading="lazy"
+              loading="lazy"
               src={session?.user?.image}
               alt="User Avatar"
               onClick={handleProfileClick}
               style={{ cursor: "pointer", borderRadius: "50%" }}
             />
-        </div>
+          </div>
         )}
-        
       </div>
-      
+
       {isMenuOpen && ( // Conditionally render the side menu
-        <div className="sidebar-menu mt-1"
+        <div
+          className="sidebar-menu mt-1"
           ref={menuRef}
-          style={{ position: "fixed", top: menuPosition.top, right: "5px"}}
+          style={{ position: "fixed", top: menuPosition.top, right: "5px" }}
         >
           <CustomButton
             type="red"

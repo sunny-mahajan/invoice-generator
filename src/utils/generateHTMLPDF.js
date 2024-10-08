@@ -17,11 +17,11 @@ export async function generateHTMLPDF(invoiceData) {
       case "TPL002":
         HTMLTemplate = generateHTMLTPL002(invoiceData);
         break; // Stops execution here after generating TPL002
-      
+
       case "TPL003":
         HTMLTemplate = generateHTMLTPL003(invoiceData);
         break; // Stops execution here after generating TPL003
-      
+
       case "TPL004":
         HTMLTemplate = generateHTMLTPL004(invoiceData);
         break; // Stops execution here after generating TPL004
@@ -30,7 +30,7 @@ export async function generateHTMLPDF(invoiceData) {
     }
 
     // Sending the HTML template to the server for PDF generation
-    const response = await fetch("/api/generate-pdf2", {
+    const response = await fetch("/api/generate-pdf", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,6 @@ export async function generateHTMLPDF(invoiceData) {
 
     // Return the PDF blob from the response
     return await response.blob();
-
   } catch (error) {
     console.error(`Error in generateHTMLPDF:\n${error.stack}`);
   }

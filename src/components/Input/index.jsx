@@ -14,7 +14,7 @@ const CustomInput = ({
   lableClass,
   containerClass,
   isText = false,
-  required = false
+  required = false,
 }) => {
   return (
     <div
@@ -29,7 +29,7 @@ const CustomInput = ({
           >
             {title}
           </label>
-          {required && (<span className="text-red-700">*</span>)}
+          {required && <span className="text-red-700">*</span>}
         </div>
       )}
       {!isText ? (

@@ -1,7 +1,7 @@
-import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import {googleIcons} from '../../utils/icons'
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { googleIcons } from "../../utils/icons";
 
 export default function LoginPage() {
   const { data: session } = useSession();
@@ -10,22 +10,22 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (session) {
-      router.push('/'); // Redirect to home page if already signed in
+      router.push("/"); // Redirect to home page if already signed in
     }
   }, [session, router]);
 
   const handleSignIn = () => {
-    signIn('google', { callbackUrl: callbackUrl || '/' }); // Redirect to home page after sign-in
+    signIn("google", { callbackUrl: callbackUrl || "/" }); // Redirect to home page after sign-in
   };
 
   return (
-    <div className='login-container-cls'>
-      <div className='login-social-container'>
-        <div className='login-container-wrapper'>
+    <div className="login-container-cls">
+      <div className="login-social-container">
+        <div className="login-container-wrapper">
           <h1>Login</h1>
-          <div className='social-btn-container' onClick={handleSignIn}>
+          <div className="social-btn-container" onClick={handleSignIn}>
             <span>{googleIcons()}</span>
-            <span className='social-btn-text'>Sign in with Google</span>
+            <span className="social-btn-text">Sign in with Google</span>
           </div>
         </div>
       </div>

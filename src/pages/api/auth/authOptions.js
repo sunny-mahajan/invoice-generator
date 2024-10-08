@@ -1,6 +1,6 @@
-import GoogleProvider from 'next-auth/providers/google';
-import { db } from '../../../../firebaseConfig';
-import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
+import GoogleProvider from "next-auth/providers/google";
+import { db } from "../../../../firebaseConfig";
+import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 
 export const authOptions = {
   providers: [
@@ -10,13 +10,15 @@ export const authOptions = {
     }),
   ],
   pages: {
-    signIn: '/auth/login',
+    signIn: "/auth/login",
   },
   callbacks: {
     async signIn({ user }) {
-
-      const usersCollection = collection(db, 'users');
-      const userQuery = query(usersCollection, where('googleId', '==', user.id));
+      const usersCollection = collection(db, "users");
+      const userQuery = query(
+        usersCollection,
+        where("googleId", "==", user.id)
+      );
 
       try {
         const querySnapshot = await getDocs(userQuery);
@@ -32,7 +34,7 @@ export const authOptions = {
 
         return true;
       } catch (error) {
-        console.error('Error during sign-in:', error);
+        console.error("Error during sign-in:", error);
         return false;
       }
     },
@@ -42,7 +44,7 @@ export const authOptions = {
     },
   },
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
     maxAge: 1 * 24 * 60 * 60, // 1 day
   },
   secret: process.env.NEXTAUTH_SECRET,
