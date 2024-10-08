@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
+import useClickOutside from '../hooks/useClickOutside';
 import CustomButton from "./Button";
 import "../styles/globals.css";
 import { signOut } from "next-auth/react";
 import { useSession } from 'next-auth/react';
 import { useRouter } from "next/router";
+import { logOutIcon } from "../utils/icons";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: session } = useSession();
+  const [googleProfileImage, setGoogleProfileImage] = useState(false);
+  const menuRef = useRef(null);
 
   // adjust sidebar menu position
   const avatarRef = useRef(null);
@@ -25,7 +29,19 @@ const Header = () => {
   useEffect(() => { 
     setActiveUpload(router.pathname === "/upload" ? "bulk" : "single");
   }, [router]);
-    
+  const fetchImage = async () => {
+    if (session?.user?.image) {
+      const response = await fetch(session.user.image);
+      if(response.ok){
+        setGoogleProfileImage(true);
+      }
+    }
+  }
+  useEffect(() => {
+    fetchImage();
+  }, []);
+
+  useClickOutside([avatarRef, menuRef], () => setIsMenuOpen(false));
 
   // Handler to set active upload option
   const handleUploadClick = (type) => {
@@ -43,7 +59,7 @@ const Header = () => {
   
   return (
     <header
-      className="sidebar d-flex justify-content-between relative"
+      className="sidebar d-flex justify-content-between sticky top-0"
     >
       <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap" rel="stylesheet"></link>
       <div className="sidebar-top h-16 w-16">
@@ -78,29 +94,46 @@ const Header = () => {
             className={`sidebar-item ${activeUpload === "bulk" ? "active" : ""} item-hover-cls`}
             onClick={() => handleUploadClick("bulk")}
           >
-            Bulk Generate Invoices
+            Bulk Generate
           </span>
        </div>
       </div>
+
       <div className="sidebar-bottom d-flex items-center justify-content-center">
-        <div className="sidebar-avatar" ref={avatarRef}>
+        {!googleProfileImage ? (
+          <div 
+          className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-4" 
+          ref={avatarRef} 
+          onClick={handleProfileClick}
+        >
+         <span className="text-lg" style={{ marginTop: "1px" }}>{session?.user?.name.charAt(0).toUpperCase()}</span>
+        </div>
+        ) : (
+          <div className="sidebar-avatar" ref={avatarRef} >
             <img
+            loading="lazy"
               src={session?.user?.image}
               alt="User Avatar"
               onClick={handleProfileClick}
               style={{ cursor: "pointer", borderRadius: "50%" }}
             />
         </div>
+        )}
+        
       </div>
       
       {isMenuOpen && ( // Conditionally render the side menu
-        <div className="sidebar-menu" style={{ position: "fixed", left: menuPosition.left, top: menuPosition.top }}>
+        <div className="sidebar-menu mt-1"
+          ref={menuRef}
+          style={{ position: "fixed", top: menuPosition.top, right: "5px"}}
+        >
           <CustomButton
             type="red"
             onClick={handleLogout}
             className="sidebar-logout-button"
           >
-            Logout
+            {logOutIcon()}
+            <span className="pl-1">Logout</span>
           </CustomButton>
         </div>
       )}

@@ -14,12 +14,14 @@ const ProtectedPage = ({ children }) => {
     }
   }, [session, status, router]);
 
-  if (status === 'loading') {
+  if (session && status === 'loading') {
     return <div>Loading...</div>; // Loading state while checking authentication
   }
 
   // Render the children if authenticated
-  return <>{children}</>;
+  if (session) {
+    return <>{children}</>;
+  }
 };
 
 export default ProtectedPage;

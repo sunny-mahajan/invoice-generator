@@ -23,7 +23,7 @@ body {
   background-color: var(--sidebar-color);
   min-width: 100%;
   max-width: 100px;
-  z-index: 1;
+  z-index: 9999;
   overflow: hidden;
 }
 
@@ -65,18 +65,61 @@ body {
 .sidebar-inner-items {
   display: flex;
   margin-right: auto;
-  margin-left: 40px;
+  margin-left: 65px;
 }
+
+.add-btn-container {
+  border: 2px solid #2563eb; 
+  background: white; 
+  border-radius: 50%; 
+  width: 60px; 
+  height: 60px; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s; 
+  z-index: 1000; 
+}
+
+.add-btn-container:hover {
+  background: rgba(37, 99, 235, 0.1); 
+  transform: scale(1.05); 
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); 
+}
+
+.add-btn-container .add-icon-container .sub-add-icon-container {
+  fill: #3b82f6; 
+  width: 28px; 
+  height: 28px; 
+  transition: fill 0.3s; 
+}
+
+.add-btn-container .add-icon-container .sub-add-icon-container:hover {
+  fill: #2563eb; 
+  opacity: 0.9; 
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .add-btn-container {
+    width: 50px; /* Smaller size for mobile */
+    height: 50px; /* Smaller size for mobile */
+  }
+  .add-btn-container .add-icon-container .sub-add-icon-container {
+    width: 24px; /* Smaller icon size */
+    height: 24px; /* Smaller icon size */
+  }
+}
+
 
 .sidebar-items{
   display: flex;
-  gap:40px;
   align-items: center;
   cursor: pointer;
+  gap: 10px;
 }
-
-.item-hover-cls:hover {
-  background: rgba(255, 255, 255, 0.1);
+.item-hover-cls {
   padding: 6px 10px;
   border-radius: 18px;
 }
@@ -84,6 +127,20 @@ body {
 .sidebar-item.active {
   filter: brightness(1.4);
   color: rgb(238, 130, 238);
+  background-color: rgba(238, 130, 238, 0.1);
+  transition: all 0.3s ease; /* Smooth transition */
+  box-shadow: 0px 0 4px rgba(238, 130, 238, 0.2), /* Slight shadow below */
+              0px 0 4px rgba(238, 130, 238, 0.1), /* Slight shadow above */
+              2px 0px 4px rgba(238, 130, 238, 0.2), /* Right shadow */
+              -2px 0px 4px rgba(238, 130, 238, 0.2); /* Left shadow */
+}
+
+/* Hover effect for all items */
+.item-hover-cls:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgb(255, 255, 255);
+  transform: scale(1.02);
+  transition: all 0.2s ease-in-out;
 }
 
 .sidebar-avatar img {
@@ -232,7 +289,7 @@ p {
 
 .content {
   width: 100%;
-  padding-top: 60px;
+  padding-top: 10px;
 }
 
 .no-invoice-content-wrap {
