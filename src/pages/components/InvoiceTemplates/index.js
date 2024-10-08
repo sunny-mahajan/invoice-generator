@@ -12,7 +12,7 @@ const InvoiceTemplates = ({ handleSelectTemplates = () => {}, selectable = false
 
   const fetchTemplates = async () => {
     const res = await fetch(
-      `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/templates`
+      `${process.env.NEXT_PUBLIC_PORT}/api/templates`
     );
     const templates = await res.json();
     setTemplates(templates);
