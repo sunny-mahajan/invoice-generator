@@ -18,22 +18,23 @@ export default function generateHTMLTPL003(invoiceData) {
 
   const currencySymbol = (currency) => {
     const currencySymbols = {
-      USD: "$",  // US Dollar
-      EUR: "€",  // Euro
-      GBP: "£",  // British Pound
-      JPY: "¥",  // Japanese Yen
+      USD: "$", // US Dollar
+      EUR: "€", // Euro
+      GBP: "£", // British Pound
+      JPY: "¥", // Japanese Yen
       AUD: "A$", // Australian Dollar
       CAD: "C$", // Canadian Dollar
-      INR: "₹",  // Indian Rupee
-      CNY: "¥",  // Chinese Yuan
+      INR: "₹", // Indian Rupee
+      CNY: "¥", // Chinese Yuan
     };
-  
-    const symbol = currencySymbols[currency] || 'INR'; // Default to empty if currency not found
+
+    const symbol = currencySymbols[currency] || "INR"; // Default to empty if currency not found
     return symbol;
   };
-  
 
-  invoiceData["Invoice Issue Date"] = formatDate(invoiceData["Invoice Issue Date"]);
+  invoiceData["Invoice Issue Date"] = formatDate(
+    invoiceData["Invoice Issue Date"]
+  );
   invoiceData["Invoice Due Date"] = formatDate(invoiceData["Invoice Due Date"]);
 
   // Retrieve tax percentage from invoice data
@@ -44,10 +45,12 @@ export default function generateHTMLTPL003(invoiceData) {
   // Calculate the total amount
   const totalAmount = subAmount + taxAmount;
 
-  const remarksUI = invoiceData["Remarks"] ? `<div class="footer">
+  const remarksUI = invoiceData["Remarks"]
+    ? `<div class="footer">
             <p>Notes:</p>
             <p>${invoiceData["Remarks"]}</p>
-        </div>` : "";
+        </div>`
+    : "";
 
   const bankDetailsAvailable =
     invoiceData["Sender's Bank"] ||
@@ -158,7 +161,11 @@ export default function generateHTMLTPL003(invoiceData) {
   <div class="container">
     <div class="header">
       <div class="company-info">
-        <p>${invoiceData["Sender's Zipcode"]},${invoiceData["Sender's Address"]}, ${invoiceData["Sender's City"]},<br>Phone: ${invoiceData["Sender's Contact No"]}</p>
+        <p>${invoiceData["Sender's Zipcode"]},${
+    invoiceData["Sender's Address"]
+  }, ${invoiceData["Sender's City"]},<br>Phone: ${
+    invoiceData["Sender's Contact No"]
+  }</p>
       </div>
     </div>
 
@@ -166,7 +173,11 @@ export default function generateHTMLTPL003(invoiceData) {
       <div class="bill">
         <h2>BILL TO</h2>
         <p>${invoiceData["Sender's Name"]}</p>
-        <p>${invoiceData["Sender's Zipcode"]},${invoiceData["Sender's Address"]},${invoiceData["Sender's City"]}, ${invoiceData["Sender's State"]}, ${invoiceData["Sender's Country"]}</p>
+        <p>${invoiceData["Sender's Zipcode"]},${
+    invoiceData["Sender's Address"]
+  },${invoiceData["Sender's City"]}, ${invoiceData["Sender's State"]}, ${
+    invoiceData["Sender's Country"]
+  }</p>
         <p>${invoiceData["Sender's Email"]}</p>
         <p>${invoiceData["Sender's GST"]}</p>
         <p>${invoiceData["Sender's PAN"]}</p>
@@ -174,7 +185,11 @@ export default function generateHTMLTPL003(invoiceData) {
       <div class="ship">
         <h2>SHIP TO</h2>
         <p>${invoiceData["Receiver's Name"]}</p>
-        <p>${invoiceData["Receiver's Zipcode"]},${invoiceData["Receiver's Address"]},${invoiceData["Receiver's City"]}, ${invoiceData["Receiver's State"]}, ${invoiceData["Receiver's Country"]}</p>
+        <p>${invoiceData["Receiver's Zipcode"]},${
+    invoiceData["Receiver's Address"]
+  },${invoiceData["Receiver's City"]}, ${invoiceData["Receiver's State"]}, ${
+    invoiceData["Receiver's Country"]
+  }</p>
         <p>${invoiceData["Receiver's email"]}</p>
         <p>${invoiceData["Receiver's GST"]}</p>
         <p>${invoiceData["Receiver's PAN"]}</p>
@@ -182,13 +197,19 @@ export default function generateHTMLTPL003(invoiceData) {
       <div class="invoice-info">
         <h2>INVOICE DETAILS</h2>
         <div>
-            <span class="invoice-details-heading" style="margin: 8px 0;">INVOICE NO.</span><span>${invoiceData["Invoice No."]}</span>
+            <span class="invoice-details-heading" style="margin: 8px 0;">INVOICE NO.</span><span>${
+              invoiceData["Invoice No."]
+            }</span>
         </div>
         <div>
-            <span class="invoice-details-heading" style="margin: 0 0 8px 0;">DATE</span><span>${invoiceData["Invoice Issue Date"]}</span>
+            <span class="invoice-details-heading" style="margin: 0 0 8px 0;">DATE</span><span>${
+              invoiceData["Invoice Issue Date"]
+            }</span>
         </div>
         <div>
-            <span class="invoice-details-heading" style="margin: 0 0 8px 0;">DUE DATE</span><span>${invoiceData["Invoice Due Date"]}</span>
+            <span class="invoice-details-heading" style="margin: 0 0 8px 0;">DUE DATE</span><span>${
+              invoiceData["Invoice Due Date"]
+            }</span>
         </div>
       </div>
     </div>
@@ -196,7 +217,9 @@ export default function generateHTMLTPL003(invoiceData) {
     <div class="total-section">
         <div class="total-details">
             <h1><strong>Invoice Total</strong></h1>
-            <h1><strong>${currencySymbol(invoiceData["Currency"])}${totalAmount}</strong></h1>
+            <h1><strong>${currencySymbol(
+              invoiceData["Currency"]
+            )}${totalAmount}</strong></h1>
         </div>
     </div>
 
@@ -212,48 +235,87 @@ export default function generateHTMLTPL003(invoiceData) {
       </thead>
       <tbody>
       ${invoiceData["Items"]
-        .map( (item) => `<tr>
+        .map(
+          (item) => `<tr>
           <td>${item["quantity"]}</td>
           <td>${item["description"] ?? ""}</td>
           <td>${item["name"]}</td>
           <td>${currencySymbol(invoiceData["Currency"])}${item["price"]}</td>
-          <td>${currencySymbol(invoiceData["Currency"])}${item["price"] * item["quantity"]}</td>
-        </tr>`).join("")}
-         ${invoiceData["Tax percentage"] > 0 ? `
+          <td>${currencySymbol(invoiceData["Currency"])}${
+            item["price"] * item["quantity"]
+          }</td>
+        </tr>`
+        )
+        .join("")}
+         ${
+           invoiceData["Tax percentage"] > 0
+             ? `
           <tr>
           <td colspan="4" style="text-align:right; padding-top: 30px;">Subtotal</td>
-          <td style="padding-top: 30px;text-align:right; width: auto">${currencySymbol(invoiceData["Currency"])}${subAmount}</td>
+          <td style="padding-top: 30px;text-align:right; width: auto">${currencySymbol(
+            invoiceData["Currency"]
+          )}${subAmount}</td>
         </tr>
         <tr>
-          <td colspan="4" style="text-align:right;">${invoiceData["Tax Type"]} ${invoiceData["Tax percentage"]}%</td>
-          <td style="text-align:right; width: auto">${currencySymbol(invoiceData["Currency"])}${taxAmount}</td>
-        </tr>` : ''}
+          <td colspan="4" style="text-align:right;">${
+            invoiceData["Tax Type"]
+          } ${invoiceData["Tax percentage"]}%</td>
+          <td style="text-align:right; width: auto">${currencySymbol(
+            invoiceData["Currency"]
+          )}${taxAmount}</td>
+        </tr>`
+             : ""
+         }
         
       </tbody>
     </table>
-    ${bankDetailsAvailable ? `<div class="bank-details-container">
+    ${
+      bankDetailsAvailable
+        ? `<div class="bank-details-container">
       <h2>Bank Details</h2>
-      ${invoiceData["Sender's Bank"] ? `
+      ${
+        invoiceData["Sender's Bank"]
+          ? `
       <div class="sub-bank-details-container">
           <span class="sub-bank-details-title">Bank Name:</span><span>${invoiceData["Sender's Bank"]}</span>
-      </div>` : ""}
-      ${invoiceData["Sender's Account no"] ? `
+      </div>`
+          : ""
+      }
+      ${
+        invoiceData["Sender's Account no"]
+          ? `
       <div class="sub-bank-details-container">
           <span class="sub-bank-details-title">A/c No:</span><span>${invoiceData["Sender's Account no"]}</span>
-      </div>` : ""}
-      ${invoiceData["Sender's Account Holder Name"] ? `
+      </div>`
+          : ""
+      }
+      ${
+        invoiceData["Sender's Account Holder Name"]
+          ? `
       <div class="sub-bank-details-container">
           <span class="sub-bank-details-title">A/c Holder Name:</span><span>${invoiceData["Sender's Account Holder Name"]}</span>
-      </div>` : ""}
-      ${invoiceData["Sender's IFSC Code"] ? `
+      </div>`
+          : ""
+      }
+      ${
+        invoiceData["Sender's IFSC Code"]
+          ? `
       <div class="sub-bank-details-container">
           <span class="sub-bank-details-title">IFSC Code:</span><span>${invoiceData["Sender's IFSC Code"]}</span>
-      </div>` : ""}
-      ${invoiceData["Sender's Account Type"] ? `
+      </div>`
+          : ""
+      }
+      ${
+        invoiceData["Sender's Account Type"]
+          ? `
       <div class="sub-bank-details-container">
           <span class="sub-bank-details-title">A/c Type:</span><span>${invoiceData["Sender's Account Type"]}</span>
-      </div>` : ""}
-  </div>` : ""}
+      </div>`
+          : ""
+      }
+  </div>`
+        : ""
+    }
 
     ${remarksUI}
   </div>

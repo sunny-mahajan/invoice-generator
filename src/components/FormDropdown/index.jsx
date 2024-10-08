@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./style.css";
-import { DownArrowIcon } from "../icons";
+import { DownArrowIcon } from "../../utils/icons";
 
 const FormCustomDropdown = ({
   options,
@@ -41,7 +41,9 @@ const FormCustomDropdown = ({
     >
       {title && (
         <div className="invoice-title-container">
-          <label className={`FormDropdown-title ${lableClass ? lableClass : ""}`}>
+          <label
+            className={`FormDropdown-title ${lableClass ? lableClass : ""}`}
+          >
             {title}
           </label>
         </div>

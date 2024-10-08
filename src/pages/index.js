@@ -3,21 +3,21 @@ import React, { useEffect, useRef, useState } from "react";
 import CustomButton from "../components/Button";
 import CustomInput from "../components/Input";
 import FormCustomDropdown from "../components/FormDropdown";
-import { DeleteIcon, PlusIcon } from "../components/icons";
+import { DeleteIcon, PlusIcon } from "../utils/icons";
 import CustomDatePicker from "../components/DatePicker";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import "./style.css";
-import ProtectedPage from "./protected";
 import { generateHTMLPDF } from "../utils/generateHTMLPDF";
 import { addDays, formatDate } from "../utils/helpers";
-import InvoiceTemplates from './components/InvoiceTemplates';
-import useClickOutside from '../hooks/useClickOutside';
+import InvoiceTemplates from "../components/InvoiceTemplates";
+import useClickOutside from "../hooks/useClickOutside";
 
 const InvoiceForm = ({ templates }) => {
   const [user, setUser] = useState(null);
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
-  const [downloadInvoiceIsDisabled, setDownloadInvoiceIsDisabled] = useState(true);
+  const [downloadInvoiceIsDisabled, setDownloadInvoiceIsDisabled] =
+    useState(true);
   const [loading, setLoading] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isDueDatePickerOpen, setIsDueDatePickerOpen] = useState(false);
@@ -26,27 +26,46 @@ const InvoiceForm = ({ templates }) => {
   const datePickerInputRef = useRef(null);
   const dueDatePickerInputRef = useRef(null);
   const dueCustomDatePickerRef = useRef(null);
-  useClickOutside([customDatePickerRef, datePickerInputRef], () => setIsDatePickerOpen(false));
-  useClickOutside([dueCustomDatePickerRef, dueDatePickerInputRef], () => setIsDueDatePickerOpen(false));
+  useClickOutside([customDatePickerRef, datePickerInputRef], () =>
+    setIsDatePickerOpen(false)
+  );
+  useClickOutside([dueCustomDatePickerRef, dueDatePickerInputRef], () =>
+    setIsDueDatePickerOpen(false)
+  );
 
   const handleDatePickerInputClick = () => {
     setIsDatePickerOpen((prevState) => !prevState);
-  }
+  };
   const handleDueDatePickerInputClick = () => {
     setIsDueDatePickerOpen((prevState) => !prevState);
-  }
+  };
   const handleKeyDown = (event) => {
     const allowedKeys = [
-      'Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', 'End', 'Home'
+      "Backspace",
+      "Tab",
+      "Enter",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "+",
+      "End",
+      "Home",
     ];
 
     if (
       allowedKeys.includes(event.key) ||
-      (event.key >= '0' && event.key <= '9') ||
-      (event.key === 'Numpad0' || event.key === 'Numpad1' || event.key === 'Numpad2' || 
-       event.key === 'Numpad3' || event.key === 'Numpad4' || event.key === 'Numpad5' || 
-       event.key === 'Numpad6' || event.key === 'Numpad7' || event.key === 'Numpad8' || 
-       event.key === 'Numpad9')
+      (event.key >= "0" && event.key <= "9") ||
+      event.key === "Numpad0" ||
+      event.key === "Numpad1" ||
+      event.key === "Numpad2" ||
+      event.key === "Numpad3" ||
+      event.key === "Numpad4" ||
+      event.key === "Numpad5" ||
+      event.key === "Numpad6" ||
+      event.key === "Numpad7" ||
+      event.key === "Numpad8" ||
+      event.key === "Numpad9"
     ) {
       return;
     }
@@ -75,7 +94,7 @@ const InvoiceForm = ({ templates }) => {
       city: "",
       postCode: "",
       country: "",
-      taxType:"GST",
+      taxType: "GST",
       taxPercentage: 0,
       gstin: "",
       panCardNo: "",
@@ -85,7 +104,7 @@ const InvoiceForm = ({ templates }) => {
       city: "",
       postCode: "",
       country: "",
-      taxType:"GST",
+      taxType: "GST",
       taxPercentage: 0,
       gstin: "",
       panCardNo: "",
@@ -181,7 +200,10 @@ const InvoiceForm = ({ templates }) => {
   const handleAddItem = () => {
     setFormData((prev) => ({
       ...prev,
-      items: [...prev.items, { name: "", description: "", quantity: "", price: "" }],
+      items: [
+        ...prev.items,
+        { name: "", description: "", quantity: "", price: "" },
+      ],
     }));
   };
 
@@ -198,18 +220,21 @@ const InvoiceForm = ({ templates }) => {
 
   const handleSelectTemplate = (templateId) => {
     setSelectedTemplateId(templateId);
-    setDownloadInvoiceIsDisabled(false);  // Enable the download button
+    setDownloadInvoiceIsDisabled(false); // Enable the download button
   };
 
   const validateForm = () => {
     const newErrors = {};
     if (!formData.invoiceNo) newErrors.invoiceNo = "Required field";
     if (!formData.sender?.name) newErrors.senderName = "Required field";
-    if (!formData.sender?.contactNo) newErrors.senderContactNo = "Required field";
+    if (!formData.sender?.contactNo)
+      newErrors.senderContactNo = "Required field";
     if (!formData.sender?.email) newErrors.senderEmail = "Required field";
-    if (!formData.senderAddress?.state) newErrors.clientState = "Required field";
+    if (!formData.senderAddress?.state)
+      newErrors.clientState = "Required field";
     if (!formData.clientContactNo) newErrors.clientContactNo = "Required field";
-    if (!formData.clientAddress?.state) newErrors.invoiceState = "Required field";
+    if (!formData.clientAddress?.state)
+      newErrors.invoiceState = "Required field";
     if (!formData.clientName) newErrors.clientName = "Required field";
     if (!formData.sender?.email || !/\S+@\S+\.\S+/.test(formData.sender?.email))
       newErrors.senderEmail = "Invalid Email";
@@ -217,7 +242,6 @@ const InvoiceForm = ({ templates }) => {
       newErrors.clientEmail = "Invalid Email";
     if (!formData.senderAddress?.street)
       newErrors.clientStreetAddress = "Required field";
-    
 
     if (!formData.senderAddress?.city) newErrors.clientCity = "Required field";
     if (!formData.senderAddress?.postCode)
@@ -235,27 +259,33 @@ const InvoiceForm = ({ templates }) => {
       newErrors.invoicePostcode = "Required field";
     if (!formData.clientAddress?.country)
       newErrors.invoiceCountry = "Required field";
-    // if(!formData.clientAddress.gstin) 
+    // if(!formData.clientAddress.gstin)
     //   newErrors.ClientGstin = "Required field";
     // if(!formData.clientAddress.panCardNo)
     //   newErrors.ClientPancard = "Required field";
     if (!formData.createdAt) newErrors.issueDate = "Required field";
     // if (!formData.dueDate) newErrors.dueDate = "Required field";
     // if (!formData.paymentTerms) newErrors.paymentTerm = "Required field";
-    if(!formData.currency) newErrors.currency = "Required field";
-    if (formData.bankDetails.accountNumber && 
-      formData.bankDetails.accountNumber !== formData.bankDetails.confirmAccountNumber) {
-    newErrors.confirmAccountNumber = "Account number and confirm account number should be the same.";
-  }
+    if (!formData.currency) newErrors.currency = "Required field";
     if (
-      formData.items.some((item) => !item.name || !item.description || !item.quantity || !item.price)
+      formData.bankDetails.accountNumber &&
+      formData.bankDetails.accountNumber !==
+        formData.bankDetails.confirmAccountNumber
+    ) {
+      newErrors.confirmAccountNumber =
+        "Account number and confirm account number should be the same.";
+    }
+    if (
+      formData.items.some(
+        (item) =>
+          !item.name || !item.description || !item.quantity || !item.price
+      )
     )
       newErrors.items = "Required fields";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
   const handleSubmit = async (e, saveAsDraft) => {
-    
     e.preventDefault();
     if (!saveAsDraft && !validateForm()) return;
     setLoading(true);
@@ -273,13 +303,14 @@ const InvoiceForm = ({ templates }) => {
     formData["Sender's Bank"] = formData.bankDetails.bankName;
     formData["Sender's IFSC Code"] = formData.bankDetails.ifscCode;
     formData["Sender's Account no"] = formData.bankDetails.accountNumber;
-    formData["Sender's Account Holder Name"] = formData.bankDetails.accounHolderName;
+    formData["Sender's Account Holder Name"] =
+      formData.bankDetails.accounHolderName;
     formData["Sender's Account Type"] = formData.bankDetails.bankAccountType;
     formData["Sender's PAN"] = formData.senderAddress.panCardNo;
     formData["Sender's GST"] = formData.senderAddress.gstin;
     formData["Tax Type"] = formData.senderAddress.taxType;
     formData["Tax percentage"] = formData.senderAddress.taxPercentage;
-  
+
     // formData["Sender's Company Name"] = formData.;
     formData["Receiver's Name"] = formData.clientName;
     formData["Receiver's Address"] = formData.clientAddress.street;
@@ -292,7 +323,7 @@ const InvoiceForm = ({ templates }) => {
     formData["Receiver' Type"] = formData.clientAddress.taxType;
     formData["Receiver' Percentage"] = formData.clientAddress.taxPercentage;
 
-    formData["Receiver's Zipcode"] =formData?.clientAddress?.postCode;
+    formData["Receiver's Zipcode"] = formData?.clientAddress?.postCode;
     formData["Receiver's Country"] = formData.clientAddress.country;
     // formData["Remarks"] = formData.;
 
@@ -305,24 +336,23 @@ const InvoiceForm = ({ templates }) => {
     // const paymentDueDate = addDays(formData["Invoice Issue Date"], formData.paymentTerms);
     formData["Invoice Due Date"] = formData.dueDate;
 
-
     const pdfBlob = await generateHTMLPDF(formData);
 
     if (pdfBlob) {
       setLoading(false);
-      
+
       // Create a temporary URL for the blob
       const blobURL = URL.createObjectURL(pdfBlob);
 
       // Open the PDF in a new tab
-      window.open(blobURL, '_blank');
+      window.open(blobURL, "_blank");
 
       // Clean up: revoke the object URL to free memory after a short delay
       setTimeout(() => {
         URL.revokeObjectURL(blobURL);
       }, 100); // Adjust time as needed
     }
-    
+
     // try {
     //   if (!user || !user.token) {
     //     throw new Error("User is not authenticated");
@@ -386,7 +416,6 @@ const InvoiceForm = ({ templates }) => {
   };
 
   return (
-    <ProtectedPage>
       <Layout>
         <div className="content d-flex flex-direction-column">
           <div
@@ -425,7 +454,7 @@ const InvoiceForm = ({ templates }) => {
                     value={formData?.invoiceNo}
                     onChange={handleChange}
                     style={styles.input}
-                  required={true}
+                    required={true}
                   />
                   {errors?.invoiceNo && (
                     <p style={styles.error}>{errors.invoiceNo}</p>
@@ -456,28 +485,28 @@ const InvoiceForm = ({ templates }) => {
                 </div>
 
                 <div
-                    style={{
-                      display: "flex",
-                      width: "25%",
-                      marginBottom: "20px",
-                      flexDirection: "column",
-                    }}
-                    ref={dueDatePickerInputRef}
-                    onClick={handleDueDatePickerInputClick}
-                  >
-                    <CustomDatePicker
-                      name="dueDate"
-                      title="Invoice Due Date"
-                      value={formData.dueDate}
-                      onChange={handleChange}
-                      isDatePickerOpen={isDueDatePickerOpen}
-                      customDatePickerRef={dueCustomDatePickerRef}
-                    />
+                  style={{
+                    display: "flex",
+                    width: "25%",
+                    marginBottom: "20px",
+                    flexDirection: "column",
+                  }}
+                  ref={dueDatePickerInputRef}
+                  onClick={handleDueDatePickerInputClick}
+                >
+                  <CustomDatePicker
+                    name="dueDate"
+                    title="Invoice Due Date"
+                    value={formData.dueDate}
+                    onChange={handleChange}
+                    isDatePickerOpen={isDueDatePickerOpen}
+                    customDatePickerRef={dueCustomDatePickerRef}
+                  />
 
-                    {errors?.dueDate && (
-                      <p style={styles.error}>{errors.dueDate}</p>
-                    )}
-                  </div>
+                  {errors?.dueDate && (
+                    <p style={styles.error}>{errors.dueDate}</p>
+                  )}
+                </div>
               </div>
               <div className="parties-details-container flex justify-between gap-12">
                 <div
@@ -506,7 +535,7 @@ const InvoiceForm = ({ templates }) => {
                         value={formData?.sender?.name}
                         onChange={handleChange}
                         style={styles.input}
-                      required={true}
+                        required={true}
                       />
                       {errors?.senderName && (
                         <p style={styles.error}>{errors.senderName}</p>
@@ -558,7 +587,7 @@ const InvoiceForm = ({ templates }) => {
                         value={formData?.sender?.email}
                         onChange={handleChange}
                         style={styles.input}
-                      required={true}
+                        required={true}
                       />
                       {errors?.senderEmail && (
                         <p style={styles.error}>{errors.senderEmail}</p>
@@ -578,7 +607,7 @@ const InvoiceForm = ({ templates }) => {
                         value={formData?.senderAddress?.street}
                         onChange={handleChange}
                         style={styles.input}
-                      required={true}
+                        required={true}
                       />
                       {errors?.clientStreetAddress && (
                         <p style={styles.error}>{errors.clientStreetAddress}</p>
@@ -693,7 +722,7 @@ const InvoiceForm = ({ templates }) => {
                       )}
                     </div>
                   </div>
- <div
+                  <div
                     style={{
                       display: "flex",
                       gap: "20px",
@@ -708,29 +737,32 @@ const InvoiceForm = ({ templates }) => {
                         flexDirection: "column",
                       }}
                     >
-                     <div
-                      style={{
-                        display: "flex",
+                      <div
+                        style={{
+                          display: "flex",
 
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                    <FormCustomDropdown
-                      name="senderAddress.taxType"
-                      title="Tax Type"
-                      label={formData.senderAddress.taxType}
-                      onSelect={handleChange}
-                      style={styles.input}
-                      options={[
-                        { label: "Sales Tax", value: "Sales Tax" }, // USA
-                        { label: "VAT", value: "VAT" }, // Europe, UK, China
-                        { label: "Consumption Tax", value: "Consumption Tax" }, // Japan
-                        { label: "GST", value: "GST" }, // Australia, India
-                        { label: "GST/HST", value: "GST/HST" }, // Canada
-                      ]}
-                    />
-                    </div>
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <FormCustomDropdown
+                          name="senderAddress.taxType"
+                          title="Tax Type"
+                          label={formData.senderAddress.taxType}
+                          onSelect={handleChange}
+                          style={styles.input}
+                          options={[
+                            { label: "Sales Tax", value: "Sales Tax" }, // USA
+                            { label: "VAT", value: "VAT" }, // Europe, UK, China
+                            {
+                              label: "Consumption Tax",
+                              value: "Consumption Tax",
+                            }, // Japan
+                            { label: "GST", value: "GST" }, // Australia, India
+                            { label: "GST/HST", value: "GST/HST" }, // Canada
+                          ]}
+                        />
+                      </div>
                     </div>
                     <div
                       style={{
@@ -781,7 +813,7 @@ const InvoiceForm = ({ templates }) => {
                         <p style={styles.error}>{errors.senderGstin}</p>
                       )}
                     </div>
-                    { formData.senderAddress.taxType === "GST" && (
+                    {formData.senderAddress.taxType === "GST" && (
                       <div
                         style={{
                           display: "flex",
@@ -801,13 +833,15 @@ const InvoiceForm = ({ templates }) => {
                         {errors?.SenderPancard && (
                           <p style={styles.error}>{errors.SenderPancard}</p>
                         )}
-                    </div>
+                      </div>
                     )}
-
                   </div>
                 </div>
 
-                <div className="bill-to-container w-3/6 p-4 rounded-lg" style={styles.section}>
+                <div
+                  className="bill-to-container w-3/6 p-4 rounded-lg"
+                  style={styles.section}
+                >
                   <h3 style={styles.titleText}>Bill To</h3>
                   <div
                     style={{
@@ -862,7 +896,9 @@ const InvoiceForm = ({ templates }) => {
                         <p style={styles.error}>{errors.clientContactNo}</p>
                       ) : (
                         errors["clientContactNo"] && (
-                          <p style={styles.error}>{errors["clientContactNo"]}</p>
+                          <p style={styles.error}>
+                            {errors["clientContactNo"]}
+                          </p>
                         )
                       )}
                     </div>
@@ -1049,12 +1085,14 @@ const InvoiceForm = ({ templates }) => {
                         options={[
                           { label: "Sales Tax", value: "Sales Tax" }, // USA
                           { label: "VAT", value: "VAT" }, // Europe, UK, China
-                          { label: "Consumption Tax", value: "Consumption Tax" }, // Japan
+                          {
+                            label: "Consumption Tax",
+                            value: "Consumption Tax",
+                          }, // Japan
                           { label: "GST", value: "GST" }, // Australia, India
                           { label: "GST/HST", value: "GST/HST" }, // Canada
                         ]}
                       />
-
                     </div>
                     {/* <div
                       style={{
@@ -1123,31 +1161,29 @@ const InvoiceForm = ({ templates }) => {
                         <p style={styles.error}>{errors.ClientGstin}</p>
                       )}
                     </div> */}
-                    { formData.clientAddress.taxType === "GST" && 
+                    {formData.clientAddress.taxType === "GST" && (
                       <div
-                      style={{
-                        display: "flex",
+                        style={{
+                          display: "flex",
 
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomInput
-                        type="text"
-                        name="clientAddress.panCardNo"
-                        title="PAN Card Number"
-                        value={formData.clientAddress.panCardNo}
-                        onChange={handleChange}
-                        style={styles.input}
-                      />
-                      {errors?.ClientPancard && (
-                        <p style={styles.error}>{errors.ClientPancard}</p>
-                      )}
-                    </div>
-                    }
-                   
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="clientAddress.panCardNo"
+                          title="PAN Card Number"
+                          value={formData.clientAddress.panCardNo}
+                          onChange={handleChange}
+                          style={styles.input}
+                        />
+                        {errors?.ClientPancard && (
+                          <p style={styles.error}>{errors.ClientPancard}</p>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  
                 </div>
               </div>
               <div style={styles.section}>
@@ -1262,20 +1298,23 @@ const InvoiceForm = ({ templates }) => {
                         isText={true}
                         value={(() => {
                           const currencySymbols = {
-                            USD: "$",  // US Dollar
-                            EUR: "€",  // Euro
-                            GBP: "£",  // British Pound
-                            JPY: "¥",  // Japanese Yen
+                            USD: "$", // US Dollar
+                            EUR: "€", // Euro
+                            GBP: "£", // British Pound
+                            JPY: "¥", // Japanese Yen
                             AUD: "A$", // Australian Dollar
                             CAD: "C$", // Canadian Dollar
-                            INR: "₹",  // Indian Rupee
-                            CNY: "¥",  // Chinese Yuan
+                            INR: "₹", // Indian Rupee
+                            CNY: "¥", // Chinese Yuan
                           };
-                        
+
                           const selectedCurrency = formData.currency;
-                          const symbol = currencySymbols[selectedCurrency] || ''; // Default to empty if currency not found
-                        
-                          return selectedCurrency ? `${symbol} ${item.total || 0}` : item.total || 0;
+                          const symbol =
+                            currencySymbols[selectedCurrency] || ""; // Default to empty if currency not found
+
+                          return selectedCurrency
+                            ? `${symbol} ${item.total || 0}`
+                            : item.total || 0;
                         })()}
                         inputStyle={{
                           flex: "1 1 auto", // Adjust size as needed for Total
@@ -1323,140 +1362,140 @@ const InvoiceForm = ({ templates }) => {
                 </CustomButton>
               </div>
               <div className="mt-20 rounded-lg" style={styles.section}>
-                  <h3 style={styles.titleText}>Bank Details</h3>
+                <h3 style={styles.titleText}>Bank Details</h3>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    marginTop: "10px",
+                  }}
+                >
                   <div
                     style={{
                       display: "flex",
-                      gap: "20px",
-                      marginTop: "10px",
+                      width: "100%",
+                      flexDirection: "column",
                     }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomInput
-                        type="text"
-                        name="bankDetails.bankName"
-                        title="Bank Name"
-                        value={formData.bankDetails.bankName}
-                        onChange={handleChange}
-                        style={styles.input}
-                      />
-                    </div>
-
-                    <div
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomInput
-                        type="text"
-                        name="bankDetails.accountNumber"
-                        title="Account No."
-                        value={formData.bankDetails.accountNumber}
-                        onChange={handleChange}
-                        onKeyDown={handleKeyDown}
-                        style={styles.input}
-                      />
-                    </div>
-
-                    <div
-                      style={{
-                        display: "flex",
-
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomInput
-                        type="text"
-                        name="bankDetails.confirmAccountNumber"
-                        title="Confirm Account No."
-                        placeholder=""
-                        value={formData.bankDetails.confirmAccountNumber}
-                        onChange={handleChange}
-                        style={styles.input}
-                      />
-                      {errors?.confirmAccountNumber && (
-                        <p style={styles.error}>{errors.confirmAccountNumber}</p>
-                      )}
-                    </div>
-
+                    <CustomInput
+                      type="text"
+                      name="bankDetails.bankName"
+                      title="Bank Name"
+                      value={formData.bankDetails.bankName}
+                      onChange={handleChange}
+                      style={styles.input}
+                    />
                   </div>
 
                   <div
                     style={{
                       display: "flex",
-                      gap: "20px",
-                      marginTop: "10px",
+                      width: "100%",
+                      flexDirection: "column",
                     }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomInput
-                        type="text"
-                        name="bankDetails.ifscCode"
-                        title="IFSC Code"
-                        placeholder=""
-                        value={formData.bankDetails.ifscCode}
-                        onChange={handleChange}
-                        style={styles.input}
-                      />
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomInput
-                        type="text"
-                        name="bankDetails.accounHolderName"
-                        value={formData?.bankDetails.accounHolderName}
-                        onChange={handleChange}
-                        title="Account Holder Name"
-                        style={styles.input}
-                      />
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-
-                        width: "100%",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CustomInput
-                        type="text"
-                        name="bankDetails.bankAccountType"
-                        title="Account Type"
-                        placeholder=""
-                        value={formData.bankDetails.bankAccountType}
-                        onChange={handleChange}
-                        style={styles.input}
-                      />
-                    </div>
-                    
+                    <CustomInput
+                      type="text"
+                      name="bankDetails.accountNumber"
+                      title="Account No."
+                      value={formData.bankDetails.accountNumber}
+                      onChange={handleChange}
+                      onKeyDown={handleKeyDown}
+                      style={styles.input}
+                    />
                   </div>
 
+                  <div
+                    style={{
+                      display: "flex",
+
+                      width: "100%",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <CustomInput
+                      type="text"
+                      name="bankDetails.confirmAccountNumber"
+                      title="Confirm Account No."
+                      placeholder=""
+                      value={formData.bankDetails.confirmAccountNumber}
+                      onChange={handleChange}
+                      style={styles.input}
+                    />
+                    {errors?.confirmAccountNumber && (
+                      <p style={styles.error}>{errors.confirmAccountNumber}</p>
+                    )}
+                  </div>
                 </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    marginTop: "10px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+
+                      width: "100%",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <CustomInput
+                      type="text"
+                      name="bankDetails.ifscCode"
+                      title="IFSC Code"
+                      placeholder=""
+                      value={formData.bankDetails.ifscCode}
+                      onChange={handleChange}
+                      style={styles.input}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+
+                      width: "100%",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <CustomInput
+                      type="text"
+                      name="bankDetails.accounHolderName"
+                      value={formData?.bankDetails.accounHolderName}
+                      onChange={handleChange}
+                      title="Account Holder Name"
+                      style={styles.input}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+
+                      width: "100%",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <CustomInput
+                      type="text"
+                      name="bankDetails.bankAccountType"
+                      title="Account Type"
+                      placeholder=""
+                      value={formData.bankDetails.bankAccountType}
+                      onChange={handleChange}
+                      style={styles.input}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
             <div>
-               <InvoiceTemplates handleSelectTemplates={handleSelectTemplate} selectable = {true}/>
+              <InvoiceTemplates
+                handleSelectTemplates={handleSelectTemplate}
+                selectable={true}
+              />
             </div>
             <div style={styles.buttons}>
               <div style={{ display: "flex", gap: "5px" }}>
@@ -1474,13 +1513,12 @@ const InvoiceForm = ({ templates }) => {
           </div>
         </div>
       </Layout>
-    </ProtectedPage>
   );
 };
 
 const styles = {
   title: {
-    padding: "35px 0px",
+    padding: "25px 0px 20px",
   },
   titleText: {
     color: "#7C5DFA",
@@ -1489,7 +1527,7 @@ const styles = {
     marginBottom: "10px",
   },
   mainSection: {
-    padding: "20px 0px",
+    padding: "10px 0px",
     // maxWidth: "600px",
     height: "100%",
     overflow: "auto",

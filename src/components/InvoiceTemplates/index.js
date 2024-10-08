@@ -46,7 +46,7 @@ const InvoiceTemplates = ({
 
   const styles = {
     title: {
-      padding: "35px 0px",
+      padding: "20px 0px",
     },
     "template-preview-image": {
       height: "200px", // Set fixed height
@@ -69,7 +69,7 @@ const InvoiceTemplates = ({
           &lt;
         </button>
 
-        <div className="overflow-x-auto flex space-x-4 pb-4">
+        <div className="overflow-x-auto flex space-x-4 pb-4 w-100">
           {invoiceTemplates
             .slice(visibleIndex, visibleIndex + templatesToShow)
             .map((invoiceTemplate) => (
