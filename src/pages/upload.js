@@ -244,7 +244,7 @@ export default function UploadCSV() {
             </div>
           </div>
         </div>
-        <div className="p-4 mx-auto">
+        <div className="p-4 mx-auto w-full">
           <InvoiceTemplates />
         </div>
       </Layout>
