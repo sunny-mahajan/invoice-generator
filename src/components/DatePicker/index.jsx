@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
-import { CalanderIcon, LeftArrowIcon, RightArrowIcon } from "../icons";
+import { CalanderIcon, LeftArrowIcon, RightArrowIcon } from "../../utils/icons";
 
 const DatePicker = ({
   containerClass,
@@ -229,10 +229,8 @@ const DatePicker = ({
         </span>
       </div>
 
-      {(isDatePickerOpen) && (
-        <span className="date-picker-container"
-          ref={customDatePickerRef}
-        >
+      {isDatePickerOpen && (
+        <span className="date-picker-container" ref={customDatePickerRef}>
           <Calendar />
         </span>
       )}

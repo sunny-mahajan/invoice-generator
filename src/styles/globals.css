@@ -8,6 +8,10 @@ body,
   height: 100%;
 }
 
+#__next {
+  overflow-y: scroll;
+}
+
 body {
   margin: 0;
   font-family: "Spartan";
@@ -69,35 +73,35 @@ body {
 }
 
 .add-btn-container {
-  border: 2px solid #2563eb; 
-  background: white; 
-  border-radius: 50%; 
-  width: 60px; 
-  height: 60px; 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+  border: 2px solid #2563eb;
+  background: white;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.3s, transform 0.3s, box-shadow 0.3s; 
-  z-index: 1000; 
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+  z-index: 1000;
 }
 
 .add-btn-container:hover {
-  background: rgba(37, 99, 235, 0.1); 
-  transform: scale(1.05); 
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); 
+  background: rgba(37, 99, 235, 0.1);
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .add-btn-container .add-icon-container .sub-add-icon-container {
-  fill: #3b82f6; 
-  width: 28px; 
-  height: 28px; 
-  transition: fill 0.3s; 
+  fill: #3b82f6;
+  width: 28px;
+  height: 28px;
+  transition: fill 0.3s;
 }
 
 .add-btn-container .add-icon-container .sub-add-icon-container:hover {
-  fill: #2563eb; 
-  opacity: 0.9; 
+  fill: #2563eb;
+  opacity: 0.9;
 }
 
 /* Media queries for responsiveness */
@@ -112,16 +116,16 @@ body {
   }
 }
 
-
-.sidebar-items{
+.sidebar-items {
   display: flex;
   align-items: center;
   cursor: pointer;
-  gap: 10px;
+  gap: 15px;
 }
 .item-hover-cls {
-  padding: 6px 10px;
-  border-radius: 18px;
+  padding: 9px 10px;
+  border-radius: 22px;
+  line-height: 1;
 }
 
 .sidebar-item.active {
@@ -129,10 +133,10 @@ body {
   color: rgb(238, 130, 238);
   background-color: rgba(238, 130, 238, 0.1);
   transition: all 0.3s ease; /* Smooth transition */
-  box-shadow: 0px 0 4px rgba(238, 130, 238, 0.2), /* Slight shadow below */
-              0px 0 4px rgba(238, 130, 238, 0.1), /* Slight shadow above */
-              2px 0px 4px rgba(238, 130, 238, 0.2), /* Right shadow */
-              -2px 0px 4px rgba(238, 130, 238, 0.2); /* Left shadow */
+  box-shadow: 0px 0 4px rgba(238, 130, 238, 0.2),
+    /* Slight shadow below */ 0px 0 4px rgba(238, 130, 238, 0.1),
+    /* Slight shadow above */ 2px 0px 4px rgba(238, 130, 238, 0.2),
+    /* Right shadow */ -2px 0px 4px rgba(238, 130, 238, 0.2); /* Left shadow */
 }
 
 /* Hover effect for all items */
@@ -284,7 +288,6 @@ p {
   max-width: 1080px;
   display: flow-root;
   margin: 0 auto;
-  flex: 1;
 }
 
 .content {
@@ -319,6 +322,6 @@ button:disabled:hover {
   filter: unset;
 }
 main.main {
-  padding-left: clamp(50px,10%, 200px);
-  padding-right: clamp(50px,10%, 200px);
+  padding-left: clamp(50px, 10%, 200px);
+  padding-right: clamp(50px, 10%, 200px);
 }

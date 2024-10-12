@@ -197,6 +197,7 @@ p {
     align-items: center;
   }
 }
-.bill-to-container, .bill-from-container {
-  background-color:   #34374b;
+.bill-to-container,
+.bill-from-container {
+  background-color: #34374b;
 }

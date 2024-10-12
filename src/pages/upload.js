@@ -3,13 +3,12 @@ import { generateHTMLPDF } from "../utils/generateHTMLPDF";
 import Papa from "papaparse";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import ProtectedPage from './protected';
-import Layout from '../components/Layout';
+import Layout from "../components/Layout";
 import CustomButton from "../components/Button";
 import "./style.css";
-import InvoiceTemplates from "./components/InvoiceTemplates";
+import InvoiceTemplates from "../components/InvoiceTemplates";
 import { DropImageIcon, infoIcon } from "../utils/icons";
-import DialogBox  from '../components/DialogBox/index'
+import DialogBox from "../components/DialogBox/index";
 
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
@@ -43,19 +42,19 @@ export default function UploadCSV() {
     data.forEach((row) => {
       const invoiceNo = row["Invoice No."];
       const item = {
-        "name": row["Item Name"],
-        "description": row["Item Description"],
-        "quantity": row["Item Quantity"],
-        "price": row["Item Price"],
+        name: row["Item Name"],
+        description: row["Item Description"],
+        quantity: row["Item Quantity"],
+        price: row["Item Price"],
       };
 
       // New invoice no
       if (invoiceNo !== lastInvoiceNo && invoiceNo.trim() !== "") {
         invoicesMap.set(invoiceNo, {
           "Invoice No.": invoiceNo,
-          "Template Id": row['Template Id'],
+          "Template Id": row["Template Id"],
           "Invoice Issue Date": row["Invoice Issue Date"],
-          "Invoice Due Date": row["Invoice Due Date"],     
+          "Invoice Due Date": row["Invoice Due Date"],
           "Sender's Name": row["Sender's Name"],
           "Sender's Address": row["Sender's Address"],
           "Sender's City": row["Sender's City"],
@@ -133,9 +132,9 @@ export default function UploadCSV() {
   };
 
   const handleDownloadCSV = () => {
-    const link = document.createElement('a');
-    link.href = 'assets/docs/sample.csv'; // Path to the sample CSV file
-    link.setAttribute('download', 'sample.csv'); // Name of the downloaded file
+    const link = document.createElement("a");
+    link.href = "assets/docs/sample.csv"; // Path to the sample CSV file
+    link.setAttribute("download", "sample.csv"); // Name of the downloaded file
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -168,7 +167,6 @@ export default function UploadCSV() {
   };
 
   return (
-    <ProtectedPage>
       <Layout>
         <div className="container mx-auto p-4 px-0 upload-container-cls">
           <div className="flex flex-col items-center">
@@ -227,28 +225,28 @@ export default function UploadCSV() {
             >
               Get Sample CSV
             </CustomButton>
-            <div className="ml-4 cursor-pointer" onClick={() => handleOpenDialog()}>
-            {infoIcon()}
+            <div
+              className="ml-4 cursor-pointer"
+              onClick={() => handleOpenDialog()}
+            >
+              {infoIcon()}
+            </div>
+            <div>
+              <DialogBox
+                isOpen={isDialogOpen}
+                onClose={handleCloseDialog}
+                title="Instructions"
+                content={`1. Download the sample CSV file for the correct format.\n2. Choose an invoice template from the list, and input the correct template ID in the CSV.\n3. Fill in your data following the sample format.\n4. Upload your CSV file.\n5. Click 'Generate Invoices as ZIP' to download your invoices.`}
+                confirmText="Got it!"
+                cancelText=""
+                onConfirm={handleConfirm}
+              />
+            </div>
           </div>
-          <div>
-          <DialogBox  
-            isOpen={isDialogOpen}
-            onClose={handleCloseDialog}
-            title="Instructions"
-            content={`1. Download the sample CSV file for the correct format.\n2. Choose an invoice template from the list, and input the correct template ID in the CSV.\n3. Fill in your data following the sample format.\n4. Upload your CSV file.\n5. Click 'Generate Invoices as ZIP' to download your invoices.`}
-            confirmText="Got it!"
-            cancelText=""
-            onConfirm={handleConfirm} />
-          </div>
-          </div>
-          
         </div>
-        <div className="mt-8 p-4 mx-auto">
+        <div className="p-4 mx-auto w-full">
           <InvoiceTemplates />
         </div>
       </Layout>
-    </ProtectedPage>
   );
 }
-
-

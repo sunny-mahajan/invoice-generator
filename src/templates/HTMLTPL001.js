@@ -32,11 +32,11 @@ export default function generateHTMLTPL001(invoiceData) {
     return symbol;
   };
   const bankDetailsAvailable =
-  invoiceData["Sender's Bank"] ||
-  invoiceData["Sender's Account no"] ||
-  invoiceData["Sender's Account Holder Name"] ||
-  invoiceData["Sender's IFSC Code"] ||
-  invoiceData["Sender's Account Type"];
+    invoiceData["Sender's Bank"] ||
+    invoiceData["Sender's Account no"] ||
+    invoiceData["Sender's Account Holder Name"] ||
+    invoiceData["Sender's IFSC Code"] ||
+    invoiceData["Sender's Account Type"];
 
   invoiceData["Invoice Issue Date"] = formatDate(
     invoiceData["Invoice Issue Date"]
@@ -213,8 +213,12 @@ export default function generateHTMLTPL001(invoiceData) {
             <div>
                 <h2>From</h2>
                 <p>${invoiceData["Sender's Name"]}</p>
-                <p>${invoiceData["Sender's Zipcode"]},${invoiceData["Sender's Address"]}, ${invoiceData["Sender's City"]}</p>
-                <p>${invoiceData["Sender's State"]}, ${invoiceData["Sender's Country"]}</p>
+                <p>${invoiceData["Sender's Zipcode"]},${
+    invoiceData["Sender's Address"]
+  }, ${invoiceData["Sender's City"]}</p>
+                <p>${invoiceData["Sender's State"]}, ${
+    invoiceData["Sender's Country"]
+  }</p>
                 <p>${invoiceData["Sender's Contact No"]}</p>
                 <p>${invoiceData["Sender's Email"]}</p>
                 <p>${invoiceData["Sender's GST"]}</p>
@@ -223,8 +227,12 @@ export default function generateHTMLTPL001(invoiceData) {
             <div>
                 <h2>To</h2>
                 <p>${invoiceData["Receiver's Name"]}</p>
-                <p>${invoiceData["Receiver's Zipcode"]},${invoiceData["Receiver's Address"]},${invoiceData["Receiver's City"]}</p>
-                <p>${invoiceData["Receiver's State"]}, ${invoiceData["Receiver's Country"]}</p>
+                <p>${invoiceData["Receiver's Zipcode"]},${
+    invoiceData["Receiver's Address"]
+  },${invoiceData["Receiver's City"]}</p>
+                <p>${invoiceData["Receiver's State"]}, ${
+    invoiceData["Receiver's Country"]
+  }</p>
                 <p>${invoiceData["Receiver's Contact No"]}</p>
                 <p>${invoiceData["Receiver's email"]}</p>
                 <p>${invoiceData["Receiver's GST"]}</p>
@@ -247,8 +255,12 @@ export default function generateHTMLTPL001(invoiceData) {
                         <p>${item["name"]}</p>
                         <p>${item["description"] ?? ""}</p>
                         <p>${item["quantity"]}</p>
-                        <p>${currencySymbol(invoiceData["Currency"])}${item["price"]}</p>
-                        <p>${currencySymbol(invoiceData["Currency"])}${item["price"] * item["quantity"]}</p>
+                        <p>${currencySymbol(invoiceData["Currency"])}${
+                      item["price"]
+                    }</p>
+                        <p>${currencySymbol(invoiceData["Currency"])}${
+                      item["price"] * item["quantity"]
+                    }</p>
                     </div>
                 `
                   )
@@ -259,49 +271,79 @@ export default function generateHTMLTPL001(invoiceData) {
         <div class="sec5-container">
             <div>
                 <div class="sub-sec5-container">
-                 ${invoiceData["Tax percentage"] > 0 ? `
+                 ${
+                   invoiceData["Tax percentage"] > 0
+                     ? `
                   <div class="sub-sec5-item">
                         <p class="sub-sec5-title">Subtotal</p><span>${currencySymbol(
-                        invoiceData["Currency"]
+                          invoiceData["Currency"]
                         )}${subAmount}</span>
                     </div>
                     <div class="sub-sec5-item">
-                        <p class="sub-sec5-title">${invoiceData["Tax Type"]} ${invoiceData["Tax percentage"]}%</p><span>${currencySymbol(
-                        invoiceData["Currency"]
-                        )}${taxAmount}</span>
-                    </div>` : ''}
+                        <p class="sub-sec5-title">${invoiceData["Tax Type"]} ${
+                         invoiceData["Tax percentage"]
+                       }%</p><span>${currencySymbol(
+                         invoiceData["Currency"]
+                       )}${taxAmount}</span>
+                    </div>`
+                     : ""
+                 }
                     
                      <div class="sub-sec5-item">
                         <h2 class="sub-sec5-title">Total</h2><span>${currencySymbol(
-                        invoiceData["Currency"]
+                          invoiceData["Currency"]
                         )}${totalAmount}</span>
                      </div>
                 </div>
             </div>
         </div>
-        ${bankDetailsAvailable ? `<div class="sec7-container">
+        ${
+          bankDetailsAvailable
+            ? `<div class="sec7-container">
           <h2>Bank Details</h2>
-          ${invoiceData["Sender's Bank"] ? `
+          ${
+            invoiceData["Sender's Bank"]
+              ? `
           <div class="sub-sec7-container">
               <span class="sub-sec7-title">Bank Name:</span><span>${invoiceData["Sender's Bank"]}</span>
-          </div>` : ""}
-          ${invoiceData["Sender's Account no"] ? `
+          </div>`
+              : ""
+          }
+          ${
+            invoiceData["Sender's Account no"]
+              ? `
           <div class="sub-sec7-container">
               <span class="sub-sec7-title">A/c No:</span><span>${invoiceData["Sender's Account no"]}</span>
-          </div>` : ""}
-          ${invoiceData["Sender's Account Holder Name"] ? `
+          </div>`
+              : ""
+          }
+          ${
+            invoiceData["Sender's Account Holder Name"]
+              ? `
           <div class="sub-sec7-container">
               <span class="sub-sec7-title">A/c Holder Name:</span><span>${invoiceData["Sender's Account Holder Name"]}</span>
-          </div>` : ""}
-          ${invoiceData["Sender's IFSC Code"] ? `
+          </div>`
+              : ""
+          }
+          ${
+            invoiceData["Sender's IFSC Code"]
+              ? `
           <div class="sub-sec7-container">
               <span class="sub-sec7-title">IFSC Code:</span><span>${invoiceData["Sender's IFSC Code"]}</span>
-          </div>` : ""}
-          ${invoiceData["Sender's Account Type"] ? `
+          </div>`
+              : ""
+          }
+          ${
+            invoiceData["Sender's Account Type"]
+              ? `
           <div class="sub-sec7-container">
               <span class="sub-sec7-title">A/c Type:</span><span>${invoiceData["Sender's Account Type"]}</span>
-          </div>` : ""}
-      </div>` : ""}
+          </div>`
+              : ""
+          }
+      </div>`
+            : ""
+        }
       ${remarksUI}
     </div>
 </body>

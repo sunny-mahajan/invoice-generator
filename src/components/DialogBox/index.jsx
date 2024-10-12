@@ -36,7 +36,7 @@ const DialogBox = ({
 
         {/* Content */}
         <div className="mb-6">
-        <div className="text-black" style={{ whiteSpace: "pre-line" }}>
+          <div className="text-black" style={{ whiteSpace: "pre-line" }}>
             {content}
           </div>
           {/* <p className="text-black">{content}</p> */}
