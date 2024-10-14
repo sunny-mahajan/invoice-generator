@@ -201,3 +201,6 @@ p {
 .bill-from-container {
   background-color: #34374b;
 }
+.formDropdownCls {
+  width: 25% !important;
+}
