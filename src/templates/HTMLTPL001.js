@@ -1,5 +1,4 @@
 export default function generateHTMLTPL001(invoiceData) {
-  console.log("invoiceData", invoiceData);
   // Initialize the sub-amount
   let subAmount = 0;
 

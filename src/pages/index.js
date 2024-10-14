@@ -289,11 +289,12 @@ const InvoiceForm = () => {
   };
 
   const handleSubmit = async (e, saveAsDraft) => {
-    console.log(formData, "senderDetails");
     e.preventDefault();
 
-    if (!saveAsDraft && !validateForm()) return;
-
+    if (!saveAsDraft && !validateForm()) {
+      toast.error("Please fill all required fields before submitting");
+      return;
+    }
     setLoading(true);
 
     const mappedData = {
