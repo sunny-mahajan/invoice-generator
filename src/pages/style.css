@@ -204,3 +204,26 @@ p {
 .formDropdownCls {
   width: 25% !important;
 }
+.contact-container .PhoneInput--focus {
+  color: #141625;
+}
+.contact-container .PhoneInputInput {
+  width: 100%;
+  padding: 10px;
+  height: 40px !important;
+  border-radius: 0 0 4px;
+  border: 1px solid #20233d;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  background-color: #252945;
+  color: #f8f8f8;
+}
+
+.contact-container .PhoneInputCountry {
+  border: 1px solid #20233d;
+  background-color: #252945;
+  margin-right: auto !important;
+  padding: 0 4px;
+  border-radius: 4px 0 0;
+}

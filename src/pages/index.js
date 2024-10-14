@@ -26,6 +26,7 @@ import {
   taxTypeOptions,
   currencySymbols,
 } from "../utils/constants";
+import PhoneInputField from "../components/Input/phoneInput";
 
 const formDataInitialValues = {
   invoiceNo: "",
@@ -439,25 +440,20 @@ const InvoiceForm = () => {
                       <p style={styles.error}>{errors.senderName}</p>
                     )}
                   </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderDetails.contactNo"
-                      title="Contact No."
-                      value={formData?.senderDetails?.contactNo}
-                      onKeyDown={handleKeyDown}
-                      onChange={handleChange}
-                      style={styles.input}
-                    />
-                  </div>
+                  <PhoneInputField
+                    value={formData.senderDetails?.contactNo}
+                    onChange={(value) =>
+                      handleChange({
+                        target: {
+                          name: "senderDetails.contactNo",
+                          value: value,
+                        },
+                      })
+                    }
+                    label="Phone No."
+                    placeholder="Enter Phone number"
+                    defaultCountry="IN"
+                  />
                 </div>
                 <div
                   style={{
@@ -688,24 +684,20 @@ const InvoiceForm = () => {
                       )
                     )}
                   </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="clientDetails.contactNo"
-                      title="Client's Contact No."
-                      value={formData.clientDetails.contactNo}
-                      onChange={handleChange}
-                      onKeyDown={handleKeyDown}
-                      style={styles.input}
-                    />
-                  </div>
+                  <PhoneInputField
+                    value={formData.clientDetails?.contactNo}
+                    onChange={(value) =>
+                      handleChange({
+                        target: {
+                          name: "clientDetails.contactNo",
+                          value: value,
+                        },
+                      })
+                    }
+                    label="Phone No."
+                    placeholder="Enter phone number"
+                    defaultCountry="IN"
+                  />
                 </div>
 
                 <div
