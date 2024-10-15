@@ -3,7 +3,13 @@ import React, { useRef, useState } from "react";
 import CustomButton from "../components/Button";
 import CustomInput from "../components/Input";
 import FormCustomDropdown from "../components/FormDropdown";
-import { DeleteIcon, PlusIcon } from "../utils/icons";
+import {
+  DeleteIcon,
+  PlusIcon,
+  EditIcon,
+  DownArrowIcon,
+  UpArrowIcon,
+} from "../utils/icons";
 import CustomDatePicker from "../components/DatePicker";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,11 +33,12 @@ import {
   currencySymbols,
 } from "../utils/constants";
 import PhoneInputField from "../components/Input/phoneInput";
+import DialogBox from "../components/DialogBox/editSender";
 
 const formDataInitialValues = {
   invoiceNo: "",
   createdAt: formatDateToISO(new Date()),
-  dueDate: formatDateToISO(addDays(new Date(), 30)),
+  dueDate: "",
   status: "draft",
   senderDetails: {
     name: "",
@@ -88,6 +95,11 @@ const InvoiceForm = () => {
   const [isDueDatePickerOpen, setIsDueDatePickerOpen] = useState(false);
   const [formData, setFormData] = useState(formDataInitialValues);
   const [errors, setErrors] = useState({});
+  const [isDueDateOpen, setIsDueDateOpen] = useState(false);
+  const [isDataSaved, setIsDataSaved] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isAccordianOpen, setisAccordianOpen] = useState({});
+  const [dueDateAfter, setDueDateAfter] = useState(15);
 
   const customDatePickerRef = useRef(null);
   const datePickerInputRef = useRef(null);
@@ -137,6 +149,18 @@ const InvoiceForm = () => {
           },
         }));
       } else {
+        console.log(name, value);
+        if (name === "dueDate") {
+          const createdAtDate = new Date(formData.createdAt);
+          const dueDateValue = new Date(value);
+          const timeDifferenceInMs =
+            dueDateValue.getTime() - createdAtDate.getTime();
+
+          // Convert milliseconds to days, hours, minutes
+          const differenceInDays = timeDifferenceInMs / (1000 * 60 * 60 * 24); // Days
+          console.log(differenceInDays);
+          setDueDateAfter(value);
+        }
         setFormData((prev) => ({
           ...prev,
           [name]: value,
@@ -290,6 +314,7 @@ const InvoiceForm = () => {
   };
 
   const handleSubmit = async (e, saveAsDraft) => {
+    console.log(formData.dueDate, "duedate", formData.createdAt);
     e.preventDefault();
 
     if (!saveAsDraft && !validateForm()) {
@@ -297,7 +322,6 @@ const InvoiceForm = () => {
       return;
     }
     setLoading(true);
-
     const mappedData = {
       "Invoice No.": formData.invoiceNo,
       "Template Id": selectedTemplateId,
@@ -314,9 +338,9 @@ const InvoiceForm = () => {
     try {
       const pdfBlob = await generateHTMLPDF(mappedData);
       if (pdfBlob) {
+        setIsDataSaved(true);
         // Create a temporary URL for the blob
         const blobURL = URL.createObjectURL(pdfBlob);
-
         // Open the PDF in a new tab
         window.open(blobURL, "_blank");
 
@@ -334,6 +358,35 @@ const InvoiceForm = () => {
     }
   };
 
+  const handleDueDate = () => {
+    setFormData((prev) => ({
+      ...prev,
+      dueDate: formatDateToISO(addDays(formData.createdAt, 15)),
+    }));
+    setIsDueDateOpen(true);
+  };
+
+  const handleRemoveDueDate = () => {
+    setFormData((prev) => ({
+      ...prev,
+      dueDate: "",
+    }));
+    setIsDueDateOpen(false);
+  };
+
+  const handleOpenDialog = () => setIsDialogOpen(true);
+  const handleCloseDialog = () => setIsDialogOpen(false);
+  const handleConfirm = () => {
+    setIsDialogOpen(false);
+  };
+
+  const toggleAccordion = (id) => {
+    setisAccordianOpen((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle the specific accordion's open state
+    }));
+  };
+
   return (
     <Layout>
       <div className="content d-flex flex-direction-column">
@@ -343,14 +396,14 @@ const InvoiceForm = () => {
             <div
               style={{
                 display: "flex",
+                flexDirection: "column",
                 gap: "20px",
               }}
             >
               <div
                 style={{
                   display: "flex",
-                  marginBottom: "20px",
-                  width: "25%",
+                  width: "45%",
                   flexDirection: "column",
                 }}
               >
@@ -361,6 +414,7 @@ const InvoiceForm = () => {
                   value={formData?.invoiceNo}
                   onChange={handleChange}
                   style={styles.input}
+                  containerClass="input-container-cls"
                   required={true}
                 />
                 {errors?.invoiceNo && (
@@ -371,7 +425,7 @@ const InvoiceForm = () => {
               <div
                 style={{
                   display: "flex",
-                  width: "25%",
+                  width: "45%",
                   flexDirection: "column",
                 }}
                 ref={datePickerInputRef}
@@ -384,274 +438,629 @@ const InvoiceForm = () => {
                   onChange={handleChange}
                   isDatePickerOpen={isDatePickerOpen}
                   customDatePickerRef={customDatePickerRef}
+                  containerClass="input-container-cls"
                 />
               </div>
+              {!isDueDateOpen ? (
+                <div className=" flex align-items-center">
+                  <CustomButton
+                    type="gray"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDueDate();
+                    }}
+                    buttonStyle={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      float: "right",
+                    }}
+                  >
+                    <PlusIcon f={"#dfe3fa"} /> Add Due Date
+                  </CustomButton>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    width: "48%",
+                    gap: "20px",
+                    alignItems: "center",
+                  }}
+                  ref={dueDatePickerInputRef}
+                  onClick={() => handleDatePickerInputClick(true)}
+                >
+                  <CustomDatePicker
+                    name="dueDate"
+                    title="Invoice Due Date"
+                    value={formData.dueDate}
+                    onChange={handleChange}
+                    isDatePickerOpen={isDueDatePickerOpen}
+                    customDatePickerRef={dueCustomDatePickerRef}
+                    containerClass="input-container-cls"
+                    invoiceCreatedDate={formData.createdAt}
+                    isDueDate={true}
+                  />
+                  <div
+                    onClick={() => handleRemoveDueDate()}
+                    style={{
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "100%",
+                      flex: "0 1 auto",
+                    }}
+                  >
+                    <DeleteIcon />
+                  </div>
+                </div>
+              )}
 
-              <div
-                style={{
-                  display: "flex",
-                  width: "25%",
-                  marginBottom: "20px",
-                  flexDirection: "column",
-                }}
-                ref={dueDatePickerInputRef}
-                onClick={() => handleDatePickerInputClick(true)}
-              >
-                <CustomDatePicker
-                  name="dueDate"
-                  title="Invoice Due Date"
-                  value={formData.dueDate}
-                  onChange={handleChange}
-                  isDatePickerOpen={isDueDatePickerOpen}
-                  customDatePickerRef={dueCustomDatePickerRef}
-                />
+              <div>
+                {formData.newFields &&
+                  formData.newFields.map((field, index) => (
+                    <div
+                      key={index}
+                      style={styles.itemContainer}
+                      className="w-[48%]"
+                    >
+                      <CustomInput
+                        type="text"
+                        name="fieldName"
+                        placeholder="Field Name"
+                        containerClass="due-date-input-container-cls"
+                        containerStyle={{ width: "80%", marginBottom: "0" }}
+                        value={field.fieldName}
+                        onChange={(e) => handleFieldChange(index, e)}
+                      />
+                      <CustomInput
+                        type="text"
+                        name="fieldValue"
+                        placeholder="Value"
+                        containerClass="due-date-input-container-cls"
+                        value={field.fieldValue}
+                        onChange={(e) => handleFieldChange(index, e)}
+                      />
+                      <div
+                        onClick={() => handleRemoveField(index)}
+                        style={{
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          height: "100%",
+                          flex: "0 1 auto",
+                        }}
+                      >
+                        <DeleteIcon />
+                      </div>
+                    </div>
+                  ))}
+                <div className="mb-4 flex align-items-center">
+                  <CustomButton
+                    type="gray"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddField();
+                    }}
+                    buttonStyle={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      float: "right",
+                    }}
+                  >
+                    <PlusIcon f={"#dfe3fa"} /> Add More Field
+                  </CustomButton>
+                </div>
               </div>
             </div>
             <div className="parties-details-container flex justify-between gap-12">
-              <div
-                className="bill-from-container w-3/6  p-4 rounded-lg"
-                style={styles.section}
-              >
-                <h3 style={styles.titleText}>Bill From</h3>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderDetails.name"
-                      title="Name"
-                      value={formData?.senderDetails?.name}
-                      onChange={handleChange}
-                      style={styles.input}
-                      required={true}
-                    />
-                    {errors?.senderName && (
-                      <p style={styles.error}>{errors.senderName}</p>
-                    )}
-                  </div>
-                  <PhoneInputField
-                    value={formData.senderDetails?.contactNo}
-                    onChange={(value) =>
-                      handleChange({
-                        target: {
-                          name: "senderDetails.contactNo",
-                          value: value,
-                        },
-                      })
-                    }
-                    label="Phone No."
-                    placeholder="Enter Phone number"
-                    defaultCountry="IN"
-                  />
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderDetails.email"
-                      title="Email"
-                      value={formData?.senderDetails?.email}
-                      onChange={handleChange}
-                      style={styles.input}
-                    />
-                    {errors?.senderEmail && (
-                      <p style={styles.error}>{errors.senderEmail}</p>
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderDetails.street"
-                      title="Street Address"
-                      value={formData?.senderDetails?.street}
-                      onChange={handleChange}
-                      style={styles.input}
-                    />
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderDetails.city"
-                      title="City"
-                      value={formData?.senderDetails?.city}
-                      onChange={handleChange}
-                      style={styles.input}
-                    />
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderDetails.state"
-                      title="State"
-                      value={formData?.senderDetails?.state}
-                      onChange={handleChange}
-                      style={styles.input}
-                    />
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderDetails.postCode"
-                      title="Post Code"
-                      value={formData?.senderDetails?.postCode}
-                      onChange={handleChange}
-                      style={styles.input}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="senderDetails.country"
-                      title="Country"
-                      value={formData?.senderDetails?.country}
-                      onChange={handleChange}
-                      style={styles.input}
-                    />
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
+              <div style={styles.section} className="w-3/6">
+                {!isDataSaved ? (
+                  <div className="bill-from-container p-4 rounded-lg">
+                    <h3 style={styles.titleText}>Bill From</h3>
                     <div
                       style={{
                         display: "flex",
-
-                        width: "100%",
-                        flexDirection: "column",
+                        gap: "20px",
                       }}
                     >
-                      <FormCustomDropdown
-                        name="senderDetails.taxType"
-                        title="Tax Type"
-                        label={formData.senderDetails.taxType}
-                        onSelect={handleChange}
-                        style={styles.input}
-                        options={taxTypeOptions}
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="senderDetails.name"
+                          title="Name"
+                          value={formData?.senderDetails?.name}
+                          onChange={handleChange}
+                          style={styles.input}
+                          required={true}
+                        />
+                        {errors?.senderName && (
+                          <p style={styles.error}>{errors.senderName}</p>
+                        )}
+                      </div>
+                      <PhoneInputField
+                        value={formData.senderDetails?.contactNo}
+                        onChange={(value) =>
+                          handleChange({
+                            target: {
+                              name: "senderDetails.contactNo",
+                              value: value,
+                            },
+                          })
+                        }
+                        label="Phone No."
+                        placeholder="Enter Phone number"
+                        defaultCountry="IN"
                       />
                     </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "48%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="senderDetails.email"
+                          title="Email"
+                          value={formData?.senderDetails?.email}
+                          onChange={handleChange}
+                          style={styles.input}
+                        />
+                        {errors?.senderEmail && (
+                          <p style={styles.error}>{errors.senderEmail}</p>
+                        )}
+                      </div>
+                      {/* <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="senderDetails.street"
+                          title="Street Address"
+                          value={formData?.senderDetails?.street}
+                          onChange={handleChange}
+                          style={styles.input}
+                        />
+                      </div> */}
+                    </div>
+
+                    <div className="border-slate-200">
+                      <button
+                        onClick={() => toggleAccordion(1)}
+                        className="w-full flex justify-between items-center py-5 text-slate-800"
+                      >
+                        <span class="text-[#dfe3fa]">Address (optional)</span>
+                        {isAccordianOpen[1] ? (
+                          <UpArrowIcon />
+                        ) : (
+                          <DownArrowIcon />
+                        )}
+                      </button>
+                      <div
+                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                          isAccordianOpen[1] ? "max-h-screen" : "max-h-0"
+                        }`}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            marginTop: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="senderDetails.street"
+                              title="Street Address"
+                              value={formData?.senderDetails?.street}
+                              onChange={handleChange}
+                              style={styles.input}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="senderDetails.city"
+                              title="City"
+                              value={formData?.senderDetails?.city}
+                              onChange={handleChange}
+                              style={styles.input}
+                            />
+                          </div>
+                        </div>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            marginTop: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="senderDetails.state"
+                              title="State"
+                              value={formData?.senderDetails?.state}
+                              onChange={handleChange}
+                              style={styles.input}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="senderDetails.postCode"
+                              title="Post Code"
+                              value={formData?.senderDetails?.postCode}
+                              onChange={handleChange}
+                              style={styles.input}
+                            />
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            marginTop: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "48%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="senderDetails.country"
+                              title="Country"
+                              value={formData?.senderDetails?.country}
+                              onChange={handleChange}
+                              style={styles.input}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-slate-200">
+                      <button
+                        onClick={() => toggleAccordion(2)}
+                        className="w-full flex justify-between items-center py-5 text-slate-800"
+                      >
+                        <span class="text-[#dfe3fa]">
+                          Tax Information (optional)
+                        </span>
+                        {isAccordianOpen[2] ? (
+                          <UpArrowIcon />
+                        ) : (
+                          <DownArrowIcon />
+                        )}
+                      </button>
+                      <div
+                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                          isAccordianOpen[2] ? "max-h-screen" : "max-h-0"
+                        }`}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            marginTop: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+
+                                width: "100%",
+                                flexDirection: "column",
+                              }}
+                            >
+                              <FormCustomDropdown
+                                name="senderDetails.taxType"
+                                title="Tax Type"
+                                label={formData.senderDetails.taxType}
+                                onSelect={handleChange}
+                                style={styles.input}
+                                options={taxTypeOptions}
+                              />
+                            </div>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="senderDetails.taxNo"
+                              value={formData.senderDetails.taxNo}
+                              onChange={handleChange}
+                              style={styles.input}
+                              title={formData.senderDetails.taxType + " Number"}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="senderDetails.city"
+                          title="City"
+                          value={formData?.senderDetails?.city}
+                          onChange={handleChange}
+                          style={styles.input}
+                        />
+                      </div>
+
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="senderDetails.state"
+                          title="State"
+                          value={formData?.senderDetails?.state}
+                          onChange={handleChange}
+                          style={styles.input}
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="senderDetails.postCode"
+                          title="Post Code"
+                          value={formData?.senderDetails?.postCode}
+                          onChange={handleChange}
+                          style={styles.input}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="senderDetails.country"
+                          title="Country"
+                          value={formData?.senderDetails?.country}
+                          onChange={handleChange}
+                          style={styles.input}
+                        />
+                      </div>
+                    </div> */}
+                    {/* <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+
+                            width: "100%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <FormCustomDropdown
+                            name="senderDetails.taxType"
+                            title="Tax Type"
+                            label={formData.senderDetails.taxType}
+                            onSelect={handleChange}
+                            style={styles.input}
+                            options={taxTypeOptions}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="senderDetails.taxNo"
+                          value={formData.senderDetails.taxNo}
+                          onChange={handleChange}
+                          style={styles.input}
+                          title={formData.senderDetails.taxType + " Number"}
+                        />
+                      </div>
+                    </div> */}
                   </div>
+                ) : (
                   <div
                     style={{
                       display: "flex",
-
-                      width: "100%",
+                      gap: "20px",
                       flexDirection: "column",
+                      marginTop: "10px",
                     }}
                   >
-                    <CustomInput
-                      type="text"
-                      name="senderDetails.taxNo"
-                      value={formData.senderDetails.taxNo}
-                      onChange={handleChange}
-                      style={styles.input}
-                      title={formData.senderDetails.taxType + " Number"}
-                    />
+                    <div className="d-flex justify-between">
+                      <span>Sender Details: </span>
+                      <span
+                        className="d-flex align-items-center gap-2 cursor-pointer"
+                        onClick={() => handleOpenDialog()}
+                      >
+                        {EditIcon()}Edit
+                      </span>
+                    </div>
+                    <div>
+                      <DialogBox
+                        isOpen={isDialogOpen}
+                        onClose={handleCloseDialog}
+                        onConfirm={handleConfirm}
+                        data={formData.senderDetails}
+                      />
+                    </div>
+                    <div>
+                      <span>Name:</span>
+                      <span>{formData.senderDetails.name}</span>
+                    </div>
+                    <div>
+                      <span>Email:</span>
+                      <span>{formData.senderDetails.email}</span>
+                    </div>
+                    <div>
+                      <span>contactNo:</span>
+                      <span>{formData.senderDetails.contactNo}</span>
+                    </div>
+                    <div>
+                      <span>street:</span>
+                      <span>{formData.senderDetails.street}</span>
+                    </div>
+                    <div>
+                      <span>city:</span>
+                      <span>{formData.senderDetails.city}</span>
+                    </div>
+                    <div>
+                      <span>state:</span>
+                      <span>{formData.senderDetails.state}</span>
+                    </div>
+                    <div>
+                      <span>postCode:</span>
+                      <span>{formData.senderDetails.postCode}</span>
+                    </div>
+                    <div>
+                      <span>country:</span>
+                      <span>{formData.senderDetails.country}</span>
+                    </div>
+                    <div>
+                      <span>taxType:</span>
+                      <span>{formData.senderDetails.taxType}</span>
+                    </div>
+                    <div>
+                      <span>taxNo:</span>
+                      <span>{formData.senderDetails.taxNo}</span>
+                    </div>
                   </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                ></div>
+                )}
               </div>
 
-              <div
-                className="bill-to-container w-3/6 p-4 rounded-lg"
-                style={styles.section}
-              >
-                <h3 style={styles.titleText}>Bill To</h3>
-                <div
+              <div style={styles.section} className=" w-3/6 ">
+                {/* <h3 style={styles.titleText}>Bill To</h3> */}
+                {/* <div
                   style={{
                     display: "flex",
                     gap: "20px",
@@ -877,14 +1286,488 @@ const InvoiceForm = () => {
                       title={formData.clientDetails.taxType + " Number"}
                     />
                   </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                ></div>
+                </div> */}
+                {!isDataSaved ? (
+                  <div className="bill-to-container p-4 rounded-lg">
+                    <h3 style={styles.titleText}>Bill To</h3>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="clientDetails.name"
+                          title="Client's Name"
+                          value={formData.clientDetails.name}
+                          onChange={handleChange}
+                          style={styles.input}
+                          required={true}
+                        />
+                        {errors?.clientName ? (
+                          <p style={styles.error}>{errors.clientName}</p>
+                        ) : (
+                          errors["clientDetails.name"] && (
+                            <p style={styles.error}>
+                              {errors["clientDetails.name"]}
+                            </p>
+                          )
+                        )}
+                      </div>
+                      <PhoneInputField
+                        value={formData.clientDetails?.contactNo}
+                        onChange={(value) =>
+                          handleChange({
+                            target: {
+                              name: "clientDetails.contactNo",
+                              value: value,
+                            },
+                          })
+                        }
+                        label="Phone No."
+                        placeholder="Enter phone number"
+                        defaultCountry="IN"
+                      />
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "48%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="clientDetails.email"
+                          title="Client's Email"
+                          value={formData.clientDetails.email}
+                          onChange={handleChange}
+                          style={styles.input}
+                        />
+                        {errors?.clientEmail ? (
+                          <p style={styles.error}>{errors.clientEmail}</p>
+                        ) : (
+                          errors["clientDetails.email"] && (
+                            <p style={styles.error}>
+                              {errors["clientDetails.email"]}
+                            </p>
+                          )
+                        )}
+                      </div>
+                      {/* <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="clientDetails.street"
+                          value={formData?.clientDetails?.street}
+                          onChange={handleChange}
+                          title="Street Address"
+                          style={styles.input}
+                        />
+                      </div> */}
+                    </div>
+                    {/* <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="clientDetails.city"
+                          value={formData?.clientDetails?.city}
+                          onChange={handleChange}
+                          title="City"
+                          style={styles.input}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="clientDetails.state"
+                          value={formData?.clientDetails?.state}
+                          onChange={handleChange}
+                          title="State"
+                          style={styles.input}
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="clientDetails.postCode"
+                          value={formData?.clientDetails?.postCode}
+                          onChange={handleChange}
+                          title={"Post Code"}
+                          style={styles.input}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="clientDetails.country"
+                          value={formData?.clientDetails?.country}
+                          onChange={handleChange}
+                          title="Country"
+                          style={styles.input}
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "20px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <FormCustomDropdown
+                          name="clientDetails.taxType"
+                          title="Tax Type"
+                          label={formData.clientDetails.taxType}
+                          onSelect={handleChange}
+                          style={styles.input}
+                          options={taxTypeOptions}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+
+                          width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CustomInput
+                          type="text"
+                          name="clientDetails.taxNo"
+                          value={formData.clientDetails.taxNo}
+                          onChange={handleChange}
+                          style={styles.input}
+                          title={formData.clientDetails.taxType + " Number"}
+                        />
+                      </div>
+                    </div> */}
+
+                    <div className="border-slate-200">
+                      <button
+                        onClick={() => toggleAccordion(3)}
+                        className="w-full flex justify-between items-center py-5 text-slate-800"
+                      >
+                        <span class="text-[#dfe3fa]">Address (optional)</span>
+                        {isAccordianOpen[3] ? (
+                          <UpArrowIcon />
+                        ) : (
+                          <DownArrowIcon />
+                        )}
+                      </button>
+                      <div
+                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                          isAccordianOpen[3] ? "max-h-screen" : "max-h-0"
+                        }`}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            marginTop: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="clientDetails.street"
+                              value={formData?.clientDetails?.street}
+                              onChange={handleChange}
+                              title="Street Address"
+                              style={styles.input}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="clientDetails.city"
+                              value={formData?.clientDetails?.city}
+                              onChange={handleChange}
+                              title="City"
+                              style={styles.input}
+                            />
+                          </div>
+                        </div>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            marginTop: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="clientDetails.state"
+                              value={formData?.clientDetails?.state}
+                              onChange={handleChange}
+                              title="State"
+                              style={styles.input}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="clientDetails.postCode"
+                              value={formData?.clientDetails?.postCode}
+                              onChange={handleChange}
+                              title={"Post Code"}
+                              style={styles.input}
+                            />
+                          </div>
+                        </div>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            marginTop: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "48%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="clientDetails.country"
+                              value={formData?.clientDetails?.country}
+                              onChange={handleChange}
+                              title="Country"
+                              style={styles.input}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-slate-200">
+                      <button
+                        onClick={() => toggleAccordion(4)}
+                        className="w-full flex justify-between items-center py-5 text-slate-800"
+                      >
+                        <span class="text-[#dfe3fa]">
+                          Tax Information (optional)
+                        </span>
+                        {isAccordianOpen[4] ? (
+                          <UpArrowIcon />
+                        ) : (
+                          <DownArrowIcon />
+                        )}
+                      </button>
+                      <div
+                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                          isAccordianOpen[4] ? "max-h-screen" : "max-h-0"
+                        }`}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            marginTop: "10px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <FormCustomDropdown
+                              name="clientDetails.taxType"
+                              title="Tax Type"
+                              label={formData.clientDetails.taxType}
+                              onSelect={handleChange}
+                              style={styles.input}
+                              options={taxTypeOptions}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <CustomInput
+                              type="text"
+                              name="clientDetails.taxNo"
+                              value={formData.clientDetails.taxNo}
+                              onChange={handleChange}
+                              style={styles.input}
+                              title={formData.clientDetails.taxType + " Number"}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      flexDirection: "column",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <div>
+                      <span>Client Details:</span>
+                      <span>Edit</span>
+                    </div>
+                    <div>
+                      <span>Name: </span>
+                      <span>{formData.clientDetails.name}</span>
+                    </div>
+                    <div>
+                      <span>Email: </span>
+                      <span>{formData.clientDetails.email}</span>
+                    </div>
+                    <div>
+                      <span>Phone: </span>
+                      <span>{formData.clientDetails.phone}</span>
+                    </div>
+                    <div>
+                      <span>Address: </span>
+                      <span>{formData.clientDetails.street}</span>
+                    </div>
+                    <div>
+                      <span>City: </span>
+                      <span>{formData.clientDetails.city}</span>
+                    </div>
+                    <div>
+                      <span>State: </span>
+                      <span>{formData.clientDetails.state}</span>
+                    </div>
+                    <div>
+                      <span>Post Code: </span>
+                      <span>{formData.clientDetails.postCode}</span>
+                    </div>
+                    <div>
+                      <span>Country: </span>
+                      <span>{formData.clientDetails.country}</span>
+                    </div>
+                    <div>
+                      <span>Tax Type: </span>
+                      <span>{formData.clientDetails.taxType}</span>
+                    </div>
+                    <div>
+                      <span>Tax Number: </span>
+                      <span>{formData.clientDetails.taxNo}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             <div style={styles.section}>
@@ -927,66 +1810,6 @@ const InvoiceForm = () => {
                     onChange={handleChange}
                     style={styles.input}
                   />
-                </div>
-              </div>
-              <div>
-                {formData.newFields &&
-                  formData.newFields.map((field, index) => (
-                    <div key={index} style={styles.itemContainer}>
-                      <CustomInput
-                        type="text"
-                        name="fieldName"
-                        title="Label"
-                        containerStyle={{ width: "25%" }}
-                        value={field.fieldName}
-                        onChange={(e) => handleFieldChange(index, e)}
-                        inputStyle={{
-                          flex: "2 1 auto", // Larger space for Item Name
-                        }}
-                      />
-                      <CustomInput
-                        type="text"
-                        name="fieldValue"
-                        title="Value"
-                        containerStyle={{ width: "25%" }}
-                        value={field.fieldValue}
-                        onChange={(e) => handleFieldChange(index, e)}
-                        inputStyle={{
-                          flex: "2 1 auto", // Larger space for Item Name
-                        }}
-                      />
-                      <div
-                        onClick={() => handleRemoveField(index)}
-                        style={{
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          height: "100%",
-                          flex: "0 1 auto",
-                          paddingTop: "22px",
-                        }}
-                      >
-                        <DeleteIcon />
-                      </div>
-                    </div>
-                  ))}
-                <div className="mt-4 flex align-items-center">
-                  <CustomButton
-                    type="gray"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleAddField();
-                    }}
-                    buttonStyle={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                      float: "right",
-                    }}
-                  >
-                    <PlusIcon f={"#dfe3fa"} /> Add Field
-                  </CustomButton>
                 </div>
               </div>
               <h3 style={styles.titleText}>Item List</h3>
@@ -1305,7 +2128,7 @@ const styles = {
   itemContainer: {
     display: "flex",
     alignItems: "center",
-    marginBottom: "10px",
+    marginBottom: "20px",
     gap: "20px",
     flex: "2 1 1 1",
   },

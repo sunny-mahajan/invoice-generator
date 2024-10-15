@@ -13,6 +13,8 @@ const DatePicker = ({
   onChange,
   isDatePickerOpen,
   customDatePickerRef,
+  invoiceCreatedDate,
+  isDueDate = false,
 }) => {
   const parseDateFromString = (dateString) => {
     if (!dateString) return null;
@@ -60,12 +62,54 @@ const DatePicker = ({
       .replace(/ /g, " "); // Replaces spaces if necessary
   };
 
+  // const prevMonth = () => {
+  //   const prevDate = new Date(
+  //     currentDate.getFullYear(),
+  //     currentDate.getMonth() - 1,
+  //     1
+  //   );
+  //   if (value) {
+  //     const defaultDate = parseDateFromString(value);
+  //     if (
+  //       defaultDate?.getMonth() === prevDate.getMonth() &&
+  //       defaultDate?.getFullYear() === prevDate.getFullYear()
+  //     ) {
+  //       setSelectedDate(parseDateFromString(value));
+  //     } else {
+  //       setSelectedDate(prevDate);
+  //     }
+  //   } else {
+  //     setSelectedDate(prevDate);
+  //   }
+
+  //   setCurrentDate(prevDate);
+
+  //   if (
+  //     prevDate.getMonth() === today.getMonth() &&
+  //     prevDate.getFullYear() === today.getFullYear()
+  //   ) {
+  //     value
+  //       ? setSelectedDate(parseDateFromString(value))
+  //       : setCurrentDate(today);
+  //   }
+  // };
+
   const prevMonth = () => {
     const prevDate = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth() - 1,
       1
     );
+
+    // Prevent navigation to months before the current month
+    if (
+      prevDate.getFullYear() < today.getFullYear() ||
+      (prevDate.getFullYear() === today.getFullYear() &&
+        prevDate.getMonth() < today.getMonth())
+    ) {
+      return; // Do nothing if the previous month is before the current month
+    }
+
     if (value) {
       const defaultDate = parseDateFromString(value);
       if (
@@ -148,12 +192,71 @@ const DatePicker = ({
     );
   };
 
+  // const renderCalendar = () => {
+  //   const year = currentDate.getFullYear();
+  //   const month = currentDate.getMonth();
+  //   const totalDays = daysInMonth(year, month);
+  //   const startingDay = startDay(year, month);
+  //   const days = [];
+
+  //   // Previous month's days
+  //   const prevMonthDays = daysInMonth(year, month - 1);
+  //   for (let i = startingDay - 1; i >= 0; i--) {
+  //     days.push(
+  //       <div key={`prev-${i}`} className="day adjacent-month">
+  //         {prevMonthDays - i}
+  //       </div>
+  //     );
+  //   }
+
+  //   // Current month's days
+  //   for (let i = 1; i <= totalDays; i++) {
+  //     const isSelected = selectedDate
+  //       ? i === selectedDate?.getDate()
+  //       : i === currentDate?.getDate();
+  //     days.push(
+  //       <div
+  //         key={i}
+  //         className={`day ${isSelected ? "selected" : ""}`}
+  //         onClick={() => {
+  //           const selectedDateObj = new Date(year, month, i, 12, 0, 0); // i is correct here
+  //           setSelectedDate(selectedDateObj);
+
+  //           onChange &&
+  //             onChange({ name, value: formatDateToISO(selectedDateObj) }); // Return the date in YYYY-MM-DD format
+  //           setIsOpen(false);
+  //         }}
+  //       >
+  //         {i}
+  //       </div>
+  //     );
+  //   }
+
+  //   // Next month's days
+  //   const remainingDays = 42 - days.length;
+  //   for (let i = 1; i <= remainingDays; i++) {
+  //     days.push(
+  //       <div key={`next-${i}`} className="day adjacent-month">
+  //         {i}
+  //       </div>
+  //     );
+  //   }
+
+  //   return days;
+  // };
+
   const renderCalendar = () => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const totalDays = daysInMonth(year, month);
     const startingDay = startDay(year, month);
     const days = [];
+
+    const todayDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
 
     // Previous month's days
     const prevMonthDays = daysInMonth(year, month - 1);
@@ -167,20 +270,27 @@ const DatePicker = ({
 
     // Current month's days
     for (let i = 1; i <= totalDays; i++) {
+      const dateObj = new Date(year, month, i, 12, 0, 0); // Create a date object for the current day
+      console.log(dateObj, "dateObj", todayDate);
       const isSelected = selectedDate
         ? i === selectedDate?.getDate()
         : i === currentDate?.getDate();
+      console.log(isDueDate, invoiceCreatedDate);
+      const dateStore = isDueDate ? invoiceCreatedDate : todayDate;
+      const isPastDate = dateObj < dateStore; // Check if the date is in the past
+
       days.push(
         <div
           key={i}
-          className={`day ${isSelected ? "selected" : ""}`}
+          className={`day ${isSelected ? "selected" : ""} ${
+            isPastDate ? "disabled" : ""
+          }`} // Add a disabled class if it's a past date
           onClick={() => {
-            const selectedDateObj = new Date(year, month, i, 12, 0, 0); // i is correct here
-            setSelectedDate(selectedDateObj);
-
-            onChange &&
-              onChange({ name, value: formatDateToISO(selectedDateObj) }); // Return the date in YYYY-MM-DD format
-            setIsOpen(false);
+            if (!isPastDate) {
+              setSelectedDate(dateObj);
+              onChange && onChange({ name, value: formatDateToISO(dateObj) });
+              setIsOpen(false);
+            }
           }}
         >
           {i}

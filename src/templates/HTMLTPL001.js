@@ -1,4 +1,5 @@
 export default function generateHTMLTPL001(invoiceData) {
+  console.log(invoiceData);
   // Initialize the sub-amount
   let subAmount = 0;
 
@@ -41,7 +42,9 @@ export default function generateHTMLTPL001(invoiceData) {
   invoiceData["Invoice Issue Date"] = formatDate(
     invoiceData["Invoice Issue Date"]
   );
-  invoiceData["Invoice Due Date"] = formatDate(invoiceData["Invoice Due Date"]);
+  invoiceData["Invoice Due Date"] = invoiceData["Invoice Due Date"]
+    ? formatDate(invoiceData["Invoice Due Date"])
+    : "";
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = parseFloat(invoiceData["Tax Percentage"]) || 0;
@@ -228,11 +231,13 @@ export default function generateHTMLTPL001(invoiceData) {
               invoiceData["Invoice Issue Date"]
             }</span>
           </div>
-          <div class="sub-sec2-container">
-            <span class="sub-sec2-title">Due Date:</span><span> ${
-              invoiceData["Invoice Due Date"]
-            }</span>
-          </div>
+          ${
+            invoiceData["Invoice Due Date"]
+              ? `<div class="sub-sec2-container">
+            <span class="sub-sec2-title">Due Date:</span><span> ${invoiceData["Invoice Due Date"]}</span>
+          </div>`
+              : ""
+          }
           ${
             invoiceData["newFields"]?.length > 0
               ? `

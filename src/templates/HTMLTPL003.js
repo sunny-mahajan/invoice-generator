@@ -35,7 +35,9 @@ export default function generateHTMLTPL003(invoiceData) {
   invoiceData["Invoice Issue Date"] = formatDate(
     invoiceData["Invoice Issue Date"]
   );
-  invoiceData["Invoice Due Date"] = formatDate(invoiceData["Invoice Due Date"]);
+  invoiceData["Invoice Due Date"] = invoiceData["Invoice Due Date"]
+    ? formatDate(invoiceData["Invoice Due Date"])
+    : "";
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = parseFloat(invoiceData["Tax Percentage"]) || 0;
@@ -324,11 +326,15 @@ export default function generateHTMLTPL003(invoiceData) {
               invoiceData["Invoice Issue Date"]
             }</span>
         </div>
-        <div>
-            <span class="invoice-details-heading" style="margin: 0 0 8px 0;">DUE DATE</span><span>${
-              invoiceData["Invoice Due Date"]
-            }</span>
-        </div>
+        ${
+          invoiceData["Invoice Due Date"]
+            ? `
+            <div>
+            <span class="invoice-details-heading" style="margin: 0 0 8px 0;">DUE DATE</span><span>${invoiceData["Invoice Due Date"]}</span>
+        </div>`
+            : ""
+        }
+        
         ${
           invoiceData["newFields"]?.length > 0
             ? `
