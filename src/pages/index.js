@@ -1,12 +1,11 @@
 import Layout from "../components/Layout";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import CustomButton from "../components/Button";
 import CustomInput from "../components/Input";
 import FormCustomDropdown from "../components/FormDropdown";
 import {
   DeleteIcon,
   PlusIcon,
-  EditIcon,
   DownArrowIcon,
   UpArrowIcon,
 } from "../utils/icons";
@@ -33,9 +32,9 @@ import {
   currencySymbols,
 } from "../utils/constants";
 import PhoneInputField from "../components/Input/phoneInput";
-import DialogBox from "../components/DialogBox/editSender";
+import { useForm } from "react-hook-form";
 
-const formDataInitialValues = {
+let formDataInitialValues = {
   invoiceNo: "",
   createdAt: formatDateToISO(new Date()),
   dueDate: "",
@@ -94,15 +93,25 @@ const InvoiceForm = () => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isDueDatePickerOpen, setIsDueDatePickerOpen] = useState(false);
   const [formData, setFormData] = useState(formDataInitialValues);
-  const [errors, setErrors] = useState({});
+  const [errorsData, setErrorsData] = useState({});
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
-  const [isDataSaved, setIsDataSaved] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAccordianOpen, setisAccordianOpen] = useState({});
   const [dueDateAfter, setDueDateAfter] = useState(15);
 
+  const {
+    register,
+    handleDataSubmit,
+    formState: { errors },
+    trigger,
+    getValues,
+  } = useForm({
+    mode: "onChange", // Triggers validation on change
+    reValidateMode: "onChange", // Revalidates fields on change if they were invalid
+  });
+
   const customDatePickerRef = useRef(null);
   const datePickerInputRef = useRef(null);
+
   const dueDatePickerInputRef = useRef(null);
   const dueCustomDatePickerRef = useRef(null);
 
@@ -110,9 +119,18 @@ const InvoiceForm = () => {
     setIsDatePickerOpen(false)
   );
 
-  useClickOutside([dueCustomDatePickerRef, dueDatePickerInputRef], () =>
-    setIsDueDatePickerOpen(false)
-  );
+  // useClickOutside([dueCustomDatePickerRef, dueDatePickerInputRef], () =>
+  //   setIsDueDatePickerOpen(false)
+  // );
+
+  useEffect(() => {
+    if (formData.createdAt && dueDateAfter >= 0) {
+      setFormData((prev) => ({
+        ...prev,
+        dueDate: formatDateToISO(addDays(formData.createdAt, dueDateAfter)),
+      }));
+    }
+  }, [formData.createdAt, isDueDateOpen]);
 
   const handleDatePickerInputClick = (isDueDate = false) => {
     if (isDueDate) {
@@ -134,6 +152,7 @@ const InvoiceForm = () => {
   };
 
   const handleChange = (e) => {
+    console.log("e", e);
     if (Object.keys(errors).length !== 0) {
       validateForm();
     }
@@ -149,7 +168,6 @@ const InvoiceForm = () => {
           },
         }));
       } else {
-        console.log(name, value);
         if (name === "dueDate") {
           const createdAtDate = new Date(formData.createdAt);
           const dueDateValue = new Date(value);
@@ -158,8 +176,7 @@ const InvoiceForm = () => {
 
           // Convert milliseconds to days, hours, minutes
           const differenceInDays = timeDifferenceInMs / (1000 * 60 * 60 * 24); // Days
-          console.log(differenceInDays);
-          setDueDateAfter(value);
+          setDueDateAfter(differenceInDays);
         }
         setFormData((prev) => ({
           ...prev,
@@ -178,9 +195,10 @@ const InvoiceForm = () => {
   };
 
   const handleItemChange = (index, e) => {
-    if (Object.keys(errors).length !== 0) {
-      validateForm();
-    }
+    // if (Object.keys(errors).length !== 0) {
+    //   validateForm();
+    // }
+    console.log(formData, "formData");
 
     const { name, value } = e.target;
 
@@ -201,6 +219,7 @@ const InvoiceForm = () => {
         items: updatedItems,
       };
     });
+    console.log(formData, "formData");
   };
 
   const handleFieldChange = (index, e) => {
@@ -267,37 +286,7 @@ const InvoiceForm = () => {
     const newErrors = {};
 
     // Invoice Info
-    validateField(formData.invoiceNo, "invoiceNo", "Required field", newErrors);
-
-    // Sender Info
-    const senderDetails = formData.senderDetails || {};
-    validateField(
-      senderDetails.name,
-      "senderName",
-      "Required field",
-      newErrors
-    );
-    validateEmail(senderDetails.email, "senderEmail", newErrors);
-
-    // Client Info
-    const clientDetails = formData.clientDetails || {};
-    validateField(
-      clientDetails.name,
-      "clientName",
-      "Required field",
-      newErrors
-    );
-    validateEmail(clientDetails.email, "clientEmail", newErrors);
-
-    // Bank Details Validation
-    if (
-      formData.bankDetails?.accountNumber &&
-      formData.bankDetails.accountNumber !==
-        formData.bankDetails.confirmAccountNumber
-    ) {
-      newErrors.confirmAccountNumber =
-        "Account number and confirm account number should be the same.";
-    }
+    // validateField(formData.invoiceNo, "invoiceNo", "Required field", newErrors);
 
     // Items Validation
     if (
@@ -308,20 +297,29 @@ const InvoiceForm = () => {
     ) {
       newErrors.items = "Required fields";
     }
-
-    setErrors(newErrors);
+    console.log(newErrors, "newErrors");
+    setErrorsData(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e, saveAsDraft) => {
-    console.log(formData.dueDate, "duedate", formData.createdAt);
-    e.preventDefault();
+    const data = getValues();
 
-    if (!saveAsDraft && !validateForm()) {
+    console.log(formData, "formData---------", data);
+    e.preventDefault(); // Prevent default form submission behavior
+
+    // Trigger form validation
+    const isValid = await trigger(); // This will validate the entire form
+
+    // If the form is not valid, show an error message and return
+    if (!isValid && !saveAsDraft && !validateForm()) {
       toast.error("Please fill all required fields before submitting");
       return;
     }
-    setLoading(true);
+
+    setLoading(true); // Set loading state to true while processing the form
+
+    // Map form data into the required format
     const mappedData = {
       "Invoice No.": formData.invoiceNo,
       "Template Id": selectedTemplateId,
@@ -335,34 +333,35 @@ const InvoiceForm = () => {
       Currency: formData.currency,
       "Tax Percentage": formData.taxPercentage,
     };
+
     try {
+      // Generate the PDF from the form data
       const pdfBlob = await generateHTMLPDF(mappedData);
+
       if (pdfBlob) {
-        setIsDataSaved(true);
-        // Create a temporary URL for the blob
+        // Create a temporary URL for the generated PDF
         const blobURL = URL.createObjectURL(pdfBlob);
-        // Open the PDF in a new tab
+
+        // Open the generated PDF in a new tab
         window.open(blobURL, "_blank");
 
-        // Clean up: revoke the object URL to free memory after a short delay
+        // Clean up the blob URL after a short delay to free up memory
         setTimeout(() => URL.revokeObjectURL(blobURL), 100);
       }
 
+      // You can also uncomment this to handle the server-side submission of the form
       // const response = await submitInvoice(mappedData, saveAsDraft);
       // handleResponse(response);
     } catch (error) {
+      // Display an error message if PDF generation fails
       toast.error("Error generating invoice PDF: " + error.message);
     } finally {
-      setLoading(false);
-      // Optional: trigger any post-submit actions like fetching updated data.
+      setLoading(false); // Set loading state to false after processing
+      // Optional: trigger any post-submit actions like fetching updated data
     }
   };
 
   const handleDueDate = () => {
-    setFormData((prev) => ({
-      ...prev,
-      dueDate: formatDateToISO(addDays(formData.createdAt, 15)),
-    }));
     setIsDueDateOpen(true);
   };
 
@@ -372,12 +371,6 @@ const InvoiceForm = () => {
       dueDate: "",
     }));
     setIsDueDateOpen(false);
-  };
-
-  const handleOpenDialog = () => setIsDialogOpen(true);
-  const handleCloseDialog = () => setIsDialogOpen(false);
-  const handleConfirm = () => {
-    setIsDialogOpen(false);
   };
 
   const toggleAccordion = (id) => {
@@ -416,10 +409,10 @@ const InvoiceForm = () => {
                   style={styles.input}
                   containerClass="input-container-cls"
                   required={true}
+                  errors={errors} // pass errors object
+                  register={register} // pass register function
+                  validationRules={{ required: "Invoice No. is required" }}
                 />
-                {errors?.invoiceNo && (
-                  <p style={styles.error}>{errors.invoiceNo}</p>
-                )}
               </div>
 
               <div
@@ -439,6 +432,7 @@ const InvoiceForm = () => {
                   isDatePickerOpen={isDatePickerOpen}
                   customDatePickerRef={customDatePickerRef}
                   containerClass="input-container-cls"
+                  required={true}
                 />
               </div>
               {!isDueDateOpen ? (
@@ -467,7 +461,6 @@ const InvoiceForm = () => {
                     gap: "20px",
                     alignItems: "center",
                   }}
-                  ref={dueDatePickerInputRef}
                   onClick={() => handleDatePickerInputClick(true)}
                 >
                   <CustomDatePicker
@@ -476,7 +469,6 @@ const InvoiceForm = () => {
                     value={formData.dueDate}
                     onChange={handleChange}
                     isDatePickerOpen={isDueDatePickerOpen}
-                    customDatePickerRef={dueCustomDatePickerRef}
                     containerClass="input-container-cls"
                     invoiceCreatedDate={formData.createdAt}
                     isDueDate={true}
@@ -558,397 +550,146 @@ const InvoiceForm = () => {
             </div>
             <div className="parties-details-container flex justify-between gap-12">
               <div style={styles.section} className="w-3/6">
-                {!isDataSaved ? (
-                  <div className="bill-from-container p-4 rounded-lg">
-                    <h3 style={styles.titleText}>Bill From</h3>
+                <div className="bill-from-container p-4 rounded-lg">
+                  <h3 style={styles.titleText}>Bill From</h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                    }}
+                  >
                     <div
                       style={{
                         display: "flex",
-                        gap: "20px",
+
+                        width: "100%",
+                        flexDirection: "column",
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-
-                          width: "100%",
-                          flexDirection: "column",
+                      <CustomInput
+                        type="text"
+                        name="senderDetails.name"
+                        title="Name"
+                        value={formData?.senderDetails?.name}
+                        onChange={handleChange}
+                        style={styles.input}
+                        required={true}
+                        errors={errors} // pass errors object
+                        register={register} // pass register function
+                        validationRules={{
+                          required: "Name is required",
                         }}
-                      >
-                        <CustomInput
-                          type="text"
-                          name="senderDetails.name"
-                          title="Name"
-                          value={formData?.senderDetails?.name}
-                          onChange={handleChange}
-                          style={styles.input}
-                          required={true}
-                        />
-                        {errors?.senderName && (
-                          <p style={styles.error}>{errors.senderName}</p>
-                        )}
-                      </div>
-                      <PhoneInputField
-                        value={formData.senderDetails?.contactNo}
-                        onChange={(value) =>
-                          handleChange({
-                            target: {
-                              name: "senderDetails.contactNo",
-                              value: value,
-                            },
-                          })
-                        }
-                        label="Phone No."
-                        placeholder="Enter Phone number"
-                        defaultCountry="IN"
                       />
                     </div>
+                    <PhoneInputField
+                      value={formData.senderDetails?.contactNo}
+                      onChange={(value) =>
+                        handleChange({
+                          target: {
+                            name: "senderDetails.contactNo",
+                            value: value,
+                          },
+                        })
+                      }
+                      label="Phone No."
+                      placeholder="Enter Phone number"
+                      defaultCountry="IN"
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
                     <div
                       style={{
                         display: "flex",
-                        gap: "20px",
-                        marginTop: "10px",
+
+                        width: "48%",
+                        flexDirection: "column",
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-
-                          width: "48%",
-                          flexDirection: "column",
+                      <CustomInput
+                        type="text"
+                        name="senderDetails.email"
+                        title="Email"
+                        value={formData?.senderDetails?.email}
+                        onChange={handleChange}
+                        style={styles.input}
+                        errors={errors} // pass errors object
+                        register={register} // pass register function
+                        validationRules={{
+                          pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: "Invalid email format",
+                          },
                         }}
-                      >
-                        <CustomInput
-                          type="text"
-                          name="senderDetails.email"
-                          title="Email"
-                          value={formData?.senderDetails?.email}
-                          onChange={handleChange}
-                          style={styles.input}
-                        />
-                        {errors?.senderEmail && (
-                          <p style={styles.error}>{errors.senderEmail}</p>
-                        )}
-                      </div>
-                      {/* <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <CustomInput
-                          type="text"
-                          name="senderDetails.street"
-                          title="Street Address"
-                          value={formData?.senderDetails?.street}
-                          onChange={handleChange}
-                          style={styles.input}
-                        />
-                      </div> */}
+                      />
                     </div>
+                  </div>
 
-                    <div className="border-slate-200">
-                      <button
-                        onClick={() => toggleAccordion(1)}
-                        className="w-full flex justify-between items-center py-5 text-slate-800"
-                      >
-                        <span class="text-[#dfe3fa]">Address (optional)</span>
-                        {isAccordianOpen[1] ? (
-                          <UpArrowIcon />
-                        ) : (
-                          <DownArrowIcon />
-                        )}
-                      </button>
-                      <div
-                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                          isAccordianOpen[1] ? "max-h-screen" : "max-h-0"
-                        }`}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "20px",
-                            marginTop: "10px",
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="senderDetails.street"
-                              title="Street Address"
-                              value={formData?.senderDetails?.street}
-                              onChange={handleChange}
-                              style={styles.input}
-                            />
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="senderDetails.city"
-                              title="City"
-                              value={formData?.senderDetails?.city}
-                              onChange={handleChange}
-                              style={styles.input}
-                            />
-                          </div>
-                        </div>
-
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "20px",
-                            marginTop: "10px",
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="senderDetails.state"
-                              title="State"
-                              value={formData?.senderDetails?.state}
-                              onChange={handleChange}
-                              style={styles.input}
-                            />
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="senderDetails.postCode"
-                              title="Post Code"
-                              value={formData?.senderDetails?.postCode}
-                              onChange={handleChange}
-                              style={styles.input}
-                            />
-                          </div>
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "20px",
-                            marginTop: "10px",
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "48%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="senderDetails.country"
-                              title="Country"
-                              value={formData?.senderDetails?.country}
-                              onChange={handleChange}
-                              style={styles.input}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="border-slate-200">
-                      <button
-                        onClick={() => toggleAccordion(2)}
-                        className="w-full flex justify-between items-center py-5 text-slate-800"
-                      >
-                        <span class="text-[#dfe3fa]">
-                          Tax Information (optional)
-                        </span>
-                        {isAccordianOpen[2] ? (
-                          <UpArrowIcon />
-                        ) : (
-                          <DownArrowIcon />
-                        )}
-                      </button>
-                      <div
-                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                          isAccordianOpen[2] ? "max-h-screen" : "max-h-0"
-                        }`}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "20px",
-                            marginTop: "10px",
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-
-                                width: "100%",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <FormCustomDropdown
-                                name="senderDetails.taxType"
-                                title="Tax Type"
-                                label={formData.senderDetails.taxType}
-                                onSelect={handleChange}
-                                style={styles.input}
-                                options={taxTypeOptions}
-                              />
-                            </div>
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="senderDetails.taxNo"
-                              value={formData.senderDetails.taxNo}
-                              onChange={handleChange}
-                              style={styles.input}
-                              title={formData.senderDetails.taxType + " Number"}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* <div
-                      style={{
-                        display: "flex",
-                        gap: "20px",
-                        marginTop: "10px",
-                      }}
+                  <div className="border-slate-200">
+                    <button
+                      onClick={() => toggleAccordion(1)}
+                      className="w-full flex justify-between items-center py-5 text-slate-800"
                     >
-                      <div
-                        style={{
-                          display: "flex",
-
-                          width: "100%",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <CustomInput
-                          type="text"
-                          name="senderDetails.city"
-                          title="City"
-                          value={formData?.senderDetails?.city}
-                          onChange={handleChange}
-                          style={styles.input}
-                        />
-                      </div>
-
-                      <div
-                        style={{
-                          display: "flex",
-
-                          width: "100%",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <CustomInput
-                          type="text"
-                          name="senderDetails.state"
-                          title="State"
-                          value={formData?.senderDetails?.state}
-                          onChange={handleChange}
-                          style={styles.input}
-                        />
-                      </div>
-                    </div>
-
+                      <span class="text-[#dfe3fa]">Address (optional)</span>
+                      {isAccordianOpen[1] ? <UpArrowIcon /> : <DownArrowIcon />}
+                    </button>
                     <div
-                      style={{
-                        display: "flex",
-                        gap: "20px",
-                        marginTop: "10px",
-                      }}
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        isAccordianOpen[1] ? "max-h-screen" : "max-h-0"
+                      }`}
                     >
                       <div
                         style={{
                           display: "flex",
-
-                          width: "100%",
-                          flexDirection: "column",
+                          gap: "20px",
+                          marginTop: "10px",
                         }}
                       >
-                        <CustomInput
-                          type="text"
-                          name="senderDetails.postCode"
-                          title="Post Code"
-                          value={formData?.senderDetails?.postCode}
-                          onChange={handleChange}
-                          style={styles.input}
-                        />
+                        <div
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <CustomInput
+                            type="text"
+                            name="senderDetails.street"
+                            title="Street Address"
+                            value={formData?.senderDetails?.street}
+                            onChange={handleChange}
+                            style={styles.input}
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+
+                            width: "100%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <CustomInput
+                            type="text"
+                            name="senderDetails.city"
+                            title="City"
+                            value={formData?.senderDetails?.city}
+                            onChange={handleChange}
+                            style={styles.input}
+                          />
+                        </div>
                       </div>
+
                       <div
                         style={{
                           display: "flex",
-
-                          width: "100%",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <CustomInput
-                          type="text"
-                          name="senderDetails.country"
-                          title="Country"
-                          value={formData?.senderDetails?.country}
-                          onChange={handleChange}
-                          style={styles.input}
-                        />
-                      </div>
-                    </div> */}
-                    {/* <div
-                      style={{
-                        display: "flex",
-                        gap: "20px",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-
-                          width: "100%",
-                          flexDirection: "column",
+                          gap: "20px",
+                          marginTop: "10px",
                         }}
                       >
                         <div
@@ -959,420 +700,213 @@ const InvoiceForm = () => {
                             flexDirection: "column",
                           }}
                         >
-                          <FormCustomDropdown
-                            name="senderDetails.taxType"
-                            title="Tax Type"
-                            label={formData.senderDetails.taxType}
-                            onSelect={handleChange}
+                          <CustomInput
+                            type="text"
+                            name="senderDetails.state"
+                            title="State"
+                            value={formData?.senderDetails?.state}
+                            onChange={handleChange}
                             style={styles.input}
-                            options={taxTypeOptions}
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+
+                            width: "100%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <CustomInput
+                            type="text"
+                            name="senderDetails.postCode"
+                            title="Post Code"
+                            value={formData?.senderDetails?.postCode}
+                            onChange={handleChange}
+                            style={styles.input}
                           />
                         </div>
                       </div>
                       <div
                         style={{
                           display: "flex",
-
-                          width: "100%",
-                          flexDirection: "column",
+                          gap: "20px",
+                          marginTop: "10px",
                         }}
                       >
-                        <CustomInput
-                          type="text"
-                          name="senderDetails.taxNo"
-                          value={formData.senderDetails.taxNo}
-                          onChange={handleChange}
-                          style={styles.input}
-                          title={formData.senderDetails.taxType + " Number"}
-                        />
+                        <div
+                          style={{
+                            display: "flex",
+
+                            width: "48%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <CustomInput
+                            type="text"
+                            name="senderDetails.country"
+                            title="Country"
+                            value={formData?.senderDetails?.country}
+                            onChange={handleChange}
+                            style={styles.input}
+                          />
+                        </div>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
-                ) : (
+
+                  <div className="border-slate-200">
+                    <button
+                      onClick={() => toggleAccordion(2)}
+                      className="w-full flex justify-between items-center py-5 text-slate-800"
+                    >
+                      <span class="text-[#dfe3fa]">
+                        Tax Information (optional)
+                      </span>
+                      {isAccordianOpen[2] ? <UpArrowIcon /> : <DownArrowIcon />}
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        isAccordianOpen[2] ? "max-h-screen" : "max-h-0"
+                      }`}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "20px",
+                          marginTop: "10px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+
+                            width: "100%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+
+                              width: "100%",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <FormCustomDropdown
+                              name="senderDetails.taxType"
+                              title="Tax Type"
+                              label={formData.senderDetails.taxType}
+                              onSelect={handleChange}
+                              style={styles.input}
+                              options={taxTypeOptions}
+                            />
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+
+                            width: "100%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <CustomInput
+                            type="text"
+                            name="senderDetails.taxNo"
+                            value={formData.senderDetails.taxNo}
+                            onChange={handleChange}
+                            style={styles.input}
+                            title={formData.senderDetails.taxType + " Number"}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style={styles.section} className=" w-3/6 ">
+                <div className="bill-to-container p-4 rounded-lg">
+                  <h3 style={styles.titleText}>Bill To</h3>
                   <div
                     style={{
                       display: "flex",
                       gap: "20px",
-                      flexDirection: "column",
                       marginTop: "10px",
                     }}
                   >
-                    <div className="d-flex justify-between">
-                      <span>Sender Details: </span>
-                      <span
-                        className="d-flex align-items-center gap-2 cursor-pointer"
-                        onClick={() => handleOpenDialog()}
-                      >
-                        {EditIcon()}Edit
-                      </span>
-                    </div>
-                    <div>
-                      <DialogBox
-                        isOpen={isDialogOpen}
-                        onClose={handleCloseDialog}
-                        onConfirm={handleConfirm}
-                        data={formData.senderDetails}
-                      />
-                    </div>
-                    <div>
-                      <span>Name:</span>
-                      <span>{formData.senderDetails.name}</span>
-                    </div>
-                    <div>
-                      <span>Email:</span>
-                      <span>{formData.senderDetails.email}</span>
-                    </div>
-                    <div>
-                      <span>contactNo:</span>
-                      <span>{formData.senderDetails.contactNo}</span>
-                    </div>
-                    <div>
-                      <span>street:</span>
-                      <span>{formData.senderDetails.street}</span>
-                    </div>
-                    <div>
-                      <span>city:</span>
-                      <span>{formData.senderDetails.city}</span>
-                    </div>
-                    <div>
-                      <span>state:</span>
-                      <span>{formData.senderDetails.state}</span>
-                    </div>
-                    <div>
-                      <span>postCode:</span>
-                      <span>{formData.senderDetails.postCode}</span>
-                    </div>
-                    <div>
-                      <span>country:</span>
-                      <span>{formData.senderDetails.country}</span>
-                    </div>
-                    <div>
-                      <span>taxType:</span>
-                      <span>{formData.senderDetails.taxType}</span>
-                    </div>
-                    <div>
-                      <span>taxNo:</span>
-                      <span>{formData.senderDetails.taxNo}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div style={styles.section} className=" w-3/6 ">
-                {/* <h3 style={styles.titleText}>Bill To</h3> */}
-                {/* <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="clientDetails.name"
-                      title="Client's Name"
-                      value={formData.clientDetails.name}
-                      onChange={handleChange}
-                      style={styles.input}
-                      required={true}
-                    />
-                    {errors?.clientName ? (
-                      <p style={styles.error}>{errors.clientName}</p>
-                    ) : (
-                      errors["clientDetails.name"] && (
-                        <p style={styles.error}>
-                          {errors["clientDetails.name"]}
-                        </p>
-                      )
-                    )}
-                  </div>
-                  <PhoneInputField
-                    value={formData.clientDetails?.contactNo}
-                    onChange={(value) =>
-                      handleChange({
-                        target: {
-                          name: "clientDetails.contactNo",
-                          value: value,
-                        },
-                      })
-                    }
-                    label="Phone No."
-                    placeholder="Enter phone number"
-                    defaultCountry="IN"
-                  />
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="clientDetails.email"
-                      title="Client's Email"
-                      value={formData.clientDetails.email}
-                      onChange={handleChange}
-                      style={styles.input}
-                    />
-                    {errors?.clientEmail ? (
-                      <p style={styles.error}>{errors.clientEmail}</p>
-                    ) : (
-                      errors["clientDetails.email"] && (
-                        <p style={styles.error}>
-                          {errors["clientDetails.email"]}
-                        </p>
-                      )
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="clientDetails.street"
-                      value={formData?.clientDetails?.street}
-                      onChange={handleChange}
-                      title="Street Address"
-                      style={styles.input}
-                    />
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="clientDetails.city"
-                      value={formData?.clientDetails?.city}
-                      onChange={handleChange}
-                      title="City"
-                      style={styles.input}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="clientDetails.state"
-                      value={formData?.clientDetails?.state}
-                      onChange={handleChange}
-                      title="State"
-                      style={styles.input}
-                    />
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="clientDetails.postCode"
-                      value={formData?.clientDetails?.postCode}
-                      onChange={handleChange}
-                      title={"Post Code"}
-                      style={styles.input}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="clientDetails.country"
-                      value={formData?.clientDetails?.country}
-                      onChange={handleChange}
-                      title="Country"
-                      style={styles.input}
-                    />
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <FormCustomDropdown
-                      name="clientDetails.taxType"
-                      title="Tax Type"
-                      label={formData.clientDetails.taxType}
-                      onSelect={handleChange}
-                      style={styles.input}
-                      options={taxTypeOptions}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-
-                      width: "100%",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CustomInput
-                      type="text"
-                      name="clientDetails.taxNo"
-                      value={formData.clientDetails.taxNo}
-                      onChange={handleChange}
-                      style={styles.input}
-                      title={formData.clientDetails.taxType + " Number"}
-                    />
-                  </div>
-                </div> */}
-                {!isDataSaved ? (
-                  <div className="bill-to-container p-4 rounded-lg">
-                    <h3 style={styles.titleText}>Bill To</h3>
                     <div
                       style={{
                         display: "flex",
-                        gap: "20px",
-                        marginTop: "10px",
+                        width: "100%",
+                        flexDirection: "column",
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          flexDirection: "column",
+                      <CustomInput
+                        type="text"
+                        name="clientDetails.name"
+                        title="Client's Name"
+                        value={formData.clientDetails.name}
+                        onChange={handleChange}
+                        style={styles.input}
+                        required={true}
+                        errors={errors} // pass errors object
+                        register={register} // pass register function
+                        validationRules={{
+                          required: "Client name is required",
                         }}
-                      >
-                        <CustomInput
-                          type="text"
-                          name="clientDetails.name"
-                          title="Client's Name"
-                          value={formData.clientDetails.name}
-                          onChange={handleChange}
-                          style={styles.input}
-                          required={true}
-                        />
-                        {errors?.clientName ? (
-                          <p style={styles.error}>{errors.clientName}</p>
-                        ) : (
-                          errors["clientDetails.name"] && (
-                            <p style={styles.error}>
-                              {errors["clientDetails.name"]}
-                            </p>
-                          )
-                        )}
-                      </div>
-                      <PhoneInputField
-                        value={formData.clientDetails?.contactNo}
-                        onChange={(value) =>
-                          handleChange({
-                            target: {
-                              name: "clientDetails.contactNo",
-                              value: value,
-                            },
-                          })
-                        }
-                        label="Phone No."
-                        placeholder="Enter phone number"
-                        defaultCountry="IN"
                       />
                     </div>
+                    <PhoneInputField
+                      value={formData.clientDetails?.contactNo}
+                      onChange={(value) =>
+                        handleChange({
+                          target: {
+                            name: "clientDetails.contactNo",
+                            value: value,
+                          },
+                        })
+                      }
+                      label="Phone No."
+                      placeholder="Enter phone number"
+                      defaultCountry="IN"
+                    />
+                  </div>
 
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      marginTop: "10px",
+                    }}
+                  >
                     <div
                       style={{
                         display: "flex",
-                        gap: "20px",
-                        marginTop: "10px",
+
+                        width: "48%",
+                        flexDirection: "column",
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-
-                          width: "48%",
-                          flexDirection: "column",
+                      <CustomInput
+                        type="text"
+                        name="clientDetails.email"
+                        title="Client's Email"
+                        value={formData.clientDetails.email}
+                        onChange={handleChange}
+                        style={styles.input}
+                        errors={errors} // pass errors object
+                        register={register} // pass register function
+                        validationRules={{
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Invalid email address",
+                          },
                         }}
-                      >
-                        <CustomInput
-                          type="text"
-                          name="clientDetails.email"
-                          title="Client's Email"
-                          value={formData.clientDetails.email}
-                          onChange={handleChange}
-                          style={styles.input}
-                        />
-                        {errors?.clientEmail ? (
-                          <p style={styles.error}>{errors.clientEmail}</p>
-                        ) : (
-                          errors["clientDetails.email"] && (
-                            <p style={styles.error}>
-                              {errors["clientDetails.email"]}
-                            </p>
-                          )
-                        )}
-                      </div>
-                      {/* <div
+                      />
+                    </div>
+                    {/* <div
                         style={{
                           display: "flex",
 
@@ -1389,8 +923,8 @@ const InvoiceForm = () => {
                           style={styles.input}
                         />
                       </div> */}
-                    </div>
-                    {/* <div
+                  </div>
+                  {/* <div
                       style={{
                         display: "flex",
                         gap: "20px",
@@ -1518,256 +1052,193 @@ const InvoiceForm = () => {
                       </div>
                     </div> */}
 
-                    <div className="border-slate-200">
-                      <button
-                        onClick={() => toggleAccordion(3)}
-                        className="w-full flex justify-between items-center py-5 text-slate-800"
-                      >
-                        <span class="text-[#dfe3fa]">Address (optional)</span>
-                        {isAccordianOpen[3] ? (
-                          <UpArrowIcon />
-                        ) : (
-                          <DownArrowIcon />
-                        )}
-                      </button>
+                  <div className="border-slate-200">
+                    <button
+                      onClick={() => toggleAccordion(3)}
+                      className="w-full flex justify-between items-center py-5 text-slate-800"
+                    >
+                      <span class="text-[#dfe3fa]">Address (optional)</span>
+                      {isAccordianOpen[3] ? <UpArrowIcon /> : <DownArrowIcon />}
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        isAccordianOpen[3] ? "max-h-screen" : "max-h-0"
+                      }`}
+                    >
                       <div
-                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                          isAccordianOpen[3] ? "max-h-screen" : "max-h-0"
-                        }`}
+                        style={{
+                          display: "flex",
+                          gap: "20px",
+                          marginTop: "10px",
+                        }}
                       >
                         <div
                           style={{
                             display: "flex",
-                            gap: "20px",
-                            marginTop: "10px",
+
+                            width: "100%",
+                            flexDirection: "column",
                           }}
                         >
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="clientDetails.street"
-                              value={formData?.clientDetails?.street}
-                              onChange={handleChange}
-                              title="Street Address"
-                              style={styles.input}
-                            />
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="clientDetails.city"
-                              value={formData?.clientDetails?.city}
-                              onChange={handleChange}
-                              title="City"
-                              style={styles.input}
-                            />
-                          </div>
+                          <CustomInput
+                            type="text"
+                            name="clientDetails.street"
+                            value={formData?.clientDetails?.street}
+                            onChange={handleChange}
+                            title="Street Address"
+                            style={styles.input}
+                          />
                         </div>
-
                         <div
                           style={{
                             display: "flex",
-                            gap: "20px",
-                            marginTop: "10px",
+
+                            width: "100%",
+                            flexDirection: "column",
                           }}
                         >
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="clientDetails.state"
-                              value={formData?.clientDetails?.state}
-                              onChange={handleChange}
-                              title="State"
-                              style={styles.input}
-                            />
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="clientDetails.postCode"
-                              value={formData?.clientDetails?.postCode}
-                              onChange={handleChange}
-                              title={"Post Code"}
-                              style={styles.input}
-                            />
-                          </div>
-                        </div>
-
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "20px",
-                            marginTop: "10px",
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-
-                              width: "48%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="clientDetails.country"
-                              value={formData?.clientDetails?.country}
-                              onChange={handleChange}
-                              title="Country"
-                              style={styles.input}
-                            />
-                          </div>
+                          <CustomInput
+                            type="text"
+                            name="clientDetails.city"
+                            value={formData?.clientDetails?.city}
+                            onChange={handleChange}
+                            title="City"
+                            style={styles.input}
+                          />
                         </div>
                       </div>
-                    </div>
 
-                    <div className="border-slate-200">
-                      <button
-                        onClick={() => toggleAccordion(4)}
-                        className="w-full flex justify-between items-center py-5 text-slate-800"
-                      >
-                        <span class="text-[#dfe3fa]">
-                          Tax Information (optional)
-                        </span>
-                        {isAccordianOpen[4] ? (
-                          <UpArrowIcon />
-                        ) : (
-                          <DownArrowIcon />
-                        )}
-                      </button>
                       <div
-                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                          isAccordianOpen[4] ? "max-h-screen" : "max-h-0"
-                        }`}
+                        style={{
+                          display: "flex",
+                          gap: "20px",
+                          marginTop: "10px",
+                        }}
                       >
                         <div
                           style={{
                             display: "flex",
-                            gap: "20px",
-                            marginTop: "10px",
+
+                            width: "100%",
+                            flexDirection: "column",
                           }}
                         >
-                          <div
-                            style={{
-                              display: "flex",
+                          <CustomInput
+                            type="text"
+                            name="clientDetails.state"
+                            value={formData?.clientDetails?.state}
+                            onChange={handleChange}
+                            title="State"
+                            style={styles.input}
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
 
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <FormCustomDropdown
-                              name="clientDetails.taxType"
-                              title="Tax Type"
-                              label={formData.clientDetails.taxType}
-                              onSelect={handleChange}
-                              style={styles.input}
-                              options={taxTypeOptions}
-                            />
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
+                            width: "100%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <CustomInput
+                            type="text"
+                            name="clientDetails.postCode"
+                            value={formData?.clientDetails?.postCode}
+                            onChange={handleChange}
+                            title={"Post Code"}
+                            style={styles.input}
+                          />
+                        </div>
+                      </div>
 
-                              width: "100%",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <CustomInput
-                              type="text"
-                              name="clientDetails.taxNo"
-                              value={formData.clientDetails.taxNo}
-                              onChange={handleChange}
-                              style={styles.input}
-                              title={formData.clientDetails.taxType + " Number"}
-                            />
-                          </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "20px",
+                          marginTop: "10px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+
+                            width: "48%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <CustomInput
+                            type="text"
+                            name="clientDetails.country"
+                            value={formData?.clientDetails?.country}
+                            onChange={handleChange}
+                            title="Country"
+                            style={styles.input}
+                          />
                         </div>
                       </div>
                     </div>
                   </div>
-                ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "20px",
-                      flexDirection: "column",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <div>
-                      <span>Client Details:</span>
-                      <span>Edit</span>
-                    </div>
-                    <div>
-                      <span>Name: </span>
-                      <span>{formData.clientDetails.name}</span>
-                    </div>
-                    <div>
-                      <span>Email: </span>
-                      <span>{formData.clientDetails.email}</span>
-                    </div>
-                    <div>
-                      <span>Phone: </span>
-                      <span>{formData.clientDetails.phone}</span>
-                    </div>
-                    <div>
-                      <span>Address: </span>
-                      <span>{formData.clientDetails.street}</span>
-                    </div>
-                    <div>
-                      <span>City: </span>
-                      <span>{formData.clientDetails.city}</span>
-                    </div>
-                    <div>
-                      <span>State: </span>
-                      <span>{formData.clientDetails.state}</span>
-                    </div>
-                    <div>
-                      <span>Post Code: </span>
-                      <span>{formData.clientDetails.postCode}</span>
-                    </div>
-                    <div>
-                      <span>Country: </span>
-                      <span>{formData.clientDetails.country}</span>
-                    </div>
-                    <div>
-                      <span>Tax Type: </span>
-                      <span>{formData.clientDetails.taxType}</span>
-                    </div>
-                    <div>
-                      <span>Tax Number: </span>
-                      <span>{formData.clientDetails.taxNo}</span>
+
+                  <div className="border-slate-200">
+                    <button
+                      onClick={() => toggleAccordion(4)}
+                      className="w-full flex justify-between items-center py-5 text-slate-800"
+                    >
+                      <span class="text-[#dfe3fa]">
+                        Tax Information (optional)
+                      </span>
+                      {isAccordianOpen[4] ? <UpArrowIcon /> : <DownArrowIcon />}
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        isAccordianOpen[4] ? "max-h-screen" : "max-h-0"
+                      }`}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "20px",
+                          marginTop: "10px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+
+                            width: "100%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <FormCustomDropdown
+                            name="clientDetails.taxType"
+                            title="Tax Type"
+                            label={formData.clientDetails.taxType}
+                            onSelect={handleChange}
+                            style={styles.input}
+                            options={taxTypeOptions}
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+
+                            width: "100%",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <CustomInput
+                            type="text"
+                            name="clientDetails.taxNo"
+                            value={formData.clientDetails.taxNo}
+                            onChange={handleChange}
+                            style={styles.input}
+                            title={formData.clientDetails.taxType + " Number"}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             </div>
             <div style={styles.section}>
@@ -1827,6 +1298,31 @@ const InvoiceForm = () => {
                         flex: "2 1 auto", // Larger space for Item Name
                       }}
                       required={true}
+                      errors={errors} // pass errors object
+                      register={register} // pass register function
+                      validationRules={{
+                        required: "Required Fields", // Always required
+                        validate: (value) => {
+                          // Check if any item in the items array is missing required fields
+
+                          const hasMissingFields = formData.items.some(
+                            (item) =>
+                              !item.name ||
+                              !item.description ||
+                              !item.quantity ||
+                              !item.price
+                          );
+
+                          console.log(
+                            hasMissingFields,
+                            "hasMissingFields",
+                            formData.items
+                          ); // This should log
+
+                          // Return error if any fields are missing
+                          return hasMissingFields ? "Required Fields" : true;
+                        },
+                      }}
                     />
                     <CustomInput
                       type="text"
@@ -1903,13 +1399,15 @@ const InvoiceForm = () => {
                     </div>
                   </div>
                 ))}
-              {errors?.items && <p style={styles.error}>{errors.items}</p>}
-              {(errors[`items[0].name`] ||
-                errors[`items[0].price`] ||
-                errors[`items[0].description`] ||
-                errors[`items[0].quantity`]) && (
-                <p style={styles.error}>Required fields</p>
+              {/* {errorsData?.items && (
+                <p style={styles.error}>{errorsData.items}</p>
               )}
+              {(errorsData[`items[0].name`] ||
+                errorsData[`items[0].price`] ||
+                errorsData[`items[0].description`] ||
+                errorsData[`items[0].quantity`]) && (
+                <p style={styles.error}>Required fields</p>
+              )} */}
               <CustomButton
                 type="gray"
                 onClick={(e) => {
@@ -1987,10 +1485,19 @@ const InvoiceForm = () => {
                     value={formData.bankDetails.confirmAccountNumber}
                     onChange={handleChange}
                     style={styles.input}
+                    errors={errors} // pass errors object
+                    register={register} // pass register function
+                    validationRules={{
+                      required: formData.bankDetails.accountNumber
+                        ? "Confirm account number is required"
+                        : false, // If accountNumber exists, require confirmation
+                      validate: (value) =>
+                        formData.bankDetails.accountNumber
+                          ? value === formData.bankDetails.accountNumber ||
+                            "Confirm account number does not match account number"
+                          : true, // If accountNumber exists, check for match
+                    }}
                   />
-                  {errors?.confirmAccountNumber && (
-                    <p style={styles.error}>{errors.confirmAccountNumber}</p>
-                  )}
                 </div>
               </div>
 
