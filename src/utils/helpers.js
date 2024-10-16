@@ -58,6 +58,6 @@ export const mapBankDetails = (bankDetails) => ({
   "Bank Name": bankDetails.bankName,
   "IFSC Code": bankDetails.ifscCode,
   "Account No": bankDetails.accountNumber,
-  "Account Holder Name": bankDetails.accounHolderName,
+  "Account Holder Name": bankDetails.accountHolderName,
   "Account Type": bankDetails.bankAccountType,
 });
