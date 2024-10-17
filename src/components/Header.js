@@ -41,7 +41,7 @@ const Header = () => {
     fetchImage();
   }, []);
 
-  // useClickOutside([avatarRef, menuRef], () => setIsMenuOpen(false));
+  useClickOutside([avatarRef, menuRef], () => setIsMenuOpen(false));
 
   // Handler to set active upload option
   const handleUploadClick = (type) => {
