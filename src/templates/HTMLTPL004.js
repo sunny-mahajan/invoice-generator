@@ -35,7 +35,9 @@ export default function generateHTMLTPL004(invoiceData) {
   invoiceData["Invoice Issue Date"] = formatDate(
     invoiceData["Invoice Issue Date"]
   );
-  invoiceData["Invoice Due Date"] = formatDate(invoiceData["Invoice Due Date"]);
+  invoiceData["Invoice Due Date"] = invoiceData["Invoice Due Date"]
+    ? formatDate(invoiceData["Invoice Due Date"])
+    : "";
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = parseFloat(invoiceData["Tax Percentage"]) || 0;
@@ -217,20 +219,51 @@ export default function generateHTMLTPL004(invoiceData) {
                   ? `<p>${invoiceData["Receiver's Tax No"]}</p>`
                   : ""
               }
-
+              ${
+                invoiceData["Client Custom Fields"]?.length > 0
+                  ? `
+            
+                  ${invoiceData["Client Custom Fields"]
+                    .map(
+                      (item) => `
+                      ${
+                        item["fieldName"] && item["fieldValue"]
+                          ? `
+                        <div style="display: flex; align-items: center;">
+                            <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                        </div>
+                        `
+                          : ""
+                      }
+                    `
+                    )
+                    .join("")}
+                    `
+                  : ""
+              }
         </div>
         <div class="invoice-info">
             <p><strong>Invoice #</strong>: ${invoiceData["Invoice No."]}</p>
             <p><strong>Date</strong>: ${invoiceData["Invoice Issue Date"]}</p>
-            <p><strong>Due Date</strong>: ${invoiceData["Invoice Due Date"]}</p>
+            ${
+              invoiceData["Invoice Due Date"]
+                ? `<p><strong>Due Date</strong>: ${invoiceData["Invoice Due Date"]}</p>`
+                : ""
+            }
             ${
               invoiceData["newFields"]?.length > 0
                 ? `
                   ${invoiceData["newFields"]
                     .map(
                       (item) => `
-                          <p><strong>${item["fieldName"]}</strong>: ${item["fieldValue"]}</p>
-                    `
+                      ${
+                        item["fieldName"] && item["fieldValue"]
+                          ? `
+                        <p><strong>${item["fieldName"]}</strong>: ${item["fieldValue"]}</p>
+                        `
+                          : ""
+                      }
+                      `
                     )
                     .join("")}
                   `
@@ -358,6 +391,28 @@ export default function generateHTMLTPL004(invoiceData) {
               ? `<p>${invoiceData["Sender's Tax No"]}</p>`
               : ""
           }
+            ${
+              invoiceData["Sender Custom Fields"]?.length > 0
+                ? `
+
+              ${invoiceData["Sender Custom Fields"]
+                .map(
+                  (item) => `
+                  ${
+                    item["fieldName"] && item["fieldValue"]
+                      ? `
+                    <div style="display: flex; align-items: center;">
+                        <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                    </div>
+                    `
+                      : ""
+                  }
+                `
+                )
+                .join("")}
+                `
+                : ""
+            }
         </div>
         ${
           bankDetailsAvailable

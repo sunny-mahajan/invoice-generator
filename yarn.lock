@@ -1545,7 +1545,7 @@ chromium-bidi@0.6.4:
     urlpattern-polyfill "10.0.0"
     zod "3.23.8"
 
-classnames@^2.2.5:
+classnames@^2.2.5, classnames@^2.5.1:
   version "2.5.1"
   resolved "https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz"
   integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
@@ -1654,6 +1654,11 @@ cosmiconfig@9.0.0, cosmiconfig@^9.0.0:
     import-fresh "^3.3.0"
     js-yaml "^4.1.0"
     parse-json "^5.2.0"
+
+country-flag-icons@^1.5.11:
+  version "1.5.13"
+  resolved "https://registry.npmjs.org/country-flag-icons/-/country-flag-icons-1.5.13.tgz"
+  integrity sha512-4JwHNqaKZ19doQoNcBjsoYA+I7NqCH/mC/6f5cBWvdKzcK5TMmzLpq3Z/syVHMHJuDGFwJ+rPpGizvrqJybJow==
 
 cross-fetch@4.0.0:
   version "4.0.0"
@@ -2999,6 +3004,13 @@ inherits@2, inherits@^2.0.3, inherits@~2.0.3:
   resolved "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
+input-format@^0.3.10:
+  version "0.3.10"
+  resolved "https://registry.npmjs.org/input-format/-/input-format-0.3.10.tgz"
+  integrity sha512-5cFv/kOZD7Ch0viprVkuYPDkAU7HBZYBx8QrIpQ6yXUWbAQ0+RQ8IIojDJOf/RO6FDJLL099HDSK2KoVZ2zevg==
+  dependencies:
+    prop-types "^15.8.1"
+
 internal-slot@^1.0.4, internal-slot@^1.0.7:
   version "1.0.7"
   resolved "https://registry.npmjs.org/internal-slot/-/internal-slot-1.0.7.tgz"
@@ -3529,6 +3541,11 @@ levn@^0.4.1:
   dependencies:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
+
+libphonenumber-js@^1.11.8:
+  version "1.11.11"
+  resolved "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.11.11.tgz"
+  integrity sha512-mF3KaORjJQR6JBNcOkluDcJKhtoQT4VTLRMrX1v/wlBayL4M8ybwEDeryyPcrSEJmD0rVwHUbBarpZwN5NfPFQ==
 
 lie@~3.3.0:
   version "3.3.0"
@@ -4384,10 +4401,26 @@ react-dom@^18:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
 
+react-hook-form@^7.53.0:
+  version "7.53.0"
+  resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.53.0.tgz"
+  integrity sha512-M1n3HhqCww6S2hxLxciEXy2oISPnAzxY7gvwVPrtlczTM/1dDadXgUxDpHMrMTblDOcm/AXtXxHwZ3jpg1mqKQ==
+
 react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-phone-number-input@^3.4.8:
+  version "3.4.8"
+  resolved "https://registry.npmjs.org/react-phone-number-input/-/react-phone-number-input-3.4.8.tgz"
+  integrity sha512-CoJ0OrG42NtAoAl78xCbw4nuhNc4llCxfcS8zB8wSzY1IJ5ib0nSHkOeKqIfm1rzZhTnwjxgecA8wEtzlargUg==
+  dependencies:
+    classnames "^2.5.1"
+    country-flag-icons "^1.5.11"
+    input-format "^0.3.10"
+    libphonenumber-js "^1.11.8"
+    prop-types "^15.8.1"
 
 react-slick@^0.30.2:
   version "0.30.2"
