@@ -207,6 +207,11 @@ p {
 .contact-container .PhoneInput--focus {
   color: #141625;
 }
+
+.contact-container .PhoneInput {
+  margin-bottom: 10px;
+}
+
 .contact-container .PhoneInputInput {
   width: 100%;
   padding: 10px;
@@ -226,6 +231,9 @@ p {
   margin-right: auto !important;
   padding: 0 4px;
   border-radius: 4px 0 0;
+  .PhoneInputCountrySelectArrow {
+    color: rgb(124, 93, 250) !important;
+  }
 }
 
 .input-container-cls {
@@ -243,4 +251,9 @@ p {
   .input-field {
     margin-bottom: 0 !important;
   }
+}
+
+.input-field::-webkit-input-placeholder {
+  color: #999999 !important; /* Light gray */
+  opacity: 0.7 !important; /* Semi-transparent */
 }

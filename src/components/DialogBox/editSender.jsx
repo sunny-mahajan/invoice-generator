@@ -129,7 +129,7 @@ const DialogBox = ({ isOpen, onClose, onConfirm, data }) => {
             <div className="border-b border-slate-200">
               <button
                 onClick={toggleAccordion}
-                className="w-full flex justify-between items-center py-5 text-slate-800"
+                className="w-full flex justify-between items-center pb-5 text-slate-800"
               >
                 <span>Address</span>
                 <DownArrowIcon />

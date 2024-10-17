@@ -7,10 +7,22 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
 import { generateHTMLPDF } from "../utils/generateHTMLPDF";
-import { addDays, formatDateToISO, mapBankDetails, mapReceiverDetails, mapSenderDetails, validateField } from "../utils/helpers";
+import {
+  addDays,
+  formatDateToISO,
+  mapBankDetails,
+  mapReceiverDetails,
+  mapSenderDetails,
+  validateField,
+} from "../utils/helpers";
 import InvoiceTemplates from "../components/InvoiceTemplates";
 import useClickOutside from "../hooks/useClickOutside";
-import { currencyOptions, allowedKeys, taxTypeOptions, currencySymbols } from "../utils/constants";
+import {
+  currencyOptions,
+  allowedKeys,
+  taxTypeOptions,
+  currencySymbols,
+} from "../utils/constants";
 import { useForm } from "react-hook-form";
 import BillFromForm from "../components/InvoiceForms/billFrom";
 import BillToForm from "../components/InvoiceForms/billTo";
@@ -34,6 +46,7 @@ let formDataInitialValues = {
     state: "",
     taxType: "GST",
     taxNo: "",
+    customFields: [],
   },
   clientDetails: {
     name: "",
@@ -46,6 +59,7 @@ let formDataInitialValues = {
     state: "",
     taxType: "GST",
     taxNo: "",
+    customFields: [],
   },
   items: [
     {
@@ -71,7 +85,8 @@ let formDataInitialValues = {
 
 const InvoiceForm = () => {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
-  const [downloadInvoiceIsDisabled, setDownloadInvoiceIsDisabled] = useState(true);
+  const [downloadInvoiceIsDisabled, setDownloadInvoiceIsDisabled] =
+    useState(true);
   const [loading, setLoading] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [formData, setFormData] = useState(formDataInitialValues);
@@ -79,10 +94,14 @@ const InvoiceForm = () => {
   const [isDueDatePickerOpen, setIsDueDatePickerOpen] = useState(false);
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
   const [dueDateAfter, setDueDateAfter] = useState(15);
-  
 
-
-  const { register, handleSubmit, formState: { errors }, trigger, getValues } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    trigger,
+    getValues,
+  } = useForm({
     mode: "onChange",
     reValidateMode: "onChange",
   });
@@ -90,32 +109,18 @@ const InvoiceForm = () => {
   const customDatePickerRef = useRef(null);
   const datePickerInputRef = useRef(null);
 
-  useClickOutside([customDatePickerRef, datePickerInputRef], () => setIsDatePickerOpen(false));
-
-  // useEffect(() => {
-  //   if (formData.createdAt) {
-  //     setFormData((prev) => ({
-  //       ...prev,
-  //       dueDate: formatDateToISO(addDays(formData.createdAt, 15)),
-  //     }));
-  //   }
-  // }, [formData.createdAt]);
+  useClickOutside([customDatePickerRef, datePickerInputRef], () =>
+    setIsDatePickerOpen(false)
+  );
 
   useEffect(() => {
-    if (formData.createdAt && dueDateAfter >= 0) {
+    if (formData.createdAt && dueDateAfter >= 0 && isDueDateOpen) {
       setFormData((prev) => ({
         ...prev,
         dueDate: formatDateToISO(addDays(formData.createdAt, dueDateAfter)),
       }));
     }
   }, [formData.createdAt, isDueDateOpen]);
-  const handleRemoveField = (index) => {
-    const newItems = formData.newFields.filter((_, i) => i !== index);
-    setFormData((prev) => ({
-      ...prev,
-      newFields: newItems,
-    }));
-  };
 
   const handleChange = (e) => {
     console.log("e", e);
@@ -158,13 +163,14 @@ const InvoiceForm = () => {
   };
 
   const handleItemChange = (index, e) => {
-    console.log("test---")
+    console.log("test---");
     const { name, value } = e.target;
     setFormData((prev) => {
       const updatedItems = [...prev.items];
       updatedItems[index] = { ...updatedItems[index], [name]: value };
       const { quantity, price } = updatedItems[index];
-      updatedItems[index].total = quantity && price ? (quantity * price).toFixed(2) : "0.00";
+      updatedItems[index].total =
+        quantity && price ? (quantity * price).toFixed(2) : "0.00";
       return { ...prev, items: updatedItems };
     });
     validateForm();
@@ -173,7 +179,10 @@ const InvoiceForm = () => {
   const handleAddItem = () => {
     setFormData((prev) => ({
       ...prev,
-      items: [...prev.items, { name: "", description: "", quantity: "", price: "" }],
+      items: [
+        ...prev.items,
+        { name: "", description: "", quantity: "", price: "" },
+      ],
     }));
   };
 
@@ -193,23 +202,6 @@ const InvoiceForm = () => {
     setIsDueDateOpen(true);
   };
 
-  const handleFieldChange = (index, e) => {
-    const { name, value } = e.target; // Corrected destructuring
-
-    setFormData((prev) => {
-      const updatedFields = [...prev.newFields];
-      updatedFields[index] = {
-        ...updatedFields[index],
-        [name]: value, // Use name from input to update the correct field
-      };
-
-      return {
-        ...prev,
-        newFields: updatedFields, // Corrected to update 'newFields'
-      };
-    });
-  };
-
   const handleRemoveDueDate = () => {
     setFormData((prev) => ({
       ...prev,
@@ -218,11 +210,113 @@ const InvoiceForm = () => {
     setIsDueDateOpen(false);
   };
 
-  const handleAddField = () => {
-    setFormData((prev) => ({
-      ...prev,
-      newFields: [...prev.newFields, { fieldName: "", fieldValue: "" }],
-    }));
+  const handleFieldChange = (index, e, fieldType) => {
+    const { name, value } = e.target; // Corrected destructuring
+
+    setFormData((prev) => {
+      if (fieldType === "billFrom") {
+        const updatedFields = [...prev.senderDetails.customFields];
+        updatedFields[index] = {
+          ...updatedFields[index],
+          [name]: value, // Use name from input to update the correct field
+        };
+
+        return {
+          ...prev,
+          senderDetails: {
+            ...prev.senderDetails,
+            customFields: updatedFields, // Corrected to update 'customFields'
+          },
+        };
+      } else if (fieldType === "billTo") {
+        const updatedFields = [...prev.clientDetails.customFields];
+        updatedFields[index] = {
+          ...updatedFields[index],
+          [name]: value, // Use name from input to update the correct field
+        };
+        return {
+          ...prev,
+          clientDetails: {
+            ...prev.clientDetails,
+            customFields: updatedFields, // Corrected to update 'customFields'
+          },
+        };
+      } else {
+        const updatedFields = [...prev.newFields];
+        updatedFields[index] = {
+          ...updatedFields[index],
+          [name]: value, // Use name from input to update the correct field
+        };
+
+        return {
+          ...prev,
+          newFields: updatedFields, // Corrected to update 'newFields'
+        };
+      }
+    });
+  };
+
+  const handleAddField = (fieldType) => {
+    if (fieldType === "billFrom") {
+      setFormData((prev) => ({
+        ...prev,
+        senderDetails: {
+          ...prev.senderDetails,
+          customFields: [
+            ...prev.senderDetails.customFields,
+            { fieldName: "", fieldValue: "" },
+          ],
+        },
+      }));
+    } else if (fieldType === "billTo") {
+      setFormData((prev) => ({
+        ...prev,
+        clientDetails: {
+          ...prev.clientDetails,
+          customFields: [
+            ...prev.clientDetails.customFields,
+            { fieldName: "", fieldValue: "" },
+          ],
+        },
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        newFields: [...prev.newFields, { fieldName: "", fieldValue: "" }],
+      }));
+    }
+  };
+
+  const handleRemoveField = (index, fieldType) => {
+    if (fieldType === "billFrom") {
+      const newItems = formData.senderDetails.customFields.filter(
+        (_, i) => i !== index
+      );
+      setFormData((prev) => ({
+        ...prev,
+        senderDetails: {
+          ...prev.senderDetails,
+          customFields: newItems,
+        },
+      }));
+    } else if (fieldType === "billTo") {
+      const newItems = formData.clientDetails.customFields.filter(
+        (_, i) => i !== index
+      );
+      setFormData((prev) => ({
+        ...prev,
+        clientDetails: {
+          ...prev.clientDetails,
+          customFields: newItems,
+        },
+      }));
+    } else {
+      const newItems = formData.newFields.filter((_, i) => i !== index);
+      setFormData((prev) => ({
+        ...prev,
+        newFields: newItems,
+      }));
+    }
   };
 
   const handleDatePickerInputClick = (isDueDate = false) => {
@@ -234,21 +328,29 @@ const InvoiceForm = () => {
   };
   const mergeData = (formData, data) => {
     for (const key in data) {
-        if (data[key] && typeof data[key] === 'object' && !Array.isArray(data[key])) {
-            // If the key is an object, recurse
-            formData[key] = mergeData(formData[key] || {}, data[key]);
-        } else if (data[key] !== "") {
-            // Only overwrite if the value is not empty
-            formData[key] = data[key];
-        }
+      if (
+        data[key] &&
+        typeof data[key] === "object" &&
+        !Array.isArray(data[key])
+      ) {
+        // If the key is an object, recurse
+        formData[key] = mergeData(formData[key] || {}, data[key]);
+      } else if (data[key] !== "") {
+        // Only overwrite if the value is not empty
+        formData[key] = data[key];
+      }
     }
     return formData;
-};
-  
+  };
 
   const validateForm = () => {
     const newErrors = {};
-    if (formData.items.some(item => !item.name || !item.description || !item.quantity || !item.price)) {
+    if (
+      formData.items.some(
+        (item) =>
+          !item.name || !item.description || !item.quantity || !item.price
+      )
+    ) {
       newErrors.items = "Required fields";
     }
     setErrorsData(newErrors);
@@ -260,13 +362,14 @@ const InvoiceForm = () => {
     const data = getValues();
     console.log(data, "data----", formData);
     const isValid = await trigger();
+    validateForm();
     if (!isValid || !validateForm()) {
       toast.error("Please fill all required fields before submitting");
       return;
     }
     mergeData(formData, data);
 
-    console.log(formData, "gddgdgdfgdf")
+    console.log(formData, "gddgdgdfgdf");
     setLoading(true);
     const mappedData = {
       "Invoice No.": formData.invoiceNo,
@@ -277,6 +380,8 @@ const InvoiceForm = () => {
       ...mapReceiverDetails(formData.clientDetails),
       ...mapBankDetails(formData.bankDetails),
       newFields: formData.newFields,
+      "Sender Custom Fields": formData.senderDetails.customFields,
+      "Client Custom Fields": formData.clientDetails.customFields,
       Items: formData.items,
       Currency: formData.currency,
       "Tax Percentage": formData.taxPercentage,
@@ -302,7 +407,7 @@ const InvoiceForm = () => {
         <div>
           <h2 style={styles.title}>New Invoice</h2>
           <div style={styles.mainSection}>
-            <InvoiceDetailsForm 
+            <InvoiceDetailsForm
               formData={formData}
               handleChange={handleChange}
               handleDueDate={handleDueDate}
@@ -320,65 +425,80 @@ const InvoiceForm = () => {
               register={register}
             />
             <div className="parties-details-container flex justify-between gap-12">
-              <BillFromForm 
+              <BillFromForm
                 formData={formData}
                 handleChange={handleChange}
                 errors={errors}
                 register={register}
                 taxTypeOptions={taxTypeOptions}
+                handleFieldChange={handleFieldChange}
+                handleAddField={handleAddField}
+                handleRemoveField={handleRemoveField}
               />
-              <BillToForm 
+              <BillToForm
                 formData={formData}
                 handleChange={handleChange}
                 errors={errors}
                 register={register}
                 taxTypeOptions={taxTypeOptions}
+                handleFieldChange={handleFieldChange}
+                handleAddField={handleAddField}
+                handleRemoveField={handleRemoveField}
               />
             </div>
             <div style={styles.section}>
-            <div style={{ display: "flex", gap: "20px" }}>
-              <div style={{ display: "flex", width: "25%", marginTop: "10px", flexDirection: "column" }}>
-                <FormCustomDropdown
-                  name="currency"
-                  title="Currency"
-                  label={formData.currency}
-                  onSelect={handleChange}
-                  style={styles.input}
-                  options={currencyOptions}
-                />
+              <div style={{ display: "flex", gap: "20px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    width: "25%",
+                    marginTop: "10px",
+                    flexDirection: "column",
+                  }}
+                >
+                  <FormCustomDropdown
+                    name="currency"
+                    title="Currency"
+                    label={formData.currency}
+                    onSelect={handleChange}
+                    style={styles.input}
+                    options={currencyOptions}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    marginTop: "10px",
+                    width: "25%",
+                    flexDirection: "column",
+                  }}
+                >
+                  <CustomInput
+                    type="text"
+                    name="taxPercentage"
+                    title="Tax Percentage"
+                    placeholder="Enter tax percentage"
+                    value={formData.taxPercentage}
+                    onChange={handleChange}
+                    style={styles.input}
+                  />
+                </div>
               </div>
-              <div style={{ display: "flex", marginTop: "10px", width: "25%", flexDirection: "column" }}>
-                <CustomInput
-                  type="text"
-                  name="taxPercentage"
-                  title="Tax Percentage"
-                  value={formData.taxPercentage}
-                  onChange={handleChange}
-                  style={styles.input}
-                />
-              </div>
-            </div>
-            <ItemDetails 
-              formData={formData}
-              handleItemChange={handleItemChange}
-              handleRemoveItem={handleRemoveItem}
-              handleAddItem={handleAddItem}
-              currencySymbols={currencySymbols}
-              validateForm={validateForm}
-              errorsData={errorsData}
-
-        //       formData={formData}
-        // handleRemoveItem={handleRemoveItem}
-        // handleAddItem={handleAddItem}
-        // errors={errors}
-        // register={register}
-            />
-            <BankDetails
-              formData={formData}
-              handleChange={handleChange}
-              errors={errors}
-              register={register}
-            />
+              <ItemDetails
+                formData={formData}
+                handleItemChange={handleItemChange}
+                handleRemoveItem={handleRemoveItem}
+                handleAddItem={handleAddItem}
+                currencySymbols={currencySymbols}
+                validateForm={validateForm}
+                errorsData={errorsData}
+              />
+              <BankDetails
+                formData={formData}
+                handleChange={handleChange}
+                errors={errors}
+                register={register}
+              />
             </div>
           </div>
           <div>
@@ -415,7 +535,7 @@ const styles = {
   mainSection: {
     padding: "10px 0px",
     height: "100%",
-    overflow: "auto",
+    // overflow: "auto",
     backgroundColor: "#141625",
     scrollbarWidth: "thin",
     scrollbarColor: "#252945 transparent",
@@ -443,6 +563,3 @@ const styles = {
 };
 
 export default InvoiceForm;
-
-
-

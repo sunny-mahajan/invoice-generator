@@ -15,9 +15,7 @@ const PhoneInputField = ({
     onChange(newValue);
 
     // Validate phone number
-    if (!newValue) {
-      setError("Phone number required");
-    } else if (!isPossiblePhoneNumber(newValue)) {
+    if (newValue && !isPossiblePhoneNumber(newValue)) {
       setError("Invalid phone number");
     } else {
       setError(""); // Clear error if phone number is valid
@@ -44,17 +42,7 @@ const PhoneInputField = ({
         onChange={handleContactChange}
         defaultCountry={defaultCountry}
       />
-      {error && (
-        <p
-          style={{
-            color: "red",
-            fontSize: "12px",
-            marginTop: "5px",
-          }}
-        >
-          {error}
-        </p>
-      )}
+      {error && <p className="input-error text-red-600">{error}</p>}
     </div>
   );
 };

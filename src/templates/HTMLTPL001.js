@@ -245,9 +245,15 @@ export default function generateHTMLTPL001(invoiceData) {
               ${invoiceData["newFields"]
                 .map(
                   (item) => `
-                  <div class="sub-sec2-container">
+                  ${
+                    item["fieldName"] && item["fieldValue"]
+                      ? `
+                    <div class="sub-sec2-container">
                         <span class="sub-sec2-title">${item["fieldName"]}:</span><span> ${item["fieldValue"]}</span>
-                  </div>
+                    </div>
+                    `
+                      : ""
+                  }
                 `
                 )
                 .join("")}
@@ -310,6 +316,28 @@ export default function generateHTMLTPL001(invoiceData) {
       ? `<p>${invoiceData["Sender's Tax No"]}</p>`
       : ""
   }
+  ${
+    invoiceData["Sender Custom Fields"]?.length > 0
+      ? `
+
+      ${invoiceData["Sender Custom Fields"]
+        .map(
+          (item) => `
+          ${
+            item["fieldName"] && item["fieldValue"]
+              ? `
+            <div style="display: flex; align-items: center;">
+                <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+            </div>
+            `
+              : ""
+          }
+        `
+        )
+        .join("")}
+        `
+      : ""
+  }
 </div>
 
 <div>
@@ -366,6 +394,28 @@ export default function generateHTMLTPL001(invoiceData) {
   ${
     invoiceData["Receiver's Tax No"]
       ? `<p>${invoiceData["Receiver's Tax No"]}</p>`
+      : ""
+  }
+  ${
+    invoiceData["Client Custom Fields"]?.length > 0
+      ? `
+
+      ${invoiceData["Client Custom Fields"]
+        .map(
+          (item) => `
+          ${
+            item["fieldName"] && item["fieldValue"]
+              ? `
+            <div style="display: flex; align-items: center;">
+                <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+            </div>
+            `
+              : ""
+          }
+        `
+        )
+        .join("")}
+        `
       : ""
   }
 </div>

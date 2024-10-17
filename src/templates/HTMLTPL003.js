@@ -192,10 +192,6 @@ export default function generateHTMLTPL003(invoiceData) {
         </p>`
           : ""
       }
-
-
-
-        
       </div>
     </div>
 
@@ -256,6 +252,28 @@ export default function generateHTMLTPL003(invoiceData) {
             ? `<p>${invoiceData["Sender's Tax No"]}</p>`
             : ""
         }
+        ${
+          invoiceData["Sender Custom Fields"]?.length > 0
+            ? `
+            ${invoiceData["Sender Custom Fields"]
+              .map(
+                (item) => `
+              ${
+                item["fieldName"] && item["fieldValue"]
+                  ? `
+                <div style="display: flex; align-items: center;">
+                    <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                </div>
+                `
+                  : ""
+              }
+            `
+              )
+              .join("")}
+          `
+            : ""
+        }
+
       </div>
       <div class="ship">
         <h2>SHIP TO</h2>
@@ -313,6 +331,28 @@ export default function generateHTMLTPL003(invoiceData) {
             ? `<p>${invoiceData["Receiver's Tax No"]}</p>`
             : ""
         }
+        ${
+          invoiceData["Client Custom Fields"]?.length > 0
+            ? `
+      
+            ${invoiceData["Client Custom Fields"]
+              .map(
+                (item) => `
+                ${
+                  item["fieldName"] && item["fieldValue"]
+                    ? `
+                  <div style="display: flex; align-items: center;">
+                      <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                  </div>
+                  `
+                    : ""
+                }
+              `
+              )
+              .join("")}
+              `
+            : ""
+        }
       </div>
       <div class="invoice-info">
         <h2>INVOICE DETAILS</h2>
@@ -341,10 +381,16 @@ export default function generateHTMLTPL003(invoiceData) {
             ${invoiceData["newFields"]
               .map(
                 (item) => `
-                 <div>
+                 ${
+                   item["fieldName"] && item["fieldValue"]
+                     ? `
+                      <div>
                     <span class="invoice-details-heading" style="margin: 0 0 8px 0;">${item["fieldName"]}</span><span>${item["fieldValue"]}
                     </span>
                 </div>
+                      `
+                     : ""
+                 }
               `
               )
               .join("")}
