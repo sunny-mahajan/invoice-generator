@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import CustomInput from "../Input/index";
 import CustomDatePicker from "../DatePicker/index";
 import CustomButton from "../Button/index";
-import { PlusIcon, DeleteIcon } from "../../utils/icons";
+import { PlusIcon, DeleteIcon, UploadLogoIcon } from "../../utils/icons";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const InvoiceDetailsForm = ({
   formData,
@@ -21,97 +23,180 @@ const InvoiceDetailsForm = ({
   errors,
   register,
 }) => {
+  const fileInputRef = useRef(null);
+  const [selectedFileName, setSelectedFileName] = useState(null);
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      // Check if the file is an image (JPG/PNG)
+      const fileType = file.type;
+      if (fileType === "image/jpeg" || fileType === "image/png") {
+        const img = new Image();
+        const objectUrl = URL.createObjectURL(file);
+
+        img.onload = () => {
+          const { width, height } = img;
+          // Validate resolution
+          if (width <= 1080 && height <= 1080) {
+            setSelectedFileName(file.name);
+          } else {
+            toast.error(
+              "Please upload an image with a resolution of 1080x1080"
+            );
+          }
+          URL.revokeObjectURL(objectUrl); // Cleanup
+        };
+        img.src = objectUrl;
+      } else {
+        alert("Only JPG and PNG formats are allowed.");
+      }
+    }
+  };
+
+  const handleDeselectFile = () => {
+    setSelectedFileName(null);
+    fileInputRef.current.value = null;
+  };
   return (
     console.log("formData------", formData),
     (
       <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-        <div style={{ display: "flex", width: "45%", flexDirection: "column" }}>
-          <CustomInput
-            type="text"
-            name="invoiceNo"
-            title="Invoice No."
-            placeholder="Enter invoice no."
-            value={formData?.invoiceNo}
-            onChange={handleChange}
-            style={styles.input}
-            containerClass="input-container-cls"
-            required={true}
-            errors={errors}
-            register={register}
-            validationRules={{ required: "Invoice No. is required" }}
-          />
-        </div>
-
-        <div
-          style={{ display: "flex", width: "45%", flexDirection: "column" }}
-          ref={datePickerInputRef}
-          onClick={() => handleDatePickerInputClick(false)}
-        >
-          <CustomDatePicker
-            name="createdAt"
-            title="Invoice Date"
-            value={formData.createdAt}
-            onChange={handleChange}
-            isDatePickerOpen={isDatePickerOpen}
-            customDatePickerRef={customDatePickerRef}
-            containerClass="input-container-cls"
-            required={true}
-          />
-        </div>
-
-        {!isDueDateOpen ? (
-          <div className="flex align-items-center">
-            <CustomButton
-              type="gray"
-              onClick={(e) => {
-                e.preventDefault();
-                handleDueDate();
-              }}
-              buttonStyle={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-                float: "right",
-              }}
-            >
-              <PlusIcon f={"rgb(124, 93, 250)"} /> Add Due Date
-            </CustomButton>
-          </div>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              width: "48%",
-              gap: "20px",
-              alignItems: "center",
-            }}
-            onClick={() => handleDatePickerInputClick(true)}
-          >
-            <CustomDatePicker
-              name="dueDate"
-              title="Invoice Due Date"
-              value={formData.dueDate}
-              onChange={handleChange}
-              isDatePickerOpen={isDueDatePickerOpen}
-              containerClass="input-container-cls"
-              invoiceCreatedDate={formData.createdAt}
-              isDueDate={true}
-            />
+        <div className="flex">
+          <div className="w-full">
             <div
-              onClick={() => handleRemoveDueDate()}
               style={{
-                cursor: "pointer",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-                flex: "0 1 auto",
+                width: "90%",
+                flexDirection: "column",
+                marginBottom: "20px",
               }}
             >
-              <DeleteIcon />
+              <CustomInput
+                type="text"
+                name="invoiceNo"
+                title="Invoice No."
+                placeholder="Enter invoice no."
+                value={formData?.invoiceNo}
+                onChange={handleChange}
+                style={styles.input}
+                containerClass="input-container-cls"
+                required={true}
+                errors={errors}
+                register={register}
+                validationRules={{ required: "Invoice No. is required" }}
+              />
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                width: "90%",
+                flexDirection: "column",
+                marginBottom: "20px",
+              }}
+              ref={datePickerInputRef}
+              onClick={() => handleDatePickerInputClick(false)}
+            >
+              <CustomDatePicker
+                name="createdAt"
+                title="Invoice Date"
+                value={formData.createdAt}
+                onChange={handleChange}
+                isDatePickerOpen={isDatePickerOpen}
+                customDatePickerRef={customDatePickerRef}
+                containerClass="input-container-cls"
+                required={true}
+              />
+            </div>
+
+            {!isDueDateOpen ? (
+              <div className="flex align-items-center">
+                <CustomButton
+                  type="gray"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleDueDate();
+                  }}
+                  buttonStyle={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    float: "right",
+                  }}
+                >
+                  <PlusIcon f={"rgb(124, 93, 250)"} /> Add Due Date
+                </CustomButton>
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  width: "96%",
+                  gap: "20px",
+                  alignItems: "center",
+                }}
+                onClick={() => handleDatePickerInputClick(true)}
+              >
+                <CustomDatePicker
+                  name="dueDate"
+                  title="Invoice Due Date"
+                  value={formData.dueDate}
+                  onChange={handleChange}
+                  isDatePickerOpen={isDueDatePickerOpen}
+                  containerClass="input-container-cls"
+                  invoiceCreatedDate={formData.createdAt}
+                  isDueDate={true}
+                />
+                <div
+                  onClick={() => handleRemoveDueDate()}
+                  style={{
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                    flex: "0 1 auto",
+                  }}
+                >
+                  <DeleteIcon />
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="w-full d-flex justify-center items-center">
+            <div className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full max-w-[250px] h-[100px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[200px]">
+              <div
+                onClick={() => fileInputRef.current.click()}
+                className="flex flex-col items-center justify-center w-full h-full cursor-pointer"
+              >
+                <UploadLogoIcon />
+                <span className="text-white mt-2">
+                  {selectedFileName
+                    ? `Selected File: ${selectedFileName}`
+                    : "Upload JPG/PNG file"}
+                </span>
+                {selectedFileName && (
+                  <button
+                    type="button"
+                    onClick={handleDeselectFile}
+                    className="text-red-500 mt-2"
+                  >
+                    ✖ Remove
+                  </button>
+                )}
+              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".jpg, .jpeg, .png" // Accept image formats
+                onChange={handleFileUpload}
+                className="hidden"
+              />
             </div>
           </div>
-        )}
+        </div>
 
         <div>
           {formData.newFields &&
