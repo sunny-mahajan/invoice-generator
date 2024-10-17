@@ -28,7 +28,7 @@ const FormCustomDropdown = ({
   };
 
   const findLable = () => {
-    return options.find(
+    return options?.find(
       (option) => option.value === (label?.value ? label?.value : label)
     );
   };
@@ -63,7 +63,7 @@ const FormCustomDropdown = ({
                 className="FormDropdown-item"
                 style={{
                   borderBottom:
-                    index !== options.length - 1 && "1px solid #f8f8f8",
+                    index !== options?.length - 1 && "1px solid #f8f8f8",
                 }}
                 onClick={() => handleSelect(option)}
               >

@@ -18,6 +18,7 @@ function useClickOutside(refs, callback) {
       const isOutside = refs.every(
         (ref) => ref.current && !ref.current.contains(event.target)
       );
+
       if (isOutside) {
         callback();
       }

@@ -93,10 +93,10 @@
   z-index: 1000;
   top: 100%;
   left: 0;
-  width: 99%;
+  /* width: 99%; */
 }
 .input-field {
-  filter: brightness(0.8);
+  /* filter: brightness(0.8); */
 }
 
 .input-field span {
@@ -113,4 +113,10 @@
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.day.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  color: gray;
 }

@@ -40,7 +40,7 @@
 }
 
 .gray-button:hover {
-  filter: brightness(1.4);
+  filter: brightness(1.4) !important;
 }
 
 .purple-button {
@@ -96,4 +96,3 @@ button:disabled {
 button:disabled:hover {
   filter: none;
 }
-

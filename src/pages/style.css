@@ -204,3 +204,56 @@ p {
 .formDropdownCls {
   width: 25% !important;
 }
+.contact-container .PhoneInput--focus {
+  color: #141625;
+}
+
+.contact-container .PhoneInput {
+  margin-bottom: 10px;
+}
+
+.contact-container .PhoneInputInput {
+  width: 100%;
+  padding: 10px;
+  height: 40px !important;
+  border-radius: 0 0 4px;
+  border: 1px solid #20233d;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  background-color: #252945;
+  color: #f8f8f8;
+}
+
+.contact-container .PhoneInputCountry {
+  border: 1px solid #20233d;
+  background-color: #252945;
+  margin-right: auto !important;
+  padding: 0 4px;
+  border-radius: 4px 0 0;
+  .PhoneInputCountrySelectArrow {
+    color: rgb(124, 93, 250) !important;
+  }
+}
+
+.input-container-cls {
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 30px !important;
+  .invoice-title-container {
+    width: 80% !important;
+  }
+  .input-field {
+    margin-bottom: 0 !important;
+  }
+}
+.due-date-input-container-cls {
+  .input-field {
+    margin-bottom: 0 !important;
+  }
+}
+
+.input-field::-webkit-input-placeholder {
+  color: #999999 !important; /* Light gray */
+  opacity: 0.7 !important; /* Semi-transparent */
+}
