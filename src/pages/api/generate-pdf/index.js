@@ -1,6 +1,6 @@
 const convertHTMLToPDF = require("pdf-puppeteer");
 
-export default async function handler(req, res) {
+export async function POST(req, res) {
   // Set CORS headers to allow cross-origin requests
   res.setHeader("Access-Control-Allow-Origin", "*"); // Allow requests from any origin
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS"); // Allow only POST and OPTIONS methods

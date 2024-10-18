@@ -124,6 +124,17 @@ const InvoiceForm = () => {
     }
   }, [formData.createdAt, isDueDateOpen]);
 
+  useEffect(() => {
+    if (
+      formData.items[0].name ||
+      formData.items[0].price ||
+      formData.items[0].quantity ||
+      formData.items[0].description
+    ) {
+      validateForm();
+    }
+  }, [formData.items]);
+
   const handleChange = (e) => {
     const updateFormData = (name, value) => {
       if (name.includes(".")) {
@@ -172,7 +183,6 @@ const InvoiceForm = () => {
         quantity && price ? (quantity * price).toFixed(2) : "0.00";
       return { ...prev, items: updatedItems };
     });
-    validateForm();
   };
 
   const handleAddItem = () => {
