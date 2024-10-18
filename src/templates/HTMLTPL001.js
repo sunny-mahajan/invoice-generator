@@ -1,5 +1,4 @@
 export default function generateHTMLTPL001(invoiceData) {
-  console.log(invoiceData);
   // Initialize the sub-amount
   let subAmount = 0;
 
@@ -206,6 +205,14 @@ export default function generateHTMLTPL001(invoiceData) {
             margin: 0 auto;
             font-family: Helvetica;
         }
+        .invoice-logo {
+          width: 100px;
+          height: 100px;
+          object-fit: contain;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+        }
         h2{ 
             font-size: 21px;
         }
@@ -217,6 +224,17 @@ export default function generateHTMLTPL001(invoiceData) {
 </head>
 <body>
     <div class="main-container-cls">
+        <div>
+          ${
+            invoiceData["Logo"]
+              ? `<img
+                    src=${invoiceData["Logo"]}
+                    alt="Business Logo"
+                    class="invoice-logo"
+                />`
+              : ""
+          }
+        </div>
         <div class="title-container-cls">
             <h1>Invoice</h1>
         </div>

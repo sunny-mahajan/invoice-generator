@@ -159,6 +159,15 @@ export default function generateHTMLTPL002(invoiceData) {
       margin-top:40px;
       text-align: right;
     }
+    .invoice-logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      margin-bottom: 100px;
+    }
   </style>
 </head>
 <body>
@@ -168,7 +177,15 @@ export default function generateHTMLTPL002(invoiceData) {
       <div class="invoice-title">
         <h2>INVOICE</h2>
       </div>
-      <div class="company-info">
+      ${
+        invoiceData["Logo"]
+          ? `<div style="margin-bottom: 50px;">
+          <img
+                src=${invoiceData["Logo"]}
+                alt="Business Logo"
+                class="invoice-logo"
+            /> </div>`
+          : `<div class="company-info">
 
       ${
         invoiceData["Sender's Zipcode"] ||
@@ -199,7 +216,9 @@ export default function generateHTMLTPL002(invoiceData) {
           </p>`
           : ""
       }
-      </div>
+      </div>`
+      }
+      
     </div>
     
     <div class="bill-ship">

@@ -154,13 +154,40 @@ export default function generateHTMLTPL004(invoiceData) {
             }
         }
         }
+            .invoice-logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .title-logo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
         .notes {
             margin-top: 25px;
         }
     </style>
 </head>
 <body>
-    <h1>Invoice</h1>
+    <div class=${invoiceData["Logo"] ? "title-logo" : ""}>
+        <h1>Invoice</h1>
+        <div>
+          ${
+            invoiceData["Logo"]
+              ? `<img
+                    src=${invoiceData["Logo"]}
+                    alt="Business Logo"
+                    class="invoice-logo"
+                />`
+              : ""
+          }
+        </div>
+      </div>
     <div class="header">
         <div>
            <h2>TO:</h2>
