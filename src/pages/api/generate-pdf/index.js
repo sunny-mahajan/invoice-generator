@@ -76,9 +76,7 @@ export default async function handler(req, res) {
       res.send(savedFileContent);
     } catch (error) {
       console.error("Error while serving PDF:", error);
-      res
-        .status(500)
-        .json({ error: "An error occurred while serving the PDF" });
+      res.status(500).json({ error: error });
     }
   } else {
     // Return 405 if the method is not POST
