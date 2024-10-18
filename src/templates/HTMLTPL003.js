@@ -157,42 +157,86 @@ export default function generateHTMLTPL003(invoiceData) {
       margin-top: 25px;
       text-align: right;
     }
+    .invoice-title {
+      text-align: right;
+      font-size: 24px;
+      color: #007BFF;
+      h2 {
+        margin: 0;
+      }
+    }
+    .invoice-logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      position: absolute;
+      top: 50px;
+      right: 10px;
+    }
+    .title-logo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
+  
     <div class="header">
-      <div class="company-info">
-      ${
-        invoiceData["Sender's Zipcode"] ||
-        invoiceData["Sender's Address"] ||
-        invoiceData["Sender's City"]
-          ? `<p>
+    ${
+      invoiceData["Logo"]
+        ? `
+      <div class=${invoiceData["Logo"] ? "title-logo" : ""}>
+        <div class="invoice-title">
+          <h2>INVOICE</h2>
+        </div>
+        <div>
           ${
-            invoiceData["Sender's Zipcode"]
-              ? `${invoiceData["Sender's Zipcode"]}, `
+            invoiceData["Logo"]
+              ? `<img
+                    src=${invoiceData["Logo"]}
+                    alt="Business Logo"
+                    class="invoice-logo"
+                />`
               : ""
           }
-          ${
-            invoiceData["Sender's Address"]
-              ? `${invoiceData["Sender's Address"]}, `
-              : ""
-          }
-          ${
-            invoiceData["Sender's City"]
-              ? `${invoiceData["Sender's City"]}, `
-              : ""
-          }
-          ${
-            invoiceData["Sender's Contact No"]
-              ? `
-            <br> Phone: ${invoiceData["Sender's Contact No"]}`
-              : ""
-          } 
-        </p>`
-          : ""
-      }
-      </div>
+        </div>
+      </div>`
+        : `<div class="company-info">
+        ${
+          invoiceData["Sender's Zipcode"] ||
+          invoiceData["Sender's Address"] ||
+          invoiceData["Sender's City"]
+            ? `<p>
+            ${
+              invoiceData["Sender's Zipcode"]
+                ? `${invoiceData["Sender's Zipcode"]}, `
+                : ""
+            }
+            ${
+              invoiceData["Sender's Address"]
+                ? `${invoiceData["Sender's Address"]}, `
+                : ""
+            }
+            ${
+              invoiceData["Sender's City"]
+                ? `${invoiceData["Sender's City"]}, `
+                : ""
+            }
+            ${
+              invoiceData["Sender's Contact No"]
+                ? `
+              <br> Phone: ${invoiceData["Sender's Contact No"]}`
+                : ""
+            } 
+          </p>`
+            : ""
+        }
+      </div>`
+    }
+      
     </div>
 
     <div class="bill-ship">

@@ -14,6 +14,7 @@ import {
   mapReceiverDetails,
   mapSenderDetails,
   validateField,
+  fileToBase64,
 } from "../utils/helpers";
 import InvoiceTemplates from "../components/InvoiceTemplates";
 import useClickOutside from "../hooks/useClickOutside";
@@ -35,6 +36,7 @@ let formDataInitialValues = {
   createdAt: formatDateToISO(new Date()),
   dueDate: "",
   status: "draft",
+  logo: "",
   senderDetails: {
     name: "",
     contactNo: "",
@@ -123,8 +125,6 @@ const InvoiceForm = () => {
   }, [formData.createdAt, isDueDateOpen]);
 
   const handleChange = (e) => {
-    console.log("e", e);
-
     const updateFormData = (name, value) => {
       if (name.includes(".")) {
         const [parent, child] = name.split(".");
@@ -163,7 +163,6 @@ const InvoiceForm = () => {
   };
 
   const handleItemChange = (index, e) => {
-    console.log("test---");
     const { name, value } = e.target;
     setFormData((prev) => {
       const updatedItems = [...prev.items];
@@ -319,6 +318,22 @@ const InvoiceForm = () => {
     }
   };
 
+  const onFileSelect = (file) => {
+    fileToBase64(file).then((base64) => {
+      setFormData((prev) => ({
+        ...prev,
+        logo: base64,
+      }));
+    });
+  };
+
+  const onFileRemove = () => {
+    setFormData((prev) => ({
+      ...prev,
+      logo: null,
+    }));
+  };
+
   const handleDatePickerInputClick = (isDueDate = false) => {
     if (isDueDate) {
       setIsDueDatePickerOpen((prevState) => !prevState);
@@ -360,7 +375,6 @@ const InvoiceForm = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const data = getValues();
-    console.log(data, "data----", formData);
     const isValid = await trigger();
     validateForm();
     if (!isValid || !validateForm()) {
@@ -369,13 +383,13 @@ const InvoiceForm = () => {
     }
     mergeData(formData, data);
 
-    console.log(formData, "gddgdgdfgdf");
     setLoading(true);
     const mappedData = {
       "Invoice No.": formData.invoiceNo,
       "Template Id": selectedTemplateId,
       "Invoice Issue Date": formData.createdAt,
       "Invoice Due Date": formData.dueDate,
+      Logo: formData.logo,
       ...mapSenderDetails(formData.senderDetails),
       ...mapReceiverDetails(formData.clientDetails),
       ...mapBankDetails(formData.bankDetails),
@@ -423,6 +437,8 @@ const InvoiceForm = () => {
               isDueDatePickerOpen={isDueDatePickerOpen}
               errors={errors}
               register={register}
+              onFileSelect={onFileSelect}
+              onFileRemove={onFileRemove}
             />
             <div className="parties-details-container flex justify-between gap-12">
               <BillFromForm
