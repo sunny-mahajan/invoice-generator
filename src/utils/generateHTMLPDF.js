@@ -30,16 +30,13 @@ export async function generateHTMLPDF(invoiceData) {
     }
 
     // Sending the HTML template to the server for PDF generation
-    const response = await fetch(
-      "https://invoice-generator-iota-rose.vercel.app/api/generate-pdf",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ HTMLTemplate }),
-      }
-    );
+    const response = await fetch("/api/generate-pdf", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ HTMLTemplate }),
+    });
 
     // Check if the response is okay
     if (!response.ok) {
