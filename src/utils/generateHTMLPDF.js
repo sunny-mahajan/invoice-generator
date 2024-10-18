@@ -39,6 +39,7 @@ export async function generateHTMLPDF(invoiceData) {
     });
 
     // Check if the response is okay
+    console.log(response, "res---------------------");
     if (!response.ok) {
       throw new Error("Failed to generate PDF");
     }
