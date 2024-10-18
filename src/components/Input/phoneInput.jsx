@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import { indianPhoneRegex } from "../../utils/constants";
 
 const PhoneInputField = ({
   value,
@@ -14,11 +15,18 @@ const PhoneInputField = ({
   const handleContactChange = (newValue) => {
     onChange(newValue);
 
-    // Validate phone number
-    if (newValue && !isPossiblePhoneNumber(newValue)) {
-      setError("Invalid phone number");
+    if (newValue && newValue.startsWith("+91")) {
+      if (!indianPhoneRegex.test(newValue)) {
+        setError("Invalid phone number");
+      } else {
+        setError("");
+      }
     } else {
-      setError(""); // Clear error if phone number is valid
+      if (newValue && !isPossiblePhoneNumber(newValue)) {
+        setError("Invalid phone number");
+      } else {
+        setError("");
+      }
     }
   };
 

@@ -41,12 +41,14 @@ export const taxTypeOptions = [
 ];
 
 export const currencySymbols = {
-    USD: "$", // US Dollar
-    EUR: "€", // Euro
-    GBP: "£", // British Pound
-    JPY: "¥", // Japanese Yen
-    AUD: "A$", // Australian Dollar
-    CAD: "C$", // Canadian Dollar
-    INR: "₹", // Indian Rupee
-    CNY: "¥", // Chinese Yuan
-  };
+  USD: "$", // US Dollar
+  EUR: "€", // Euro
+  GBP: "£", // British Pound
+  JPY: "¥", // Japanese Yen
+  AUD: "A$", // Australian Dollar
+  CAD: "C$", // Canadian Dollar
+  INR: "₹", // Indian Rupee
+  CNY: "¥", // Chinese Yuan
+};
+
+export const indianPhoneRegex = /^(?:\+91|0)?[6-9]\d{9}$/;
