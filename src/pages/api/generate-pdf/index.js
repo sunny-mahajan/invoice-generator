@@ -43,23 +43,8 @@ export default async function handler(req, res) {
 
   if (req.method === "POST") {
     try {
-      const { HTMLTemplate } = req.body;
-
-      // (If you want to use the convertHTMLToPDF logic here, uncomment this block)
-      // convertHTMLToPDF(
-      //   HTMLTemplate,
-      //   (pdf) => {
-      //     console.log("PDF generated successfully");
-      //     res.setHeader("Content-Type", "application/pdf");
-      //     res.send(pdf);
-      //   },
-      //   { printBackground: true },
-      //   null,
-      //   true
-      // );
-
-      // Define the path to the PDF file
-      const filePath = join(
+      // Define the path to the original PDF
+      const originalFilePath = join(
         process.cwd(),
         "public",
         "assets",
@@ -67,13 +52,28 @@ export default async function handler(req, res) {
         "INV002.pdf"
       );
 
-      // Read the PDF file
-      const fileContent = await fs.readFile(filePath);
+      // Read the original PDF file
+      const fileContent = await fs.readFile(originalFilePath);
 
-      // Set response headers and send the file
+      // Define the path to save the new PDF file
+      const newFileName = `invoice_${Date.now()}.pdf`; // unique filename using timestamp
+      const savePath = join(
+        process.cwd(),
+        "public",
+        "generated-pdfs",
+        newFileName
+      );
+
+      // Write the PDF content to the new location
+      await fs.writeFile(savePath, fileContent);
+
+      // Send the saved PDF file in the response
       res.setHeader("Content-Type", "application/pdf");
-      res.setHeader("Content-Disposition", `inline; filename="INV002.pdf"`);
-      res.send(fileContent);
+      res.setHeader("Content-Disposition", `inline; filename="${newFileName}"`);
+
+      // Read and send the saved file
+      const savedFileContent = await fs.readFile(savePath);
+      res.send(savedFileContent);
     } catch (error) {
       console.error("Error while serving PDF:", error);
       res
