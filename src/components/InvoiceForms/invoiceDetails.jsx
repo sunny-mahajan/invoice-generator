@@ -117,7 +117,7 @@ const InvoiceDetailsForm = ({
           </div>
 
           {!isDueDateOpen ? (
-            <div className="flex align-items-center">
+            <div className="flex align-items-center mb-4">
               <CustomButton
                 type="gray"
                 onClick={(e) => {
@@ -141,6 +141,7 @@ const InvoiceDetailsForm = ({
                 width: "96%",
                 gap: "20px",
                 alignItems: "center",
+                marginBottom: "20px",
               }}
               onClick={() => handleDatePickerInputClick(true)}
             >
@@ -169,11 +170,72 @@ const InvoiceDetailsForm = ({
               </div>
             </div>
           )}
+
+          <div>
+            {formData.newFields &&
+              formData.newFields.map((field, index) => (
+                <div
+                  key={index}
+                  style={styles.itemContainer}
+                  className="w-[96%]"
+                >
+                  <CustomInput
+                    type="text"
+                    name="fieldName"
+                    placeholder="Field Name"
+                    containerClass="due-date-input-container-cls"
+                    containerStyle={{ width: "80%", marginBottom: "0" }}
+                    value={field.fieldName}
+                    onChange={(e) => handleFieldChange(index, e)}
+                  />
+                  <CustomInput
+                    type="text"
+                    name="fieldValue"
+                    placeholder="Value"
+                    containerClass="due-date-input-container-cls"
+                    value={field.fieldValue}
+                    onChange={(e) => handleFieldChange(index, e)}
+                  />
+                  <div
+                    onClick={() => handleRemoveField(index)}
+                    style={{
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "100%",
+                      flex: "0 1 auto",
+                    }}
+                  >
+                    <DeleteIcon />
+                  </div>
+                </div>
+              ))}
+            <div className="mb-4 flex align-items-center">
+              <CustomButton
+                type="gray"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleAddField();
+                }}
+                buttonStyle={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  float: "right",
+                }}
+              >
+                <PlusIcon f={"rgb(124, 93, 250)"} /> Add More Field
+              </CustomButton>
+            </div>
+          </div>
         </div>
-        <div className="w-full d-flex justify-end items-center">
+        <div className="w-full d-flex justify-end">
           <div
             className={`file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full min-h-[150px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[200px] p-4 ${
-              selectedFile ? "max-w-[220px]" : "max-w-[250px]"
+              selectedFile
+                ? "max-w-[220px] max-h-[180px]"
+                : "max-w-[250px] max-h-[150px]"
             }`}
           >
             <div
@@ -222,61 +284,6 @@ const InvoiceDetailsForm = ({
               className="hidden"
             />
           </div>
-        </div>
-      </div>
-
-      <div>
-        {formData.newFields &&
-          formData.newFields.map((field, index) => (
-            <div key={index} style={styles.itemContainer} className="w-[48%]">
-              <CustomInput
-                type="text"
-                name="fieldName"
-                placeholder="Field Name"
-                containerClass="due-date-input-container-cls"
-                containerStyle={{ width: "80%", marginBottom: "0" }}
-                value={field.fieldName}
-                onChange={(e) => handleFieldChange(index, e)}
-              />
-              <CustomInput
-                type="text"
-                name="fieldValue"
-                placeholder="Value"
-                containerClass="due-date-input-container-cls"
-                value={field.fieldValue}
-                onChange={(e) => handleFieldChange(index, e)}
-              />
-              <div
-                onClick={() => handleRemoveField(index)}
-                style={{
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100%",
-                  flex: "0 1 auto",
-                }}
-              >
-                <DeleteIcon />
-              </div>
-            </div>
-          ))}
-        <div className="mb-4 flex align-items-center">
-          <CustomButton
-            type="gray"
-            onClick={(e) => {
-              e.preventDefault();
-              handleAddField();
-            }}
-            buttonStyle={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              float: "right",
-            }}
-          >
-            <PlusIcon f={"rgb(124, 93, 250)"} /> Add More Field
-          </CustomButton>
         </div>
       </div>
     </div>
