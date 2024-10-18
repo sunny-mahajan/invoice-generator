@@ -5,16 +5,17 @@ export default async function handler(req, res) {
     try {
       const { HTMLTemplate } = req.body;
 
-      convertHTMLToPDF(
-        HTMLTemplate,
-        (pdf) => {
-          res.setHeader("Content-Type", "application/pdf");
-          res.send(pdf);
-        },
-        { printBackground: true },
-        null,
-        true
-      );
+      // convertHTMLToPDF(
+      //   HTMLTemplate,
+      //   (pdf) => {
+      //     res.setHeader("Content-Type", "application/pdf");
+      //     res.send(pdf);
+      //   },
+      //   { printBackground: true },
+      //   null,
+      //   true
+      // );
+      res.send(HTMLTemplate);
     } catch (error) {
       console.error(error);
       res
