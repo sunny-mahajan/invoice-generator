@@ -475,12 +475,7 @@ const InvoiceForm = () => {
             <div style={styles.section}>
               <div style={{ display: "flex", gap: "20px" }}>
                 <div
-                  style={{
-                    display: "flex",
-                    width: "25%",
-                    marginTop: "10px",
-                    flexDirection: "column",
-                  }}
+                  className="currency-section-cls flex w-1/4 mt-2 flex-col"
                 >
                   <FormCustomDropdown
                     name="currency"
@@ -492,12 +487,7 @@ const InvoiceForm = () => {
                   />
                 </div>
                 <div
-                  style={{
-                    display: "flex",
-                    marginTop: "10px",
-                    width: "25%",
-                    flexDirection: "column",
-                  }}
+                  className="tax-number-cls flex w-1/4 mt-2 flex-col"
                 >
                   <CustomInput
                     type="text"

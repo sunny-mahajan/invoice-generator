@@ -239,7 +239,7 @@ p {
 .input-container-cls {
   flex-direction: row !important;
   align-items: center !important;
-  gap: 30px !important;
+  gap: 28px !important;
   .invoice-title-container {
     width: 80% !important;
   }
@@ -256,4 +256,53 @@ p {
 .input-field::-webkit-input-placeholder {
   color: #999999 !important; /* Light gray */
   opacity: 0.7 !important; /* Semi-transparent */
+}
+
+.parties-details-container {
+  @media(max-width: 1024px) {
+     display: block !important;
+  }
+  .bill-from-main-container {
+    @media(max-width: 1024px) {
+      width: 100% !important;
+   }
+  }
+  .bill-to-main-container {
+    @media(max-width: 1024px) {
+      width: 100% !important;
+    }
+  }
+}
+.currency-section-cls, .tax-number-cls {
+  @media(max-width: 1024px) {
+    width: 100% !important;
+  }
+}
+.items-details-section {
+  @media(max-width: 1024px) {
+    display: block !important;
+  }
+}
+.invoice-details-section {
+  display: flex;
+  @media(max-width: 1024px) {
+    display: block;
+  }
+}
+.due-date-picker-sec {
+  @media(max-width: 1024px) {
+    gap:28px !important;
+  }
+}
+.custom-field-label {
+  width: 72%;
+}
+.custom-field-value {
+  display: flex;
+  gap: 18px;
+  width: 100%;
+  align-items: center;
+  @media(max-width: 1024px) {
+    gap:28px !important;
+  }
 }

@@ -68,7 +68,7 @@ const InvoiceDetailsForm = ({
   };
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-      <div className="flex">
+      <div className="invoice-details-section">
         <div className="w-full">
           <div
             style={{
@@ -143,6 +143,7 @@ const InvoiceDetailsForm = ({
                 alignItems: "center",
                 marginBottom: "20px",
               }}
+              className="due-date-picker-sec"
               onClick={() => handleDatePickerInputClick(true)}
             >
               <CustomDatePicker
@@ -179,35 +180,39 @@ const InvoiceDetailsForm = ({
                   style={styles.itemContainer}
                   className="w-[96%]"
                 >
-                  <CustomInput
-                    type="text"
-                    name="fieldName"
-                    placeholder="Field Name"
-                    containerClass="due-date-input-container-cls"
-                    containerStyle={{ width: "80%", marginBottom: "0" }}
-                    value={field.fieldName}
-                    onChange={(e) => handleFieldChange(index, e)}
-                  />
-                  <CustomInput
-                    type="text"
-                    name="fieldValue"
-                    placeholder="Value"
-                    containerClass="due-date-input-container-cls"
-                    value={field.fieldValue}
-                    onChange={(e) => handleFieldChange(index, e)}
-                  />
-                  <div
-                    onClick={() => handleRemoveField(index)}
-                    style={{
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: "100%",
-                      flex: "0 1 auto",
-                    }}
-                  >
-                    <DeleteIcon />
+                  <div className="custom-field-label">
+                    <CustomInput
+                      type="text"
+                      name="fieldName"
+                      placeholder="Field Name"
+                      containerClass="due-date-input-container-cls"
+                      containerStyle={{ width: "100%", marginBottom: "0" }}
+                      value={field.fieldName}
+                      onChange={(e) => handleFieldChange(index, e)}
+                    />
+                  </div>
+                  <div className="custom-field-value">
+                    <CustomInput
+                      type="text"
+                      name="fieldValue"
+                      placeholder="Value"
+                      containerClass="due-date-input-container-cls"
+                      value={field.fieldValue}
+                      onChange={(e) => handleFieldChange(index, e)}
+                    />
+                    <div
+                      onClick={() => handleRemoveField(index)}
+                      style={{
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        height: "100%",
+                        flex: "0 1 auto",
+                      }}
+                    >
+                      <DeleteIcon />
+                    </div>
                   </div>
                 </div>
               ))}

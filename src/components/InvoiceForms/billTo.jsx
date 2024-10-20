@@ -28,7 +28,7 @@ const BillToForm = ({
     setIsAccordionOpen(newAccordionState);
   };
   return (
-    <div style={styles.section} className="w-3/6">
+    <div style={styles.section} className="bill-to-main-container w-3/6">
       <div className="bill-to-container p-4 rounded-lg">
         <h3 style={styles.titleText}>Bill To</h3>
         <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>

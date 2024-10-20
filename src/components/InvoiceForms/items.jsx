@@ -17,80 +17,84 @@ const ItemDetails = ({
       <h3 style={styles.titleText}>Item List</h3>
       {formData.items &&
         formData.items.map((item, index) => (
-          <div key={index} style={styles.itemContainer}>
-            <CustomInput
-              type="text"
-              name="name"
-              title="Item Name"
-              placeholder="Enter item name"
-              containerStyle={{ width: "25%" }}
-              value={item.name}
-              onChange={(e) => handleItemChange(index, e)}
-              inputStyle={{ flex: "2 1 auto" }}
-              required={true}
-            />
-            <CustomInput
-              type="text"
-              name="description"
-              title="Item Description"
-              placeholder="Enter item description"
-              containerStyle={{ width: "25%" }}
-              value={item.description}
-              onChange={(e) => handleItemChange(index, e)}
-              inputStyle={{ flex: "2 1 auto" }}
-              required={true}
-            />
-            <CustomInput
-              type="number"
-              name="quantity"
-              title="Qty/Hrs."
-              placeholder="Enter quantity"
-              containerStyle={{ width: "15%" }}
-              value={item.quantity}
-              onChange={(e) => handleItemChange(index, e)}
-              inputStyle={{ flex: "0.3 1 auto" }}
-              required={true}
-            />
-            <CustomInput
-              type="number"
-              name="price"
-              placeholder="Enter price"
-              containerStyle={{ width: "15%" }}
-              title="Price"
-              value={item.price}
-              onChange={(e) => handleItemChange(index, e)}
-              inputStyle={{ flex: "1 1 auto" }}
-              required={true}
-            />
-            <CustomInput
-              title={"Total"}
-              containerStyle={{ width: "10%", alignItems: "center" }}
-              isText={true}
-              value={`${
-                formData.currency
-                  ? `${currencySymbols[formData.currency] || ""} `
-                  : ""
-              }${item.total || 0}`}
-              // value={item.total || 0}
-              inputStyle={{ flex: "1 1 auto" }}
-            />
-            {formData.items.length > 1 && (
-              <div
-                onClick={() => handleRemoveItem(index)}
-                style={{
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100%",
-                  flex: "0 1 auto",
-                  paddingTop: "18px",
-                  width: "10%",
-                }}
-              >
-                <DeleteIcon />
-              </div>
-            )}
+          <div key={index} style={styles.itemContainer} className="items-details-section">
+            <div className="d-flex w-full gap-4"> 
+              <CustomInput
+                type="text"
+                name="name"
+                title="Item Name"
+                placeholder="Enter item name"
+                containerStyle={{ width: "50%" }}
+                value={item.name}
+                onChange={(e) => handleItemChange(index, e)}
+                inputStyle={{ flex: "2 1 auto" }}
+                required={true}
+              />
+              <CustomInput
+                type="text"
+                name="description"
+                title="Item Description"
+                placeholder="Enter item description"
+                containerStyle={{ width: "50%" }}
+                value={item.description}
+                onChange={(e) => handleItemChange(index, e)}
+                inputStyle={{ flex: "2 1 auto" }}
+                required={true}
+              />
+            </div>
+            <div className="d-flex w-full gap-4"> 
+              <CustomInput
+                type="number"
+                name="quantity"
+                title="Qty/Hrs."
+                placeholder="Enter quantity"
+                containerStyle={{ width: "30%" }}
+                value={item.quantity}
+                onChange={(e) => handleItemChange(index, e)}
+                inputStyle={{ flex: "0.3 1 auto" }}
+                required={true}
+              />
+              <CustomInput
+                type="number"
+                name="price"
+                placeholder="Enter price"
+                containerStyle={{ width: "30%" }}
+                title="Price"
+                value={item.price}
+                onChange={(e) => handleItemChange(index, e)}
+                inputStyle={{ flex: "1 1 auto" }}
+                required={true}
+              />
+              <CustomInput
+                title={"Total"}
+                containerStyle={{ width: "20%", alignItems: "center" }}
+                isText={true}
+                value={`${
+                  formData.currency
+                    ? `${currencySymbols[formData.currency] || ""} `
+                    : ""
+                }${item.total || 0}`}
+                // value={item.total || 0}
+                inputStyle={{ flex: "1 1 auto" }}
+              />
+              {formData.items.length > 1 && (
+                <div
+                  onClick={() => handleRemoveItem(index)}
+                  style={{
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                    flex: "0 1 auto",
+                    paddingTop: "43px",
+                    width: "20%",
+                  }}
+                >
+                  <DeleteIcon />
+                </div>
+              )}
+            </div>
           </div>
         ))}
 

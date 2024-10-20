@@ -30,7 +30,7 @@ const BillFromForm = ({
   };
 
   return (
-    <div style={styles.section} className="w-3/6">
+    <div style={styles.section} className="bill-from-main-container w-3/6">
       <div className="bill-from-container p-4 rounded-lg">
         <h3 style={styles.titleText}>Bill From</h3>
         <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
