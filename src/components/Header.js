@@ -107,7 +107,7 @@ const Header = () => {
       <div className="sidebar-bottom d-flex items-center justify-content-center">
         {!googleProfileImage ? (
           <div
-            className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-4"
+            className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
             ref={avatarRef}
             onClick={handleProfileClick}
           >

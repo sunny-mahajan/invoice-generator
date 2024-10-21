@@ -225,7 +225,7 @@ export default function UploadCSV() {
   return (
     <Layout>
       <div className="container mx-auto p-4 px-0 upload-container-cls">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mb-5 md:mb-0">
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
@@ -261,7 +261,7 @@ export default function UploadCSV() {
           </div>
 
           {invoices.length > 0 && isInvoceTrue && (
-            <div className="mt-6">
+            <div className="mt-0 md:mt-6">
               <CustomButton
                 type="purple"
                 onClick={handleDownloadZip}

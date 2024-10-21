@@ -8,22 +8,13 @@ const CustomButton = ({
   onClick,
   isLoading = false,
   disabled,
+  containerClass,
 }) => {
   return (
     <button
       style={buttonStyle}
       onClick={onClick}
-      className={
-        type === "white"
-          ? "white-button"
-          : type === "gray"
-          ? "gray-button"
-          : type === "purple"
-          ? "purple-button"
-          : type === "red"
-          ? "red-button"
-          : ""
-      }
+      className={`${type}-button ${containerClass || ""}`.trim()}
       disabled={isLoading || disabled}
     >
       {isLoading ? <Loader /> : children}

@@ -70,6 +70,9 @@ body {
   display: flex;
   margin-right: auto;
   margin-left: 65px;
+  @media (max-width: 768px) {
+    margin-left: 20px;
+  }
 }
 
 .add-btn-container {
@@ -121,11 +124,18 @@ body {
   align-items: center;
   cursor: pointer;
   gap: 15px;
+  @media screen and (max-width: 768px) {
+    gap: 10px;
+  }
 }
 .item-hover-cls {
   padding: 9px 10px;
   border-radius: 22px;
   line-height: 1;
+  @media screen and (max-width: 768px) {
+    padding: 7px 7px;
+    font-size: 14px;
+  }
 }
 
 .sidebar-item.active {
@@ -154,6 +164,9 @@ body {
 
 .sidebar-avatar {
   padding: 0px 35px;
+  @media screen and (max-width: 768px) {
+    padding: 0px 15px;
+  }
 }
 
 .sidebar-bottom {
