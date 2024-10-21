@@ -284,12 +284,6 @@ p {
     }
   }
 }
-.currency-section-cls,
-.tax-number-cls {
-  @media (max-width: 1024px) {
-    width: 100% !important;
-  }
-}
 .items-details-section {
   @media (max-width: 1024px) {
     display: block !important;
