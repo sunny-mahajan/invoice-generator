@@ -473,10 +473,8 @@ const InvoiceForm = () => {
               />
             </div>
             <div style={styles.section}>
-              <div style={{ display: "flex", gap: "20px" }}>
-                <div
-                  className="currency-section-cls flex w-1/4 mt-2 flex-col"
-                >
+              <div className="block md:flex gap-5">
+                <div className="currency-section-cls flex w-1/4 mt-2 flex-col">
                   <FormCustomDropdown
                     name="currency"
                     title="Currency"
@@ -486,9 +484,7 @@ const InvoiceForm = () => {
                     options={currencyOptions}
                   />
                 </div>
-                <div
-                  className="tax-number-cls flex w-1/4 mt-2 flex-col"
-                >
+                <div className="tax-number-cls flex w-1/4 mt-2 flex-col">
                   <CustomInput
                     type="text"
                     name="taxPercentage"
@@ -523,7 +519,7 @@ const InvoiceForm = () => {
               selectable={true}
             />
           </div>
-          <div style={styles.buttons}>
+          <div className="flex bg-[#141625] justify-center  md:justify-between  rounded-r-lg w-full p-5 px-10">
             <CustomButton
               type="purple"
               onClick={onSubmit}
@@ -565,16 +561,6 @@ const styles = {
   },
   "mainSection::-webkit-scrollbar-track": {
     backgroundColor: "transparent",
-  },
-  buttons: {
-    display: "flex",
-    backgroundColor: "#141625",
-    justifyContent: "space-between",
-    borderRadiusRight: "8px",
-    width: "100%",
-    padding: "20px",
-    paddingLeft: "40px",
-    paddingRight: "40px",
   },
 };
 

@@ -187,7 +187,6 @@ p {
 .selected-invoice-template {
   border-color: #3498db;
   border-radius: var(--border-radius);
-  /* transition: border 0.2s ease-in-out; */
 }
 .upload-container-cls {
   display: flex !important;
@@ -239,9 +238,9 @@ p {
 .input-container-cls {
   flex-direction: row !important;
   align-items: center !important;
-  gap: 28px !important;
   .invoice-title-container {
-    width: 80% !important;
+    width: 100% !important;
+    padding: 10px;
   }
   .input-field {
     margin-bottom: 0 !important;
@@ -252,6 +251,18 @@ p {
     margin-bottom: 0 !important;
   }
 }
+.due-date-picker-container {
+  width: 90% !important;
+}
+
+.due-date-input-container {
+  .input-field {
+    margin-bottom: 0 !important;
+  }
+  @media screen and (max-width: 768px) {
+    margin-bottom: 20px !important;
+  }
+}
 
 .input-field::-webkit-input-placeholder {
   color: #999999 !important; /* Light gray */
@@ -259,50 +270,44 @@ p {
 }
 
 .parties-details-container {
-  @media(max-width: 1024px) {
-     display: block !important;
+  @media (max-width: 1024px) {
+    display: block !important;
   }
   .bill-from-main-container {
-    @media(max-width: 1024px) {
+    @media (max-width: 1024px) {
       width: 100% !important;
-   }
+    }
   }
   .bill-to-main-container {
-    @media(max-width: 1024px) {
+    @media (max-width: 1024px) {
       width: 100% !important;
     }
   }
 }
-.currency-section-cls, .tax-number-cls {
-  @media(max-width: 1024px) {
+.currency-section-cls,
+.tax-number-cls {
+  @media (max-width: 1024px) {
     width: 100% !important;
   }
 }
 .items-details-section {
-  @media(max-width: 1024px) {
+  @media (max-width: 1024px) {
     display: block !important;
   }
 }
 .invoice-details-section {
   display: flex;
-  @media(max-width: 1024px) {
+  @media (max-width: 1024px) {
     display: block;
   }
 }
-.due-date-picker-sec {
-  @media(max-width: 1024px) {
-    gap:28px !important;
-  }
-}
 .custom-field-label {
-  width: 72%;
-}
-.custom-field-value {
+  width: 90%;
   display: flex;
-  gap: 18px;
-  width: 100%;
-  align-items: center;
-  @media(max-width: 1024px) {
-    gap:28px !important;
+  gap: 10px;
+}
+.add-new-item-btn {
+  @media (max-width: 768px) {
+    width: 50% !important;
   }
 }
