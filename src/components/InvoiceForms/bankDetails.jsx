@@ -26,14 +26,8 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
         }`}
       >
         <div className="rounded-lg" style={styles.section}>
-          <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                flexDirection: "column",
-              }}
-            >
+          <div className="block md:flex gap-5 mb-2.5">
+            <div className="w-full flex flex-col">
               <CustomInput
                 type="text"
                 name="bankDetails.bankName"
@@ -45,13 +39,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
               />
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                flexDirection: "column",
-              }}
-            >
+            <div className="w-full flex flex-col">
               <CustomInput
                 type="text"
                 name="bankDetails.accountNumber"
@@ -63,13 +51,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
               />
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                flexDirection: "column",
-              }}
-            >
+            <div className="w-full flex flex-col">
               <CustomInput
                 type="text"
                 name="bankDetails.confirmAccountNumber"
@@ -94,14 +76,8 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                flexDirection: "column",
-              }}
-            >
+          <div className="block md:flex gap-5 mb-2.5">
+            <div className="w-full flex flex-col">
               <CustomInput
                 type="text"
                 name="bankDetails.ifscCode"
@@ -112,13 +88,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 style={styles.input}
               />
             </div>
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                flexDirection: "column",
-              }}
-            >
+            <div className="w-full flex flex-col">
               <CustomInput
                 type="text"
                 name="bankDetails.accountHolderName"
@@ -129,13 +99,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 style={styles.input}
               />
             </div>
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                flexDirection: "column",
-              }}
-            >
+            <div className="w-full flex flex-col">
               <CustomInput
                 type="text"
                 name="bankDetails.bankAccountType"

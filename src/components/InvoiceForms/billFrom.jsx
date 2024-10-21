@@ -30,13 +30,11 @@ const BillFromForm = ({
   };
 
   return (
-    <div style={styles.section} className="w-3/6">
+    <div style={styles.section} className="bill-from-main-container w-3/6">
       <div className="bill-from-container p-4 rounded-lg">
         <h3 style={styles.titleText}>Bill From</h3>
-        <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
-          <div
-            style={{ display: "flex", width: "100%", flexDirection: "column" }}
-          >
+        <div className="block md:flex gap-5 mt-2.5">
+          <div className="flex w-full flex-col">
             <CustomInput
               type="text"
               name="senderDetails.name"
@@ -64,10 +62,8 @@ const BillFromForm = ({
           />
         </div>
 
-        <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
-          <div
-            style={{ display: "flex", width: "48%", flexDirection: "column" }}
-          >
+        <div className="block md:flex gap-5 mt-2.5">
+          <div className="flex w-full md:w-[48%] flex-col">
             <CustomInput
               type="text"
               name="senderDetails.email"
@@ -102,14 +98,8 @@ const BillFromForm = ({
               isAccordionOpen[0] ? "max-h-screen mb-5" : "max-h-0"
             }`}
           >
-            <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  flexDirection: "column",
-                }}
-              >
+            <div className="block md:flex gap-5 mt-2.5">
+              <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
                   name="senderDetails.street"
@@ -120,13 +110,7 @@ const BillFromForm = ({
                   style={styles.input}
                 />
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  flexDirection: "column",
-                }}
-              >
+              <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
                   name="senderDetails.city"
@@ -138,14 +122,8 @@ const BillFromForm = ({
                 />
               </div>
             </div>
-            <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  flexDirection: "column",
-                }}
-              >
+            <div className="block md:flex gap-5 mt-2.5">
+              <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
                   name="senderDetails.state"
@@ -156,13 +134,7 @@ const BillFromForm = ({
                   style={styles.input}
                 />
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  flexDirection: "column",
-                }}
-              >
+              <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
                   name="senderDetails.postCode"
@@ -174,14 +146,8 @@ const BillFromForm = ({
                 />
               </div>
             </div>
-            <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  width: "48%",
-                  flexDirection: "column",
-                }}
-              >
+            <div className="block md:flex gap-5 mt-2.5">
+              <div className="flex w-full md:w-[48%] flex-col">
                 <CustomInput
                   type="text"
                   name="senderDetails.country"
@@ -212,14 +178,8 @@ const BillFromForm = ({
                 : "overflow-hidden max-h-0"
             }`}
           >
-            <div style={{ display: "flex", gap: "20px", marginTop: "10px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  flexDirection: "column",
-                }}
-              >
+            <div className="block md:flex gap-5 mt-2.5">
+              <div className="flex w-full flex-col">
                 <FormCustomDropdown
                   name="senderDetails.taxType"
                   title="Tax Type"
@@ -229,13 +189,7 @@ const BillFromForm = ({
                   options={taxTypeOptions}
                 />
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  flexDirection: "column",
-                }}
-              >
+              <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
                   name="senderDetails.taxNo"
@@ -258,23 +212,24 @@ const BillFromForm = ({
           {formData.senderDetails.customFields &&
             formData.senderDetails.customFields.map((field, index) => (
               <div key={index} style={styles.itemContainer}>
-                <CustomInput
-                  type="text"
-                  name="fieldName"
-                  placeholder="Field Name"
-                  containerClass="due-date-input-container-cls"
-                  containerStyle={{ width: "80%", marginBottom: "0" }}
-                  value={field.fieldName}
-                  onChange={(e) => handleFieldChange(index, e, "billFrom")}
-                />
-                <CustomInput
-                  type="text"
-                  name="fieldValue"
-                  placeholder="Value"
-                  containerClass="due-date-input-container-cls"
-                  value={field.fieldValue}
-                  onChange={(e) => handleFieldChange(index, e, "billFrom")}
-                />
+                <div className="block md:flex gap-5 w-full">
+                  <CustomInput
+                    type="text"
+                    name="fieldName"
+                    placeholder="Field Name"
+                    containerClass="due-date-input-container"
+                    value={field.fieldName}
+                    onChange={(e) => handleFieldChange(index, e, "billFrom")}
+                  />
+                  <CustomInput
+                    type="text"
+                    name="fieldValue"
+                    placeholder="Value"
+                    containerClass="due-date-input-container"
+                    value={field.fieldValue}
+                    onChange={(e) => handleFieldChange(index, e, "billFrom")}
+                  />
+                </div>
                 <div
                   onClick={() => handleRemoveField(index, "billFrom")}
                   style={{
@@ -285,6 +240,7 @@ const BillFromForm = ({
                     height: "100%",
                     flex: "0 1 auto",
                   }}
+                  className="pb-5 md:pb-0"
                 >
                   <DeleteIcon />
                 </div>
