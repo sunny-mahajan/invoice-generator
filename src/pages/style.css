@@ -241,6 +241,9 @@ p {
   .invoice-title-container {
     width: 100% !important;
     padding: 10px;
+    @media screen and (max-width: 420px) {
+      width: 60% !important;
+    }
   }
   .input-field {
     margin-bottom: 0 !important;
