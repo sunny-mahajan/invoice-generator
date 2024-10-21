@@ -55,22 +55,23 @@ export default async function handler(req, res) {
       // Read the original PDF file
       const fileContent = await fs.readFile(originalFilePath);
 
-      // Define the path to save the new PDF file
+      // Define the directory path to save the new PDF file
+      const outputDir = join(process.cwd(), "public", "generated-pdfs");
+
+      // Ensure the directory exists (create if not)
+      await fs.mkdir(outputDir, { recursive: true });
+
+      // Define the new file name and full path
       const newFileName = `invoice_${Date.now()}.pdf`; // unique filename using timestamp
-      const savePath = join(
-        process.cwd(),
-        "public",
-        "generated-pdfs",
-        newFileName
-      );
-      console.log(savePath, "savepath");
+      const savePath = join(outputDir, newFileName);
+
       // Write the PDF content to the new location
       await fs.writeFile(savePath, fileContent);
-      console.log("write the file");
-      // Send the saved PDF file in the response
+
+      // Set headers and send the saved PDF file in the response
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader("Content-Disposition", `inline; filename="${newFileName}"`);
-      console.log("send the file");
+
       // Read and send the saved file
       const savedFileContent = await fs.readFile(savePath);
       res.send(savedFileContent);
