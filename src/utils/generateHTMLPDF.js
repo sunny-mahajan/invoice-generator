@@ -6,6 +6,8 @@ import generateHTMLTPL004 from "../templates/HTMLTPL004";
 export async function generateHTMLPDF(invoiceData) {
   try {
     let HTMLTemplate = "";
+    let HTMLTemplate1 = "";
+    let HTMLTemplate2 = "";
     const templateId = invoiceData["Template Id"];
 
     // Choose the correct template based on the templateId
@@ -15,11 +17,11 @@ export async function generateHTMLPDF(invoiceData) {
         break; // Stops execution here after generating TPL001
 
       case "TPL002":
-        HTMLTemplate = generateHTMLTPL002(invoiceData);
+        HTMLTemplate1 = generateHTMLTPL002(invoiceData);
         break; // Stops execution here after generating TPL002
 
       case "TPL003":
-        HTMLTemplate = generateHTMLTPL003(invoiceData);
+        HTMLTemplate2 = generateHTMLTPL003(invoiceData);
         break; // Stops execution here after generating TPL003
 
       case "TPL004":
@@ -29,14 +31,34 @@ export async function generateHTMLPDF(invoiceData) {
         throw new Error(`Unsupported template ID: ${templateId}`);
     }
 
+    let response;
+
     // Sending the HTML template to the server for PDF generation
-    const response = await fetch("/api/generate-pdf", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ HTMLTemplate }),
-    });
+    if (templateId === "TPL001") {
+      response = await fetch("/api/generate-pdf", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ HTMLTemplate }),
+      });
+    } else if (templateId === "TPL002") {
+      response = await fetch("/api/generate-pdf2", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ HTMLTemplate1 }),
+      });
+    } else if (templateId === "TPL003") {
+      response = await fetch("/api/generate-pdf3", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ HTMLTemplate2 }),
+      });
+    }
 
     // Check if the response is okay
     console.log(response, "res---------------------");
