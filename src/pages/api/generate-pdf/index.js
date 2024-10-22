@@ -57,7 +57,7 @@ export default async function handler(req, res) {
 
       // Define the directory path to save the new PDF file
       const outputDir = join(process.cwd(), "public", "generated-pdfs");
-
+      res.send("success");
       // Ensure the directory exists (create if not)
       await fs.mkdir(outputDir, { recursive: true });
 
