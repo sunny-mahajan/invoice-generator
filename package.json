@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "chrome-aws-lambda": "^10.1.0",
     "csv-parser": "^3.0.0",
     "file-saver": "^2.0.5",
     "firebase": "^10.14.0",
@@ -23,6 +24,7 @@
     "papaparse": "^5.4.1",
     "pdf-puppeteer": "^1.1.11",
     "puppeteer": "^23.2.0",
+    "puppeteer-core": "^23.6.0",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
