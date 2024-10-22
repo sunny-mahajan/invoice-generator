@@ -84,20 +84,29 @@
 //   }
 // }
 
-const chromium = require("chrome-aws-lambda");
-const puppeteer = require("puppeteer-core");
+const isProduction = process.env.NODE_ENV === "production";
+const chromium = isProduction ? require("chrome-aws-lambda") : null;
+const puppeteer = isProduction
+  ? require("puppeteer-core")
+  : require("puppeteer");
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       const { HTMLTemplate } = req.body;
 
-      // Launch Puppeteer in Vercel's serverless environment
-      const browser = await puppeteer.launch({
-        args: chromium.args,
-        executablePath: await chromium.executablePath,
-        headless: true,
-      });
+      let browser;
+      if (isProduction) {
+        browser = await puppeteer.launch({
+          args: chromium.args,
+          executablePath: await chromium.executablePath,
+          headless: true,
+        });
+      } else {
+        browser = await puppeteer.launch({
+          headless: true,
+        });
+      }
 
       const page = await browser.newPage();
       await page.setContent(HTMLTemplate, { waitUntil: "load" });
@@ -112,11 +121,16 @@ export default async function handler(req, res) {
 
       // Set headers and send the generated PDF
       res.setHeader("Content-Type", "application/pdf");
-      res.send(pdfBuffer);
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="generated.pdf"'
+      );
+      res.status(200).send(Buffer.from(pdfBuffer)); // Ensure to send the PDF buffer as a Buffer
     } catch (error) {
-      console.error("Error generating PDF:", error);
+      console.error("Error generating PDF:", error.message);
       res.status(500).json({
         error: "An error occurred while generating the PDF",
+        details: error.message,
       });
     }
   } else {
