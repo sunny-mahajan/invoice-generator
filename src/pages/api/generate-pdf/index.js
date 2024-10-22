@@ -1,31 +1,29 @@
-// const convertHTMLToPDF = require("pdf-puppeteer");
-// export default async function handler(req, res) {
-//   if (req.method === "POST") {
-//     // Check if the method is POST
-//     try {
-//       const { HTMLTemplate } = req.body;
+const convertHTMLToPDF = require("pdf-puppeteer");
+export default async function handler(req, res) {
+  if (req.method === "POST") {
+    // Check if the method is POST
+    try {
+      const { HTMLTemplate } = req.body;
 
-//       convertHTMLToPDF(
-//         HTMLTemplate,
-//         (pdf) => {
-//           res.setHeader("Content-Type", "application/pdf");
-//           res.send(pdf);
-//         },
-//         { printBackground: true },
-//         null,
-//         true
-//       );
-//     } catch (error) {
-//       console.error(error);
-//       res
-//         .status(500)
-//         .json({ error: "An error occurred while generating the PDF" });
-//     }
-//   } else {
-//     // Return 405 if the method is not POST
-//     res.status(405).json({ error: "Method not allowed" });
-//   }
-// }
+      convertHTMLToPDF(
+        HTMLTemplate,
+        (pdf) => {
+          res.setHeader("Content-Type", "application/pdf");
+          res.send(pdf);
+        },
+        { printBackground: true },
+        null,
+        true
+      );
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: JSON.stringify(error) });
+    }
+  } else {
+    // Return 405 if the method is not POST
+    res.status(405).json({ error: "Method not allowed" });
+  }
+}
 
 // import { join } from "path";
 // import { promises as fs } from "fs";
@@ -57,6 +55,7 @@
 
 //       // Define the directory path to save the new PDF file
 //       const outputDir = join(process.cwd(), "public", "generated-pdfs");
+
 //       // Ensure the directory exists (create if not)
 //       await fs.mkdir(outputDir, { recursive: true });
 
@@ -84,56 +83,56 @@
 //   }
 // }
 
-const isProduction = process.env.NODE_ENV === "production";
-const chromium = isProduction ? require("chrome-aws-lambda") : null;
-const puppeteer = isProduction
-  ? require("puppeteer-core")
-  : require("puppeteer");
+// const isProduction = process.env.NODE_ENV === "production";
+// const chromium = isProduction ? require("chrome-aws-lambda") : null;
+// const puppeteer = isProduction
+//   ? require("puppeteer-core")
+//   : require("puppeteer");
 
-export default async function handler(req, res) {
-  if (req.method === "POST") {
-    try {
-      const { HTMLTemplate } = req.body;
+// export default async function handler(req, res) {
+//   if (req.method === "POST") {
+//     try {
+//       const { HTMLTemplate } = req.body;
 
-      let browser;
-      if (isProduction) {
-        browser = await puppeteer.launch({
-          args: chromium.args,
-          executablePath: await chromium.executablePath,
-          headless: true,
-        });
-      } else {
-        browser = await puppeteer.launch({
-          headless: true,
-        });
-      }
+//       let browser;
+//       if (isProduction) {
+//         browser = await puppeteer.launch({
+//           args: chromium.args,
+//           executablePath: await chromium.executablePath,
+//           headless: true,
+//         });
+//       } else {
+//         browser = await puppeteer.launch({
+//           headless: true,
+//         });
+//       }
 
-      const page = await browser.newPage();
-      await page.setContent(HTMLTemplate, { waitUntil: "load" });
+//       const page = await browser.newPage();
+//       await page.setContent(HTMLTemplate, { waitUntil: "load" });
 
-      // Generate PDF from the HTML
-      const pdfBuffer = await page.pdf({
-        format: "A4",
-        printBackground: true,
-      });
+//       // Generate PDF from the HTML
+//       const pdfBuffer = await page.pdf({
+//         format: "A4",
+//         printBackground: true,
+//       });
 
-      await browser.close();
+//       await browser.close();
 
-      // Set headers and send the generated PDF
-      res.setHeader("Content-Type", "application/pdf");
-      res.setHeader(
-        "Content-Disposition",
-        'attachment; filename="generated.pdf"'
-      );
-      res.status(200).send(Buffer.from(pdfBuffer)); // Ensure to send the PDF buffer as a Buffer
-    } catch (error) {
-      console.error("Error generating PDF:", error.message);
-      res.status(500).json({
-        error: "An error occurred while generating the PDF",
-        details: error.message,
-      });
-    }
-  } else {
-    res.status(405).json({ error: "Method not allowed" });
-  }
-}
+//       // Set headers and send the generated PDF
+//       res.setHeader("Content-Type", "application/pdf");
+//       res.setHeader(
+//         "Content-Disposition",
+//         'attachment; filename="generated.pdf"'
+//       );
+//       res.status(200).send(Buffer.from(pdfBuffer)); // Ensure to send the PDF buffer as a Buffer
+//     } catch (error) {
+//       console.error("Error generating PDF:", error.message);
+//       res.status(500).json({
+//         error: "An error occurred while generating the PDF",
+//         details: error.message,
+//       });
+//     }
+//   } else {
+//     res.status(405).json({ error: "Method not allowed" });
+//   }
+// }
