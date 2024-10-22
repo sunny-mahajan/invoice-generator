@@ -60,11 +60,10 @@ export default async function handler(req, res) {
       // Ensure the directory exists (create if not)
       await fs.mkdir(outputDir, { recursive: true });
 
-      res.send("success");
       // Define the new file name and full path
       const newFileName = `invoice_${Date.now()}.pdf`; // unique filename using timestamp
       const savePath = join(outputDir, newFileName);
-
+      res.send("success");
       // Write the PDF content to the new location
       await fs.writeFile(savePath, fileContent);
 
