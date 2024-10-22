@@ -414,18 +414,9 @@ const InvoiceForm = () => {
     try {
       const pdfBlob = await generateHTMLPDF(mappedData);
       if (pdfBlob) {
-        // const blobURL = URL.createObjectURL(pdfBlob);
-        // window.open(blobURL, "_blank");
-        // setTimeout(() => URL.revokeObjectURL(blobURL), 100);
-
-        // Create a URL for the blob
-        const url = window.URL.createObjectURL(pdfBlob);
-
-        // Open the PDF in a new tab
-        window.open(url);
-
-        // Optionally, you can revoke the object URL after a short delay
-        setTimeout(() => window.URL.revokeObjectURL(url), 100);
+        const blobURL = URL.createObjectURL(pdfBlob);
+        window.open(blobURL, "_blank");
+        setTimeout(() => URL.revokeObjectURL(blobURL), 100);
       }
     } catch (error) {
       toast.error("Error generating invoice PDF: " + error.message);
