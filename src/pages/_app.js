@@ -3,7 +3,7 @@ import ProtectedPage from "../app/protected"; // Adjust path if necessary
 import "./style.css";
 
 function MyApp({ Component, pageProps, router }) {
-  const protectedRoutes = []; // Define protected routes
+  const protectedRoutes = ["/", "/upload"]; // Define protected routes
 
   const isProtectedRoute = protectedRoutes.includes(router.pathname);
 
