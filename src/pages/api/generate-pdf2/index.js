@@ -27,29 +27,29 @@
 //   }
 // }
 
-const playwright = require("playwright-aws-lambda");
+const puppeteer = require("puppeteer");
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { HTMLTemplate1 } = req.body;
-
-  if (!HTMLTemplate1) {
-    return res.status(400).json({ error: "HTMLTemplate1 is required" });
+  const { HTMLTemplate2 } = req.body;
+  if (!HTMLTemplate2) {
+    return res.status(400).json({ error: "HTMLTemplate2 is required" });
   }
 
   let browser;
   try {
-    browser = await playwright.launchChromium();
-    const page = await browser.newPage();
-    await page.setContent(HTMLTemplate1, { waitUntil: "load" });
-
-    const pdfBuffer = await page.pdf({
-      format: "A4",
-      printBackground: true,
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
+
+    const page = await browser.newPage();
+    await page.setContent(HTMLTemplate2, { waitUntil: "load" });
+
+    const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
@@ -59,13 +59,10 @@ export default async function handler(req, res) {
     return res.status(200).send(Buffer.from(pdfBuffer));
   } catch (error) {
     console.error("Error generating PDF:", error);
-    return res.status(500).json({
-      error: "An error occurred while generating the PDF",
-      details: error.message,
-    });
+    return res
+      .status(500)
+      .json({ error: "An error occurred while generating the PDF" });
   } finally {
-    if (browser) {
-      await browser.close();
-    }
+    if (browser) await browser.close();
   }
 }
