@@ -76,7 +76,6 @@ export default async function handler(req, res) {
   try {
     // Launch Puppeteer based on the environment
     if (isProduction) {
-      res.send("is production");
       browser = await puppeteer.launch({
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
@@ -84,6 +83,7 @@ export default async function handler(req, res) {
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
       });
+      res.send("is production", browser);
     } else {
       res.send("is local");
       browser = await puppeteer.launch({
