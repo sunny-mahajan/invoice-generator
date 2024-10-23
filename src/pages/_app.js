@@ -1,9 +1,9 @@
 import { SessionProvider } from "next-auth/react";
-import ProtectedPage from '../app/protected'; // Adjust path if necessary
-import './style.css';
+import ProtectedPage from "../app/protected"; // Adjust path if necessary
+import "./style.css";
 
 function MyApp({ Component, pageProps, router }) {
-  const protectedRoutes = ["/", "/upload"]; // Define protected routes
+  const protectedRoutes = []; // Define protected routes
 
   const isProtectedRoute = protectedRoutes.includes(router.pathname);
 
@@ -21,4 +21,3 @@ function MyApp({ Component, pageProps, router }) {
 }
 
 export default MyApp;
-
