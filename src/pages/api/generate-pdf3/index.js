@@ -78,17 +78,13 @@ export default async function handler(req, res) {
     if (isProduction) {
       browser = await puppeteer.launch({
         args: chromium.args,
-        executablePath: await chromium.executablePath,
+        executablePath:
+          (await chromium.executablePath) || "/usr/bin/chromium-browser", // Fallback in case chrome-aws-lambda doesn't work
         headless: chromium.headless,
-        // defaultViewport: chromium.defaultViewport,
-        //ignoreHTTPSErrors: true,
+        ignoreHTTPSErrors: true, // Ensure HTTPS errors are ignored
       });
-      res.send("is production", browser);
     } else {
-      res.send("is local");
-      browser = await puppeteer.launch({
-        headless: true,
-      });
+      browser = await puppeteer.launch({ headless: true });
     }
 
     const page = await browser.newPage();
