@@ -80,6 +80,8 @@ export default async function handler(req, res) {
         args: chromium.args,
         executablePath: await chromium.executablePath,
         headless: chrome.headless,
+        defaultViewport: chromium.defaultViewport,
+        //ignoreHTTPSErrors: true,
       });
       res.send("is production", browser);
     } else {
