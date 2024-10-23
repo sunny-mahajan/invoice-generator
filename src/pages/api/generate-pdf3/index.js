@@ -79,8 +79,8 @@ export default async function handler(req, res) {
       browser = await puppeteer.launch({
         args: chromium.args,
         executablePath: await chromium.executablePath,
-        headless: chrome.headless,
-        defaultViewport: chromium.defaultViewport,
+        headless: chromium.headless,
+        // defaultViewport: chromium.defaultViewport,
         //ignoreHTTPSErrors: true,
       });
       res.send("is production", browser);
@@ -106,7 +106,7 @@ export default async function handler(req, res) {
       "Content-Disposition",
       'attachment; filename="generated.pdf"'
     );
-    return res.status(200).send(Buffer.from(pdfBuffer)); // Buffer is sent directly
+    return res.status(200).send(Buffer.from(pdfBuffer));
   } catch (error) {
     console.error("Error generating PDF:", error);
     return res.status(500).json({
