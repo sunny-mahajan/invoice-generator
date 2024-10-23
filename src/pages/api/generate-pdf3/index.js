@@ -78,10 +78,8 @@ export default async function handler(req, res) {
     if (isProduction) {
       browser = await puppeteer.launch({
         args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath,
-        headless: chromium.headless,
-        ignoreHTTPSErrors: true,
+        headless: chrome.headless,
       });
       res.send("is production", browser);
     } else {
