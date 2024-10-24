@@ -410,13 +410,16 @@ const InvoiceForm = () => {
       Currency: formData.currency,
       "Tax Percentage": formData.taxPercentage,
     };
-
     try {
       const pdfBlob = await generateHTMLPDF(mappedData);
+      let newWindow = window.open("", "_blank");
       if (pdfBlob) {
         const blobURL = URL.createObjectURL(pdfBlob);
+        newWindow.location.href = blobURL;
         window.open(blobURL, "_blank");
         setTimeout(() => URL.revokeObjectURL(blobURL), 100);
+      } else {
+        newWindow.close();
       }
     } catch (error) {
       toast.error("Error generating invoice PDF: " + error.message);

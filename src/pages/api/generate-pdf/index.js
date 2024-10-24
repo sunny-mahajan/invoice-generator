@@ -14,7 +14,6 @@ export default async function handler(req, res) {
 
   let browser;
   try {
-    // Launch Puppeteer with appropriate settings depending on environment
     if (production) {
       browser = await puppeteer.launch({
         args: chrome.args,
@@ -28,9 +27,7 @@ export default async function handler(req, res) {
     }
 
     const page = await browser.newPage();
-
-    // Ensure all resources are loaded before generating the PDF
-    await page.setContent(HTMLTemplate, { waitUntil: "networkidle0" });
+    await page.setContent(HTMLTemplate, { waitUntil: "load" });
 
     // Generate PDF from the HTML content
     const pdfBuffer = await page.pdf({
@@ -44,10 +41,8 @@ export default async function handler(req, res) {
       "Content-Disposition",
       'attachment; filename="generated.pdf"'
     );
-
     return res.status(200).send(Buffer.from(pdfBuffer));
   } catch (error) {
-    console.error("Error generating PDF:", error);
     return res.status(500).json({
       error: "An error occurred while generating the PDF",
       details: error.message,
