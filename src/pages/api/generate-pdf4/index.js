@@ -1,13 +1,14 @@
 const chrome = require("@sparticuz/chromium");
 const puppeteer = require("puppeteer-core");
-const production = process.env.NODE_ENV === "production";
+const production = process.env.VERCEL_ENV === "production";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
+  let browser;
   if (production) {
-    const browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       args: chrome.args,
       defaultViewport: chrome.defaultViewport,
       executablePath: await chrome.executablePath(),
@@ -15,11 +16,6 @@ export default async function handler(req, res) {
       ignoreHTTPSErrors: true,
     });
   }
-  const data = {
-    first: process.env.NODE_ENV,
-    second: process.env.VERCEL_ENV,
-    third: process.env.AWS_LAMBDA_FUNCTION_VERSION,
-  };
-  res.send(data);
+  res.send(browser);
   const page = await browser.newPage();
 }
