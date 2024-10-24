@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^130.0.0",
     "chrome-aws-lambda": "^10.1.0",
     "csv-parser": "^3.0.0",
     "file-saver": "^2.0.5",
