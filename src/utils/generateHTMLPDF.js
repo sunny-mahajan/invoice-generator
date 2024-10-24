@@ -6,9 +6,6 @@ import generateHTMLTPL004 from "../templates/HTMLTPL004";
 export async function generateHTMLPDF(invoiceData) {
   try {
     let HTMLTemplate = "";
-    let HTMLTemplate1 = "";
-    let HTMLTemplate2 = "";
-    let HTMLTemplate3 = "";
     const templateId = invoiceData["Template Id"];
 
     // Choose the correct template based on the templateId
@@ -40,46 +37,6 @@ export async function generateHTMLPDF(invoiceData) {
       },
       body: JSON.stringify({ HTMLTemplate }),
     });
-    // Sending the HTML template to the server for PDF generation
-    // if (templateId === "TPL001") {
-    //   response = await fetch("/api/generate-pdf", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ HTMLTemplate }),
-    //   });
-    // } else if (templateId === "TPL002") {
-    //   response = await fetch("/api/generate-pdf2", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ HTMLTemplate1 }),
-    //   });
-    // } else if (templateId === "TPL003") {
-    //   response = await fetch("/api/generate-pdf3", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ HTMLTemplate2 }),
-    //   });
-    // } else if (templateId === "TPL004") {
-    //   response = await fetch("/api/generate-pdf4", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ HTMLTemplate3 }),
-    //   });
-    // }
-
-    // // Check if the response is okay
-    // console.log(response, "res---------------------");
-    // if (!response.ok) {
-    //   throw new Error("Failed to generate PDF");
-    // }
 
     // Return the PDF blob from the response
     return await response.blob();

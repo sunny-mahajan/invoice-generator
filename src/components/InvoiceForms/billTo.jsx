@@ -45,7 +45,7 @@ const BillToForm = ({
               errors={errors}
               register={register}
               validationRules={{
-                required: "Client name is required",
+                required: "Name is required",
               }}
             />
           </div>
@@ -140,12 +140,12 @@ const BillToForm = ({
               </div>
               <div className="flex w-full flex-col">
                 <CustomInput
-                  type="text"
+                  type="number"
                   name="clientDetails.postCode"
-                  placeholder={"Enter post code"}
+                  placeholder={"Enter pin code"}
                   value={formData?.clientDetails?.postCode}
                   onChange={handleChange}
-                  title="Post Code"
+                  title="Pin Code"
                   style={styles.input}
                 />
               </div>

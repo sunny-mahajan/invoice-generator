@@ -78,7 +78,7 @@ const InvoiceDetailsForm = ({
               placeholder="Enter invoice no."
               value={formData?.invoiceNo}
               onChange={handleChange}
-              style={styles.input}
+              inputClass="input-invoice-cls"
               containerClass="input-container-cls"
               required={true}
               errors={errors}
@@ -263,14 +263,6 @@ export default InvoiceDetailsForm;
 
 // Example styles object
 const styles = {
-  input: {
-    width: "100%",
-    padding: "10px",
-    marginBottom: "10px",
-    borderRadius: "4px",
-    border: "5px solid #ccc",
-    // Define your input styles here
-  },
   itemContainer: {
     display: "flex",
     alignItems: "center",

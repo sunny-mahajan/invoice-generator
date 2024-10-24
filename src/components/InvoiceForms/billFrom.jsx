@@ -136,10 +136,10 @@ const BillFromForm = ({
               </div>
               <div className="flex w-full flex-col">
                 <CustomInput
-                  type="text"
+                  type="number"
                   name="senderDetails.postCode"
-                  title="Post Code"
-                  placeholder={"Enter post code"}
+                  title="Pin Code"
+                  placeholder={"Enter pin code"}
                   value={formData?.senderDetails?.postCode}
                   onChange={handleChange}
                   style={styles.input}
