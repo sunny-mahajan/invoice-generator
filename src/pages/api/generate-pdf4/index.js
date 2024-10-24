@@ -15,6 +15,11 @@ export default async function handler(req, res) {
       ignoreHTTPSErrors: true,
     });
   }
-  res.send("browser");
+  const data = {
+    first: process.env.NODE_ENV,
+    second: process.env.VERCEL_ENV,
+    third: process.env.AWS_LAMBDA_FUNCTION_VERSION,
+  };
+  res.send(data);
   const page = await browser.newPage();
 }
