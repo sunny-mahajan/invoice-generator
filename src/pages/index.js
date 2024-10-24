@@ -486,7 +486,7 @@ const InvoiceForm = () => {
                 </div>
                 <div className="flex w-full lg:w-1/4 mt-2 flex-col">
                   <CustomInput
-                    type="text"
+                    type="number"
                     name="taxPercentage"
                     title="Tax Percentage"
                     placeholder="Enter tax percentage"

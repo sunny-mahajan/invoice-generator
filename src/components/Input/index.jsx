@@ -24,6 +24,7 @@ const CustomInput = ({
   const fieldError = name
     ?.split(".")
     .reduce((acc, part) => acc?.[part], errors);
+
   return (
     <div
       className={`input-container ${containerClass ? containerClass : ""}`}
@@ -37,29 +38,33 @@ const CustomInput = ({
           >
             {title}
           </label>
-          {required && <span className="text-red-700">*</span>}
+          {required && <span className="text-red-600">*</span>}
         </div>
       )}
-      {!isText ? (
-        <input
-          type={type}
-          name={name}
-          style={inputStyle}
-          placeholder={placeholder}
-          className={`input-field ${inputClass ? inputClass : ""}`}
-          onChange={onChange}
-          onKeyDown={onKeyDown}
-          // use the register prop from React Hook Form for validation
-          {...register(name, validationRules)}
-        />
-      ) : (
-        <div className="input-field-text">{value}</div>
-      )}
+      <div className="w-full">
+        {!isText ? (
+          <input
+            type={type}
+            name={name}
+            style={inputStyle}
+            placeholder={placeholder}
+            className={`${inputClass ? inputClass : ""} ${
+              inputClass !== "input-invoice-cls" ? "input-field" : ""
+            }`}
+            onChange={onChange}
+            onKeyDown={onKeyDown}
+            // use the register prop from React Hook Form for validation
+            {...register(name, validationRules)}
+          />
+        ) : (
+          <div className="input-field-text">{value}</div>
+        )}
 
-      {/* Display validation error if exists */}
-      {fieldError && (
-        <p className="input-error text-red-600">{fieldError.message}</p>
-      )}
+        {/* Display validation error if exists */}
+        {fieldError && (
+          <p className="input-error text-red-600">{fieldError.message}</p>
+        )}
+      </div>
     </div>
   );
 };

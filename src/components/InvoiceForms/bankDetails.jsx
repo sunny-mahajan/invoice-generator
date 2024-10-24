@@ -41,7 +41,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
 
             <div className="w-full flex flex-col">
               <CustomInput
-                type="text"
+                type="number"
                 name="bankDetails.accountNumber"
                 title="Account No."
                 placeholder="Enter account number"
@@ -53,7 +53,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
 
             <div className="w-full flex flex-col">
               <CustomInput
-                type="text"
+                type="number"
                 name="bankDetails.confirmAccountNumber"
                 title="Confirm Account No."
                 placeholder="Confirm account number"
