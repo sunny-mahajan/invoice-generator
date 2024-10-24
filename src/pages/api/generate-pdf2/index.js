@@ -34,8 +34,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { HTMLTemplate2 } = req.body;
-  if (!HTMLTemplate2) {
+  const { HTMLTemplate1 } = req.body;
+  if (!HTMLTemplate1) {
     return res.status(400).json({ error: "HTMLTemplate2 is required" });
   }
 
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
     });
 
     const page = await browser.newPage();
-    await page.setContent(HTMLTemplate2, { waitUntil: "load" });
+    await page.setContent(HTMLTemplate1, { waitUntil: "load" });
 
     const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
 
