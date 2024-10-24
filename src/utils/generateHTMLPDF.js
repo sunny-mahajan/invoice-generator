@@ -8,6 +8,7 @@ export async function generateHTMLPDF(invoiceData) {
     let HTMLTemplate = "";
     let HTMLTemplate1 = "";
     let HTMLTemplate2 = "";
+    let HTMLTemplate3 = "";
     const templateId = invoiceData["Template Id"];
 
     // Choose the correct template based on the templateId
@@ -25,7 +26,7 @@ export async function generateHTMLPDF(invoiceData) {
         break; // Stops execution here after generating TPL003
 
       case "TPL004":
-        HTMLTemplate = generateHTMLTPL004(invoiceData);
+        HTMLTemplate3 = generateHTMLTPL004(invoiceData);
         break; // Stops execution here after generating TPL004
       default:
         throw new Error(`Unsupported template ID: ${templateId}`);
@@ -57,6 +58,14 @@ export async function generateHTMLPDF(invoiceData) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ HTMLTemplate2 }),
+      });
+    } else if (templateId === "TPL004") {
+      response = await fetch("/api/generate-pdf4", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ HTMLTemplate3 }),
       });
     }
 
