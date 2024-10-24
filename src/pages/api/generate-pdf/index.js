@@ -9,11 +9,12 @@ export default async function handler(req, res) {
   const { HTMLTemplate } = req.body;
 
   if (!HTMLTemplate) {
-    return res.status(400).json({ error: "HTMLTemplate2 is required" });
+    return res.status(400).json({ error: "HTMLTemplate is required" });
   }
 
   let browser;
   try {
+    // Launch Puppeteer with appropriate settings depending on environment
     if (production) {
       browser = await puppeteer.launch({
         args: chrome.args,
@@ -27,7 +28,9 @@ export default async function handler(req, res) {
     }
 
     const page = await browser.newPage();
-    await page.setContent(HTMLTemplate, { waitUntil: "load" });
+
+    // Ensure all resources are loaded before generating the PDF
+    await page.setContent(HTMLTemplate, { waitUntil: "networkidle0" });
 
     // Generate PDF from the HTML content
     const pdfBuffer = await page.pdf({
@@ -41,8 +44,10 @@ export default async function handler(req, res) {
       "Content-Disposition",
       'attachment; filename="generated.pdf"'
     );
+
     return res.status(200).send(Buffer.from(pdfBuffer));
   } catch (error) {
+    console.error("Error generating PDF:", error);
     return res.status(500).json({
       error: "An error occurred while generating the PDF",
       details: error.message,
