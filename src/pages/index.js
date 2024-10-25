@@ -78,7 +78,8 @@ let formDataInitialValues = {
     confirmAccountNumber: "",
     ifscCode: "",
     accountHolderName: "",
-    bankAccountType: "",
+    bankAccountType: "Savings",
+    bankAddress: "",
   },
   taxPercentage: 0,
   total: 0,
@@ -504,12 +505,12 @@ const InvoiceForm = () => {
                 validateForm={validateForm}
                 errorsData={errorsData}
               />
-              <BankDetails
+              {/* <BankDetails
                 formData={formData}
                 handleChange={handleChange}
                 errors={errors}
                 register={register}
-              />
+              /> */}
             </div>
           </div>
           <div>

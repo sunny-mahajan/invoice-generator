@@ -36,7 +36,8 @@ export default function generateHTMLTPL001(invoiceData) {
     invoiceData["Account No"] ||
     invoiceData["Account Holder Name"] ||
     invoiceData["IFSC Code"] ||
-    invoiceData["Account Type"];
+    invoiceData["Account Type"] ||
+    invoiceData["Bank Address"];
 
   invoiceData["Invoice Issue Date"] = formatDate(
     invoiceData["Invoice Issue Date"]
@@ -540,6 +541,14 @@ export default function generateHTMLTPL001(invoiceData) {
           <div class="sub-sec7-container">
               <span class="sub-sec7-title">A/c Type:</span><span>${invoiceData["Account Type"]}</span>
           </div>`
+              : ""
+          }
+          ${
+            invoiceData["Bank Address"]
+              ? `
+            <div class="sub-sec7-container">
+                <span class="sub-sec7-title">Bank Address:</span><span>${invoiceData["Bank Address"]}</span>
+            </div>`
               : ""
           }
       </div>`

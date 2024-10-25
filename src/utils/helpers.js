@@ -60,6 +60,7 @@ export const mapBankDetails = (bankDetails) => ({
   "Account No": bankDetails.accountNumber,
   "Account Holder Name": bankDetails.accountHolderName,
   "Account Type": bankDetails.bankAccountType,
+  "Bank Address": bankDetails.bankAddress,
 });
 
 export const fileToBase64 = (file) => {

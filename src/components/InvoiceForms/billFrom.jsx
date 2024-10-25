@@ -10,6 +10,7 @@ import {
   DeleteIcon,
 } from "../../utils/icons"; // Adjust import path
 import CustomButton from "../Button/index";
+import BankDetails from "./bankDetails";
 
 const BillFromForm = ({
   formData,
@@ -51,14 +52,14 @@ const BillFromForm = ({
           </div>
           <PhoneInputField
             value={formData.senderDetails?.contactNo}
-            onChange={(value) =>
-              handleChange({
-                target: { name: "senderDetails.contactNo", value },
-              })
-            }
+            name={"senderDetails.contactNo"}
+            onChange={handleChange}
             label="Phone No."
             placeholder="Enter Phone number"
             defaultCountry="IN"
+            errors={errors}
+            register={register}
+            validationRules={{ required: "Name is required" }}
           />
         </div>
 
@@ -203,6 +204,12 @@ const BillFromForm = ({
             </div>
           </div>
         </div>
+        <BankDetails
+          formData={formData}
+          handleChange={handleChange}
+          errors={errors}
+          register={register}
+        />
 
         <div>
           {formData.senderDetails.customFields &&
@@ -261,7 +268,7 @@ const BillFromForm = ({
                 filter: "brightness(1.3)",
               }}
             >
-              <PlusIcon f={"rgb(124, 93, 250)"} /> Add More Field
+              <PlusIcon f={"rgb(124, 93, 250)"} /> Add Custom Field
             </CustomButton>
           </div>
         </div>

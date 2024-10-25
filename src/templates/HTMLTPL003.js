@@ -59,7 +59,8 @@ export default function generateHTMLTPL003(invoiceData) {
     invoiceData["Account No"] ||
     invoiceData["Account Holder Name"] ||
     invoiceData["IFSC Code"] ||
-    invoiceData["Account Type"];
+    invoiceData["Account Type"] ||
+    invoiceData["Bank Address"];
 
   return `
     <!DOCTYPE html>
@@ -541,6 +542,14 @@ export default function generateHTMLTPL003(invoiceData) {
       <div class="sub-bank-details-container">
           <span class="sub-bank-details-title">A/c Type:</span><span>${invoiceData["Account Type"]}</span>
       </div>`
+          : ""
+      }
+      ${
+        invoiceData["Bank Address"]
+          ? `
+        <div class="sub-bank-details-container">
+            <span class="sub-bank-details-title">Bank Address:</span><span>${invoiceData["Bank Address"]}</span>
+        </div>`
           : ""
       }
   </div>`

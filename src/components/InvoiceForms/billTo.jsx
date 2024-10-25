@@ -266,7 +266,7 @@ const BillToForm = ({
                 filter: "brightness(1.3)",
               }}
             >
-              <PlusIcon f={"rgb(124, 93, 250)"} /> Add More Field
+              <PlusIcon f={"rgb(124, 93, 250)"} /> Add Custom Field
             </CustomButton>
           </div>
         </div>
