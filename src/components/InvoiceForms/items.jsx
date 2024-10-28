@@ -15,6 +15,7 @@ const ItemDetails = ({
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [taxAmount, setTaxAmount] = useState(0);
+  const [taxPercentage, setTaxPercentage] = useState(0);
   useEffect(() => {
     handleCalculateTotal();
   }, [formData]);
@@ -24,17 +25,19 @@ const ItemDetails = ({
     let subTotal = 0;
     let total = 0;
     let taxAmount = 0;
+    let taxPercentages = 0;
     formData.items.forEach((item) => {
       if (!item.quantity || !item.price) return;
       subTotal += item.price * item.quantity;
       total += +item.total;
-      console.log(typeof total);
     });
 
     taxAmount = total - subTotal;
+    taxPercentages = (taxAmount / subTotal) * 100
     setTotal(total.toFixed(2));
     setSubTotal(subTotal.toFixed(2));
     setTaxAmount(taxAmount.toFixed(2));
+    setTaxPercentage(taxPercentages.toFixed(2));
   };
 
   return (
@@ -206,39 +209,42 @@ const ItemDetails = ({
           <PlusIcon f={"rgb(124, 93, 250)"} /> Add New Item
         </CustomButton>
       </div>
+      {formData.items[0].price && formData.items[0].quantity && (
       <div className="w-full flex justify-end">
-        <div className="d-flex flex-col gap-2 w-[30%]">
-          {formData.senderDetails.taxType && (
-            <>
+      <div className="d-flex flex-col gap-2 w-[30%]">
+        {formData.senderDetails.taxType && (
+          <>
+            <div className="flex justify-end gap-20">
+              <span>SubTotal:</span>
+              <span>₹{subTotal}</span>
+            </div>
+            {formData.senderDetails.taxType === "IGST" ? (
               <div className="flex justify-end gap-20">
-                <span>SubTotal:</span>
-                <span>₹{subTotal}</span>
+                <span>IGST {taxPercentage}%</span>
+                <span>₹{taxAmount}</span>
               </div>
-              {formData.senderDetails.taxType === "IGST" ? (
+            ) : (
+              <>
                 <div className="flex justify-end gap-20">
-                  <span>IGST</span>
+                  <span>CGST & SGST {taxPercentage}%</span>
                   <span>₹{taxAmount}</span>
                 </div>
-              ) : (
-                <>
-                  <div className="flex justify-end gap-20">
-                    <span>CGST & SGST</span>
-                    <span>₹{taxAmount}</span>
-                  </div>
-                  {/* <div className="flex justify-end gap-20">
-                    <span>SGST</span>
-                    <span>20222</span>
-                  </div> */}
-                </>
-              )}
-            </>
-          )}
-          <div className="flex justify-end gap-20 py-2 border-t-2 border-b-2 text-2xl font-semibold">
-            <span>Total:</span>
-            <span>₹{total}</span>
-          </div>
+                {/* <div className="flex justify-end gap-20">
+                  <span>SGST</span>
+                  <span>20222</span>
+                </div> */}
+              </>
+            )}
+          </>
+        )}
+        <div className="flex justify-end gap-20 py-2 border-t-2 border-b-2 text-2xl font-semibold">
+          <span>Total:</span>
+          <span>₹{total}</span>
         </div>
       </div>
+    </div>
+      )}
+
     </div>
   );
 };

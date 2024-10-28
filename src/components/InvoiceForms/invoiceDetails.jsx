@@ -99,7 +99,7 @@ const InvoiceDetailsForm = ({
               onChange={handleChange}
               isDatePickerOpen={isDatePickerOpen}
               customDatePickerRef={customDatePickerRef}
-              containerClass="input-container-cls"
+              containerClass="input-container-cls date-picker-cls"
               required={true}
             />
           </div>

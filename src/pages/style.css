@@ -269,8 +269,12 @@ p {
 }
 .due-date-picker-container {
   width: 90% !important;
+  gap: 14px !important;
 }
 
+.date-picker-cls {
+  gap: 14px !important;
+}
 .due-date-input-container {
   .input-field {
     margin-bottom: 0 !important;
