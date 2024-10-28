@@ -51,15 +51,19 @@ const BillFromForm = ({
             />
           </div>
           <PhoneInputField
+            type={"tel"}
             value={formData.senderDetails?.contactNo}
             name={"senderDetails.contactNo"}
             onChange={handleChange}
-            label="Phone No."
             placeholder="Enter Phone number"
-            defaultCountry="IN"
             errors={errors}
             register={register}
-            validationRules={{ required: "Name is required" }}
+            validationRules={{
+              pattern: {
+                value: /^\d{10}$/,
+                message: "Invalid phone number",
+              },
+            }}
           />
         </div>
 
@@ -181,25 +185,65 @@ const BillFromForm = ({
           >
             <div className="block md:flex gap-5 mt-2.5">
               <div className="flex w-full flex-col">
-                <FormCustomDropdown
+                <CustomInput
+                  type="text"
+                  name="senderDetails.taxNo"
+                  placeholder={"Enter gst number"}
+                  value={formData.senderDetails.taxNo}
+                  onChange={handleChange}
+                  style={styles.input}
+                  title="GST Number"
+                />
+              </div>
+              <div className="flex w-full flex-col">
+                {/* <FormCustomDropdown
                   name="senderDetails.taxType"
                   title="Tax Type"
                   label={formData.senderDetails.taxType}
                   onSelect={handleChange}
                   style={styles.input}
                   options={taxTypeOptions}
-                />
-              </div>
-              <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
-                  name="senderDetails.taxNo"
-                  placeholder={"Enter tax number"}
-                  value={formData.senderDetails.taxNo}
-                  onChange={handleChange}
-                  style={styles.input}
-                  title={formData.senderDetails.taxType + " Number"}
-                />
+                /> */}
+                <div>
+                  <span className="input-title">Tax Type</span>
+                </div>
+                <div className="flex w-full gap-5 mt-[11px]">
+                  <div className="flex items-center">
+                    <input
+                      id="igst-radio"
+                      type="radio"
+                      value="IGST" // Set the value to "IGST"
+                      name="senderDetails.taxType"
+                      checked={formData.senderDetails.taxType === "IGST"} // Check if this is the selected value
+                      className="w-4 h-4 text-custom-purple bg-gray-100 border-gray-300 focus:ring-custom-purple dark:focus:ring-custom-purple dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      onChange={handleChange} // Add your change handler here
+                    />
+                    <label
+                      htmlFor="igst-radio"
+                      className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      IGST
+                    </label>
+                  </div>
+
+                  <div className="flex items-center">
+                    <input
+                      id="cst-radio"
+                      type="radio"
+                      value="CGST & SGST" // Set the value to "CST"
+                      name="senderDetails.taxType"
+                      checked={formData.senderDetails.taxType === "CGST & SGST"} // Check if this is the selected value
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      onChange={handleChange} // Add your change handler here
+                    />
+                    <label
+                      htmlFor="cst-radio"
+                      className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      CGST & SGST
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

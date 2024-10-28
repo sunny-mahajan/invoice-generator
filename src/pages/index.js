@@ -46,7 +46,7 @@ let formDataInitialValues = {
     postCode: "",
     country: "",
     state: "",
-    taxType: "GST",
+    taxType: "",
     taxNo: "",
     customFields: [],
   },
@@ -59,7 +59,7 @@ let formDataInitialValues = {
     postCode: "",
     country: "",
     state: "",
-    taxType: "GST",
+    taxType: "",
     taxNo: "",
     customFields: [],
   },
@@ -68,6 +68,7 @@ let formDataInitialValues = {
       name: "",
       description: "",
       quantity: "",
+      taxPercentage: 0,
       price: "",
     },
   ],
@@ -179,9 +180,28 @@ const InvoiceForm = () => {
     setFormData((prev) => {
       const updatedItems = [...prev.items];
       updatedItems[index] = { ...updatedItems[index], [name]: value };
-      const { quantity, price } = updatedItems[index];
-      updatedItems[index].total =
-        quantity && price ? (quantity * price).toFixed(2) : "0.00";
+      const { quantity, price, taxPercentage } = updatedItems[index];
+      // updatedItems[index].total =
+      //   quantity && price ? (quantity * price).toFixed(2) : "0.00";
+      if (quantity && price) {
+        // Calculate total without tax
+        let total = (quantity * price).toFixed(2);
+        let taxAmount = 0;
+        let subTotal = (quantity * price).toFixed(2);
+        // If taxPercentage is greater than 0, add the tax to the total
+        if (taxPercentage > 0) {
+          taxAmount = (quantity * price * (taxPercentage / 100)).toFixed(2);
+          total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(2);
+        }
+
+        updatedItems[index].taxAmount = taxAmount;
+        updatedItems[index].amount = subTotal;
+        updatedItems[index].total = total;
+      } else {
+        updatedItems[index].total = "0.00";
+        updatedItems[index].taxAmount = "0.00";
+        updatedItems[index].amount = "0.00";
+      }
       return { ...prev, items: updatedItems };
     });
   };
@@ -191,7 +211,13 @@ const InvoiceForm = () => {
       ...prev,
       items: [
         ...prev.items,
-        { name: "", description: "", quantity: "", price: "" },
+        {
+          name: "",
+          description: "",
+          quantity: "",
+          taxPercentage: 0,
+          price: "",
+        },
       ],
     }));
   };
@@ -384,6 +410,7 @@ const InvoiceForm = () => {
   };
 
   const onSubmit = async (e) => {
+    console.log(formData, "formData");
     e.preventDefault();
     const data = getValues();
     const isValid = await trigger();
@@ -473,7 +500,7 @@ const InvoiceForm = () => {
               />
             </div>
             <div style={styles.section}>
-              <div className="block md:flex gap-5">
+              {/* <div className="block md:flex gap-5">
                 <div className="w-full lg:w-1/4 flex mt-2 flex-col">
                   <FormCustomDropdown
                     name="currency"
@@ -495,7 +522,7 @@ const InvoiceForm = () => {
                     style={styles.input}
                   />
                 </div>
-              </div>
+              </div> */}
               <ItemDetails
                 formData={formData}
                 handleItemChange={handleItemChange}
