@@ -5,7 +5,7 @@
 }
 
 .input-title {
-  color: #dfe3fa;
+  color: var(--input-label-color);
   font-family: inherit;
   font-size: 12px;
 }
@@ -15,12 +15,12 @@
   padding: 10px;
   height: 40px !important;
   border-radius: 4px;
-  border: 1px solid #20233d;
+  border: 1px solid var(--input-border-color);
   font-family: inherit;
   font-weight: 600;
   font-size: 14px;
-  background-color: #252945;
-  color: #f8f8f8;
+  background-color: var(--secondary-color);
+  color: var(--color);
   margin-bottom: 3px;
 }
 
@@ -35,13 +35,13 @@
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 10px;
-  color: #f8f8f8;
+  color: var(--color);
 }
 
 /* Style for placeholder text in input fields */
 .input-field::placeholder,
 .input-field-text::placeholder {
-  color: #f8f8f8;
+  color: var(--color);
   font-family: inherit;
   font-weight: 600;
   font-size: 14px;
@@ -56,4 +56,19 @@ input::-webkit-inner-spin-button {
 /* For Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.input-cont-color-cls {
+  background: var(--secondary-color);
+  border-color: var(--input-border-color);
+  color: var(--color);
+}
+
+.file-upload-container {
+  background: var(--secondary-color);
+  border-color: var(--color-white-light);
+}
+
+.file-upload-container:hover {
+  background-color: var(--color-file-upload-hover);
 }

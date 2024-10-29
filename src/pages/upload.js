@@ -20,7 +20,6 @@ export default function UploadCSV() {
   const [isInvoceTrue, setIsInvoceTrue] = useState(false);
 
   const fileInputRef = useRef(null); // Create a reference for the file input
-
   const handleFileUpload = (event) => {
     event.preventDefault();
     const file = event.target.files[0];
@@ -230,7 +229,7 @@ export default function UploadCSV() {
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full max-w-[400px] h-[100px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[300px]"
+            className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed w-full max-w-[400px] h-[100px] transition duration-200 min-w-[300px]"
           >
             <div
               onClick={() => fileInputRef.current.click()}

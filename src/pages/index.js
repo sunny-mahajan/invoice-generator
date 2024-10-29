@@ -30,6 +30,7 @@ import BillToForm from "../components/InvoiceForms/billTo";
 import InvoiceDetailsForm from "../components/InvoiceForms/invoiceDetails";
 import ItemDetails from "../components/InvoiceForms/items";
 import BankDetails from "../components/InvoiceForms/bankDetails";
+import { useSession } from "next-auth/react";
 
 let formDataInitialValues = {
   invoiceNo: "",
@@ -98,7 +99,7 @@ const InvoiceForm = () => {
   const [isDueDatePickerOpen, setIsDueDatePickerOpen] = useState(false);
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
   const [dueDateAfter, setDueDateAfter] = useState(15);
-
+  const { data: session } = useSession();
   const {
     register,
     handleSubmit,
@@ -112,7 +113,6 @@ const InvoiceForm = () => {
 
   const customDatePickerRef = useRef(null);
   const datePickerInputRef = useRef(null);
-
   useClickOutside([customDatePickerRef, datePickerInputRef], () =>
     setIsDatePickerOpen(false)
   );
@@ -410,7 +410,6 @@ const InvoiceForm = () => {
   };
 
   const onSubmit = async (e) => {
-    console.log(formData, "formData");
     e.preventDefault();
     const data = getValues();
     const isValid = await trigger();
@@ -439,7 +438,7 @@ const InvoiceForm = () => {
       "Tax Percentage": formData.taxPercentage,
     };
     try {
-      const pdfBlob = await generateHTMLPDF(mappedData);
+      const pdfBlob = await generateHTMLPDF(mappedData, session.user);
       if (pdfBlob) {
         const blobURL = URL.createObjectURL(pdfBlob);
         window.open(blobURL, "_blank");
@@ -499,7 +498,7 @@ const InvoiceForm = () => {
                 handleRemoveField={handleRemoveField}
               />
             </div>
-            <div style={styles.section}>
+            <div className="items-details-container">
               {/* <div className="block md:flex gap-5">
                 <div className="w-full lg:w-1/4 flex mt-2 flex-col">
                   <FormCustomDropdown
@@ -546,7 +545,7 @@ const InvoiceForm = () => {
               selectable={true}
             />
           </div>
-          <div className="flex bg-[#141625] justify-center  md:justify-between  rounded-r-lg w-full p-5 px-10">
+          <div className="flex justify-center  md:justify-between  rounded-r-lg w-full p-5 px-10">
             <CustomButton
               type="purple"
               onClick={onSubmit}
@@ -565,9 +564,6 @@ const InvoiceForm = () => {
 };
 
 const styles = {
-  section: {
-    marginBottom: "20px",
-  },
   title: {
     padding: "25px 0px 20px",
   },
@@ -575,9 +571,8 @@ const styles = {
     padding: "10px 0px",
     height: "100%",
     // overflow: "auto",
-    backgroundColor: "#141625",
     scrollbarWidth: "thin",
-    scrollbarColor: "#252945 transparent",
+    scrollbarColor: "var(--secondary-color) transparent",
   },
   "mainSection::-webkit-scrollbar": {
     width: "8px",

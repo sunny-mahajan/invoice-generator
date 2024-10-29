@@ -3,11 +3,10 @@ import generateHTMLTPL002 from "../templates/HTMLTPL002";
 import generateHTMLTPL003 from "../templates/HTMLTPL003";
 import generateHTMLTPL004 from "../templates/HTMLTPL004";
 
-export async function generateHTMLPDF(invoiceData) {
+export async function generateHTMLPDF(invoiceData, userData) {
   try {
     let HTMLTemplate = "";
     const templateId = invoiceData["Template Id"];
-
     // Choose the correct template based on the templateId
     switch (templateId) {
       case "TPL001":
@@ -35,7 +34,11 @@ export async function generateHTMLPDF(invoiceData) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ HTMLTemplate }),
+      body: JSON.stringify({
+        HTMLTemplate: HTMLTemplate,
+        userData: userData,
+        templateId: templateId,
+      }),
     });
 
     // Return the PDF blob from the response

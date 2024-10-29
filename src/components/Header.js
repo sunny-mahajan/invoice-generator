@@ -6,6 +6,7 @@ import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { logOutIcon } from "../utils/icons";
+import { useTheme } from "../utils/themeContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,6 +18,7 @@ const Header = () => {
   const avatarRef = useRef(null);
   const [menuPosition, setMenuPosition] = useState({ left: 0, top: 0 });
   const [activeUpload, setActiveUpload] = useState("single");
+  const { theme, toggleTheme } = useTheme();
   const router = useRouter();
   const handleProfileClick = () => {
     const avatarRect = avatarRef.current.getBoundingClientRect();
@@ -103,7 +105,9 @@ const Header = () => {
           </span>
         </div>
       </div>
-
+      <button onClick={toggleTheme}>
+        Switch to {theme === "light" ? "dark" : "light"} theme
+      </button>
       <div className="sidebar-bottom d-flex items-center justify-content-center">
         {!googleProfileImage ? (
           <div

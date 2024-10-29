@@ -27,7 +27,7 @@ export function googleIcons() {
   );
 }
 
-export function DropImageIcon() {
+export function DropImageIcon(color = "#fff") {
   return (
     <svg
       width="16"
@@ -38,7 +38,7 @@ export function DropImageIcon() {
     >
       <path
         d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z"
-        fill="white"
+        fill={color}
       />
     </svg>
   );
@@ -282,6 +282,39 @@ export function UploadLogoIcon() {
         d="M1 1H15V15H1V1ZM6 9L8 11L13 6V13H3V12L6 9ZM6.5 7C7.32843 7 8 6.32843 8 5.5C8 4.67157 7.32843 4 6.5 4C5.67157 4 5 4.67157 5 5.5C5 6.32843 5.67157 7 6.5 7Z"
         fill="#7c5dfa"
       />
+    </svg>
+  );
+}
+
+export function DarkThemeIcon() {
+  return (
+    <svg
+      width="800px"
+      height="800px"
+      viewBox="0 0 24 24"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* <title>ic_fluent_dark_theme_24_regular</title>
+      <desc>Created with Sketch.</desc> */}
+      <g
+        id="🔍-Product-Icons"
+        stroke="none"
+        strokeWidth="1"
+        fill="none"
+        fillRule="evenodd"
+      >
+        <g
+          id="ic_fluent_dark_theme_24_regular"
+          fill="#212121"
+          fillRule="nonzero"
+        >
+          <path
+            d="M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M12,20.5 L12,3.5 C16.6944204,3.5 20.5,7.30557963 20.5,12 C20.5,16.6944204 16.6944204,20.5 12,20.5 Z"
+            id="🎨-Color"
+          ></path>
+        </g>
+      </g>
     </svg>
   );
 }

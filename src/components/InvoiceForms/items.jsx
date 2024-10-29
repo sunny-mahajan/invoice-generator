@@ -21,7 +21,6 @@ const ItemDetails = ({
   }, [formData]);
 
   const handleCalculateTotal = () => {
-    console.log(formData.items);
     let subTotal = 0;
     let total = 0;
     let taxAmount = 0;
@@ -41,7 +40,7 @@ const ItemDetails = ({
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="item-details-section flex flex-col gap-6">
       <div>
         <h3 style={styles.titleText}>Item List</h3>
         {formData.items &&
@@ -213,7 +212,7 @@ const ItemDetails = ({
       </div>
       {formData.items[0].price && formData.items[0].quantity && (
         <div className="w-full flex justify-end">
-          <div className="d-flex flex-col gap-2 w-[30%]">
+          <div className="d-flex flex-col gap-2 w-[35%]">
             {formData.senderDetails.taxType && (
               <>
                 <div className="flex justify-end gap-20">
