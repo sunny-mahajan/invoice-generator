@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "react-phone-number-input/style.css";
 
 const PhoneInputField = ({
@@ -10,9 +10,17 @@ const PhoneInputField = ({
   name,
   validationRules = {},
 }) => {
+  const [touched, setTouched] = useState(false); // Track if input is touched
+
   const fieldError = name
     ?.split(".")
     .reduce((acc, part) => acc?.[part], errors);
+
+  // Trigger validation on blur
+  const handleBlur = () => {
+    console.log("blur"); // Check if this is logged
+    setTouched(true); // Set touched state to true on blur
+  };
 
   return (
     <div className="input-container">
@@ -36,13 +44,14 @@ const PhoneInputField = ({
             maxLength="10"
             placeholder={placeholder}
             onChange={onChange}
-            {...register(name, validationRules)}
+            {...register(name, { ...validationRules, onBlur: handleBlur })} // Register + custom onBlur
           />
         </div>
       </div>
-      {fieldError && (
-        <p className="input-error text-red-600">{fieldError.message}</p>
-      )}
+      {fieldError &&
+        touched && ( // Show error only if touched and error exists
+          <p className="input-error text-red-600">{fieldError.message}</p>
+        )}
     </div>
   );
 };

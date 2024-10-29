@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.css";
 
 const CustomInput = ({
@@ -20,10 +20,19 @@ const CustomInput = ({
   errors,
   register = () => {}, // add register from React Hook Form
   validationRules = {}, // rules for validation
+  onBlur = () => {},
+  touched = true,
 }) => {
+  // const [touched, setTouched] = useState(false);
+
   const fieldError = name
     ?.split(".")
     .reduce((acc, part) => acc?.[part], errors);
+
+  // const handleBlur = () => {
+  //   console.log("blur"); // Check if this is logged
+  //   setTouched(true); // Set touched state to true on blur
+  // };
 
   return (
     <div
@@ -53,15 +62,16 @@ const CustomInput = ({
             }`}
             onChange={onChange}
             onKeyDown={onKeyDown}
+            onWheel={(e) => e.target.blur()}
             // use the register prop from React Hook Form for validation
-            {...register(name, validationRules)}
+            {...register(name, { ...validationRules, onBlur: onBlur })}
           />
         ) : (
           <div className="input-field-text">{value}</div>
         )}
 
         {/* Display validation error if exists */}
-        {fieldError && (
+        {fieldError && touched && (
           <p className="input-error text-red-600">{fieldError.message}</p>
         )}
       </div>

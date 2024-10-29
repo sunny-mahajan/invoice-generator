@@ -21,12 +21,19 @@ const BillToForm = ({
   handleRemoveField,
 }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState([false, false]);
+  const [touched, setTouched] = useState(false);
 
   const toggleAccordion = (index) => {
     const newAccordionState = [...isAccordionOpen];
     newAccordionState[index] = !newAccordionState[index];
     setIsAccordionOpen(newAccordionState);
   };
+
+  const handleBlur = () => {
+    console.log("blurrr"); // Check if this is logged
+    setTouched(true); // Set touched state to true on blur
+  };
+
   return (
     <div style={styles.section} className="bill-to-main-container w-3/6">
       <div className="bill-to-container p-4 rounded-lg">
@@ -74,6 +81,8 @@ const BillToForm = ({
               title="Email"
               value={formData.clientDetails.email}
               onChange={handleChange}
+              onBlur={handleBlur}
+              touched={touched}
               style={styles.input}
               errors={errors}
               placeholder={"Enter email"}

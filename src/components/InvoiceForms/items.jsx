@@ -33,7 +33,7 @@ const ItemDetails = ({
     });
 
     taxAmount = total - subTotal;
-    taxPercentages = (taxAmount / subTotal) * 100
+    taxPercentages = (taxAmount / subTotal) * 100;
     setTotal(total.toFixed(2));
     setSubTotal(subTotal.toFixed(2));
     setTaxAmount(taxAmount.toFixed(2));
@@ -85,6 +85,7 @@ const ItemDetails = ({
                     title="Qty/Hrs."
                     placeholder="Enter qty"
                     value={item.quantity}
+                    containerClass="max-w-[200px]"
                     onChange={(e) => handleItemChange(index, e)}
                     inputStyle={{ flex: "0.3 1 auto" }}
                     required={true}
@@ -94,6 +95,7 @@ const ItemDetails = ({
                     name="price"
                     placeholder="Enter price"
                     title="Price"
+                    containerClass="max-w-[200px]"
                     value={item.price}
                     onChange={(e) => handleItemChange(index, e)}
                     inputStyle={{ flex: "1 1 auto" }}
@@ -210,41 +212,40 @@ const ItemDetails = ({
         </CustomButton>
       </div>
       {formData.items[0].price && formData.items[0].quantity && (
-      <div className="w-full flex justify-end">
-      <div className="d-flex flex-col gap-2 w-[30%]">
-        {formData.senderDetails.taxType && (
-          <>
-            <div className="flex justify-end gap-20">
-              <span>SubTotal:</span>
-              <span>₹{subTotal}</span>
-            </div>
-            {formData.senderDetails.taxType === "IGST" ? (
-              <div className="flex justify-end gap-20">
-                <span>IGST {taxPercentage}%</span>
-                <span>₹{taxAmount}</span>
-              </div>
-            ) : (
+        <div className="w-full flex justify-end">
+          <div className="d-flex flex-col gap-2 w-[30%]">
+            {formData.senderDetails.taxType && (
               <>
                 <div className="flex justify-end gap-20">
-                  <span>CGST & SGST {taxPercentage}%</span>
-                  <span>₹{taxAmount}</span>
+                  <span>SubTotal:</span>
+                  <span>₹{subTotal}</span>
                 </div>
-                {/* <div className="flex justify-end gap-20">
+                {formData.senderDetails.taxType === "IGST" ? (
+                  <div className="flex justify-end gap-20">
+                    <span>IGST {taxPercentage}%</span>
+                    <span>₹{taxAmount}</span>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex justify-end gap-20">
+                      <span>CGST & SGST {taxPercentage}%</span>
+                      <span>₹{taxAmount}</span>
+                    </div>
+                    {/* <div className="flex justify-end gap-20">
                   <span>SGST</span>
                   <span>20222</span>
                 </div> */}
+                  </>
+                )}
               </>
             )}
-          </>
-        )}
-        <div className="flex justify-end gap-20 py-2 border-t-2 border-b-2 text-2xl font-semibold">
-          <span>Total:</span>
-          <span>₹{total}</span>
+            <div className="flex justify-end gap-20 py-2 border-t-2 border-b-2 text-2xl font-semibold">
+              <span>Total:</span>
+              <span>₹{total}</span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
       )}
-
     </div>
   );
 };
