@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import CustomInput from "../Input/index";
 import { UpArrowIcon, DownArrowIcon } from "../../utils/icons";
+import FormCustomDropdown from "../FormDropdown";
+import { bankAccountTypeOptions } from "../../utils/constants";
 
 const BankDetails = ({ formData, handleChange, errors, register }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState([false, false]);
@@ -15,7 +17,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
     <div className="border-slate-200">
       <button
         onClick={() => toggleAccordion(1)}
-        className="w-full flex justify-between items-center pt-5 text-slate-800"
+        className="w-full flex justify-between items-center pb-5 text-slate-800"
       >
         <span className="text-[#7c5dfa]">Bank Details (optional)</span>
         {isAccordionOpen[1] ? <UpArrowIcon /> : <DownArrowIcon />}
@@ -51,7 +53,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
               />
             </div>
 
-            <div className="w-full flex flex-col">
+            {/* <div className="w-full flex flex-col">
               <CustomInput
                 type="number"
                 name="bankDetails.confirmAccountNumber"
@@ -73,7 +75,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                       : true,
                 }}
               />
-            </div>
+            </div> */}
           </div>
 
           <div className="block md:flex gap-5 mb-2.5">
@@ -99,13 +101,36 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 style={styles.input}
               />
             </div>
+          </div>
+
+          <div className="block md:flex gap-5 mb-2.5">
             <div className="w-full flex flex-col">
-              <CustomInput
+              {/* <CustomInput
                 type="text"
                 name="bankDetails.bankAccountType"
                 title="Account Type"
                 placeholder="Enter account type"
                 value={formData.bankDetails.bankAccountType}
+                onChange={handleChange}
+                style={styles.input}
+              /> */}
+
+              <FormCustomDropdown
+                name="bankDetails.bankAccountType"
+                title="Account Type"
+                label={formData.bankDetails.bankAccountType}
+                onSelect={handleChange}
+                style={styles.input}
+                options={bankAccountTypeOptions}
+              />
+            </div>
+            <div className="w-full flex flex-col">
+              <CustomInput
+                type="text"
+                name="bankDetails.bankAddress"
+                title="Bank Address"
+                placeholder="Enter bank address"
+                value={formData.bankDetails.bankAddress}
                 onChange={handleChange}
                 style={styles.input}
               />

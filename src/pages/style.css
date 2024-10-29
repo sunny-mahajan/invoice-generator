@@ -256,7 +256,7 @@ p {
     font-size: 14px;
     background-color: #252945;
     color: #f8f8f8;
-    margin-bottom: 10px !important;
+    margin-bottom: 3px !important;
   }
   .input-field {
     margin-bottom: 0 !important;
@@ -269,8 +269,12 @@ p {
 }
 .due-date-picker-container {
   width: 90% !important;
+  gap: 14px !important;
 }
 
+.date-picker-cls {
+  gap: 14px !important;
+}
 .due-date-input-container {
   .input-field {
     margin-bottom: 0 !important;
@@ -280,7 +284,8 @@ p {
   }
 }
 
-.input-field::-webkit-input-placeholder {
+.input-field::-webkit-input-placeholder,
+.tel-input-field::-webkit-input-placeholder {
   color: #999999 !important; /* Light gray */
   opacity: 0.7 !important; /* Semi-transparent */
 }

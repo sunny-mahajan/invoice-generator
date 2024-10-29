@@ -52,3 +52,8 @@ export const currencySymbols = {
 };
 
 export const indianPhoneRegex = /^(?:\+91|0)?[6-9]\d{9}$/;
+
+export const bankAccountTypeOptions = [
+  { label: "Savings", value: "Savings" },
+  { label: "Current", value: "Current" },
+];

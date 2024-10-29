@@ -99,7 +99,7 @@ const InvoiceDetailsForm = ({
               onChange={handleChange}
               isDatePickerOpen={isDatePickerOpen}
               customDatePickerRef={customDatePickerRef}
-              containerClass="input-container-cls"
+              containerClass="input-container-cls date-picker-cls"
               required={true}
             />
           </div>
@@ -195,7 +195,7 @@ const InvoiceDetailsForm = ({
                 float: "right",
               }}
             >
-              <PlusIcon f={"rgb(124, 93, 250)"} /> Add More Field
+              <PlusIcon f={"rgb(124, 93, 250)"} /> Add Custom Field
             </CustomButton>
           </div>
         </div>

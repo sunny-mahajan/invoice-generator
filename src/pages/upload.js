@@ -120,6 +120,7 @@ export default function UploadCSV() {
           "Account Holder Name": row["Account Holder Name"],
           "IFSC Code": row["IFSC Code"],
           "Account Type": row["Account Type"],
+          "Bank Address": row["Bank Address"],
           "Tax Percentage": row["Tax Percentage"],
           Remarks: row["Remarks"],
           Currency: row["Currency"],

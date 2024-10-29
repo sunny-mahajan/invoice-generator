@@ -1,11 +1,15 @@
 export default function generateHTMLTPL001(invoiceData) {
   // Initialize the sub-amount
   let subAmount = 0;
+  let totalAmount = 0;
+  let taxAmount = 0;
 
   // Calculate the sub-amount by summing item prices
   invoiceData.Items.forEach((item) => {
     // Convert item price to a number
-    subAmount += parseFloat(item["price"]) * parseFloat(item["quantity"]) || 0;
+    subAmount += +item.amount || 0;
+    totalAmount += +item.total || 0;
+    taxAmount += +item.taxAmount || 0;
   });
 
   const formatDate = (date) => {
@@ -36,7 +40,8 @@ export default function generateHTMLTPL001(invoiceData) {
     invoiceData["Account No"] ||
     invoiceData["Account Holder Name"] ||
     invoiceData["IFSC Code"] ||
-    invoiceData["Account Type"];
+    invoiceData["Account Type"] ||
+    invoiceData["Bank Address"];
 
   invoiceData["Invoice Issue Date"] = formatDate(
     invoiceData["Invoice Issue Date"]
@@ -46,13 +51,7 @@ export default function generateHTMLTPL001(invoiceData) {
     : "";
 
   // Retrieve tax percentage from invoice data
-  const taxPercentage = parseFloat(invoiceData["Tax Percentage"]) || 0;
-  // Calculate tax amount
-  const taxAmount = (subAmount * taxPercentage) / 100;
-
-  // Calculate the total amount
-  const totalAmount = subAmount + taxAmount;
-
+const taxPercentage = (taxAmount / subAmount) * 100 || 0;
   const remarksUI = invoiceData["Remarks"]
     ? `<div class="sec6-container">
             <p>Notes:</p>
@@ -180,7 +179,7 @@ export default function generateHTMLTPL001(invoiceData) {
                     align-items: center;}
                 .sub-sec5-title {
                     margin: 0;
-                    width: 110px;
+                    width: 150px;
                 }
             }
         }
@@ -321,7 +320,7 @@ export default function generateHTMLTPL001(invoiceData) {
   
   ${
     invoiceData["Sender's Contact No"]
-      ? `<p>${invoiceData["Sender's Contact No"]}</p>`
+      ? `<p>+91${invoiceData["Sender's Contact No"]}</p>`
       : ""
   }
   ${
@@ -401,7 +400,7 @@ export default function generateHTMLTPL001(invoiceData) {
 
   ${
     invoiceData["Receiver's Contact No"]
-      ? `<p>${invoiceData["Receiver's Contact No"]}</p>`
+      ? `<p>+91${invoiceData["Receiver's Contact No"]}</p>`
       : ""
   }
   ${
@@ -471,7 +470,7 @@ export default function generateHTMLTPL001(invoiceData) {
             <div>
                 <div class="sub-sec5-container">
                  ${
-                   invoiceData["Tax Percentage"] > 0
+                  taxPercentage > 0
                      ? `
                   <div class="sub-sec5-item">
                         <p class="sub-sec5-title">Subtotal</p><span>${currencySymbol(
@@ -480,9 +479,9 @@ export default function generateHTMLTPL001(invoiceData) {
                     </div>
                     <div class="sub-sec5-item">
                         <p class="sub-sec5-title">${
-                          invoiceData["Receiver's Tax Type"]
+                          invoiceData["Sender's Tax Type"]
                         } ${
-                         invoiceData["Tax Percentage"]
+                         taxPercentage.toFixed(2)
                        }%</p><span>${currencySymbol(
                          invoiceData["Currency"]
                        )}${taxAmount}</span>
@@ -540,6 +539,14 @@ export default function generateHTMLTPL001(invoiceData) {
           <div class="sub-sec7-container">
               <span class="sub-sec7-title">A/c Type:</span><span>${invoiceData["Account Type"]}</span>
           </div>`
+              : ""
+          }
+          ${
+            invoiceData["Bank Address"]
+              ? `
+            <div class="sub-sec7-container">
+                <span class="sub-sec7-title">Bank Address:</span><span>${invoiceData["Bank Address"]}</span>
+            </div>`
               : ""
           }
       </div>`
