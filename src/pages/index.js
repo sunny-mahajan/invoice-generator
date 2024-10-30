@@ -566,6 +566,7 @@ const InvoiceForm = () => {
 const styles = {
   title: {
     padding: "25px 0px 20px",
+    color: "var(--color)",
   },
   mainSection: {
     padding: "10px 0px",
