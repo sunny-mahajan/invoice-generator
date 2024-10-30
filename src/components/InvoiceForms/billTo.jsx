@@ -30,7 +30,6 @@ const BillToForm = ({
   };
 
   const handleBlur = () => {
-    console.log("blurrr"); // Check if this is logged
     setTouched(true); // Set touched state to true on blur
   };
 
@@ -194,7 +193,7 @@ const BillToForm = ({
             }`}
           >
             <div className="block md:flex gap-5 mt-2.5">
-              <div className="flex w-full flex-col">
+              <div className="flex w-[50%] flex-col">
                 <CustomInput
                   type="text"
                   name="clientDetails.taxNo"
@@ -205,15 +204,7 @@ const BillToForm = ({
                   title="GST Number"
                 />
               </div>
-              <div className="flex w-full flex-col">
-                {/* <FormCustomDropdown
-                  name="clientDetails.taxType"
-                  title="Tax Type"
-                  label={formData.clientDetails.taxType}
-                  onSelect={handleChange}
-                  style={styles.input}
-                  options={taxTypeOptions}
-                /> */}
+              {/* <div className="flex w-full flex-col">
                 <div>
                   <span className="input-title">Tax Type</span>
                 </div>
@@ -254,7 +245,7 @@ const BillToForm = ({
                     </label>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

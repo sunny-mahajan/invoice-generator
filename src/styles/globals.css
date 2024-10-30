@@ -12,14 +12,38 @@ body,
   overflow-y: scroll;
 }
 
-body {
+body[data-theme="dark"] {
   margin: 0;
   font-family: "Spartan";
   --sidebar-color: #252945;
   --primary-color: #141625;
   --secondary-color: #252945;
+  --tertiary-color: #34374b;
   --border: 1px solid #888eb0;
-  color: #fff;
+  --input-border-color: #20233d;
+  --color-white-dark: transparent;
+  --input-label-color: #dfe3fa;
+  --color-white-light: #ffffff;
+  --color-white-blue: #141625;
+  --color-file-upload-hover: #1c1f32;
+  --color: #fff;
+  --border-radius: 10px;
+}
+body {
+  margin: 0;
+  font-family: "Spartan";
+  --sidebar-color: rgb(101, 57, 192);
+  --primary-color: #ffffff;
+  --secondary-color: #ffffff;
+  --border: 1px solid #888eb0;
+  --tertiary-color: #f7faff;
+  --input-border-color: rgb(180, 194, 213);
+  --color-white-light: rgb(180, 194, 213);
+  --input-label-color: #161c26;
+  --color-white-dark: #143f83;
+  --color-white-blue: #f7faff;
+  --color-file-upload-hover: #f3eeeeab;
+  --color: #161c26;
   --border-radius: 10px;
 }
 
@@ -127,6 +151,9 @@ body {
   @media screen and (max-width: 768px) {
     gap: 10px;
   }
+}
+body[data-theme="light"] .sidebar-item {
+  color: #fff !important;
 }
 .item-hover-cls {
   padding: 9px 10px;
@@ -255,7 +282,7 @@ h4 {
 }
 
 p {
-  color: #dfe3fa;
+  color: var(--input-label-color);
 }
 
 .layout {
@@ -337,4 +364,11 @@ button:disabled:hover {
 main.main {
   padding-left: clamp(50px, 10%, 200px);
   padding-right: clamp(50px, 10%, 200px);
+}
+body[data-theme="light"] span {
+  color: var(--color);
+}
+
+body[data-theme="light"] .user-profile-cls {
+  color: #f8f8f8 !important;
 }

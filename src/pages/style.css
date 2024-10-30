@@ -1,6 +1,8 @@
 body {
   color: #fff;
-  background-color: #141625; /* Set the background color for the entire app */
+  background-color: var(
+    --primary-color
+  ); /* Set the background color for the entire app */
   font-size: 16px; /* Set the base font size for the entire app */
   font-family: Arial, sans-serif; /* Set a common font family */
   margin: 0;
@@ -71,7 +73,7 @@ h4 {
 }
 
 p {
-  color: #dfe3fa;
+  color: var(--input-label-color);
 }
 .w-100.invoices-list {
   gap: 15px;
@@ -98,7 +100,7 @@ p {
   font-size: 18px;
   font-weight: 400;
   flex: 1;
-  color: #dfe3fa;
+  color: var(--input-label-color);
   padding-top: 9px;
 }
 
@@ -198,13 +200,14 @@ p {
 }
 .bill-to-container,
 .bill-from-container {
-  background-color: #34374b;
+  background-color: var(--tertiary-color);
+  border: 1px solid var(--color-white-dark);
 }
 .formDropdownCls {
   width: 25% !important;
 }
 .contact-container .PhoneInput--focus {
-  color: #141625;
+  color: var(--primary-color);
 }
 
 .contact-container .PhoneInput {
@@ -216,17 +219,17 @@ p {
   padding: 10px;
   height: 40px !important;
   border-radius: 0 0 4px;
-  border: 1px solid #20233d;
+  border: 1px solid var(--input-border-color);
   font-family: inherit;
   font-weight: 600;
   font-size: 14px;
-  background-color: #252945;
-  color: #f8f8f8;
+  background-color: var(--secondary-color);
+  color: var(--color);
 }
 
 .contact-container .PhoneInputCountry {
-  border: 1px solid #20233d;
-  background-color: #252945;
+  border: 1px solid var(--input-border-color);
+  background-color: var(--secondary-color);
   margin-right: auto !important;
   padding: 0 4px;
   border-radius: 4px 0 0;
@@ -250,12 +253,12 @@ p {
     padding: 10px;
     height: 40px !important;
     border-radius: 4px;
-    border: 1px solid #20233d;
+    border: 1px solid var(--input-border-color);
     font-family: inherit;
     font-weight: 600;
     font-size: 14px;
-    background-color: #252945;
-    color: #f8f8f8;
+    background-color: var(--secondary-color);
+    color: var(--color);
     margin-bottom: 3px !important;
   }
   .input-field {
@@ -282,6 +285,9 @@ p {
   @media screen and (max-width: 768px) {
     margin-bottom: 20px !important;
   }
+}
+.tel-input-field {
+  color: var(--color);
 }
 
 .input-field::-webkit-input-placeholder,
@@ -324,5 +330,25 @@ p {
 .add-new-item-btn {
   @media (max-width: 768px) {
     width: 50% !important;
+  }
+}
+
+.items-details-container {
+  margin-bottom: 20px !important;
+  background-color: var(--color-white-blue);
+  border-radius: 10px;
+}
+
+body[data-theme="light"] .item-details-section {
+  padding: 20px !important;
+}
+
+body[data-theme="light"] .slick-slider {
+  background-color: var(--tertiary-color) !important;
+  border-radius: 10px;
+  border: 1px solid var(--input-border-color);
+  .slick-prev::before,
+  .slick-next::before {
+    color: #161c26 !important;
   }
 }

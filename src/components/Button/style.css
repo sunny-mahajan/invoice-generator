@@ -1,5 +1,5 @@
 .white-button {
-  background-color: #f8f8f8;
+  background-color: var(--color);
   color: #7e88c3;
   padding: 12px;
   padding-left: 20px;
@@ -21,8 +21,8 @@
 }
 
 .gray-button {
-  background-color: #34374b; /* #888eb0 */
-  color: #dfe3fa;
+  background-color: var(--tertiary-color);
+  color: var(--input-label-color);
   padding: 12px;
   padding-left: 20px;
   padding-right: 20px;

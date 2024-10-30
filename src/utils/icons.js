@@ -38,7 +38,7 @@ export function DropImageIcon() {
     >
       <path
         d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z"
-        fill="white"
+        fill="#7c5dfa"
       />
     </svg>
   );
@@ -282,6 +282,74 @@ export function UploadLogoIcon() {
         d="M1 1H15V15H1V1ZM6 9L8 11L13 6V13H3V12L6 9ZM6.5 7C7.32843 7 8 6.32843 8 5.5C8 4.67157 7.32843 4 6.5 4C5.67157 4 5 4.67157 5 5.5C5 6.32843 5.67157 7 6.5 7Z"
         fill="#7c5dfa"
       />
+    </svg>
+  );
+}
+
+export function DarkThemeIcon() {
+  return (
+    <svg
+      width="30px"
+      height="30px"
+      viewBox="0 0 24 24"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* <title>ic_fluent_dark_theme_24_regular</title>
+      <desc>Created with Sketch.</desc> */}
+      <g
+        id="🔍-Product-Icons"
+        stroke="none"
+        strokeWidth="1"
+        fill="none"
+        fillRule="evenodd"
+      >
+        <g
+          id="ic_fluent_dark_theme_24_regular"
+          fill="#212121"
+          fillRule="nonzero"
+        >
+          <path
+            d="M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M12,20.5 L12,3.5 C16.6944204,3.5 20.5,7.30557963 20.5,12 C20.5,16.6944204 16.6944204,20.5 12,20.5 Z"
+            id="🎨-Color"
+          ></path>
+        </g>
+      </g>
+    </svg>
+  );
+}
+
+export function LightThemeIcon() {
+  return (
+    <svg
+      width="30px"
+      height="30px"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g
+        clipPath="url(#clip0)"
+        stroke="#fff"
+        strokeWidth="1.5"
+        strokeMiterlimit="10"
+      >
+        <path
+          d="M5 12H1M23 12h-4M7.05 7.05L4.222 4.222M19.778 19.778L16.95 16.95M7.05 16.95l-2.828 2.828M19.778 4.222L16.95 7.05"
+          strokeLinecap="round"
+        />
+        <path
+          d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+          fill="#000000"
+          fillOpacity=".16"
+        />
+        <path d="M12 19v4M12 1v4" strokeLinecap="round" />
+      </g>
+      <defs>
+        <clipPath id="clip0">
+          <path fill="#ffffff" d="M0 0h24v24H0z" />
+        </clipPath>
+      </defs>
     </svg>
   );
 }

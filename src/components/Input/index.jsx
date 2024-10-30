@@ -29,11 +29,6 @@ const CustomInput = ({
     ?.split(".")
     .reduce((acc, part) => acc?.[part], errors);
 
-  // const handleBlur = () => {
-  //   console.log("blur"); // Check if this is logged
-  //   setTouched(true); // Set touched state to true on blur
-  // };
-
   return (
     <div
       className={`input-container ${containerClass ? containerClass : ""}`}
