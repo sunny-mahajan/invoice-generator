@@ -229,7 +229,7 @@ export default function UploadCSV() {
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className="file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed w-full max-w-[400px] h-[100px] transition duration-200 min-w-[300px]"
+            className={`file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed w-full max-w-[400px] h-[100px] transition duration-200 min-w-[300px]`}
           >
             <div
               onClick={() => fileInputRef.current.click()}
