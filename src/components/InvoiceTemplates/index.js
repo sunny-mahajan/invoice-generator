@@ -69,6 +69,7 @@ const InvoiceTemplates = ({
   const styles = {
     title: {
       padding: "20px 0px",
+      color: "var(--color)",
     },
     "template-preview-image": {
       height: "200px",
@@ -121,5 +122,3 @@ const InvoiceTemplates = ({
 };
 
 export default InvoiceTemplates;
-
-
