@@ -18,7 +18,6 @@ const PhoneInputField = ({
 
   // Trigger validation on blur
   const handleBlur = () => {
-    console.log("blur"); // Check if this is logged
     setTouched(true); // Set touched state to true on blur
   };
 
@@ -28,7 +27,7 @@ const PhoneInputField = ({
         <label className="input-title">Phone number:</label>
       </div>
       <div className="flex items-center">
-        <div className="flex items-center border border-[#20233d] font-semibold text-[13px] bg-[#252945] text-[#f8f8f8] h-[40px] mb-[3px] w-max lg:w-[27%] p-[3px] rounded-l">
+        <div className="input-cont-color-cls flex items-center border font-semibold text-[13px] h-[40px] mb-[3px] w-max lg:w-[27%] p-[3px] rounded-l">
           <img
             src="/assets/images/indiaFlag.png"
             alt="Indian Flag"
@@ -38,7 +37,7 @@ const PhoneInputField = ({
         </div>
         <div className="w-[70%] lg:w-[73%]">
           <input
-            className="tel-input-field w-full py-[10px] px-[5px] h-[40px] rounded-r border border-[#20233d] font-semibold text-[14px] bg-[#252945] text-[#f8f8f8] mb-[3px] placeholder-[#f8f8f8] focus:outline-none"
+            className="tel-input-field input-cont-color-cls w-full py-[10px] px-[5px] h-[40px] rounded-r border font-semibold text-[14px] mb-[3px] focus:outline-none"
             type={type}
             name={name}
             maxLength="10"

@@ -201,7 +201,7 @@ const InvoiceDetailsForm = ({
         </div>
         <div className="w-full d-flex justify-end mb-8">
           <div
-            className={`file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full min-h-[150px] bg-[#252945] hover:bg-[#1c1f32] transition duration-200 min-w-[200px] p-4 ${
+            className={`file-upload-container cursor-pointer flex items-center justify-center rounded-xl border-2 border-dashed border-white w-full min-h-[150px] transition duration-200 min-w-[200px] p-4 ${
               selectedFile
                 ? "max-w-[220px] max-h-[180px]"
                 : "max-w-[250px] max-h-[150px]"

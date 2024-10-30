@@ -5,7 +5,8 @@ import "../styles/globals.css";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { logOutIcon } from "../utils/icons";
+import { DarkThemeIcon, LightThemeIcon, logOutIcon } from "../utils/icons";
+import { useTheme } from "../utils/themeContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,6 +18,7 @@ const Header = () => {
   const avatarRef = useRef(null);
   const [menuPosition, setMenuPosition] = useState({ left: 0, top: 0 });
   const [activeUpload, setActiveUpload] = useState("single");
+  const { theme, toggleTheme } = useTheme();
   const router = useRouter();
   const handleProfileClick = () => {
     const avatarRect = avatarRef.current.getBoundingClientRect();
@@ -103,7 +105,9 @@ const Header = () => {
           </span>
         </div>
       </div>
-
+      <button className="pr-2" onClick={toggleTheme}>
+        {theme === "light" ? <DarkThemeIcon /> : <LightThemeIcon />}
+      </button>
       <div className="sidebar-bottom d-flex items-center justify-content-center">
         {!googleProfileImage ? (
           <div
@@ -111,7 +115,10 @@ const Header = () => {
             ref={avatarRef}
             onClick={handleProfileClick}
           >
-            <span className="text-lg" style={{ marginTop: "1px" }}>
+            <span
+              className="user-profile-cls text-lg"
+              style={{ marginTop: "1px" }}
+            >
               {session?.user?.name.charAt(0).toUpperCase()}
             </span>
           </div>

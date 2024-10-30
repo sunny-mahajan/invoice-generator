@@ -23,11 +23,16 @@ const BillFromForm = ({
   handleRemoveField,
 }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState([false, false]);
+  const [touched, setTouched] = useState(false);
 
   const toggleAccordion = (index) => {
     const newAccordionState = [...isAccordionOpen];
     newAccordionState[index] = !newAccordionState[index];
     setIsAccordionOpen(newAccordionState);
+  };
+
+  const handleBlur = () => {
+    setTouched(true); // Set touched state to true on blur
   };
 
   return (
@@ -78,6 +83,8 @@ const BillFromForm = ({
               onChange={handleChange}
               style={styles.input}
               errors={errors}
+              onBlur={handleBlur}
+              touched={touched}
               register={register}
               validationRules={{
                 pattern: {
