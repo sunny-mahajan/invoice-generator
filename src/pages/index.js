@@ -31,6 +31,7 @@ import InvoiceDetailsForm from "../components/InvoiceForms/invoiceDetails";
 import ItemDetails from "../components/InvoiceForms/items";
 import BankDetails from "../components/InvoiceForms/bankDetails";
 import { useSession } from "next-auth/react";
+import InvoicePreview from "../components/InvoicePreview";
 
 let formDataInitialValues = {
   invoiceNo: "",
@@ -106,6 +107,7 @@ const InvoiceForm = () => {
     formState: { errors },
     trigger,
     getValues,
+    watch,
   } = useForm({
     mode: "onChange",
     reValidateMode: "onChange",
@@ -113,6 +115,7 @@ const InvoiceForm = () => {
 
   const customDatePickerRef = useRef(null);
   const datePickerInputRef = useRef(null);
+  const formValues = watch();
   useClickOutside([customDatePickerRef, datePickerInputRef], () =>
     setIsDatePickerOpen(false)
   );
@@ -181,8 +184,6 @@ const InvoiceForm = () => {
       const updatedItems = [...prev.items];
       updatedItems[index] = { ...updatedItems[index], [name]: value };
       const { quantity, price, taxPercentage } = updatedItems[index];
-      // updatedItems[index].total =
-      //   quantity && price ? (quantity * price).toFixed(2) : "0.00";
       if (quantity && price) {
         // Calculate total without tax
         let total = (quantity * price).toFixed(2);
@@ -557,6 +558,13 @@ const InvoiceForm = () => {
             </CustomButton>
             <ToastContainer />
           </div>
+        </div>
+        <div>
+          <InvoicePreview
+            formData={formData}
+            data={getValues()}
+            selectedTemplateId={selectedTemplateId}
+          />
         </div>
       </div>
     </Layout>

@@ -51,7 +51,7 @@ export default function generateHTMLTPL001(invoiceData) {
     : "";
 
   // Retrieve tax percentage from invoice data
-const taxPercentage = (taxAmount / subAmount) * 100 || 0;
+  const taxPercentage = (taxAmount / subAmount) * 100 || 0;
   const remarksUI = invoiceData["Remarks"]
     ? `<div class="sec6-container">
             <p>Notes:</p>
@@ -73,7 +73,9 @@ const taxPercentage = (taxAmount / subAmount) * 100 || 0;
             box-sizing: border-box;
         }
         .main-container-cls {
-            padding: 0 70px;
+          p{
+            color: #000000 !important;
+          }
         }
         .title-container-cls {
             display: flex;
@@ -201,8 +203,19 @@ const taxPercentage = (taxAmount / subAmount) * 100 || 0;
             }
         }
         .main-container-cls {
+            padding: 0 70px;
             margin: 0 auto;
             font-family: Helvetica;
+             h2 {
+              font-size: 21px;
+              font-weight: bold;
+                margin: 0;
+                margin-bottom: 10px;
+            }
+            p {
+                margin: 0;
+              margin-bottom: 10px;
+            }
         }
         .invoice-logo {
           width: 100px;
@@ -212,18 +225,11 @@ const taxPercentage = (taxAmount / subAmount) * 100 || 0;
           top: 10px;
           right: 10px;
         }
-        h2{ 
-            font-size: 21px;
-        }
-        p, h2 {
-            margin: 0;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
     <div class="main-container-cls">
-        <div>
+        <div style="position: relative;">
           ${
             invoiceData["Logo"]
               ? `<img
@@ -470,7 +476,7 @@ const taxPercentage = (taxAmount / subAmount) * 100 || 0;
             <div>
                 <div class="sub-sec5-container">
                  ${
-                  taxPercentage > 0
+                   taxPercentage > 0
                      ? `
                   <div class="sub-sec5-item">
                         <p class="sub-sec5-title">Subtotal</p><span>${currencySymbol(
@@ -480,9 +486,9 @@ const taxPercentage = (taxAmount / subAmount) * 100 || 0;
                     <div class="sub-sec5-item">
                         <p class="sub-sec5-title">${
                           invoiceData["Sender's Tax Type"]
-                        } ${
-                         taxPercentage.toFixed(2)
-                       }%</p><span>${currencySymbol(
+                        } ${taxPercentage.toFixed(
+                         2
+                       )}%</p><span>${currencySymbol(
                          invoiceData["Currency"]
                        )}${taxAmount}</span>
                     </div>`
