@@ -27,7 +27,7 @@ export function googleIcons() {
   );
 }
 
-export function DropImageIcon(color = "#fff") {
+export function DropImageIcon() {
   return (
     <svg
       width="16"
@@ -38,7 +38,7 @@ export function DropImageIcon(color = "#fff") {
     >
       <path
         d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z"
-        fill={color}
+        fill="#7c5dfa"
       />
     </svg>
   );
@@ -289,8 +289,8 @@ export function UploadLogoIcon() {
 export function DarkThemeIcon() {
   return (
     <svg
-      width="800px"
-      height="800px"
+      width="30px"
+      height="30px"
       viewBox="0 0 24 24"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -315,6 +315,41 @@ export function DarkThemeIcon() {
           ></path>
         </g>
       </g>
+    </svg>
+  );
+}
+
+export function LightThemeIcon() {
+  return (
+    <svg
+      width="30px"
+      height="30px"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g
+        clipPath="url(#clip0)"
+        stroke="#fff"
+        strokeWidth="1.5"
+        strokeMiterlimit="10"
+      >
+        <path
+          d="M5 12H1M23 12h-4M7.05 7.05L4.222 4.222M19.778 19.778L16.95 16.95M7.05 16.95l-2.828 2.828M19.778 4.222L16.95 7.05"
+          strokeLinecap="round"
+        />
+        <path
+          d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+          fill="#000000"
+          fillOpacity=".16"
+        />
+        <path d="M12 19v4M12 1v4" strokeLinecap="round" />
+      </g>
+      <defs>
+        <clipPath id="clip0">
+          <path fill="#ffffff" d="M0 0h24v24H0z" />
+        </clipPath>
+      </defs>
     </svg>
   );
 }

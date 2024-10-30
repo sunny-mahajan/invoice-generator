@@ -45,7 +45,7 @@
 
 .purple-button {
   background-color: #7c5dfa;
-  color: var(--color);
+  color: #f8f8f8;
   padding: 12px;
   padding-left: 20px;
   padding-right: 20px;
@@ -68,7 +68,7 @@
 
 .red-button {
   background-color: #ec5757;
-  color: var(--color);
+  color: #f8f8f8;
   padding: 12px;
   padding-left: 20px;
   padding-right: 20px;

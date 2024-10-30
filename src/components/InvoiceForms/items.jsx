@@ -187,7 +187,7 @@ const ItemDetails = ({
           ))}
 
         {errorsData.items && (
-          <span className="input-error text-red-600">{errorsData.items}</span>
+          <p className="input-error text-red-600">{errorsData.items}</p>
         )}
         <CustomButton
           type="gray"

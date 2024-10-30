@@ -42,7 +42,7 @@ body {
   --input-label-color: #161c26;
   --color-white-dark: #143f83;
   --color-white-blue: #f7faff;
-  --color-file-upload-hover: #1c1f32;
+  --color-file-upload-hover: #f3eeeeab;
   --color: #161c26;
   --border-radius: 10px;
 }
@@ -151,6 +151,9 @@ body {
   @media screen and (max-width: 768px) {
     gap: 10px;
   }
+}
+body[data-theme="light"] .sidebar-item {
+  color: #fff !important;
 }
 .item-hover-cls {
   padding: 9px 10px;
@@ -363,5 +366,9 @@ main.main {
   padding-right: clamp(50px, 10%, 200px);
 }
 body[data-theme="light"] span {
-  color: var(--color) !important;
+  color: var(--color);
+}
+
+body[data-theme="light"] .user-profile-cls {
+  color: #f8f8f8 !important;
 }
