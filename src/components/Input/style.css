@@ -63,12 +63,3 @@ input[type="number"] {
   border-color: var(--input-border-color);
   color: var(--color);
 }
-
-.file-upload-container {
-  background: var(--secondary-color);
-  border-color: var(--color-white-light);
-}
-
-.file-upload-container:hover {
-  background-color: var(--color-file-upload-hover);
-}
