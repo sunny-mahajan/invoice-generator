@@ -56,7 +56,7 @@ export default function generateHTMLTPL002(invoiceData) {
   const totalAmount = subAmount + taxAmount;
 
   const remarksUI = invoiceData["Remarks"]
-    ? `<div class="footer">
+    ? `<div class="footer-cls">
             <p>Notes:</p>
             <p>${invoiceData["Remarks"]}</p>
         </div>`
@@ -77,11 +77,20 @@ export default function generateHTMLTPL002(invoiceData) {
     }
     .container {
       padding: 20px;
+      h2 {
+        font-size: 18px;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      p{
+        color: #000000 !important;
+      }
     }
     .header {
       display: flex;
       justify-content: space-between;
       padding-bottom: 10px;
+      position: relative;
     }
     .company-info {
       text-align: right;
@@ -93,7 +102,6 @@ export default function generateHTMLTPL002(invoiceData) {
     .invoice-title {
       text-align: right;
       font-size: 24px;
-      color: #007BFF;
       h2 {
         margin: 0;
       }
@@ -106,11 +114,6 @@ export default function generateHTMLTPL002(invoiceData) {
         margin: 8px 0;
         max-width: 270px;
       }
-    }
-    h2 {
-      font-size: 18px;
-      margin-bottom: 5px;
-      color: #333;
     }
     .items {
       width: 100%;
@@ -156,7 +159,7 @@ export default function generateHTMLTPL002(invoiceData) {
         }
       }
     }
-    .footer {
+    .footer-cls {
       margin-top:40px;
       text-align: right;
     }
@@ -165,9 +168,8 @@ export default function generateHTMLTPL002(invoiceData) {
       height: 100px;
       object-fit: contain;
       position: absolute;
-      top: 10px;
-      right: 10px;
-      margin-bottom: 100px;
+      top: 0;
+      right: 0;
     }
   </style>
 </head>
@@ -180,7 +182,7 @@ export default function generateHTMLTPL002(invoiceData) {
       </div>
       ${
         invoiceData["Logo"]
-          ? `<div style="margin-bottom: 50px;">
+          ? `<div style="margin-bottom: 80px;">
           <img
                 src=${invoiceData["Logo"]}
                 alt="Business Logo"
