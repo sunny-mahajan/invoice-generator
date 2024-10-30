@@ -375,3 +375,12 @@ body[data-theme="light"] span {
 body[data-theme="light"] .user-profile-cls {
   color: #f8f8f8 !important;
 }
+
+.file-upload-container {
+  background: var(--secondary-color);
+  border-color: var(--color-white-light);
+}
+
+.file-upload-container:hover {
+  background-color: var(--color-file-upload-hover);
+}
