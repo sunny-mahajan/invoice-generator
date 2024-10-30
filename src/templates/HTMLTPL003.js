@@ -48,7 +48,7 @@ export default function generateHTMLTPL003(invoiceData) {
   const totalAmount = subAmount + taxAmount;
 
   const remarksUI = invoiceData["Remarks"]
-    ? `<div class="footer">
+    ? `<div class="footer-cls">
             <p>Notes:</p>
             <p>${invoiceData["Remarks"]}</p>
         </div>`
@@ -79,11 +79,20 @@ export default function generateHTMLTPL003(invoiceData) {
       margin-top: 20px;
       padding: 20px;
       border-top: #007BFF solid 20px;
+       p{
+        color: #000000 !important;
+      }
+      h2 {
+        font-size: 18px;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
     }
     .header {
       display: flex;
       justify-content: space-between;
       padding-bottom: 10px;
+      position: relative;
     }
     .company-info {
       text-align: left;
@@ -94,7 +103,6 @@ export default function generateHTMLTPL003(invoiceData) {
     .invoice-title {
       text-align: right;
       font-size: 24px;
-      color: #007BFF;
     }
     .invoice-details-heading {
       width: 120px;
@@ -111,11 +119,6 @@ export default function generateHTMLTPL003(invoiceData) {
       .bill, .ship {
         max-width: 200px;
       }
-    }
-    h2 {
-      font-size: 18px;
-      margin-bottom: 5px;
-      color: #333;
     }
     .items {
       width: 100%;
@@ -138,12 +141,17 @@ export default function generateHTMLTPL003(invoiceData) {
       margin: 30px 0;
     }
     .total-details {
+    h1{
+      margin: 0;
+    }
+    padding: 15px 0;
       border-top: 2px solid;
       border-bottom: 4px solid;
       display: flex;
       justify-content: space-between;
     }
     .bank-details-container {
+    margin-top: 20px;
       .sub-bank-details-container {
         display: flex;
         align-items: center;
@@ -154,14 +162,13 @@ export default function generateHTMLTPL003(invoiceData) {
         }
       }
     }
-    .footer {
+    .footer-cls {
       margin-top: 25px;
       text-align: right;
     }
     .invoice-title {
       text-align: right;
       font-size: 24px;
-      color: #007BFF;
       h2 {
         margin: 0;
       }
@@ -171,14 +178,14 @@ export default function generateHTMLTPL003(invoiceData) {
       height: 100px;
       object-fit: contain;
       position: absolute;
-      top: 50px;
-      right: 10px;
+      top: 0;
+      right: 0;
     }
     .title-logo {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 40px;
+      margin-bottom: 70px;
     }
   </style>
 </head>

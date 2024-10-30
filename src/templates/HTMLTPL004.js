@@ -75,6 +75,16 @@ export default function generateHTMLTPL004(invoiceData) {
             margin: 0 auto;
             padding: 20px;
         }
+        .container-cls {
+          h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: bold;
+          }
+          p{
+            color: #000000 !important;
+          }
+        }
         h1 {
             font-size: 36px;
             font-family: 'Courier New', Courier, monospace;
@@ -136,11 +146,14 @@ export default function generateHTMLTPL004(invoiceData) {
         .totals td {
             padding: 8px;
         }
-        .footer {
+        .footer-cls {
             display: flex;
             justify-content: space-between;
+            div {
+              margin-top: 20px
+            }
         }
-        .footer p {
+        .footer-cls p {
             margin: 10px 0;
         }
         .bank-details-container {
@@ -154,20 +167,21 @@ export default function generateHTMLTPL004(invoiceData) {
             width: 130px;
             }
         }
-        }
-            .invoice-logo {
+      }
+    .invoice-logo {
       width: 100px;
       height: 100px;
       object-fit: contain;
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 0;
+      right: 0;
     }
     .title-logo {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 70px;
+      position: relative
     }
         .notes {
             margin-top: 25px;
@@ -175,7 +189,8 @@ export default function generateHTMLTPL004(invoiceData) {
     </style>
 </head>
 <body>
-    <div class=${invoiceData["Logo"] ? "title-logo" : ""}>
+<div class="container-cls">
+    <div class="${invoiceData["Logo"] ? "title-logo logo-preview" : ""}">
         <h1>Invoice</h1>
         <div>
           ${
@@ -362,7 +377,7 @@ export default function generateHTMLTPL004(invoiceData) {
 
     
 
-    <div class="footer">
+    <div class="footer-cls">
         <div>
         <h2>FROM:</h2>
         ${
@@ -500,6 +515,7 @@ export default function generateHTMLTPL004(invoiceData) {
 
     </div>
     ${remarksUI}
+  </div>
 </body>
 </html>
       `;
