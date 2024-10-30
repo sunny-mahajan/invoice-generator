@@ -218,6 +218,9 @@ body[data-theme="light"] .sidebar-item {
   padding: 10px;
   z-index: 100; /* Ensure the menu is on top */
 }
+body[data-theme="light"] .sidebar-menu {
+  background-color: #fff;
+}
 
 * {
   box-sizing: border-box;
