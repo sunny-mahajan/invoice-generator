@@ -133,8 +133,7 @@ const InvoiceForm = () => {
     if (
       formData.items[0].name ||
       formData.items[0].price ||
-      formData.items[0].quantity ||
-      formData.items[0].description
+      formData.items[0].quantity
     ) {
       validateForm();
     }
@@ -399,10 +398,7 @@ const InvoiceForm = () => {
   const validateForm = () => {
     const newErrors = {};
     if (
-      formData.items.some(
-        (item) =>
-          !item.name || !item.description || !item.quantity || !item.price
-      )
+      formData.items.some((item) => !item.name || !item.quantity || !item.price)
     ) {
       newErrors.items = "Required fields";
     }

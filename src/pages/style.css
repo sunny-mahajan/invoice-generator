@@ -155,7 +155,7 @@ p {
   height: 100%;
 }
 
-.social-btn-container {
+body[data-theme="dark"] .social-btn-container {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -174,6 +174,27 @@ p {
     font-size: 14px;
   }
 }
+
+.social-btn-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #3c4043;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: auto;
+  span {
+    display: flex;
+    align-items: center;
+  }
+  .social-btn-text {
+    color: white;
+    font-family: "Google Sans", arial, sans-serif;
+    font-size: 14px;
+  }
+}
+
 .template-tile {
   transition: border 0.2s ease-in-out;
 }
