@@ -73,7 +73,6 @@ const ItemDetails = ({
                   value={item.description}
                   onChange={(e) => handleItemChange(index, e)}
                   inputStyle={{ flex: "2 1 auto" }}
-                  required={true}
                 />
               </div>
               <div className="d-flex w-full lg:w-[69%] gap-4 ">
