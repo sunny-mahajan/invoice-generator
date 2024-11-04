@@ -1,11 +1,21 @@
 export default function generateHTMLTPL002(invoiceData) {
   // Initialize the sub-amount
   let subAmount = 0;
+  let totalAmount = 0;
+  let taxAmount = 0;
+  let isDescriptionAvailable = false;
 
   // Calculate the sub-amount by summing item prices
   invoiceData.Items.forEach((item) => {
     // Convert item price to a number
-    subAmount += parseFloat(item["price"]) * parseFloat(item["quantity"]) || 0;
+    // subAmount += parseFloat(item["price"]) * parseFloat(item["quantity"]) || 0;
+    subAmount += +item.amount || 0;
+    totalAmount += +item.total || 0;
+    taxAmount += +item.taxAmount || 0;
+
+    if (item["description"]) {
+      isDescriptionAvailable = true;
+    }
   });
 
   const formatDate = (date) => {
@@ -48,12 +58,12 @@ export default function generateHTMLTPL002(invoiceData) {
     : "";
 
   // Retrieve tax percentage from invoice data
-  const taxPercentage = parseFloat(invoiceData["Tax Percentage"]) || 0;
+  const taxPercentage = (taxAmount / subAmount) * 100 || 0;
   // Calculate tax amount
-  const taxAmount = (subAmount * taxPercentage) / 100;
+  // const taxAmount = (subAmount * taxPercentage) / 100;
 
   // Calculate the total amount
-  const totalAmount = subAmount + taxAmount;
+  // const totalAmount = subAmount + taxAmount;
 
   const remarksUI = invoiceData["Remarks"]
     ? `<div class="footer-cls">
@@ -132,11 +142,9 @@ export default function generateHTMLTPL002(invoiceData) {
     .items td:first-child {
       text-align: center;
     }
-    .items td:nth-child(2) {
-        text-align: center;
-    }
-    .items td:nth-child(3) {
+    .items .item-cls {
         text-align: left;
+        max-width: 150px;
     }
     .total {
       text-align: right;
@@ -419,9 +427,12 @@ export default function generateHTMLTPL002(invoiceData) {
       <thead>
         <tr>
           <th>QTY</th>
-          <th>ITEM NAME</th>
-          <th>ITEM DESCRIPTION</th>
-          <th>ITEM PRICE</th>
+          <th>NAME</th>
+          ${isDescriptionAvailable ? `<th>DESCRIPTION</th>` : ""}
+          <th>PRICE</th>
+          <th>AMOUNT</th>
+          <th>TAX %</th>
+          <th>TAX ${currencySymbol(invoiceData["Currency"])}</th>
           <th>TOTAL</th>
         </tr>
       </thead>
@@ -430,40 +441,62 @@ export default function generateHTMLTPL002(invoiceData) {
         .map(
           (item) => `<tr>
           <td>${item["quantity"]}</td>
-          <td>${item["name"]}</td>
-          <td>${item["description"] ?? ""}</td>
+          <td class="item-cls">${item["name"]}</td>
+          ${
+            isDescriptionAvailable
+              ? `<td class="item-cls">${item["description"]}</td>`
+              : ""
+          }
           <td>${currencySymbol(invoiceData["Currency"])}${item["price"]}</td>
           <td>${currencySymbol(invoiceData["Currency"])}${
             item["price"] * item["quantity"]
           }</td>
+          <td>${item["taxPercentage"]}%</td>
+           <td>${currencySymbol(invoiceData["Currency"])}${(
+            item["price"] *
+            item["quantity"] *
+            (item["taxPercentage"] / 100)
+          ).toFixed(2)}</td>
+          <td>
+          ${currencySymbol(invoiceData["Currency"])}${
+            item["price"] * item["quantity"] +
+            item["price"] * item["quantity"] * (item["taxPercentage"] / 100)
+          }
+          </td>
         </tr>`
         )
         .join("")}
          ${
-           invoiceData["Tax Percentage"] > 0
+           taxPercentage > 0
              ? `
           <tr>
-          <td colspan="4" style="text-align:right; border: none;">Subtotal</td>
+          <td colspan="${
+            isDescriptionAvailable ? "7" : "6"
+          }" style="text-align:right; border: none;">Subtotal</td>
           <td style="text-align:right">${currencySymbol(
             invoiceData["Currency"]
-          )}${subAmount}</td>
+          )}${subAmount.toFixed(2)}</td>
         </tr>
         <tr>
-          <td colspan="4" style="text-align:right; border: none">${
-            invoiceData["Receiver's Tax Type"]
-          } ${invoiceData["Tax Percentage"]}%</td>
+          <td colspan="${
+            isDescriptionAvailable ? "7" : "6"
+          }" style="text-align:right; border: none">${
+                 invoiceData["Sender's Tax Type"]
+               } ${taxPercentage.toFixed(2)}%</td>
           <td style="text-align:right">${currencySymbol(
             invoiceData["Currency"]
-          )}${taxAmount}</td>
+          )}${taxAmount.toFixed(2)}</td>
         </tr>`
              : ""
          }
         
         <tr>
-          <td colspan="4" style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
+          <td colspan="${
+            isDescriptionAvailable ? "7" : "6"
+          }" style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
           <td style="background-color: #f4f4f4; font-weight: bold; text-align:right">${currencySymbol(
             invoiceData["Currency"]
-          )}${totalAmount}</td>
+          )}${totalAmount.toFixed(2)}</td>
         </tr>
       </tbody>
     </table>
