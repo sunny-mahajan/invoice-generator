@@ -140,6 +140,7 @@ p {
   cursor: pointer;
 }
 .login-container-cls {
+  background-color: #141625;
   height: 100vh;
 }
 
@@ -155,7 +156,7 @@ p {
   height: 100%;
 }
 
-body[data-theme="dark"] .social-btn-container {
+.social-btn-container {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -170,26 +171,6 @@ body[data-theme="dark"] .social-btn-container {
   }
   .social-btn-text {
     color: #3c4043;
-    font-family: "Google Sans", arial, sans-serif;
-    font-size: 14px;
-  }
-}
-
-.social-btn-container {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #3c4043;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: auto;
-  span {
-    display: flex;
-    align-items: center;
-  }
-  .social-btn-text {
-    color: white;
     font-family: "Google Sans", arial, sans-serif;
     font-size: 14px;
   }
