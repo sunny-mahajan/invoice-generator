@@ -85,7 +85,6 @@
   user-select: none;
   background-color: var(--secondary-color);
   color: var(--color);
-  margin-bottom: 3px;
 }
 
 .date-picker-container {

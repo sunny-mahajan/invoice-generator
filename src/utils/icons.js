@@ -31,7 +31,7 @@ export function DropImageIcon() {
   return (
     <svg
       width="16"
-      height="16"
+      height="18"
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +156,7 @@ export function UpArrowIcon({ w = "13", h = "13", f = "#7C5DFA" }) {
   );
 }
 
-export function DeleteIcon({ w = "13", h = "16", f = "#888EB0" }) {
+export function DeleteIcon({ w = "13", h = "18", f = "#888EB0" }) {
   return (
     <svg width={w} height={h} xmlns="http://www.w3.org/2000/svg">
       <path
@@ -218,7 +218,7 @@ export function PlusIcon({ w = "14", h = "14", f = "#7C5DFA" }) {
   );
 }
 
-export function CalanderIcon({ w = "16", h = "16", f = "#7C5DFA" }) {
+export function CalanderIcon({ w = "16", h = "18", f = "#7C5DFA" }) {
   return (
     <svg width={w} height={h} xmlns="http://www.w3.org/2000/svg">
       <path

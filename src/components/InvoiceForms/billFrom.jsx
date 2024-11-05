@@ -39,7 +39,7 @@ const BillFromForm = ({
     <div style={styles.section} className="bill-from-main-container w-3/6">
       <div className="bill-from-container p-4 rounded-lg">
         <h3 style={styles.titleText}>Bill From</h3>
-        <div className="block md:flex gap-5 mt-2.5">
+        <div className="block md:flex gap-5">
           <div className="flex w-full flex-col">
             <CustomInput
               type="text"
@@ -72,7 +72,7 @@ const BillFromForm = ({
           />
         </div>
 
-        <div className="block md:flex gap-5 mt-2.5">
+        <div className="block md:flex gap-5">
           <div className="flex w-full md:w-[48%] flex-col">
             <CustomInput
               type="text"
@@ -110,7 +110,7 @@ const BillFromForm = ({
               isAccordionOpen[0] ? "max-h-screen mb-5" : "max-h-0"
             }`}
           >
-            <div className="block md:flex gap-5 mt-2.5">
+            <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
@@ -134,7 +134,7 @@ const BillFromForm = ({
                 />
               </div>
             </div>
-            <div className="block md:flex gap-5 mt-2.5">
+            <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
@@ -158,7 +158,7 @@ const BillFromForm = ({
                 />
               </div>
             </div>
-            <div className="block md:flex gap-5 mt-2.5">
+            <div className="block md:flex gap-5">
               <div className="flex w-full md:w-[48%] flex-col">
                 <CustomInput
                   type="text"
@@ -190,7 +190,7 @@ const BillFromForm = ({
                 : "overflow-hidden max-h-0"
             }`}
           >
-            <div className="block md:flex gap-5 mt-2.5">
+            <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"

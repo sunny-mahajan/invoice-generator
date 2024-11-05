@@ -226,8 +226,12 @@ const ItemDetails = ({
                 ) : (
                   <>
                     <div className="flex justify-end gap-20">
-                      <span>CGST & SGST {taxPercentage}%</span>
-                      <span>₹{taxAmount}</span>
+                      <span>CGST {taxPercentage / 2}%</span>
+                      <span>₹{taxAmount / 2}</span>
+                    </div>
+                    <div className="flex justify-end gap-20">
+                      <span>SGST {taxPercentage / 2}%</span>
+                      <span>₹{taxAmount / 2}</span>
                     </div>
                     {/* <div className="flex justify-end gap-20">
                   <span>SGST</span>

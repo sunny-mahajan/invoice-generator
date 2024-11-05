@@ -352,7 +352,7 @@ body[data-theme="light"] .slick-slider {
 }
 .slick-prev::before,
 .slick-next::before {
-  color: #161c26 !important;
+  color: var(--color) !important;
   .invoice-preview-container {
     p {
       color: unset !important;

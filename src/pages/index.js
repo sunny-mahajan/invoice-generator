@@ -139,6 +139,10 @@ const InvoiceForm = () => {
     }
   }, [formData.items]);
 
+  useEffect(() => {
+    mergeData(formData, formValues);
+  }, [formValues]); // Dependency on formValues to re-trigger on change
+
   const handleChange = (e) => {
     const updateFormData = (name, value) => {
       if (name.includes(".")) {
@@ -390,6 +394,9 @@ const InvoiceForm = () => {
       } else if (data[key] !== "") {
         // Only overwrite if the value is not empty
         formData[key] = data[key];
+      } else {
+        // If the value is empty, delete the key
+        formData[key] = "";
       }
     }
     return formData;

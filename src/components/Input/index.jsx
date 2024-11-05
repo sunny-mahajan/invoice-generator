@@ -54,7 +54,7 @@ const CustomInput = ({
             placeholder={placeholder}
             className={`${inputClass ? inputClass : ""} ${
               inputClass !== "input-invoice-cls" ? "input-field" : ""
-            }`}
+            } ${required && fieldError ? "input-error-cls" : ""}`}
             onChange={onChange}
             onKeyDown={onKeyDown}
             onWheel={(e) => e.target.blur()}
@@ -66,9 +66,11 @@ const CustomInput = ({
         )}
 
         {/* Display validation error if exists */}
-        {fieldError && touched && (
-          <p className="input-error text-red-600">{fieldError.message}</p>
-        )}
+        <div className="h-4">
+          {fieldError && touched && (
+            <p className="input-error text-red-600">{fieldError.message}</p>
+          )}
+        </div>
       </div>
     </div>
   );

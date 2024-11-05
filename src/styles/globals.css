@@ -327,10 +327,9 @@ p {
 }
 
 .container {
-  width: 90%;
-  max-width: 1080px;
+  width: 100%;
   display: flow-root;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .content {
@@ -383,4 +382,12 @@ body[data-theme="light"] .user-profile-cls {
 
 .file-upload-container:hover {
   background-color: var(--color-file-upload-hover);
+}
+
+.input-error {
+  font-size: 14px;
+}
+
+.input-error-cls {
+  border-color: rgb(239 68 68) !important;
 }

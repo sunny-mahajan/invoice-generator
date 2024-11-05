@@ -30,6 +30,7 @@ const BillToForm = ({
   };
 
   const handleBlur = () => {
+    console.log("blur--");
     setTouched(true); // Set touched state to true on blur
   };
 
@@ -37,7 +38,7 @@ const BillToForm = ({
     <div style={styles.section} className="bill-to-main-container w-3/6">
       <div className="bill-to-container p-4 rounded-lg">
         <h3 style={styles.titleText}>Bill To</h3>
-        <div className="block md:flex gap-5 mt-2.5">
+        <div className="block md:flex gap-5">
           <div className="flex w-full flex-col">
             <CustomInput
               type="text"
@@ -72,7 +73,7 @@ const BillToForm = ({
           />
         </div>
 
-        <div className="block md:flex gap-5 mt-2.5">
+        <div className="block md:flex gap-5">
           <div className="flex w-full md:w-[48%] flex-col">
             <CustomInput
               type="text"
@@ -110,7 +111,7 @@ const BillToForm = ({
               isAccordionOpen[3] ? "max-h-screen mb-5" : "max-h-0"
             }`}
           >
-            <div className="block md:flex gap-5 mt-2.5">
+            <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
@@ -135,7 +136,7 @@ const BillToForm = ({
               </div>
             </div>
 
-            <div className="block md:flex gap-5 mt-2.5">
+            <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
@@ -160,7 +161,7 @@ const BillToForm = ({
               </div>
             </div>
 
-            <div className="block md:flex gap-5 mt-2.5">
+            <div className="block md:flex gap-5">
               <div className="flex w-full md:w-[48%] flex-col">
                 <CustomInput
                   type="text"
@@ -192,7 +193,7 @@ const BillToForm = ({
                 : "overflow-hidden max-h-0"
             }`}
           >
-            <div className="block md:flex gap-5 mt-2.5">
+            <div className="block md:flex gap-5">
               <div className="flex w-[50%] flex-col">
                 <CustomInput
                   type="text"
