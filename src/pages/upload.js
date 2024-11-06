@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { generateHTMLPDF } from "../utils/generateHTMLPDF";
 import Papa from "papaparse";
 import JSZip from "jszip";
@@ -12,6 +12,8 @@ import DialogBox from "../components/DialogBox/index";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "next-auth/react";
+import { collection, query, getDocs } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
@@ -19,9 +21,31 @@ export default function UploadCSV() {
   const [loading, setLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isInvoceTrue, setIsInvoceTrue] = useState(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState("");
+  const [templateData, setTemplateData] = useState(null);
+  const [templateIds, setTemplateIds] = useState([]);
+  const [isTemplateSelectable, setIsTemplateSelectable] = useState(true);
 
   const fileInputRef = useRef(null); // Create a reference for the file input
   const { data: session } = useSession();
+
+  useEffect(() => {
+    getTemplatesID();
+  }, []);
+
+  useEffect(() => {
+    if (templateData) {
+      processInvoices(templateData);
+    }
+  }, [selectedTemplateId]);
+
+  const getTemplatesID = async () => {
+    const q = query(collection(db, "invoiceTemplates"));
+    const querySnapshot = await getDocs(q);
+    const templateIds = querySnapshot.docs.map((doc) => doc.data().id);
+    setTemplateIds(templateIds);
+  };
+
   const handleFileUpload = (event) => {
     event.preventDefault();
     const file = event.target.files[0];
@@ -33,11 +57,13 @@ export default function UploadCSV() {
         skipEmptyLines: true,
         complete: (result) => {
           const data = result.data;
+          setTemplateData(data);
           processInvoices(data);
         },
       });
     }
   };
+
   const processInvoices = (data) => {
     const invoicesMap = new Map();
     let lastInvoiceNo = "";
@@ -98,7 +124,7 @@ export default function UploadCSV() {
         // New invoice detected
         invoicesMap.set(invoiceNo, {
           "Invoice No.": invoiceNo,
-          "Template Id": row["Template Id"] || "TPL001",
+          "Template Id": selectedTemplateId || "TPL001",
           "Invoice Issue Date": row["Invoice Issue Date"],
           "Invoice Due Date": row["Invoice Due Date"],
           "Sender's Name": row["Sender's Name"],
@@ -134,9 +160,9 @@ export default function UploadCSV() {
         });
         lastInvoiceNo = invoiceNo;
       } else if (!invoiceNo) {
-        if (row["Template Id"]) {
-          handleMissingInvoiceNo(index);
-        }
+        // if (selectedTemplateId) {
+        //   handleMissingInvoiceNo(index);
+        // }
         addInvoiceItem(lastInvoiceNo, item);
       } else {
         addInvoiceItem(lastInvoiceNo, item);
@@ -163,6 +189,37 @@ export default function UploadCSV() {
       setIsInvoceTrue(true);
     }
     setInvoices(invoicesArray);
+  };
+
+  const handleSelectTemplate = (templateId) => {
+    setSelectedTemplateId(templateId);
+  };
+
+  const handleTemplateSelection = () => {
+    if (templateIds.length === 0) {
+      toast.error("No templates available to assign");
+      return;
+    }
+    if (invoices.length === 0) {
+      toast.error("No invoices available to assign");
+      return;
+    }
+    setIsTemplateSelectable(false);
+    // Create a new invoices array with random template IDs assigned
+    const updatedInvoices = invoices.map((invoice) => {
+      // Get a random index from the templateIds array
+      const randomIndex = Math.floor(Math.random() * templateIds.length);
+      // Assign a random template ID to each invoice
+      return {
+        ...invoice,
+        "Template Id": templateIds[randomIndex], // Assign random template ID
+      };
+    });
+
+    // Update the state with the new invoices array
+    setInvoices(updatedInvoices);
+
+    toast.success("Template IDs assigned randomly to invoices");
   };
 
   const handleDownloadZip = async () => {
@@ -213,6 +270,7 @@ export default function UploadCSV() {
         skipEmptyLines: true,
         complete: (result) => {
           const data = result.data;
+          setTemplateData(data);
           processInvoices(data);
         },
       });
@@ -281,13 +339,24 @@ export default function UploadCSV() {
           )}
         </div>
         <div className="flex items-center">
-          <CustomButton
-            type="purple"
-            onClick={handleDownloadCSV}
-            buttonStyle={{ minWidth: "170px" }}
-          >
-            Get Sample CSV
-          </CustomButton>
+          <div>
+            <CustomButton
+              type="purple"
+              onClick={handleTemplateSelection}
+              buttonStyle={{ minWidth: "170px" }}
+            >
+              select template randomly
+            </CustomButton>
+          </div>
+          <div className="ml-4">
+            <CustomButton
+              type="purple"
+              onClick={handleDownloadCSV}
+              buttonStyle={{ minWidth: "170px" }}
+            >
+              Get Sample CSV
+            </CustomButton>
+          </div>
           <div
             className="ml-4 cursor-pointer"
             onClick={() => handleOpenDialog()}
@@ -308,7 +377,10 @@ export default function UploadCSV() {
         </div>
       </div>
       <div className="p-4 mx-auto w-full">
-        <InvoiceTemplates selectable={true} />
+        <InvoiceTemplates
+          handleSelectTemplates={handleSelectTemplate}
+          selectable={isTemplateSelectable}
+        />
         <ToastContainer />
       </div>
     </Layout>
