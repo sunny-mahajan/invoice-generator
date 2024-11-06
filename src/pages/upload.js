@@ -49,6 +49,14 @@ export default function UploadCSV() {
   const handleFileUpload = (event) => {
     event.preventDefault();
     const file = event.target.files[0];
+    if (!file) return; // If no file is selected, return early
+    const maxSize = 20 * 1024 * 1024; // 20MB in bytes
+    if (file.size > maxSize) {
+      toast.error(
+        "File size exceeds the 20MB limit. Please upload a smaller file."
+      );
+      return;
+    }
 
     if (file) {
       setSelectedFileName(file.name);
@@ -124,7 +132,7 @@ export default function UploadCSV() {
         // New invoice detected
         invoicesMap.set(invoiceNo, {
           "Invoice No.": invoiceNo,
-          "Template Id": selectedTemplateId || "TPL001",
+          "Template Id": selectedTemplateId || templateIds[0],
           "Invoice Issue Date": row["Invoice Issue Date"],
           "Invoice Due Date": row["Invoice Due Date"],
           "Sender's Name": row["Sender's Name"],
@@ -195,31 +203,39 @@ export default function UploadCSV() {
     setSelectedTemplateId(templateId);
   };
 
-  const handleTemplateSelection = () => {
+  const assignTemplateToInvoices = (templateIdGenerator) => {
+    // Create a new invoices array with template IDs assigned based on the generator function
+    const updatedInvoices = invoices.map((invoice) => ({
+      ...invoice,
+      "Template Id": templateIdGenerator(), // Assign template ID
+    }));
+
+    // Update the state with the new invoices array
+    setInvoices(updatedInvoices);
+  };
+
+  const handleTemplateSelection = (event) => {
+    const isChecked = event.target.checked;
+
     if (templateIds.length === 0) {
       toast.error("No templates available to assign");
       return;
     }
-    if (invoices.length === 0) {
-      toast.error("No invoices available to assign");
-      return;
+
+    if (!isChecked) {
+      // Assign the first template ID to all invoices when toggle is off
+      assignTemplateToInvoices(() => templateIds[0]);
+      setIsTemplateSelectable(true);
+      toast.info("Random template selection is disabled");
+    } else {
+      // Assign random template IDs when toggle is on
+      assignTemplateToInvoices(() => {
+        const randomIndex = Math.floor(Math.random() * templateIds.length);
+        return templateIds[randomIndex];
+      });
+      setIsTemplateSelectable(false);
+      toast.success("Template IDs assigned randomly to invoices");
     }
-    setIsTemplateSelectable(false);
-    // Create a new invoices array with random template IDs assigned
-    const updatedInvoices = invoices.map((invoice) => {
-      // Get a random index from the templateIds array
-      const randomIndex = Math.floor(Math.random() * templateIds.length);
-      // Assign a random template ID to each invoice
-      return {
-        ...invoice,
-        "Template Id": templateIds[randomIndex], // Assign random template ID
-      };
-    });
-
-    // Update the state with the new invoices array
-    setInvoices(updatedInvoices);
-
-    toast.success("Template IDs assigned randomly to invoices");
   };
 
   const handleDownloadZip = async () => {
@@ -238,6 +254,8 @@ export default function UploadCSV() {
       if (fileInputRef.current) {
         fileInputRef.current.value = ""; // Reset the file input
       }
+      setTemplateData(null);
+      setIsTemplateSelectable(true);
       setLoading(false); // End loading
     });
   };
@@ -246,6 +264,7 @@ export default function UploadCSV() {
     event.stopPropagation(); // Prevent the file input from opening
     setSelectedFileName("");
     setInvoices([]);
+    setIsTemplateSelectable(true);
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Reset the file input
     }
@@ -263,6 +282,14 @@ export default function UploadCSV() {
   const handleDrop = async (e) => {
     e.preventDefault();
     const droppedFile = e.dataTransfer.files[0];
+    if (!droppedFile) return; // If no droppedFile is selected, return early
+    const maxSize = 20 * 1024 * 1024; // 20MB in bytes
+    if (droppedFile.size > maxSize) {
+      toast.error(
+        "File size exceeds the 20MB limit. Please upload a smaller file."
+      );
+      return;
+    }
     if (droppedFile) {
       setSelectedFileName(droppedFile.name);
       Papa.parse(droppedFile, {
@@ -294,18 +321,51 @@ export default function UploadCSV() {
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className="cursor-pointer flex items-center justify-center w-full max-w-[400px] h-[135px] transition duration-200 min-w-[400px]"
+            className="flex items-center justify-center w-full max-w-[800px] h-[200px] transition duration-200 min-w-[400px]"
           >
-            <div
-              onClick={() => fileInputRef.current.click()}
-              className="file-upload-container flex flex-col items-center justify-center w-full h-full cursor-pointer border-2 border-dashed rounded-xl"
-            >
+            <div className="file-upload-container flex flex-col items-center justify-center w-full h-full border-2 border-dashed rounded-xl">
               <DropImageIcon />
-              <span className="text-white mt-2">
-                {selectedFileName
-                  ? `Selected File: ${selectedFileName}`
-                  : "Drop or Upload CSV file"}
-              </span>
+              {selectedFileName ? (
+                <span className="font-semibold mt-2">{selectedFileName}</span>
+              ) : (
+                <div className="text-center mt-2">
+                  <div>
+                    <span className="cursor-pointer font-semibold underline">
+                      <a onClick={() => fileInputRef.current.click()}>
+                        Click to upload
+                      </a>
+                    </span>
+                    <span> or drag and drop</span>
+                  </div>
+                  <div>
+                    <span className="mt-2">Maximum file size: 20MB</span>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <span className="cursor-pointer font-semibold underline">
+                      <a onClick={handleDownloadCSV}>Download sample file</a>
+                    </span>
+                    <div>
+                      <div
+                        className="ml-4 cursor-pointer"
+                        onClick={() => handleOpenDialog()}
+                      >
+                        {infoIcon()}
+                      </div>
+                      <div>
+                        <DialogBox
+                          isOpen={isDialogOpen}
+                          onClose={handleCloseDialog}
+                          title="Instructions"
+                          content={`1. Download the sample CSV file for the correct format.\n2. Select an invoice template from the list or click 'select template randomly'.\n3. Fill in your data following the sample format.\n4. Upload your CSV file.\n5. Click 'Generate Invoices as ZIP' to download your invoices.`}
+                          confirmText="Got it!"
+                          cancelText=""
+                          onConfirm={handleConfirm}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               {selectedFileName && (
                 <button
                   type="button"
@@ -324,56 +384,22 @@ export default function UploadCSV() {
               className="hidden"
             />
           </div>
-
-          {invoices.length > 0 && isInvoceTrue && (
-            <div className="mt-0 md:mt-6">
-              <CustomButton
-                type="purple"
-                onClick={handleDownloadZip}
-                buttonStyle={{ marginTop: "1rem", minWidth: "250px" }}
-                isLoading={loading}
-              >
-                {loading ? "Generating ZIP..." : "Generate Invoices as ZIP"}
-              </CustomButton>
+        </div>
+        <div className="flex justify-end items-center">
+          {invoices.length > 0 && (
+            <div className="flex items-center">
+              <label className="inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  value=""
+                  className="sr-only peer"
+                  onChange={handleTemplateSelection} // Call the function when the toggle is changed
+                />
+                <div className="random-temp-cls relative w-12 h-7 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span className="ml-3">Use Random Template</span>
+              </label>
             </div>
           )}
-        </div>
-        <div className="flex items-center">
-          <div>
-            <CustomButton
-              type="purple"
-              onClick={handleTemplateSelection}
-              buttonStyle={{ minWidth: "170px" }}
-            >
-              select template randomly
-            </CustomButton>
-          </div>
-          <div className="ml-4">
-            <CustomButton
-              type="purple"
-              onClick={handleDownloadCSV}
-              buttonStyle={{ minWidth: "170px" }}
-            >
-              Get Sample CSV
-            </CustomButton>
-          </div>
-          <div
-            className="ml-4 cursor-pointer"
-            onClick={() => handleOpenDialog()}
-          >
-            {infoIcon()}
-          </div>
-          <div>
-            <DialogBox
-              isOpen={isDialogOpen}
-              onClose={handleCloseDialog}
-              title="Instructions"
-              content={`1. Download the sample CSV file for the correct format.\n2. Select an invoice template from the list or click 'select template randomly'.\n3. Fill in your data following the sample format.\n4. Upload your CSV file.\n5. Click 'Generate Invoices as ZIP' to download your invoices.`}
-              confirmText="Got it!"
-              cancelText=""
-              onConfirm={handleConfirm}
-            />
-          </div>
         </div>
       </div>
       <div className="p-4 mx-auto w-full">
@@ -383,6 +409,18 @@ export default function UploadCSV() {
         />
         <ToastContainer />
       </div>
+      {invoices.length > 0 && isInvoceTrue && (
+        <div className="mt-0 md:mb-6">
+          <CustomButton
+            type="purple"
+            onClick={handleDownloadZip}
+            buttonStyle={{ marginTop: "1rem", minWidth: "250px" }}
+            isLoading={loading}
+          >
+            {loading ? "Generating ZIP..." : "Generate Invoices as ZIP"}
+          </CustomButton>
+        </div>
+      )}
     </Layout>
   );
 }
