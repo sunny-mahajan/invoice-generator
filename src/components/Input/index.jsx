@@ -22,13 +22,13 @@ const CustomInput = ({
   validationRules = {}, // rules for validation
   onBlur = () => {},
   touched = true,
+  itemErrorsData = {},
 }) => {
   // const [touched, setTouched] = useState(false);
 
   const fieldError = name
     ?.split(".")
     .reduce((acc, part) => acc?.[part], errors);
-
   return (
     <div
       className={`input-container ${containerClass ? containerClass : ""}`}
@@ -54,7 +54,24 @@ const CustomInput = ({
             placeholder={placeholder}
             className={`${inputClass ? inputClass : ""} ${
               inputClass !== "input-invoice-cls" ? "input-field" : ""
-            } ${required && fieldError ? "input-error-cls" : ""}`}
+            }
+             ${required && fieldError ? "input-error-cls" : ""}
+              ${
+                required && itemErrorsData.name && name === "name"
+                  ? "input-error-cls"
+                  : ""
+              }
+              ${
+                required && itemErrorsData.quantity && name === "quantity"
+                  ? "input-error-cls"
+                  : ""
+              }
+              ${
+                required && itemErrorsData.price && name === "price"
+                  ? "input-error-cls"
+                  : ""
+              }
+            `}
             onChange={onChange}
             onKeyDown={onKeyDown}
             onWheel={(e) => e.target.blur()}
@@ -64,13 +81,14 @@ const CustomInput = ({
         ) : (
           <div className="input-field-text">{value}</div>
         )}
-
         {/* Display validation error if exists */}
-        <div className="h-4">
-          {fieldError && touched && (
-            <p className="input-error text-red-600">{fieldError.message}</p>
-          )}
-        </div>
+        {Object.keys(itemErrorsData).length === 0 && (
+          <div className="h-4">
+            {fieldError && touched && (
+              <p className="input-error text-red-600">{fieldError.message}</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

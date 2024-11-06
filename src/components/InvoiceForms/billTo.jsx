@@ -30,7 +30,6 @@ const BillToForm = ({
   };
 
   const handleBlur = () => {
-    console.log("blur--");
     setTouched(true); // Set touched state to true on blur
   };
 
