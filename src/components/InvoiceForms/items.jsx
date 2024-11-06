@@ -19,7 +19,6 @@ const ItemDetails = ({
   useEffect(() => {
     handleCalculateTotal();
   }, [formData]);
-
   const handleCalculateTotal = () => {
     let subTotal = 0;
     let total = 0;
@@ -51,18 +50,26 @@ const ItemDetails = ({
               className="items-details-section"
             >
               <div className="block md:flex w-full lg:w-[41%] gap-4">
-                <CustomInput
-                  type="text"
-                  name="name"
-                  title="Item Name"
-                  placeholder="Enter item name"
-                  // containerStyle={{ width: "50%" }}
-                  containerClass={"w-full md:w-1/2"}
-                  value={item.name}
-                  onChange={(e) => handleItemChange(index, e)}
-                  inputStyle={{ flex: "2 1 auto" }}
-                  required={true}
-                />
+                <div className="w-full">
+                  <CustomInput
+                    type="text"
+                    name="name"
+                    title="Item Name"
+                    placeholder="Enter item name"
+                    // containerStyle={{ width: "50%" }}
+                    containerClass={"w-full md:w-1/2"}
+                    value={item.name}
+                    onChange={(e) => handleItemChange(index, e)}
+                    inputStyle={{ flex: "2 1 auto" }}
+                    required={true}
+                    itemErrorsData={errorsData}
+                  />
+                  {errorsData.name && (
+                    <p className="input-error text-red-600">
+                      {errorsData.name}
+                    </p>
+                  )}
+                </div>
                 <CustomInput
                   type="text"
                   name="description"
@@ -77,28 +84,44 @@ const ItemDetails = ({
               </div>
               <div className="d-flex w-full lg:w-[69%] gap-4 ">
                 <div className="block md:flex gap-5 w-[50%] md:w-full">
-                  <CustomInput
-                    type="number"
-                    name="quantity"
-                    title="Qty/Hrs."
-                    placeholder="Enter qty"
-                    value={item.quantity}
-                    containerClass="max-w-[200px]"
-                    onChange={(e) => handleItemChange(index, e)}
-                    inputStyle={{ flex: "0.3 1 auto" }}
-                    required={true}
-                  />
-                  <CustomInput
-                    type="number"
-                    name="price"
-                    placeholder="Enter price"
-                    title="Price"
-                    containerClass="max-w-[200px]"
-                    value={item.price}
-                    onChange={(e) => handleItemChange(index, e)}
-                    inputStyle={{ flex: "1 1 auto" }}
-                    required={true}
-                  />
+                  <div>
+                    <CustomInput
+                      type="number"
+                      name="quantity"
+                      title="Qty/Hrs."
+                      placeholder="Enter qty"
+                      value={item.quantity}
+                      containerClass="max-w-[200px]"
+                      onChange={(e) => handleItemChange(index, e)}
+                      inputStyle={{ flex: "0.3 1 auto" }}
+                      required={true}
+                      itemErrorsData={errorsData}
+                    />
+                    {errorsData.quantity && (
+                      <p className="input-error text-red-600">
+                        {errorsData.quantity}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <CustomInput
+                      type="number"
+                      name="price"
+                      placeholder="Enter price"
+                      title="Price"
+                      containerClass="max-w-[200px]"
+                      value={item.price}
+                      onChange={(e) => handleItemChange(index, e)}
+                      inputStyle={{ flex: "1 1 auto" }}
+                      required={true}
+                      itemErrorsData={errorsData}
+                    />
+                    {errorsData.price && (
+                      <p className="input-error text-red-600">
+                        {errorsData.price}
+                      </p>
+                    )}
+                  </div>
                   {formData.senderDetails.taxType && (
                     <CustomInput
                       type="number"
@@ -184,10 +207,6 @@ const ItemDetails = ({
               </div>
             </div>
           ))}
-
-        {errorsData.items && (
-          <p className="input-error text-red-600">{errorsData.items}</p>
-        )}
         <CustomButton
           type="gray"
           onClick={(e) => {
@@ -226,8 +245,12 @@ const ItemDetails = ({
                 ) : (
                   <>
                     <div className="flex justify-end gap-20">
-                      <span>CGST & SGST {taxPercentage}%</span>
-                      <span>₹{taxAmount}</span>
+                      <span>CGST {taxPercentage / 2}%</span>
+                      <span>₹{taxAmount / 2}</span>
+                    </div>
+                    <div className="flex justify-end gap-20">
+                      <span>SGST {taxPercentage / 2}%</span>
+                      <span>₹{taxAmount / 2}</span>
                     </div>
                     {/* <div className="flex justify-end gap-20">
                   <span>SGST</span>

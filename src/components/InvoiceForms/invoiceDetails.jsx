@@ -41,13 +41,11 @@ const InvoiceDetailsForm = ({
         img.onload = () => {
           const { width, height } = img;
           // Validate resolution
-          if (width <= 1080 && height <= 1080) {
+          if (width <= 512 && height <= 512) {
             setselectedFile(file);
             onFileSelect(file);
           } else {
-            toast.error(
-              "Please upload an image with a resolution of 1080x1080"
-            );
+            toast.error("Please upload an image with a resolution of 512x512");
           }
           URL.revokeObjectURL(objectUrl); // Cleanup
         };
@@ -70,7 +68,7 @@ const InvoiceDetailsForm = ({
     <div className="flex gap-5 flex-col">
       <div className="invoice-details-section">
         <div className="w-full">
-          <div className="flex w-[90%] mb-5 flex-col">
+          <div className="flex w-[90%] mb-1 flex-col">
             <CustomInput
               type="text"
               name="invoiceNo"
@@ -150,8 +148,7 @@ const InvoiceDetailsForm = ({
             formData.newFields.map((field, index) => (
               <div
                 key={index}
-                style={styles.itemContainer}
-                className="w-[100%]"
+                className="w-[100%] mb-2 flex align-items-center"
               >
                 <div className="custom-field-label">
                   <CustomInput
@@ -175,7 +172,7 @@ const InvoiceDetailsForm = ({
                 </div>
                 <div
                   onClick={() => handleRemoveField(index)}
-                  className="cursor-pointer flex items-center justify-center h-full flex-[0_1_auto] w-[10%]"
+                  className="cursor-pointer flex items-center justify-center h-full flex-[0_1_auto] w-[10%] mb-[13px]"
                 >
                   <DeleteIcon />
                 </div>
@@ -227,7 +224,7 @@ const InvoiceDetailsForm = ({
                         Add Business Logo
                       </p>
                       <span className="text-sm mb-1">
-                        Resolution up to 1080x1080.
+                        Resolution up to 512x512.
                       </span>
                       <span className="text-sm">JPG or PNG file.</span>
                     </div>
@@ -266,8 +263,7 @@ const styles = {
   itemContainer: {
     display: "flex",
     alignItems: "center",
-    marginBottom: "20px",
-    flex: "2 1 1 1",
+    marginBottom: "10px",
     // Define your item container styles here
   },
 };

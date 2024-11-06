@@ -101,6 +101,11 @@ const InvoiceForm = () => {
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
   const [dueDateAfter, setDueDateAfter] = useState(15);
   const { data: session } = useSession();
+  const [isItemDataUpdated, setIsItemDataUpdated] = useState({
+    name: false,
+    quantity: false,
+    price: false,
+  });
   const {
     register,
     handleSubmit,
@@ -130,14 +135,12 @@ const InvoiceForm = () => {
   }, [formData.createdAt, isDueDateOpen]);
 
   useEffect(() => {
-    if (
-      formData.items[0].name ||
-      formData.items[0].price ||
-      formData.items[0].quantity
-    ) {
-      validateForm();
-    }
+    validateForm(isItemDataUpdated);
   }, [formData.items]);
+
+  useEffect(() => {
+    mergeData(formData, formValues);
+  }, [formValues]); // Dependency on formValues to re-trigger on change
 
   const handleChange = (e) => {
     const updateFormData = (name, value) => {
@@ -204,6 +207,10 @@ const InvoiceForm = () => {
       }
       return { ...prev, items: updatedItems };
     });
+    setIsItemDataUpdated((prevState) => ({
+      ...prevState,
+      [e.target.name]: true,
+    }));
   };
 
   const handleAddItem = () => {
@@ -390,18 +397,27 @@ const InvoiceForm = () => {
       } else if (data[key] !== "") {
         // Only overwrite if the value is not empty
         formData[key] = data[key];
+      } else {
+        // If the value is empty, delete the key
+        formData[key] = "";
       }
     }
     return formData;
   };
 
-  const validateForm = () => {
+  const validateForm = (itemData = null) => {
     const newErrors = {};
-    if (
-      formData.items.some((item) => !item.name || !item.quantity || !item.price)
-    ) {
-      newErrors.items = "Required fields";
-    }
+    formData.items.forEach((item) => {
+      if (!item.name && itemData?.name) {
+        newErrors.name = "Item name is required";
+      }
+      if (!item.quantity && itemData?.quantity) {
+        newErrors.quantity = "Quantity is required";
+      }
+      if (!item.price && itemData?.price) {
+        newErrors.price = "Price is required";
+      }
+    });
     setErrorsData(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -410,8 +426,10 @@ const InvoiceForm = () => {
     e.preventDefault();
     const data = getValues();
     const isValid = await trigger();
-    validateForm();
-    if (!isValid || !validateForm()) {
+    setIsItemDataUpdated({ name: true, quantity: true, price: true });
+    const allItemsValid = { name: true, quantity: true, price: true };
+    validateForm(allItemsValid);
+    if (!isValid || !validateForm(allItemsValid)) {
       toast.error("Please fill all required fields before submitting");
       return;
     }
@@ -438,7 +456,11 @@ const InvoiceForm = () => {
       const pdfBlob = await generateHTMLPDF(mappedData, session.user);
       if (pdfBlob) {
         const blobURL = URL.createObjectURL(pdfBlob);
-        window.open(blobURL, "_blank");
+        // window.open(blobURL, "_blank");
+        const link = document.createElement("a");
+        link.href = blobURL;
+        link.download = "invoice.pdf";
+        link.click();
         setTimeout(() => URL.revokeObjectURL(blobURL), 100);
       }
     } catch (error) {

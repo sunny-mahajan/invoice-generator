@@ -171,7 +171,7 @@ export default function generateHTMLTPL003(invoiceData) {
         gap: 10px;
         margin-bottom: 7px;
         .sub-bank-details-title {
-          width: 130px;
+          width: 165px;
         }
       }
     }
@@ -521,29 +521,58 @@ export default function generateHTMLTPL003(invoiceData) {
         </tr>`
         )
         .join("")}
-         ${
-           taxPercentage > 0
-             ? `
+        ${
+          taxPercentage > 0
+            ? `
           <tr>
-          <td colspan="${
-            isDescriptionAvailable ? "7" : "6"
-          }" style="text-align:right; padding-top: 30px;">Subtotal</td>
-          <td style="padding-top: 30px;text-align:right; width: auto">${currencySymbol(
-            invoiceData["Currency"]
-          )}${subAmount.toFixed(2)}</td>
-        </tr>
-        <tr>
-          <td colspan="${
-            isDescriptionAvailable ? "7" : "6"
-          }" style="text-align:right;">${
-                 invoiceData["Sender's Tax Type"]
-               } ${taxPercentage.toFixed(2)}%</td>
-          <td style="text-align:right; width: auto">${currencySymbol(
-            invoiceData["Currency"]
-          )}${taxAmount.toFixed(2)}</td>
-        </tr>`
-             : ""
-         }
+            <td colspan="${
+              isDescriptionAvailable ? "7" : "6"
+            }" style="text-align:right; padding-top: 30px;">Subtotal</td>
+            <td style="padding-top: 30px;text-align:right; width: auto">${currencySymbol(
+              invoiceData["Currency"]
+            )}${subAmount.toFixed(2)}</td>
+          </tr>
+          ${
+            invoiceData["Sender's Tax Type"] === "IGST"
+              ? `
+          <tr>
+            <td colspan="${
+              isDescriptionAvailable ? "7" : "6"
+            }" style="text-align:right;">${
+                  invoiceData["Sender's Tax Type"]
+                } ${taxPercentage.toFixed(2)}%</td>
+            <td style="text-align:right; width: auto">${currencySymbol(
+              invoiceData["Currency"]
+            )}${taxAmount.toFixed(2)}</td>
+          </tr>
+              `
+              : `
+          <tr>
+            <td colspan="${
+              isDescriptionAvailable ? "7" : "6"
+            }" style="text-align:right;">CGST ${(taxPercentage / 2).toFixed(
+                  2
+                )}%</td>
+            <td style="text-align:right; width: auto">${currencySymbol(
+              invoiceData["Currency"]
+            )}${(taxAmount / 2).toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td colspan="${
+              isDescriptionAvailable ? "7" : "6"
+            }" style="text-align:right;">SGST ${(taxPercentage / 2).toFixed(
+                  2
+                )}%</td>
+            <td style="text-align:right; width: auto">${currencySymbol(
+              invoiceData["Currency"]
+            )}${(taxAmount / 2).toFixed(2)}</td>
+          </tr>
+              `
+          }
+          `
+            : ""
+        }
+        
         
       </tbody>
     </table>

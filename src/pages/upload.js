@@ -11,6 +11,7 @@ import { DropImageIcon, infoIcon } from "../utils/icons";
 import DialogBox from "../components/DialogBox/index";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSession } from "next-auth/react";
 
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
@@ -20,6 +21,7 @@ export default function UploadCSV() {
   const [isInvoceTrue, setIsInvoceTrue] = useState(false);
 
   const fileInputRef = useRef(null); // Create a reference for the file input
+  const { data: session } = useSession();
   const handleFileUpload = (event) => {
     event.preventDefault();
     const file = event.target.files[0];
@@ -42,11 +44,11 @@ export default function UploadCSV() {
     let hasMissingInvoiceNo = false;
     let hasValidInvoices = true; // This will track overall validity
 
-    // const addInvoiceItem = (invoiceNo, item) => {
-    //   if (invoicesMap.has(invoiceNo)) {
-    //     invoicesMap.get(invoiceNo).Items.push(item);
-    //   }
-    // };
+    const addInvoiceItem = (invoiceNo, item) => {
+      if (invoicesMap.has(invoiceNo)) {
+        invoicesMap.get(invoiceNo).Items.push(item);
+      }
+    };
 
     const handleMissingInvoiceNo = (index) => {
       if (!hasMissingInvoiceNo) {
@@ -80,13 +82,18 @@ export default function UploadCSV() {
 
     data.forEach((row, index) => {
       const invoiceNo = row["Invoice No."].trim();
+      const amount = row["Item Quantity"] * row["Item Price"];
+      const taxAmount = amount * (row["Item Tax Percentage"] / 100);
       const item = {
         name: row["Item Name"],
         description: row["Item Description"],
         quantity: row["Item Quantity"],
         price: row["Item Price"],
+        amount: amount, // Use the calculated amount
+        taxAmount: taxAmount, // Use the calculated taxAmount
+        taxPercentage: row["Item Tax Percentage"],
+        total: amount + taxAmount, // Now the total can reference amount and taxAmount
       };
-
       if (invoiceNo && invoiceNo !== lastInvoiceNo) {
         // New invoice detected
         invoicesMap.set(invoiceNo, {
@@ -120,7 +127,7 @@ export default function UploadCSV() {
           "IFSC Code": row["IFSC Code"],
           "Account Type": row["Account Type"],
           "Bank Address": row["Bank Address"],
-          "Tax Percentage": row["Tax Percentage"],
+          Logo: row["Logo Url"],
           Remarks: row["Remarks"],
           Currency: row["Currency"],
           Items: [item],
@@ -130,9 +137,9 @@ export default function UploadCSV() {
         if (row["Template Id"]) {
           handleMissingInvoiceNo(index);
         }
-        // addInvoiceItem(lastInvoiceNo, item);
+        addInvoiceItem(lastInvoiceNo, item);
       } else {
-        // addInvoiceItem(lastInvoiceNo, item);
+        addInvoiceItem(lastInvoiceNo, item);
       }
     });
 
@@ -163,7 +170,7 @@ export default function UploadCSV() {
 
     const zip = new JSZip();
     for (const invoice of invoices) {
-      const pdfBlob = await generateHTMLPDF(invoice);
+      const pdfBlob = await generateHTMLPDF(invoice, session.user);
       zip.file(`invoice_${invoice["Invoice No."]}.pdf`, pdfBlob);
     }
 
@@ -229,7 +236,7 @@ export default function UploadCSV() {
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className="cursor-pointer flex items-center justify-center w-full max-w-[400px] h-[100px] transition duration-200 min-w-[300px]"
+            className="cursor-pointer flex items-center justify-center w-full max-w-[400px] h-[135px] transition duration-200 min-w-[400px]"
           >
             <div
               onClick={() => fileInputRef.current.click()}
@@ -301,7 +308,7 @@ export default function UploadCSV() {
         </div>
       </div>
       <div className="p-4 mx-auto w-full">
-        <InvoiceTemplates />
+        <InvoiceTemplates selectable={true} />
         <ToastContainer />
       </div>
     </Layout>

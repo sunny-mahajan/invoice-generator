@@ -28,7 +28,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
         }`}
       >
         <div className="rounded-lg" style={styles.section}>
-          <div className="block md:flex gap-5 mb-2.5">
+          <div className="block md:flex gap-5">
             <div className="w-full flex flex-col">
               <CustomInput
                 type="text"
@@ -78,7 +78,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
             </div> */}
           </div>
 
-          <div className="block md:flex gap-5 mb-2.5">
+          <div className="block md:flex gap-5">
             <div className="w-full flex flex-col">
               <CustomInput
                 type="text"
@@ -103,7 +103,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
             </div>
           </div>
 
-          <div className="block md:flex gap-5 mb-2.5">
+          <div className="block md:flex gap-5">
             <div className="w-full flex flex-col">
               {/* <CustomInput
                 type="text"
