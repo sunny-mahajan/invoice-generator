@@ -316,7 +316,7 @@ export default function UploadCSV() {
 
   return (
     <Layout>
-      <div className="container mx-auto p-4 px-0 upload-container-cls">
+      <div className="container mx-auto pt-8 px-0 upload-container-cls">
         <div className="flex flex-col items-center mb-5 md:mb-0">
           <div
             onDrop={handleDrop}
@@ -356,7 +356,7 @@ export default function UploadCSV() {
                           isOpen={isDialogOpen}
                           onClose={handleCloseDialog}
                           title="Instructions"
-                          content={`1. Download the sample CSV file for the correct format.\n2. Select an invoice template from the list or click 'select template randomly'.\n3. Fill in your data following the sample format.\n4. Upload your CSV file.\n5. Click 'Generate Invoices as ZIP' to download your invoices.`}
+                          content={`1. Download the sample CSV file for the correct format.\n2. Select an invoice template from the list or use random template'.\n3. Fill in your data following the sample format.\n4. Upload your CSV file.\n5. Click 'Generate Invoices as ZIP' to download your invoices.`}
                           confirmText="Got it!"
                           cancelText=""
                           onConfirm={handleConfirm}
@@ -385,7 +385,7 @@ export default function UploadCSV() {
             />
           </div>
         </div>
-        <div className="flex justify-end items-center">
+        <div className="flex justify-end items-center mt-4">
           {invoices.length > 0 && (
             <div className="flex items-center">
               <label className="inline-flex items-center cursor-pointer">
