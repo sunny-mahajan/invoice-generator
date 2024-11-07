@@ -318,6 +318,11 @@ export default function generateHTMLTPL003(invoiceData) {
             : ""
         }
         ${
+          invoiceData["Sender's PAN No"]
+            ? `<p>${invoiceData["Sender's PAN No"]}</p>`
+            : ""
+        }
+        ${
           invoiceData["Sender Custom Fields"]?.length > 0
             ? `
             ${invoiceData["Sender Custom Fields"]
@@ -394,6 +399,11 @@ export default function generateHTMLTPL003(invoiceData) {
         ${
           invoiceData["Receiver's Tax No"]
             ? `<p>${invoiceData["Receiver's Tax No"]}</p>`
+            : ""
+        }
+        ${
+          invoiceData["Receiver's PAN No"]
+            ? `<p>${invoiceData["Receiver's PAN No"]}</p>`
             : ""
         }
         ${

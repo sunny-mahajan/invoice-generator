@@ -6,6 +6,8 @@ import "slick-carousel/slick/slick-theme.css";
 const InvoiceTemplates = ({
   handleSelectTemplates = () => {},
   selectable = false,
+  handleTemplateSelection = () => {},
+  isShowRandomSelection = false,
 }) => {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [invoiceTemplates, setTemplates] = useState([]);
@@ -37,8 +39,8 @@ const InvoiceTemplates = ({
     dots: true,
     infinite: false,
     speed: 300,
-    slidesToShow: 5,
-    slidesToScroll: 5,
+    slidesToShow: 4,
+    slidesToScroll: 4,
     responsive: [
       {
         breakpoint: 1024,
@@ -68,7 +70,6 @@ const InvoiceTemplates = ({
 
   const styles = {
     title: {
-      padding: "20px 0px",
       color: "var(--color)",
     },
     "template-preview-image": {
@@ -79,9 +80,25 @@ const InvoiceTemplates = ({
 
   return (
     <div>
-      <h2 style={styles.title}>
-        {selectable ? "Select Template" : "Templates"}
-      </h2>
+      <div className="flex items-center justify-between pb-2.5 pt-5">
+        <h2 style={styles.title}>
+          {selectable ? "Select Template" : "Templates"}
+        </h2>
+        {isShowRandomSelection && (
+          <div className="flex items-center">
+            <label className="inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                value=""
+                className="sr-only peer"
+                onChange={handleTemplateSelection} // Call the function when the toggle is changed
+              />
+              <div className="random-temp-cls relative w-12 h-7 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.5px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              <span className="ml-3">Use Random Template</span>
+            </label>
+          </div>
+        )}
+      </div>
 
       <Slider {...settings}>
         {invoiceTemplates.map((invoiceTemplate) => (

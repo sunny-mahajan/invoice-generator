@@ -34,7 +34,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 type="text"
                 name="bankDetails.bankName"
                 title="Bank Name"
-                placeholder="Enter bank name"
+                placeholder="First National Bank"
                 value={formData.bankDetails.bankName}
                 onChange={handleChange}
                 style={styles.input}
@@ -46,7 +46,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 type="number"
                 name="bankDetails.accountNumber"
                 title="Account No."
-                placeholder="Enter account number"
+                placeholder="1234567890"
                 value={formData.bankDetails.accountNumber}
                 onChange={handleChange}
                 style={styles.input}
@@ -84,7 +84,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 type="text"
                 name="bankDetails.ifscCode"
                 title="IFSC Code"
-                placeholder="Enter IFSC code"
+                placeholder="FNB0001234"
                 value={formData.bankDetails.ifscCode}
                 onChange={handleChange}
                 style={styles.input}
@@ -95,7 +95,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 type="text"
                 name="bankDetails.accountHolderName"
                 title="Account Holder Name"
-                placeholder="Enter account holder name"
+                placeholder="John Doe"
                 value={formData.bankDetails.accountHolderName}
                 onChange={handleChange}
                 style={styles.input}
@@ -129,7 +129,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 type="text"
                 name="bankDetails.bankAddress"
                 title="Bank Address"
-                placeholder="Enter bank address"
+                placeholder="789 Bank St, Kolkata, India"
                 value={formData.bankDetails.bankAddress}
                 onChange={handleChange}
                 style={styles.input}

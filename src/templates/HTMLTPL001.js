@@ -1,4 +1,5 @@
 export default function generateHTMLTPL001(invoiceData) {
+  console.log(invoiceData, "invoiceData");
   // Initialize the sub-amount
   let subAmount = 0;
   let totalAmount = 0;
@@ -344,6 +345,11 @@ export default function generateHTMLTPL001(invoiceData) {
       : ""
   }
   ${
+    invoiceData["Sender's PAN No"]
+      ? `<p>${invoiceData["Sender's PAN No"]}</p>`
+      : ""
+  }
+  ${
     invoiceData["Sender Custom Fields"]?.length > 0
       ? `
 
@@ -421,6 +427,11 @@ export default function generateHTMLTPL001(invoiceData) {
   ${
     invoiceData["Receiver's Tax No"]
       ? `<p>${invoiceData["Receiver's Tax No"]}</p>`
+      : ""
+  }
+  ${
+    invoiceData["Receiver's PAN No"]
+      ? `<p>${invoiceData["Receiver's PAN No"]}</p>`
       : ""
   }
   ${

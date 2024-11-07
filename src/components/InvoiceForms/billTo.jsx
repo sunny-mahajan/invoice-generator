@@ -43,7 +43,7 @@ const BillToForm = ({
               type="text"
               name="clientDetails.name"
               title="Name / Company Name"
-              placeholder={"Enter name"}
+              placeholder={"Acme Corp"}
               value={formData.clientDetails.name}
               onChange={handleChange}
               style={styles.input}
@@ -60,7 +60,7 @@ const BillToForm = ({
             value={formData.clientDetails?.contactNo}
             name={"clientDetails.contactNo"}
             onChange={handleChange}
-            placeholder="Enter Phone number"
+            placeholder="9898989899"
             errors={errors}
             register={register}
             validationRules={{
@@ -84,7 +84,7 @@ const BillToForm = ({
               touched={touched}
               style={styles.input}
               errors={errors}
-              placeholder={"Enter email"}
+              placeholder={"contact@gmail.com"}
               register={register}
               validationRules={{
                 pattern: {
@@ -115,7 +115,7 @@ const BillToForm = ({
                 <CustomInput
                   type="text"
                   name="clientDetails.street"
-                  placeholder={"Enter street address"}
+                  placeholder={"123 Main St"}
                   value={formData?.clientDetails?.street}
                   onChange={handleChange}
                   title="Street Address"
@@ -126,7 +126,7 @@ const BillToForm = ({
                 <CustomInput
                   type="text"
                   name="clientDetails.city"
-                  placeholder={"Enter city"}
+                  placeholder={"Mumbai"}
                   value={formData?.clientDetails?.city}
                   onChange={handleChange}
                   title="City"
@@ -140,7 +140,7 @@ const BillToForm = ({
                 <CustomInput
                   type="text"
                   name="clientDetails.state"
-                  placeholder={"Enter state"}
+                  placeholder={"Maharashtra"}
                   value={formData?.clientDetails?.state}
                   onChange={handleChange}
                   title="State"
@@ -151,7 +151,7 @@ const BillToForm = ({
                 <CustomInput
                   type="number"
                   name="clientDetails.postCode"
-                  placeholder={"Enter pin code"}
+                  placeholder={"400001"}
                   value={formData?.clientDetails?.postCode}
                   onChange={handleChange}
                   title="Pin Code"
@@ -160,7 +160,7 @@ const BillToForm = ({
               </div>
             </div>
 
-            <div className="block md:flex gap-5">
+            {/* <div className="block md:flex gap-5">
               <div className="flex w-full md:w-[48%] flex-col">
                 <CustomInput
                   type="text"
@@ -172,7 +172,7 @@ const BillToForm = ({
                   style={styles.input}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -193,15 +193,26 @@ const BillToForm = ({
             }`}
           >
             <div className="block md:flex gap-5">
-              <div className="flex w-[50%] flex-col">
+              <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
                   name="clientDetails.taxNo"
-                  placeholder={"Enter gst number"}
+                  placeholder={"GST123456789"}
                   value={formData.clientDetails.taxNo}
                   onChange={handleChange}
                   style={styles.input}
                   title="GST Number"
+                />
+              </div>
+              <div className="flex w-full flex-col">
+                <CustomInput
+                  type="text"
+                  name="clientDetails.panNo"
+                  placeholder={"PAN0987654321"}
+                  value={formData.clientDetails.panNo}
+                  onChange={handleChange}
+                  style={styles.input}
+                  title="PAN Number"
                 />
               </div>
               {/* <div className="flex w-full flex-col">
