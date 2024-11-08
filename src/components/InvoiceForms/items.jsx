@@ -24,27 +24,17 @@ const ItemDetails = ({
     let total = 0;
     let taxAmount = 0;
     let taxPercentages = 0;
-    if (formData.senderDetails.taxType === "None") {
-      taxPercentage;
-      formData.items.forEach((item) => {
-        if (!item.quantity || !item.price) return;
-        subTotal += item.price * item.quantity;
-        total += +item.total;
-      });
-    } else {
-      formData.items.forEach((item) => {
-        if (!item.quantity || !item.price) return;
-        subTotal += item.price * item.quantity;
-        total += +item.total;
-      });
-    }
-
+    formData.items.forEach((item) => {
+      if (!item.quantity || !item.price) return;
+      subTotal += item.price * item.quantity;
+      total += +item.total;
+    });
     taxAmount = total - subTotal;
     taxPercentages = (taxAmount / subTotal) * 100;
-    // setTotal(total.toFixed(2));
-    // setSubTotal(subTotal.toFixed(2));
-    // setTaxAmount(taxAmount.toFixed(2));
-    // setTaxPercentage(taxPercentages.toFixed(2));
+    setTotal(total.toFixed(1));
+    setSubTotal(subTotal.toFixed(1));
+    setTaxAmount(taxAmount.toFixed(1));
+    setTaxPercentage(taxPercentages.toFixed(1));
   };
 
   return (
@@ -58,7 +48,14 @@ const ItemDetails = ({
               style={styles.itemContainer}
               className="items-details-section"
             >
-              <div className="block md:flex w-full lg:w-[41%] gap-4">
+              <div
+                className={`block md:flex w-full gap-4 ${
+                  formData.senderDetails.taxType === "IGST" ||
+                  formData.senderDetails.taxType === "CGST & SGST"
+                    ? "lg:w-[40%]"
+                    : "lg:w-[100%]" // Add a default width when the condition is false
+                }`}
+              >
                 <div className="w-full">
                   <CustomInput
                     type="text"
@@ -94,16 +91,23 @@ const ItemDetails = ({
                   inputStyle={{ flex: "2 1 auto" }}
                 />
               </div>
-              <div className="d-flex w-full lg:w-[69%] gap-4 ">
-                <div className="block md:flex gap-5 w-[50%] md:w-full">
-                  <div>
+              <div
+                className={`d-flex w-full gap-4 ${
+                  formData.senderDetails.taxType === "IGST" ||
+                  formData.senderDetails.taxType === "CGST & SGST"
+                    ? "lg:w-[60%]"
+                    : "lg:w-[100%]" // Add a default width when the condition is false
+                }`}
+              >
+                <div className="block md:flex gap-5">
+                  <div className="w-full">
                     <CustomInput
                       type="number"
                       name="quantity"
                       title="Qty/Hrs."
                       placeholder="1"
                       value={item.quantity}
-                      containerClass="max-w-[200px]"
+                      // containerClass="max-w-[200px]"
                       onChange={(e) => handleItemChange(index, e)}
                       inputStyle={{
                         flex: "0.3 1 auto",
@@ -118,13 +122,13 @@ const ItemDetails = ({
                       </p>
                     )}
                   </div>
-                  <div>
+                  <div className="w-full">
                     <CustomInput
                       type="number"
                       name="price"
                       placeholder="200"
                       title="Price"
-                      containerClass="max-w-[200px]"
+                      // containerClass="max-w-[200px]"
                       value={item.price}
                       onChange={(e) => handleItemChange(index, e)}
                       inputStyle={{
@@ -160,7 +164,7 @@ const ItemDetails = ({
                         <CustomInput
                           title={"Amount"}
                           containerStyle={{
-                            minWidth: "100px",
+                            minWidth: "120px",
                             alignItems: "center",
                           }}
                           containerClass={"items-center"}
@@ -175,7 +179,7 @@ const ItemDetails = ({
                         <CustomInput
                           title={"Tax Amount"}
                           containerStyle={{
-                            minWidth: "100px",
+                            minWidth: "120px",
                             alignItems: "center",
                           }}
                           containerClass={"items-center"}
@@ -193,7 +197,7 @@ const ItemDetails = ({
                   <CustomInput
                     title={"Total"}
                     containerStyle={{
-                      minWidth: "100px",
+                      minWidth: "120px",
                       alignItems: "center",
                     }}
                     containerClass={"items-center"}

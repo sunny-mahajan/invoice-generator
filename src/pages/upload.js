@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "next-auth/react";
 import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import { previewInvoiceData } from "../utils/constants";
 
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
@@ -423,6 +424,7 @@ export default function UploadCSV() {
           selectable={isTemplateSelectable}
           handleTemplateSelection={handleTemplateSelection}
           isShowRandomSelection={true}
+          invoiceData={previewInvoiceData}
         />
         <ToastContainer />
       </div>

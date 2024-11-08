@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import DialogBox from "../DialogBox";
 
 const InvoiceTemplates = ({
   handleSelectTemplates = () => {},
   selectable = false,
   handleTemplateSelection = () => {},
   isShowRandomSelection = false,
+  invoiceData = {},
 }) => {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [invoiceTemplates, setTemplates] = useState([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchTemplates();
@@ -35,37 +35,13 @@ const InvoiceTemplates = ({
     }
   };
 
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 300,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+  const handleTemplatePreview = (templateId) => {
+    console.log("Template ID:", templateId);
+    setIsDialogOpen(true);
+  };
+  const handleCloseDialog = () => setIsDialogOpen(false);
+  const handleConfirm = () => {
+    setIsDialogOpen(false);
   };
 
   const styles = {
@@ -93,18 +69,18 @@ const InvoiceTemplates = ({
                 className="sr-only peer"
                 onChange={handleTemplateSelection} // Call the function when the toggle is changed
               />
-              <div className="random-temp-cls relative w-12 h-7 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.5px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              <div className="random-temp-cls relative w-12 h-7 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
               <span className="ml-3">Use Random Template</span>
             </label>
           </div>
         )}
       </div>
 
-      <Slider {...settings}>
+      <div className="invoice-templates-cls grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
         {invoiceTemplates.map((invoiceTemplate) => (
           <div
             key={invoiceTemplate.id}
-            className="template-tile w-1/4 p-2 flex items-center flex-col cursor-pointer"
+            className="template-tile w-full p-2 flex items-center flex-col cursor-pointer"
             onClick={() => selectTemplate(invoiceTemplate.id)}
           >
             <div
@@ -121,6 +97,22 @@ const InvoiceTemplates = ({
                   alt={invoiceTemplate.name}
                 />
               </div>
+              <div onClick={() => handleTemplatePreview(invoiceTemplate.id)}>
+                Preview
+              </div>
+              <div onClick={(e) => e.stopPropagation()}>
+                <DialogBox
+                  isOpen={isDialogOpen}
+                  onClose={handleCloseDialog}
+                  title="Instructions"
+                  InvoiceTemplatePreview={true}
+                  invoiceData={invoiceData}
+                  confirmText="Got it!"
+                  cancelText=""
+                  onConfirm={handleConfirm}
+                  selectedTemplateId={selectedTemplateId}
+                />
+              </div>
               <div className="template-name">
                 {selectable ? (
                   <span>{invoiceTemplate.name}</span>
@@ -133,7 +125,7 @@ const InvoiceTemplates = ({
             </div>
           </div>
         ))}
-      </Slider>
+      </div>
     </div>
   );
 };

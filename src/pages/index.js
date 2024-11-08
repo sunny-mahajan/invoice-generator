@@ -145,6 +145,24 @@ const InvoiceForm = () => {
     mergeData(formData, formValues);
   }, [formValues]); // Dependency on formValues to re-trigger on change
 
+  useEffect(() => {
+    console.log(
+      formData.senderDetails.taxType,
+      "formData.senderDetails.taxType"
+    );
+    if (formData.senderDetails.taxType === "None") {
+      setFormData((prev) => ({
+        ...prev,
+        items: prev.items.map((item) => ({
+          ...item,
+          taxPercentage: 0,
+          taxAmount: 0,
+          amount: item.quantity * item.price,
+          total: item.quantity * item.price,
+        })),
+      }));
+    }
+  }, [formData.senderDetails.taxType]);
   const handleChange = (e) => {
     const updateFormData = (name, value) => {
       if (name.includes(".")) {
@@ -191,13 +209,13 @@ const InvoiceForm = () => {
       const { quantity, price, taxPercentage } = updatedItems[index];
       if (quantity && price) {
         // Calculate total without tax
-        let total = (quantity * price).toFixed(2);
+        let total = (quantity * price).toFixed(1);
         let taxAmount = 0;
-        let subTotal = (quantity * price).toFixed(2);
+        let subTotal = (quantity * price).toFixed(1);
         // If taxPercentage is greater than 0, add the tax to the total
         if (taxPercentage > 0) {
-          taxAmount = (quantity * price * (taxPercentage / 100)).toFixed(2);
-          total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(2);
+          taxAmount = (quantity * price * (taxPercentage / 100)).toFixed(1);
+          total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(1);
         }
 
         updatedItems[index].taxAmount = taxAmount;

@@ -9,7 +9,13 @@ import generateHTMLTPL002 from "../../templates/HTMLTPL002";
 import generateHTMLTPL003 from "../../templates/HTMLTPL003";
 import generateHTMLTPL004 from "../../templates/HTMLTPL004";
 
-export default function InvoicePreview({ formData, data, selectedTemplateId }) {
+export default function InvoicePreview({
+  formData = {},
+  data = {},
+  selectedTemplateId,
+  InvoiceTemplatePreview = false,
+  invoiceData = {},
+}) {
   const [previewHtml, setPreviewHtml] = useState("");
 
   const mergeData = (formData, data) => {
@@ -52,6 +58,7 @@ export default function InvoicePreview({ formData, data, selectedTemplateId }) {
 
   // Function to generate the invoice preview
   const generatePreview = (invoiceData) => {
+    console.log(selectedTemplateId, "selectedId");
     const htmlString =
       selectedTemplateId === "TPL001"
         ? generateHTMLTPL001(invoiceData)
@@ -64,8 +71,15 @@ export default function InvoicePreview({ formData, data, selectedTemplateId }) {
   };
 
   useEffect(() => {
-    handleData(formData, data, generatePreview);
+    if (!InvoiceTemplatePreview) {
+      handleData(formData, data, generatePreview);
+    }
   }, [formData, selectedTemplateId, data]);
+  useEffect(() => {
+    if (InvoiceTemplatePreview) {
+      generatePreview(invoiceData);
+    }
+  }, [InvoiceTemplatePreview, invoiceData]);
 
   return (
     <div className="invoice-preview-container mb-5">

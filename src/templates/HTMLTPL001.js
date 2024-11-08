@@ -500,7 +500,7 @@ export default function generateHTMLTPL001(invoiceData) {
                       item["price"] *
                       item["quantity"] *
                       (item["taxPercentage"] / 100)
-                    ).toFixed(2)}</p>
+                    ).toFixed(1)}</p>
                     <p class="sub-sec4-item-total">${currencySymbol(
                       invoiceData["Currency"]
                     )}${
@@ -525,7 +525,7 @@ export default function generateHTMLTPL001(invoiceData) {
                   <div class="sub-sec5-item">
                         <p class="sub-sec5-title">Subtotal</p><span>${currencySymbol(
                           invoiceData["Currency"]
-                        )}${subAmount.toFixed(2)}</span>
+                        )}${subAmount.toFixed(1)}</span>
                     </div>
                     <div class="sub-sec5-item">
                     ${
@@ -533,25 +533,25 @@ export default function generateHTMLTPL001(invoiceData) {
                         ? `
                     <p class="sub-sec5-title">${
                       invoiceData["Sender's Tax Type"]
-                    } ${taxPercentage.toFixed(2)}%</p><span>${currencySymbol(
+                    } ${taxPercentage.toFixed(1)}%</p><span>${currencySymbol(
                             invoiceData["Currency"]
-                          )}${taxAmount.toFixed(2)}</span>
+                          )}${taxAmount.toFixed(1)}</span>
                     `
                         : `
                         <div style="display: flex; align-items: center; flex-direction: column; gap: 10px;">
                           <div style="display: flex; align-items: center;">
                             <p class="sub-sec5-title">CGST ${(
                               taxPercentage / 2
-                            ).toFixed(2)}%</p><span>${currencySymbol(
+                            ).toFixed(1)}%</p><span>${currencySymbol(
                             invoiceData["Currency"]
-                          )}${(taxAmount / 2).toFixed(2)}</span>
+                          )}${(taxAmount / 2).toFixed(1)}</span>
                           </div>
                           <div style="display: flex; align-items: center;">
                             <p class="sub-sec5-title">SGST ${(
                               taxPercentage / 2
-                            ).toFixed(2)}%</p><span>${currencySymbol(
+                            ).toFixed(1)}%</p><span>${currencySymbol(
                             invoiceData["Currency"]
-                          )}${(taxAmount / 2).toFixed(2)}</span>
+                          )}${(taxAmount / 2).toFixed(1)}</span>
                           </div>
                         </div>
                     `
@@ -564,7 +564,7 @@ export default function generateHTMLTPL001(invoiceData) {
                      <div class="sub-sec5-item">
                         <h2 class="sub-sec5-title">Total</h2><span>${currencySymbol(
                           invoiceData["Currency"]
-                        )}${totalAmount.toFixed(2)}</span>
+                        )}${totalAmount.toFixed(1)}</span>
                      </div>
                 </div>
             </div>
