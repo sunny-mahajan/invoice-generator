@@ -44,7 +44,6 @@ export default function generateHTMLTPL001(invoiceData) {
     invoiceData["Account No"] ||
     invoiceData["Account Holder Name"] ||
     invoiceData["IFSC Code"] ||
-    invoiceData["Account Type"] ||
     invoiceData["Bank Address"];
 
   invoiceData["Invoice Issue Date"] = formatDate(
@@ -316,14 +315,13 @@ export default function generateHTMLTPL001(invoiceData) {
   }
 
   ${
-    invoiceData["Sender's State"] || invoiceData["Sender's Country"]
+    invoiceData["Sender's State"]
       ? `<p>
       ${
         invoiceData["Sender's State"]
           ? `${invoiceData["Sender's State"]}, `
           : ""
       }
-      ${invoiceData["Sender's Country"] || ""}
     </p>`
       : ""
   }
@@ -401,14 +399,13 @@ export default function generateHTMLTPL001(invoiceData) {
   }
   
   ${
-    invoiceData["Receiver's State"] || invoiceData["Receiver's Country"]
+    invoiceData["Receiver's State"]
       ? `<p>
       ${
         invoiceData["Receiver's State"]
           ? `${invoiceData["Receiver's State"]}, `
           : ""
       }
-      ${invoiceData["Receiver's Country"] || ""}
     </p>`
       : ""
   }
@@ -532,23 +529,23 @@ export default function generateHTMLTPL001(invoiceData) {
                         ? `
                     <p class="sub-sec5-title">${
                       invoiceData["Sender's Tax Type"]
-                    } ${taxPercentage.toFixed(1)}%</p><span>${currencySymbol(
+                    } (${taxPercentage.toFixed(1)}%)</p><span>${currencySymbol(
                             invoiceData["Currency"]
                           )}${taxAmount.toFixed(1)}</span>
                     `
                         : `
                         <div style="display: flex; align-items: center; flex-direction: column; gap: 10px;">
                           <div style="display: flex; align-items: center;">
-                            <p class="sub-sec5-title">CGST ${(
+                            <p class="sub-sec5-title">CGST (${(
                               taxPercentage / 2
-                            ).toFixed(1)}%</p><span>${currencySymbol(
+                            ).toFixed(1)}%)</p><span>${currencySymbol(
                             invoiceData["Currency"]
                           )}${(taxAmount / 2).toFixed(1)}</span>
                           </div>
                           <div style="display: flex; align-items: center;">
-                            <p class="sub-sec5-title">SGST ${(
+                            <p class="sub-sec5-title">SGST (${(
                               taxPercentage / 2
-                            ).toFixed(1)}%</p><span>${currencySymbol(
+                            ).toFixed(1)}%)</p><span>${currencySymbol(
                             invoiceData["Currency"]
                           )}${(taxAmount / 2).toFixed(1)}</span>
                           </div>

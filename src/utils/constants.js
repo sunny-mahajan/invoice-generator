@@ -67,7 +67,7 @@ export const previewInvoiceData = {
   "Sender's Address": "123 Elm St",
   "Sender's City": "New York",
   "Sender's State": "NY",
-  "Sender's Country": "USA",
+  "Sender's PAN No": "PAN1234567",
   "Sender's Zipcode": "10001",
   "Sender's Contact No": "1234567890",
   "Sender's Email": "john.doe@abccorp.com",
@@ -77,7 +77,7 @@ export const previewInvoiceData = {
   "Receiver's Address": "456 Oak St",
   "Receiver's City": "Los Angeles",
   "Receiver's State": "CA",
-  "Receiver's Country": "USA",
+  "Receiver's PAN No": "PAN1234567",
   "Receiver's Zipcode": "90001",
   "Receiver's Contact No": "9876543210",
   "Receiver's Email": "jane.smith@xyzllc.com",
@@ -88,7 +88,8 @@ export const previewInvoiceData = {
   "Account Holder Name": "John Doe",
   "IFSC Code": "BOFAUS3N",
   "Account Type": "Checking",
-  Logo: "https://www.techformation.co.in/wp-content/uploads/2018/10/ourcom1-1024x582.png",
+  "Bank Address": "New York, NY, USA",
+  Logo: "https://img.freepik.com/premium-vector/minimalist-…orporate-brand-business-company_1253202-77511.jpg",
   Currency: "INR",
   Items: [
     {

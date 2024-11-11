@@ -69,7 +69,6 @@ export default function generateHTMLTPL004(invoiceData) {
     invoiceData["Account No"] ||
     invoiceData["Account Holder Name"] ||
     invoiceData["IFSC Code"] ||
-    invoiceData["Account Type"] ||
     invoiceData["Bank Address"];
 
   return `
@@ -245,15 +244,13 @@ export default function generateHTMLTPL004(invoiceData) {
               }
               
               ${
-                invoiceData["Receiver's State"] ||
-                invoiceData["Receiver's Country"]
+                invoiceData["Receiver's State"]
                   ? `<p>
                   ${
                     invoiceData["Receiver's State"]
                       ? `${invoiceData["Receiver's State"]}, `
                       : ""
                   }
-                  ${invoiceData["Receiver's Country"] || ""}
                 </p>`
                   : ""
               }
@@ -401,7 +398,7 @@ export default function generateHTMLTPL004(invoiceData) {
                     isDescriptionAvailable ? "7" : "6"
                   }" style="text-align:right !important; border: none;">${
                         invoiceData["Sender's Tax Type"]
-                      } ${taxPercentage.toFixed(1)}%</td>
+                      } (${taxPercentage.toFixed(1)}%)</td>
                   <td style="width: auto; text-align:right !important;">${currencySymbol(
                     invoiceData["Currency"]
                   )}${taxAmount.toFixed(1)}</td>
@@ -411,9 +408,9 @@ export default function generateHTMLTPL004(invoiceData) {
                 <tr>
                   <td colspan="${
                     isDescriptionAvailable ? "7" : "6"
-                  }" style="text-align:right !important; border: none;">CGST ${(
+                  }" style="text-align:right !important; border: none;">CGST (${(
                         taxPercentage / 2
-                      ).toFixed(1)}%</td>
+                      ).toFixed(1)}%)</td>
                   <td style="width: auto; text-align:right !important;">${currencySymbol(
                     invoiceData["Currency"]
                   )}${(taxAmount / 2).toFixed(1)}</td>
@@ -421,9 +418,9 @@ export default function generateHTMLTPL004(invoiceData) {
                 <tr>
                   <td colspan="${
                     isDescriptionAvailable ? "7" : "6"
-                  }" style="text-align:right !important; border: none;">SGST ${(
+                  }" style="text-align:right !important; border: none;">SGST (${(
                         taxPercentage / 2
-                      ).toFixed(1)}%</td>
+                      ).toFixed(1)}%)</td>
                   <td style="width: auto; text-align:right !important;">${currencySymbol(
                     invoiceData["Currency"]
                   )}${(taxAmount / 2).toFixed(1)}</td>
@@ -479,14 +476,13 @@ export default function generateHTMLTPL004(invoiceData) {
           }
         
           ${
-            invoiceData["Sender's State"] || invoiceData["Sender's Country"]
+            invoiceData["Sender's State"]
               ? `<p>
               ${
                 invoiceData["Sender's State"]
                   ? `${invoiceData["Sender's State"]}, `
                   : ""
               }
-              ${invoiceData["Sender's Country"] || ""}
             </p>`
               : ""
           }

@@ -243,8 +243,9 @@ const ItemDetails = ({
             gap: "5px",
             float: "right",
             marginTop: "20px",
+            filter: "brightness(1.3)",
           }}
-          containerClass="add-new-item-btn"
+          containerClass="add-new-item-btn add-new-btn-cls"
         >
           <PlusIcon f={"rgb(124, 93, 250)"} /> Add New Item
         </CustomButton>

@@ -161,7 +161,7 @@ export default function UploadCSV() {
           "Sender's Address": row["Sender's Address"],
           "Sender's City": row["Sender's City"],
           "Sender's State": row["Sender's State"],
-          "Sender's Country": row["Sender's Country"],
+          "Sender's PAN No": row["Sender's PAN No"],
           "Sender's Zipcode": row["Sender's Zipcode"],
           "Sender's Contact No": row["Sender's Contact No"],
           "Sender's Email": row["Sender's Email"],
@@ -171,7 +171,7 @@ export default function UploadCSV() {
           "Receiver's Address": row["Receiver's Address"],
           "Receiver's City": row["Receiver's City"],
           "Receiver's State": row["Receiver's State"],
-          "Receiver's Country": row["Receiver's Country"],
+          "Receiver's PAN No": row["Receiver's PAN No"],
           "Receiver's Zipcode": row["Receiver's Zipcode"],
           "Receiver's Contact No": row["Receiver's Contact No"],
           "Receiver's Email": row["Receiver's Email"],
@@ -365,14 +365,16 @@ export default function UploadCSV() {
                     <span> or drag and drop</span>
                   </div>
                   <div className="mt-1">
-                    <span className="mt-2">Maximum file size: 10MB</span>
+                    <span className="mt-2">
+                      Maximum file size: 10MB. (Only .csv files are accepted)
+                    </span>
                   </div>
-                  <div className="flex items-center justify-center mt-1">
+                  <div className="flex items-center justify-center mt-4">
                     <span className="cursor-pointer font-semibold underline">
                       <a onClick={handleDownloadCSV}>Download sample file</a>
                     </span>
                     <div>
-                      <div
+                      {/* <div
                         className="ml-4 cursor-pointer"
                         onClick={(e) => handleOpenDialog(e)}
                       >
@@ -386,13 +388,13 @@ export default function UploadCSV() {
                           content={`1. Download the sample CSV file to see the correct format.
                             2. Select an invoice template from the list or use a random template.
                             3. Fill in your data following the sample CSV format.
-                            4. Upload your CSV file (only .csv files are accepted).
+                            4. Upload your CSV file.
                             5. Click 'Generate Invoices as ZIP' to download your invoices.`}
                           confirmText="Got it!"
                           cancelText=""
                           onConfirm={handleConfirm}
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -424,6 +426,7 @@ export default function UploadCSV() {
           handleTemplateSelection={handleTemplateSelection}
           isShowRandomSelection={true}
           invoiceData={previewInvoiceData}
+          isRandomSelectionChecked={isRandomSelectionChecked}
         />
         <ToastContainer />
       </div>
@@ -439,6 +442,18 @@ export default function UploadCSV() {
           </CustomButton>
         </div>
       )}
+      <div className="instruction-container p-4 mx-auto w-full">
+        <h2 className="text-lg font-semibold mb-2">Instructions</h2>
+        <ol className="list-decimal list-inside space-y-1">
+          <li>Download the sample CSV file to see the correct format.</li>
+          <li>
+            Select an invoice template from the list or use a random template.
+          </li>
+          <li>Fill in your data following the sample CSV format.</li>
+          <li>Upload your CSV file.</li>
+          <li>Click Generate Invoices as ZIP to download your invoices.</li>
+        </ol>
+      </div>
     </Layout>
   );
 }

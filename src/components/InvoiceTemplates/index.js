@@ -8,11 +8,11 @@ const InvoiceTemplates = ({
   handleTemplateSelection = () => {},
   isShowRandomSelection = false,
   invoiceData = {},
+  isRandomSelectionChecked = false,
 }) => {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [invoiceTemplates, setTemplates] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   useEffect(() => {
     fetchTemplates();
   }, []);
@@ -66,14 +66,18 @@ const InvoiceTemplates = ({
                 className="sr-only peer"
                 onChange={handleTemplateSelection} // Call the function when the toggle is changed
               />
-              <div className="random-temp-cls relative w-12 h-7 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              <div className="random-temp-cls relative w-12 h-7 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
               <span className="ml-3">Use Random Template</span>
             </label>
           </div>
         )}
       </div>
 
-      <div className="invoice-templates-cls grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+      <div
+        className={`invoice-templates-cls grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 ${
+          isRandomSelectionChecked ? "opacity-50 pointer-events-none" : ""
+        }`}
+      >
         {invoiceTemplates.map((invoiceTemplate) => (
           <div
             key={invoiceTemplate.id}

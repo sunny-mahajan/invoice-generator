@@ -340,6 +340,7 @@ const BillFromForm = ({
                 float: "right",
                 filter: "brightness(1.3)",
               }}
+              containerClass="add-new-btn-cls"
             >
               <PlusIcon f={"rgb(124, 93, 250)"} /> Add Custom Field
             </CustomButton>

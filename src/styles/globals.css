@@ -391,3 +391,10 @@ body[data-theme="light"] .user-profile-cls {
 .input-error-cls {
   border-color: rgb(239 68 68) !important;
 }
+
+body[data-theme="light"] .add-new-btn-cls {
+  border: 1px solid rgb(139 151 167) !important;
+}
+.instruction-container {
+  color: var(--color);
+}
