@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DialogBox from "../DialogBox";
+import { PreviewIcon } from "../../utils/icons";
 
 const InvoiceTemplates = ({
   handleSelectTemplates = () => {},
@@ -36,13 +37,9 @@ const InvoiceTemplates = ({
   };
 
   const handleTemplatePreview = (templateId) => {
-    console.log("Template ID:", templateId);
     setIsDialogOpen(true);
   };
   const handleCloseDialog = () => setIsDialogOpen(false);
-  const handleConfirm = () => {
-    setIsDialogOpen(false);
-  };
 
   const styles = {
     title: {
@@ -84,7 +81,7 @@ const InvoiceTemplates = ({
             onClick={() => selectTemplate(invoiceTemplate.id)}
           >
             <div
-              className={`template-content flex items-center flex-col ${
+              className={`template-content flex items-center flex-col relative group  ${
                 selectedTemplateId === invoiceTemplate.id && selectable
                   ? "selected-invoice-template"
                   : ""
@@ -97,19 +94,19 @@ const InvoiceTemplates = ({
                   alt={invoiceTemplate.name}
                 />
               </div>
-              <div onClick={() => handleTemplatePreview(invoiceTemplate.id)}>
-                Preview
+              <div
+                onClick={() => handleTemplatePreview(invoiceTemplate.id)}
+                className="absolute top-2 right-5 hidden group-hover:block"
+              >
+                <PreviewIcon />
               </div>
               <div onClick={(e) => e.stopPropagation()}>
                 <DialogBox
                   isOpen={isDialogOpen}
                   onClose={handleCloseDialog}
-                  title="Instructions"
+                  title="Invoice Template Preview"
                   InvoiceTemplatePreview={true}
                   invoiceData={invoiceData}
-                  confirmText="Got it!"
-                  cancelText=""
-                  onConfirm={handleConfirm}
                   selectedTemplateId={selectedTemplateId}
                 />
               </div>

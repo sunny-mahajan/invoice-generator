@@ -58,7 +58,6 @@ export default function InvoicePreview({
 
   // Function to generate the invoice preview
   const generatePreview = (invoiceData) => {
-    console.log(selectedTemplateId, "selectedId");
     const htmlString =
       selectedTemplateId === "TPL001"
         ? generateHTMLTPL001(invoiceData)
@@ -83,9 +82,16 @@ export default function InvoicePreview({
 
   return (
     <div className="invoice-preview-container mb-5">
-      <h2 style={{ padding: "25px 0 20px", color: "var(--color)" }}>
-        Invoice Preview
-      </h2>
+      {!InvoiceTemplatePreview && (
+        <h2
+          style={{
+            padding: "25px 0 20px",
+            color: "var(--color)",
+          }}
+        >
+          Invoice Preview
+        </h2>
+      )}
       <div
         dangerouslySetInnerHTML={{ __html: previewHtml }}
         style={{

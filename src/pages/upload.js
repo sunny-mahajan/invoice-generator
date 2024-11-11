@@ -46,7 +46,6 @@ export default function UploadCSV() {
     if (isRandomSelectionChecked && isTemplateIdUpdated) {
       assignTemplateToInvoices(() => {
         const randomIndex = Math.floor(Math.random() * templateIds.length);
-        console.log(templateIds[randomIndex]);
         return templateIds[randomIndex];
       });
       setIsTemplateIdUpdated(false);

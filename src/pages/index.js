@@ -23,6 +23,7 @@ import {
   allowedKeys,
   taxTypeOptions,
   currencySymbols,
+  previewInvoiceData,
 } from "../utils/constants";
 import { useForm } from "react-hook-form";
 import BillFromForm from "../components/InvoiceForms/billFrom";
@@ -137,7 +138,6 @@ const InvoiceForm = () => {
   }, [formData.createdAt, isDueDateOpen]);
 
   useEffect(() => {
-    console.log(isItemDataUpdated, "isItemDataUpdated");
     validateForm();
   }, [formData.items, isItemDataUpdated]);
 
@@ -146,10 +146,6 @@ const InvoiceForm = () => {
   }, [formValues]); // Dependency on formValues to re-trigger on change
 
   useEffect(() => {
-    console.log(
-      formData.senderDetails.taxType,
-      "formData.senderDetails.taxType"
-    );
     if (formData.senderDetails.taxType === "None") {
       setFormData((prev) => ({
         ...prev,
@@ -427,7 +423,6 @@ const InvoiceForm = () => {
   };
 
   const validateForm = () => {
-    console.log(isItemDataUpdated, "isItemDataUpdated");
     const newErrors = {};
     formData.items.forEach((item, index) => {
       newErrors[index] = {}; // Create an object for each item to store errors individually
@@ -587,6 +582,7 @@ const InvoiceForm = () => {
             <InvoiceTemplates
               handleSelectTemplates={handleSelectTemplate}
               selectable={true}
+              invoiceData={previewInvoiceData}
             />
           </div>
           <div className="flex justify-center  md:justify-between  rounded-r-lg w-full p-5 px-10">

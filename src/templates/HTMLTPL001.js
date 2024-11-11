@@ -1,5 +1,4 @@
 export default function generateHTMLTPL001(invoiceData) {
-  console.log(invoiceData, "invoiceData");
   // Initialize the sub-amount
   let subAmount = 0;
   let totalAmount = 0;
@@ -7,7 +6,7 @@ export default function generateHTMLTPL001(invoiceData) {
   let isDescriptionAvailable = false;
 
   // Calculate the sub-amount by summing item prices
-  invoiceData.Items.forEach((item) => {
+  invoiceData?.Items?.forEach((item) => {
     // Convert item price to a number
     subAmount += +item.amount || 0;
     totalAmount += +item.total || 0;

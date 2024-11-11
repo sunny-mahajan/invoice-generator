@@ -24,7 +24,7 @@ const ItemDetails = ({
     let total = 0;
     let taxAmount = 0;
     let taxPercentages = 0;
-    formData.items.forEach((item) => {
+    formData?.items?.forEach((item) => {
       if (!item.quantity || !item.price) return;
       subTotal += item.price * item.quantity;
       total += +item.total;
