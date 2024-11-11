@@ -343,7 +343,7 @@ p {
   padding: 20px !important;
 }
 
-body[data-theme="light"] .invoice-templates-cls {
+.invoice-templates-cls {
   background-color: var(--tertiary-color) !important;
   border-radius: 10px;
   border: 1px solid var(--input-border-color);

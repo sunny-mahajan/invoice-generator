@@ -24,7 +24,7 @@ const DialogBox = ({
       ></div>
 
       {InvoiceTemplatePreview && (
-        <div className="bg-white p-6 rounded-lg shadow-lg z-50 w-full relative max-h-[70vh] max-w-[70vw] overflow-y-scroll">
+        <div className="bg-white p-6 rounded-lg shadow-lg z-50 w-full relative max-h-[80vh] max-w-[80vw] overflow-y-scroll">
           <div className="flex justify-between items-center mb-4">
             {/* Title */}
             <h3 className="text-xl font-semibold text-black">{title}</h3>
@@ -32,7 +32,7 @@ const DialogBox = ({
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 focus:outline-none"
+              className="text-gray-500 hover:text-gray-700 focus:outline-none text-4xl"
             >
               &times;
             </button>

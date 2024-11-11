@@ -600,11 +600,11 @@ const InvoiceForm = () => {
               invoiceData={previewInvoiceData}
             />
           </div>
-          <div className="flex justify-center  md:justify-between  rounded-r-lg w-full p-5 px-10">
+          <div className="flex justify-center md:justify-between rounded-r-lg w-full py-5">
             <CustomButton
               type="purple"
               onClick={onSubmit}
-              buttonStyle={{ minWidth: "150px" }}
+              buttonStyle={{ minWidth: "200px" }}
               isLoading={loading}
               disabled={downloadInvoiceIsDisabled}
             >
