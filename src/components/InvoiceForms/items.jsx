@@ -51,7 +51,7 @@ const ItemDetails = ({
                 className={`block md:flex w-full gap-4 ${
                   formData.senderDetails.taxType === "IGST" ||
                   formData.senderDetails.taxType === "CGST & SGST"
-                    ? "lg:w-[40%]"
+                    ? "lg:w-[30%]"
                     : "lg:w-[100%]" // Add a default width when the condition is false
                 }`}
               >
@@ -94,7 +94,7 @@ const ItemDetails = ({
                 className={`d-flex w-full gap-4 ${
                   formData.senderDetails.taxType === "IGST" ||
                   formData.senderDetails.taxType === "CGST & SGST"
-                    ? "lg:w-[60%]"
+                    ? "lg:w-[70%]"
                     : "lg:w-[100%]" // Add a default width when the condition is false
                 }`}
               >
@@ -111,6 +111,7 @@ const ItemDetails = ({
                       inputStyle={{
                         flex: "0.3 1 auto",
                         borderColor: errorsData[index]?.quantity ? "red" : "",
+                        minWidth: "50px",
                       }}
                       required={true}
                       itemErrorsData={errorsData}
@@ -133,6 +134,7 @@ const ItemDetails = ({
                       inputStyle={{
                         flex: "1 1 auto",
                         borderColor: errorsData[index]?.price ? "red" : "",
+                        minWidth: "60px",
                       }}
                       required={true}
                       itemErrorsData={errorsData}
@@ -152,7 +154,7 @@ const ItemDetails = ({
                         title="GST Rate"
                         value={item.price}
                         onChange={(e) => handleItemChange(index, e)}
-                        inputStyle={{ flex: "1 1 auto" }}
+                        inputStyle={{ flex: "1 1 auto", minWidth: "65px" }}
                       />
                     )}
                 </div>
@@ -163,7 +165,7 @@ const ItemDetails = ({
                         <CustomInput
                           title={"Amount"}
                           containerStyle={{
-                            minWidth: "120px",
+                            minWidth: "110px",
                             alignItems: "center",
                           }}
                           containerClass={"items-center"}
@@ -178,7 +180,7 @@ const ItemDetails = ({
                         <CustomInput
                           title={"Tax Amount"}
                           containerStyle={{
-                            minWidth: "120px",
+                            minWidth: "110px",
                             alignItems: "center",
                           }}
                           containerClass={"items-center"}
@@ -196,7 +198,7 @@ const ItemDetails = ({
                   <CustomInput
                     title={"Total"}
                     containerStyle={{
-                      minWidth: "120px",
+                      minWidth: "110px",
                       alignItems: "center",
                     }}
                     containerClass={"items-center"}
@@ -262,17 +264,17 @@ const ItemDetails = ({
                   </div>
                   {formData.senderDetails.taxType === "IGST" ? (
                     <div className="flex justify-end gap-20">
-                      <span>IGST {taxPercentage}%</span>
+                      <span>IGST ({taxPercentage}%)</span>
                       <span>₹{taxAmount}</span>
                     </div>
                   ) : (
                     <>
                       <div className="flex justify-end gap-20">
-                        <span>CGST {taxPercentage / 2}%</span>
+                        <span>CGST ({taxPercentage / 2}%)</span>
                         <span>₹{taxAmount / 2}</span>
                       </div>
                       <div className="flex justify-end gap-20">
-                        <span>SGST {taxPercentage / 2}%</span>
+                        <span>SGST ({taxPercentage / 2}%)</span>
                         <span>₹{taxAmount / 2}</span>
                       </div>
                       {/* <div className="flex justify-end gap-20">
