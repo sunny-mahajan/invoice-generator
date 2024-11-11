@@ -451,7 +451,7 @@ export default function UploadCSV() {
           </li>
           <li>Fill in your data following the sample CSV format.</li>
           <li>Upload your CSV file.</li>
-          <li>Click 'Generate Invoices as ZIP' to download your invoices.</li>
+          <li>Click Generate Invoices as ZIP to download your invoices.</li>
         </ol>
       </div>
     </Layout>
