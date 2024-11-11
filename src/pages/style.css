@@ -184,6 +184,7 @@ p {
   gap: 5px;
   padding: 10px;
   border: 2px solid transparent;
+  min-width: 250px;
 }
 .template-preview-image {
   border-radius: var(--border-radius);
@@ -333,15 +334,16 @@ p {
 
 .items-details-container {
   margin-bottom: 20px !important;
-  background-color: var(--color-white-blue);
+  background-color: var(--tertiary-color);
   border-radius: 10px;
+  border: 1px solid var(--color-white-dark);
 }
 
-body[data-theme="light"] .item-details-section {
+.item-details-section {
   padding: 20px !important;
 }
 
-body[data-theme="light"] .slick-slider {
+body[data-theme="light"] .invoice-templates-cls {
   background-color: var(--tertiary-color) !important;
   border-radius: 10px;
   border: 1px solid var(--input-border-color);

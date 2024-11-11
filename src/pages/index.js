@@ -23,6 +23,7 @@ import {
   allowedKeys,
   taxTypeOptions,
   currencySymbols,
+  previewInvoiceData,
 } from "../utils/constants";
 import { useForm } from "react-hook-form";
 import BillFromForm from "../components/InvoiceForms/billFrom";
@@ -50,6 +51,7 @@ let formDataInitialValues = {
     state: "",
     taxType: "",
     taxNo: "",
+    panNo: "",
     customFields: [],
   },
   clientDetails: {
@@ -63,6 +65,7 @@ let formDataInitialValues = {
     state: "",
     taxType: "",
     taxNo: "",
+    panNo: "",
     customFields: [],
   },
   items: [
@@ -135,13 +138,27 @@ const InvoiceForm = () => {
   }, [formData.createdAt, isDueDateOpen]);
 
   useEffect(() => {
-    validateForm(isItemDataUpdated);
-  }, [formData.items]);
+    validateForm();
+  }, [formData.items, isItemDataUpdated]);
 
   useEffect(() => {
     mergeData(formData, formValues);
   }, [formValues]); // Dependency on formValues to re-trigger on change
 
+  useEffect(() => {
+    if (formData.senderDetails.taxType === "None") {
+      setFormData((prev) => ({
+        ...prev,
+        items: prev.items.map((item) => ({
+          ...item,
+          taxPercentage: 0,
+          taxAmount: 0,
+          amount: item.quantity * item.price,
+          total: item.quantity * item.price,
+        })),
+      }));
+    }
+  }, [formData.senderDetails.taxType]);
   const handleChange = (e) => {
     const updateFormData = (name, value) => {
       if (name.includes(".")) {
@@ -188,13 +205,13 @@ const InvoiceForm = () => {
       const { quantity, price, taxPercentage } = updatedItems[index];
       if (quantity && price) {
         // Calculate total without tax
-        let total = (quantity * price).toFixed(2);
+        let total = (quantity * price).toFixed(1);
         let taxAmount = 0;
-        let subTotal = (quantity * price).toFixed(2);
+        let subTotal = (quantity * price).toFixed(1);
         // If taxPercentage is greater than 0, add the tax to the total
         if (taxPercentage > 0) {
-          taxAmount = (quantity * price * (taxPercentage / 100)).toFixed(2);
-          total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(2);
+          taxAmount = (quantity * price * (taxPercentage / 100)).toFixed(1);
+          total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(1);
         }
 
         updatedItems[index].taxAmount = taxAmount;
@@ -405,21 +422,25 @@ const InvoiceForm = () => {
     return formData;
   };
 
-  const validateForm = (itemData = null) => {
+  const validateForm = () => {
     const newErrors = {};
-    formData.items.forEach((item) => {
-      if (!item.name && itemData?.name) {
-        newErrors.name = "Item name is required";
+    formData.items.forEach((item, index) => {
+      newErrors[index] = {}; // Create an object for each item to store errors individually
+
+      if (!item.name && isItemDataUpdated?.name) {
+        newErrors[index].name = "Item name is required";
       }
-      if (!item.quantity && itemData?.quantity) {
-        newErrors.quantity = "Quantity is required";
+      if (!item.quantity && isItemDataUpdated?.quantity) {
+        newErrors[index].quantity = "Quantity is required";
       }
-      if (!item.price && itemData?.price) {
-        newErrors.price = "Price is required";
+      if (!item.price && isItemDataUpdated?.price) {
+        newErrors[index].price = "Price is required";
       }
     });
-    setErrorsData(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setErrorsData(newErrors); // Set errors data with structured errors for each item
+    return !Object.values(newErrors).some(
+      (error) => Object.keys(error).length > 0
+    ); // Return true if no errors
   };
 
   const onSubmit = async (e) => {
@@ -427,9 +448,8 @@ const InvoiceForm = () => {
     const data = getValues();
     const isValid = await trigger();
     setIsItemDataUpdated({ name: true, quantity: true, price: true });
-    const allItemsValid = { name: true, quantity: true, price: true };
-    validateForm(allItemsValid);
-    if (!isValid || !validateForm(allItemsValid)) {
+    validateForm();
+    if (!isValid || !validateForm()) {
       toast.error("Please fill all required fields before submitting");
       return;
     }
@@ -562,6 +582,7 @@ const InvoiceForm = () => {
             <InvoiceTemplates
               handleSelectTemplates={handleSelectTemplate}
               selectable={true}
+              invoiceData={previewInvoiceData}
             />
           </div>
           <div className="flex justify-center  md:justify-between  rounded-r-lg w-full p-5 px-10">

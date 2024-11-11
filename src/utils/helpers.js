@@ -39,6 +39,7 @@ export const mapSenderDetails = (senderDetails) => ({
   "Sender's Zipcode": senderDetails.postCode,
   "Sender's Tax No": senderDetails.taxNo,
   "Sender's Tax Type": senderDetails.taxType,
+  "Sender's PAN No": senderDetails.panNo,
 });
 
 export const mapReceiverDetails = (clientDetails) => ({
@@ -52,6 +53,7 @@ export const mapReceiverDetails = (clientDetails) => ({
   "Receiver's Zipcode": clientDetails.postCode,
   "Receiver's Country": clientDetails.country,
   "Receiver's Tax Type": clientDetails.taxType,
+  "Receiver's PAN No": clientDetails.panNo,
 });
 
 export const mapBankDetails = (bankDetails) => ({

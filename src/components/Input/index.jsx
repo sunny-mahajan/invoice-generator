@@ -25,7 +25,6 @@ const CustomInput = ({
   itemErrorsData = {},
 }) => {
   // const [touched, setTouched] = useState(false);
-
   const fieldError = name
     ?.split(".")
     .reduce((acc, part) => acc?.[part], errors);
@@ -56,21 +55,6 @@ const CustomInput = ({
               inputClass !== "input-invoice-cls" ? "input-field" : ""
             }
              ${required && fieldError ? "input-error-cls" : ""}
-              ${
-                required && itemErrorsData.name && name === "name"
-                  ? "input-error-cls"
-                  : ""
-              }
-              ${
-                required && itemErrorsData.quantity && name === "quantity"
-                  ? "input-error-cls"
-                  : ""
-              }
-              ${
-                required && itemErrorsData.price && name === "price"
-                  ? "input-error-cls"
-                  : ""
-              }
             `}
             onChange={onChange}
             onKeyDown={onKeyDown}

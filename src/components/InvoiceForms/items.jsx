@@ -24,18 +24,17 @@ const ItemDetails = ({
     let total = 0;
     let taxAmount = 0;
     let taxPercentages = 0;
-    formData.items.forEach((item) => {
+    formData?.items?.forEach((item) => {
       if (!item.quantity || !item.price) return;
       subTotal += item.price * item.quantity;
       total += +item.total;
     });
-
     taxAmount = total - subTotal;
     taxPercentages = (taxAmount / subTotal) * 100;
-    setTotal(total.toFixed(2));
-    setSubTotal(subTotal.toFixed(2));
-    setTaxAmount(taxAmount.toFixed(2));
-    setTaxPercentage(taxPercentages.toFixed(2));
+    setTotal(total.toFixed(1));
+    setSubTotal(subTotal.toFixed(1));
+    setTaxAmount(taxAmount.toFixed(1));
+    setTaxPercentage(taxPercentages.toFixed(1));
   };
 
   return (
@@ -49,24 +48,34 @@ const ItemDetails = ({
               style={styles.itemContainer}
               className="items-details-section"
             >
-              <div className="block md:flex w-full lg:w-[41%] gap-4">
+              <div
+                className={`block md:flex w-full gap-4 ${
+                  formData.senderDetails.taxType === "IGST" ||
+                  formData.senderDetails.taxType === "CGST & SGST"
+                    ? "lg:w-[40%]"
+                    : "lg:w-[100%]" // Add a default width when the condition is false
+                }`}
+              >
                 <div className="w-full">
                   <CustomInput
                     type="text"
                     name="name"
                     title="Item Name"
-                    placeholder="Enter item name"
+                    placeholder="Website Design"
                     // containerStyle={{ width: "50%" }}
                     containerClass={"w-full md:w-1/2"}
                     value={item.name}
                     onChange={(e) => handleItemChange(index, e)}
-                    inputStyle={{ flex: "2 1 auto" }}
+                    inputStyle={{
+                      flex: "2 1 auto",
+                      borderColor: errorsData[index]?.name ? "red" : "",
+                    }}
                     required={true}
                     itemErrorsData={errorsData}
                   />
-                  {errorsData.name && (
+                  {errorsData[index]?.name && (
                     <p className="input-error text-red-600">
-                      {errorsData.name}
+                      {errorsData[index]?.name}
                     </p>
                   )}
                 </div>
@@ -74,7 +83,7 @@ const ItemDetails = ({
                   type="text"
                   name="description"
                   title="Item Description"
-                  placeholder="Enter item description"
+                  placeholder="Design and development"
                   // containerStyle={{ width: "50%" }}
                   containerClass={"w-full md:w-1/2"}
                   value={item.description}
@@ -82,98 +91,113 @@ const ItemDetails = ({
                   inputStyle={{ flex: "2 1 auto" }}
                 />
               </div>
-              <div className="d-flex w-full lg:w-[69%] gap-4 ">
-                <div className="block md:flex gap-5 w-[50%] md:w-full">
-                  <div>
+              <div
+                className={`d-flex w-full gap-4 ${
+                  formData.senderDetails.taxType === "IGST" ||
+                  formData.senderDetails.taxType === "CGST & SGST"
+                    ? "lg:w-[60%]"
+                    : "lg:w-[100%]" // Add a default width when the condition is false
+                }`}
+              >
+                <div className="block md:flex gap-5">
+                  <div className="w-full">
                     <CustomInput
                       type="number"
                       name="quantity"
                       title="Qty/Hrs."
-                      placeholder="Enter qty"
+                      placeholder="1"
                       value={item.quantity}
-                      containerClass="max-w-[200px]"
+                      // containerClass="max-w-[200px]"
                       onChange={(e) => handleItemChange(index, e)}
-                      inputStyle={{ flex: "0.3 1 auto" }}
+                      inputStyle={{
+                        flex: "0.3 1 auto",
+                        borderColor: errorsData[index]?.quantity ? "red" : "",
+                      }}
                       required={true}
                       itemErrorsData={errorsData}
                     />
-                    {errorsData.quantity && (
+                    {errorsData[index]?.quantity && (
                       <p className="input-error text-red-600">
-                        {errorsData.quantity}
+                        {errorsData[index]?.quantity}
                       </p>
                     )}
                   </div>
-                  <div>
+                  <div className="w-full">
                     <CustomInput
                       type="number"
                       name="price"
-                      placeholder="Enter price"
+                      placeholder="200"
                       title="Price"
-                      containerClass="max-w-[200px]"
+                      // containerClass="max-w-[200px]"
                       value={item.price}
                       onChange={(e) => handleItemChange(index, e)}
-                      inputStyle={{ flex: "1 1 auto" }}
+                      inputStyle={{
+                        flex: "1 1 auto",
+                        borderColor: errorsData[index]?.price ? "red" : "",
+                      }}
                       required={true}
                       itemErrorsData={errorsData}
                     />
-                    {errorsData.price && (
+                    {errorsData[index]?.price && (
                       <p className="input-error text-red-600">
-                        {errorsData.price}
+                        {errorsData[index]?.price}
                       </p>
                     )}
                   </div>
-                  {formData.senderDetails.taxType && (
-                    <CustomInput
-                      type="number"
-                      name="taxPercentage"
-                      placeholder="Tax %"
-                      title="GST Rate"
-                      value={item.price}
-                      onChange={(e) => handleItemChange(index, e)}
-                      inputStyle={{ flex: "1 1 auto" }}
-                    />
-                  )}
+                  {formData.senderDetails.taxType &&
+                    formData.senderDetails.taxType !== "None" && (
+                      <CustomInput
+                        type="number"
+                        name="taxPercentage"
+                        placeholder="18"
+                        title="GST Rate"
+                        value={item.price}
+                        onChange={(e) => handleItemChange(index, e)}
+                        inputStyle={{ flex: "1 1 auto" }}
+                      />
+                    )}
                 </div>
                 <div className="flex items-center ">
-                  {formData.senderDetails.taxType && (
-                    <>
-                      <CustomInput
-                        title={"Amount"}
-                        containerStyle={{
-                          minWidth: "100px",
-                          alignItems: "center",
-                        }}
-                        containerClass={"items-center"}
-                        isText={true}
-                        value={`${
-                          formData.currency
-                            ? `${currencySymbols[formData.currency] || ""} `
-                            : ""
-                        }${item.amount || 0}`}
-                        inputStyle={{ flex: "1 1 auto" }}
-                      />
-                      <CustomInput
-                        title={"Tax Amount"}
-                        containerStyle={{
-                          minWidth: "100px",
-                          alignItems: "center",
-                        }}
-                        containerClass={"items-center"}
-                        isText={true}
-                        value={`${
-                          formData.currency
-                            ? `${currencySymbols[formData.currency] || ""} `
-                            : ""
-                        }${item.taxAmount || 0}`}
-                        inputStyle={{ flex: "1 1 auto" }}
-                      />
-                    </>
-                  )}
+                  {formData.senderDetails.taxType &&
+                    formData.senderDetails.taxType !== "None" && (
+                      <>
+                        <CustomInput
+                          title={"Amount"}
+                          containerStyle={{
+                            minWidth: "120px",
+                            alignItems: "center",
+                          }}
+                          containerClass={"items-center"}
+                          isText={true}
+                          value={`${
+                            formData.currency
+                              ? `${currencySymbols[formData.currency] || ""} `
+                              : ""
+                          }${item.amount || 0}`}
+                          inputStyle={{ flex: "1 1 auto" }}
+                        />
+                        <CustomInput
+                          title={"Tax Amount"}
+                          containerStyle={{
+                            minWidth: "120px",
+                            alignItems: "center",
+                          }}
+                          containerClass={"items-center"}
+                          isText={true}
+                          value={`${
+                            formData.currency
+                              ? `${currencySymbols[formData.currency] || ""} `
+                              : ""
+                          }${item.taxAmount || 0}`}
+                          inputStyle={{ flex: "1 1 auto" }}
+                        />
+                      </>
+                    )}
 
                   <CustomInput
                     title={"Total"}
                     containerStyle={{
-                      minWidth: "100px",
+                      minWidth: "120px",
                       alignItems: "center",
                     }}
                     containerClass={"items-center"}
@@ -211,7 +235,7 @@ const ItemDetails = ({
           type="gray"
           onClick={(e) => {
             e.preventDefault();
-            if (validateForm()) {
+            if (validateForm(true)) {
               handleAddItem();
             }
           }}
@@ -231,35 +255,36 @@ const ItemDetails = ({
       {formData.items[0].price && formData.items[0].quantity && (
         <div className="w-full flex justify-end">
           <div className="d-flex flex-col gap-2 w-[35%]">
-            {formData.senderDetails.taxType && (
-              <>
-                <div className="flex justify-end gap-20">
-                  <span>SubTotal:</span>
-                  <span>₹{subTotal}</span>
-                </div>
-                {formData.senderDetails.taxType === "IGST" ? (
+            {formData.senderDetails.taxType &&
+              formData.senderDetails.taxType !== "None" && (
+                <>
                   <div className="flex justify-end gap-20">
-                    <span>IGST {taxPercentage}%</span>
-                    <span>₹{taxAmount}</span>
+                    <span>SubTotal:</span>
+                    <span>₹{subTotal}</span>
                   </div>
-                ) : (
-                  <>
+                  {formData.senderDetails.taxType === "IGST" ? (
                     <div className="flex justify-end gap-20">
-                      <span>CGST {taxPercentage / 2}%</span>
-                      <span>₹{taxAmount / 2}</span>
+                      <span>IGST {taxPercentage}%</span>
+                      <span>₹{taxAmount}</span>
                     </div>
-                    <div className="flex justify-end gap-20">
-                      <span>SGST {taxPercentage / 2}%</span>
-                      <span>₹{taxAmount / 2}</span>
-                    </div>
-                    {/* <div className="flex justify-end gap-20">
+                  ) : (
+                    <>
+                      <div className="flex justify-end gap-20">
+                        <span>CGST {taxPercentage / 2}%</span>
+                        <span>₹{taxAmount / 2}</span>
+                      </div>
+                      <div className="flex justify-end gap-20">
+                        <span>SGST {taxPercentage / 2}%</span>
+                        <span>₹{taxAmount / 2}</span>
+                      </div>
+                      {/* <div className="flex justify-end gap-20">
                   <span>SGST</span>
                   <span>20222</span>
                 </div> */}
-                  </>
-                )}
-              </>
-            )}
+                    </>
+                  )}
+                </>
+              )}
             <div className="flex justify-end gap-20 py-2 border-t-2 border-b-2 text-2xl font-semibold">
               <span>Total:</span>
               <span>₹{total}</span>
