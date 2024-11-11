@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import DialogBox from "../DialogBox";
+import { PreviewIcon } from "../../utils/icons";
 
 const InvoiceTemplates = ({
   handleSelectTemplates = () => {},
   selectable = false,
+  handleTemplateSelection = () => {},
+  isShowRandomSelection = false,
+  invoiceData = {},
 }) => {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [invoiceTemplates, setTemplates] = useState([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchTemplates();
@@ -33,42 +36,13 @@ const InvoiceTemplates = ({
     }
   };
 
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 300,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+  const handleTemplatePreview = (templateId) => {
+    setIsDialogOpen(true);
   };
+  const handleCloseDialog = () => setIsDialogOpen(false);
 
   const styles = {
     title: {
-      padding: "20px 0px",
       color: "var(--color)",
     },
     "template-preview-image": {
@@ -79,19 +53,35 @@ const InvoiceTemplates = ({
 
   return (
     <div>
-      <h2 style={styles.title}>
-        {selectable ? "Select Template" : "Templates"}
-      </h2>
+      <div className="flex items-center justify-between pb-2.5 pt-5">
+        <h2 style={styles.title}>
+          {selectable ? "Select Template" : "Templates"}
+        </h2>
+        {isShowRandomSelection && (
+          <div className="flex items-center">
+            <label className="inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                value=""
+                className="sr-only peer"
+                onChange={handleTemplateSelection} // Call the function when the toggle is changed
+              />
+              <div className="random-temp-cls relative w-12 h-7 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              <span className="ml-3">Use Random Template</span>
+            </label>
+          </div>
+        )}
+      </div>
 
-      <Slider {...settings}>
+      <div className="invoice-templates-cls grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
         {invoiceTemplates.map((invoiceTemplate) => (
           <div
             key={invoiceTemplate.id}
-            className="template-tile w-1/4 p-2 flex items-center flex-col cursor-pointer"
+            className="template-tile w-full p-2 flex items-center flex-col cursor-pointer"
             onClick={() => selectTemplate(invoiceTemplate.id)}
           >
             <div
-              className={`template-content flex items-center flex-col ${
+              className={`template-content flex items-center flex-col relative group  ${
                 selectedTemplateId === invoiceTemplate.id && selectable
                   ? "selected-invoice-template"
                   : ""
@@ -102,6 +92,22 @@ const InvoiceTemplates = ({
                   className="template-preview-image h-full w-full"
                   src={invoiceTemplate.previewUrl}
                   alt={invoiceTemplate.name}
+                />
+              </div>
+              <div
+                onClick={() => handleTemplatePreview(invoiceTemplate.id)}
+                className="absolute top-2 right-5 hidden group-hover:block"
+              >
+                <PreviewIcon />
+              </div>
+              <div onClick={(e) => e.stopPropagation()}>
+                <DialogBox
+                  isOpen={isDialogOpen}
+                  onClose={handleCloseDialog}
+                  title="Invoice Template Preview"
+                  InvoiceTemplatePreview={true}
+                  invoiceData={invoiceData}
+                  selectedTemplateId={selectedTemplateId}
                 />
               </div>
               <div className="template-name">
@@ -116,7 +122,7 @@ const InvoiceTemplates = ({
             </div>
           </div>
         ))}
-      </Slider>
+      </div>
     </div>
   );
 };

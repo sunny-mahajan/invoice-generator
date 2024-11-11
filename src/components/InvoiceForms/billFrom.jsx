@@ -45,7 +45,7 @@ const BillFromForm = ({
               type="text"
               name="senderDetails.name"
               title="Name / Company Name"
-              placeholder="Enter name"
+              placeholder="Beta LLC"
               value={formData?.senderDetails?.name}
               onChange={handleChange}
               style={styles.input}
@@ -60,7 +60,7 @@ const BillFromForm = ({
             value={formData.senderDetails?.contactNo}
             name={"senderDetails.contactNo"}
             onChange={handleChange}
-            placeholder="Enter Phone number"
+            placeholder="9876543210"
             errors={errors}
             register={register}
             validationRules={{
@@ -78,7 +78,7 @@ const BillFromForm = ({
               type="text"
               name="senderDetails.email"
               title="Email"
-              placeholder="Enter email"
+              placeholder="billing@beta.com"
               value={formData?.senderDetails?.email}
               onChange={handleChange}
               style={styles.input}
@@ -116,7 +116,7 @@ const BillFromForm = ({
                   type="text"
                   name="senderDetails.street"
                   title="Street Address"
-                  placeholder={"Enter street address"}
+                  placeholder={"456 Broadway Ave"}
                   value={formData?.senderDetails?.street}
                   onChange={handleChange}
                   style={styles.input}
@@ -127,7 +127,7 @@ const BillFromForm = ({
                   type="text"
                   name="senderDetails.city"
                   title="City"
-                  placeholder={"Enter city"}
+                  placeholder={"Kolkata"}
                   value={formData?.senderDetails?.city}
                   onChange={handleChange}
                   style={styles.input}
@@ -140,7 +140,7 @@ const BillFromForm = ({
                   type="text"
                   name="senderDetails.state"
                   title="State"
-                  placeholder={"Enter state"}
+                  placeholder={"West Bengal"}
                   value={formData?.senderDetails?.state}
                   onChange={handleChange}
                   style={styles.input}
@@ -151,14 +151,14 @@ const BillFromForm = ({
                   type="number"
                   name="senderDetails.postCode"
                   title="Pin Code"
-                  placeholder={"Enter pin code"}
+                  placeholder={"700001"}
                   value={formData?.senderDetails?.postCode}
                   onChange={handleChange}
                   style={styles.input}
                 />
               </div>
             </div>
-            <div className="block md:flex gap-5">
+            {/* <div className="block md:flex gap-5">
               <div className="flex w-full md:w-[48%] flex-col">
                 <CustomInput
                   type="text"
@@ -170,7 +170,7 @@ const BillFromForm = ({
                   style={styles.input}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -191,26 +191,7 @@ const BillFromForm = ({
             }`}
           >
             <div className="block md:flex gap-5">
-              <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
-                  name="senderDetails.taxNo"
-                  placeholder={"Enter gst number"}
-                  value={formData.senderDetails.taxNo}
-                  onChange={handleChange}
-                  style={styles.input}
-                  title="GST Number"
-                />
-              </div>
-              <div className="flex w-full flex-col">
-                {/* <FormCustomDropdown
-                  name="senderDetails.taxType"
-                  title="Tax Type"
-                  label={formData.senderDetails.taxType}
-                  onSelect={handleChange}
-                  style={styles.input}
-                  options={taxTypeOptions}
-                /> */}
+              <div className="flex w-full flex-col mb-4">
                 <div>
                   <span className="input-title">Tax Type</span>
                 </div>
@@ -250,7 +231,48 @@ const BillFromForm = ({
                       CGST & SGST
                     </label>
                   </div>
+                  <div className="flex items-center">
+                    <input
+                      id="cst-radio"
+                      type="radio"
+                      value="None" // Set the value to "CST"
+                      name="senderDetails.taxType"
+                      checked={formData.senderDetails.taxType === "None"} // Check if this is the selected value
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      onChange={handleChange} // Add your change handler here
+                    />
+                    <label
+                      htmlFor="cst-radio"
+                      className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >
+                      None
+                    </label>
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div className="block md:flex gap-5">
+              <div className="flex w-full flex-col">
+                <CustomInput
+                  type="text"
+                  name="senderDetails.taxNo"
+                  placeholder={"GST123456789"}
+                  value={formData.senderDetails.taxNo}
+                  onChange={handleChange}
+                  style={styles.input}
+                  title="GST Number"
+                />
+              </div>
+              <div className="flex w-full flex-col">
+                <CustomInput
+                  type="text"
+                  name="senderDetails.panNo"
+                  placeholder={"PAN123456789"}
+                  value={formData.senderDetails.panNo}
+                  onChange={handleChange}
+                  style={styles.input}
+                  title="PAN Number"
+                />
               </div>
             </div>
           </div>
