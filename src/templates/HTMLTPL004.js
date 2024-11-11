@@ -89,10 +89,10 @@ export default function generateHTMLTPL004(invoiceData) {
             font-size: 18px;
             margin-bottom: 5px;
             font-weight: bold;
+            margin: 0 !important;
           }
           p{
-            margin: 0;
-            
+            margin: 0 !important;
             color: #000000 !important;
           }
         }
