@@ -230,20 +230,35 @@ const InvoiceForm = () => {
     }));
   };
 
+  const validateItem = (item) => {
+    return item.name.trim() !== "" && item.quantity > 0 && item.price > 0;
+  };
+
   const handleAddItem = () => {
-    setFormData((prev) => ({
-      ...prev,
-      items: [
-        ...prev.items,
-        {
-          name: "",
-          description: "",
-          quantity: "",
-          taxPercentage: 0,
-          price: "",
-        },
-      ],
-    }));
+    setFormData((prev) => {
+      const lastItem = prev.items[prev.items.length - 1];
+
+      // Only add a new item if the last item is valid
+      if (!lastItem || validateItem(lastItem)) {
+        setIsItemDataUpdated({ name: false, quantity: false, price: false });
+        return {
+          ...prev,
+          items: [
+            ...prev.items,
+            {
+              name: "",
+              description: "",
+              quantity: "",
+              taxPercentage: 0,
+              price: "",
+            },
+          ],
+        };
+      } else {
+        setIsItemDataUpdated({ name: true, quantity: true, price: true });
+        return prev;
+      }
+    });
   };
 
   const handleRemoveItem = (index) => {

@@ -9,7 +9,6 @@ const ItemDetails = ({
   handleRemoveItem,
   handleAddItem,
   currencySymbols,
-  validateForm = { validateForm },
   errorsData = { errorsData },
 }) => {
   const [subTotal, setSubTotal] = useState(0);
@@ -220,7 +219,7 @@ const ItemDetails = ({
                         justifyContent: "center",
                         height: "100%",
                         flex: "0 1 auto",
-                        paddingTop: "10px",
+                        // paddingTop: "10px",
                         // width: "20%",
                       }}
                     >
@@ -235,9 +234,7 @@ const ItemDetails = ({
           type="gray"
           onClick={(e) => {
             e.preventDefault();
-            if (validateForm(true)) {
-              handleAddItem();
-            }
+            handleAddItem();
           }}
           buttonStyle={{
             width: "25%",
