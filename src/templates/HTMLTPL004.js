@@ -80,7 +80,7 @@ export default function generateHTMLTPL004(invoiceData) {
     <title>Invoice</title>
     <style>
     body {
-        font-family: "Spartan";
+        font-family: Arial, sans-serif;
         margin: 0 auto;
         padding: 20px;
     }
