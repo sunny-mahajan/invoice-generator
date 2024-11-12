@@ -74,14 +74,14 @@ export default function generateHTMLTPL001(invoiceData) {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            div {
-              line-height: 1em;
-            }
         }
         .main-container-cls {
           p{
             color: #000000 !important;
           }
+        }
+        div {
+          line-height: 1em;
         }
         .title-container-cls {
             display: flex;
