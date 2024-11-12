@@ -14,7 +14,8 @@ body,
 
 body[data-theme="dark"] {
   margin: 0;
-  font-family: "Spartan" !important;
+  font-family: "Open Sans", Roboto, "Helvetica Neue", Helvetica, Arial,
+    sans-serif !important;
   --sidebar-color: #252945;
   --primary-color: #141625;
   --secondary-color: #252945;
@@ -31,7 +32,8 @@ body[data-theme="dark"] {
 }
 body {
   margin: 0;
-  font-family: "Spartan" !important;
+  font-family: "Open Sans", Roboto, "Helvetica Neue", Helvetica, Arial,
+    sans-serif !important;
   --sidebar-color: rgb(101, 57, 192);
   --primary-color: #ffffff;
   --secondary-color: #ffffff;

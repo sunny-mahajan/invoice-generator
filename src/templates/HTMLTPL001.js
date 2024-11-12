@@ -95,7 +95,7 @@ export default function generateHTMLTPL001(invoiceData) {
         padding: 3px 8px;
         text-transform: uppercase;
         letter-spacing: 7px;
-        font-size: 40px;
+        font-size: 30px;
         font-weight: 600;
     }
 
@@ -165,6 +165,8 @@ export default function generateHTMLTPL001(invoiceData) {
         width: 150px !important;
         text-align: left !important;
         word-wrap: break-word;
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
     .sub-sec4-item-quantity {
@@ -230,12 +232,12 @@ export default function generateHTMLTPL001(invoiceData) {
         font-size: 21px;
         font-weight: bold;
         margin: 0;
-        margin-bottom: 10px;
+        margin-bottom: 7px;
     }
 
     .main-container-cls p {
         margin: 0;
-        margin-bottom: 10px;
+        margin-bottom: 7px;
     }
 
     .invoice-logo {
