@@ -67,6 +67,9 @@ export default async function handler(req, res) {
     }
 
     const page = await browser.newPage();
+    await page.addStyleTag({
+      url: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap",
+    });
     await page.setContent(HTMLTemplate, { waitUntil: "load" });
 
     // Generate PDF from the HTML content
