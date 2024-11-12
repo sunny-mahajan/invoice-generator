@@ -79,6 +79,9 @@ export default function generateHTMLTPL001(invoiceData) {
           p{
             color: #000000 !important;
           }
+          div {
+            line-height: 1em;
+          }
         }
         .title-container-cls {
             display: flex;

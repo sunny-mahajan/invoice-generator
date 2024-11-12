@@ -94,6 +94,9 @@ export default function generateHTMLTPL002(invoiceData) {
       p{
         color: #000000 !important;
       }
+      div {
+        line-height: 1em;
+      }
     }
     .header {
       display: flex;
