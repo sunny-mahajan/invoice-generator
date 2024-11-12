@@ -74,7 +74,7 @@ const InvoiceTemplates = ({
       </div>
 
       <div
-        className={`invoice-templates-cls grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 ${
+        className={`invoice-templates-cls grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4 ${
           isRandomSelectionChecked ? "opacity-50 pointer-events-none" : ""
         }`}
       >

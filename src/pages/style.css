@@ -184,7 +184,7 @@ p {
   gap: 5px;
   padding: 10px;
   border: 2px solid transparent;
-  min-width: 200px;
+  min-width: 100%;
 }
 .template-preview-image {
   border-radius: var(--border-radius);
