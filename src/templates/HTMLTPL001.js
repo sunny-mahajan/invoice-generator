@@ -76,22 +76,7 @@ export default function generateHTMLTPL001(invoiceData) {
         box-sizing: border-box;
     }
 
-    .main-container-cls {
-        padding: 0 70px;
-        margin: 0 auto;
-        font-family: Helvetica;
-    }
-
-    .main-container-cls h2 {
-        font-size: 21px;
-        font-weight: bold;
-        margin: 0;
-        margin-bottom: 10px;
-    }
-
     .main-container-cls p {
-        margin: 0;
-        margin-bottom: 10px;
         color: #000000 !important;
     }
 
@@ -115,22 +100,23 @@ export default function generateHTMLTPL001(invoiceData) {
     }
 
     .sec2-container {
-        display: grid;
-        column-gap: 10px;
-        grid-template-columns: max-content auto;
         justify-content: center;
         width: 100%;
         margin-bottom: 30px;
         box-sizing: border-box;
+        display: grid;
+        column-gap: 10px;
+        grid-template-columns: max-content auto;
     }
 
-    .sub-sec2-container {
+    .sec2-container .sub-sec2-container {
         display: contents;
         align-items: center;
         justify-content: center;
     }
 
-    .sub-sec2-title, .sub-sec2-title-value {
+    .sec2-container .sub-sec2-container .sub-sec2-title,
+    .sec2-container .sub-sec2-container .sub-sec2-title-value {
         text-align: left;
     }
 
@@ -200,19 +186,19 @@ export default function generateHTMLTPL001(invoiceData) {
         box-sizing: border-box;
     }
 
-    .sub-sec5-container {
+    .sec5-container .sub-sec5-container {
         display: flex;
         flex-direction: column;
         gap: 10px;
     }
 
-    .sub-sec5-item {
+    .sec5-container .sub-sec5-container .sub-sec5-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    .sub-sec5-title {
+    .sec5-container .sub-sec5-container .sub-sec5-title {
         margin: 0;
         width: 150px;
     }
@@ -224,17 +210,33 @@ export default function generateHTMLTPL001(invoiceData) {
         text-align: right;
     }
 
-    .sec7-container {
-        .sub-sec7-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 7px;
-        }
+    .sec7-container .sub-sec7-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 7px;
+    }
 
-        .sub-sec7-title {
-            width: 130px;
-        }
+    .sec7-container .sub-sec7-container .sub-sec7-title {
+        width: 130px;
+    }
+
+    .main-container-cls {
+        padding: 0 70px;
+        margin: 0 auto;
+        font-family: Helvetica;
+    }
+
+    .main-container-cls h2 {
+        font-size: 21px;
+        font-weight: bold;
+        margin: 0;
+        margin-bottom: 10px;
+    }
+
+    .main-container-cls p {
+        margin: 0;
+        margin-bottom: 10px;
     }
 
     .invoice-logo {
