@@ -59,8 +59,8 @@ export default function generateHTMLTPL003(invoiceData) {
 
   const remarksUI = invoiceData["Remarks"]
     ? `<div class="footer-cls">
-            <p class="paragraph-cls">Notes:</p>
-            <p class="paragraph-cls">${invoiceData["Remarks"]}</p>
+            <p>Notes:</p>
+            <p>${invoiceData["Remarks"]}</p>
         </div>`
     : "";
 
@@ -80,130 +80,148 @@ export default function generateHTMLTPL003(invoiceData) {
   <title>Invoice Template</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
     }
-    div {
-      line-height: 1em;
+
+    .temp3-container-cls {
+        margin-top: 20px;
+        padding: 20px;
+        border-top: #007BFF solid 20px;
     }
-    .container {
-      margin-top: 20px;
-      padding: 20px;
-      border-top: #007BFF solid 20px;
+
+    .temp3-container-cls p {
+        color: #000000 !important;
     }
-    .paragraph-cls {
-      color: #000000 !important;
+
+    .temp3-container-cls h2 {
+        font-size: 18px;
+        margin-bottom: 5px;
+        font-weight: bold;
     }
+
     .header {
-      display: flex;
-      justify-content: space-between;
-      padding-bottom: 10px;
-      position: relative;
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 10px;
+        position: relative;
     }
+
     .company-info {
-      text-align: left;
-      .paragraph-cls {
-        max-width: 200px;
-      }
+        text-align: left;
     }
+
+    .company-info p {
+        max-width: 200px;
+    }
+
     .invoice-title {
-      text-align: right;
-      font-size: 24px;
+        text-align: right;
+        font-size: 24px;
     }
+
     .invoice-details-heading {
-      width: 120px;
-      display: inline-block;
-      font-weight: bold;
+        width: 120px;
+        display: inline-block;
+        font-weight: bold;
     }
+
     .bill-ship {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-      .paragraph-cls {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .bill-ship p {
         margin: 8px 0;
-      }
-      .bill, .ship {
+    }
+
+    .bill-ship .bill, .bill-ship .ship {
         max-width: 200px;
-      }
     }
-    .heading-title-cls{
-      font-size: 18px;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
+
     .items {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
     }
+
     .items th, .items td {
-      padding: 8px;
-      text-align: right;
+        padding: 8px;
+        text-align: right;
     }
+
     .items th:first-child, .items td:first-child {
-      text-align: left;
+        text-align: left;
     }
+
     .items .item-des-cls {
         text-align: left;
         max-width: 120px;
     }
+
     .items .item-name-cls {
         text-align: center;
         max-width: 150px;
     }
+
     .total-section {
-      margin: 30px 0;
+        margin: 30px 0;
     }
+
     .total-details {
-    h1{
-      margin: 0;
+        padding: 15px 0;
+        border-top: 2px solid;
+        border-bottom: 4px solid;
+        display: flex;
+        justify-content: space-between;
     }
-    padding: 15px 0;
-      border-top: 2px solid;
-      border-bottom: 4px solid;
-      display: flex;
-      justify-content: space-between;
+
+    .total-details h1 {
+        margin: 0;
     }
+
     .bank-details-container {
-      margin-top: 20px;
-      .sub-bank-details-container {
+        margin-top: 20px;
+    }
+
+    .bank-details-container .sub-bank-details-container {
         display: flex;
         align-items: center;
         gap: 10px;
         margin-bottom: 7px;
-        .sub-bank-details-title {
-          width: 165px;
-        }
-      }
     }
+
+    .bank-details-container .sub-bank-details-title {
+        width: 165px;
+    }
+
     .footer-cls {
-      margin-top: 25px;
-      text-align: right;
+        margin-top: 25px;
+        text-align: right;
     }
-    .invoice-title {
-      .heading-title-cls {
-        margin: 0;
-      }
-    }
+
     .invoice-logo {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      position: absolute;
-      top: 0;
-      right: 0;
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        position: absolute;
+        top: 0;
+        right: 0;
     }
+
     .title-logo {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 70px;
     }
-  </style>
+</style>
+
 </head>
 <body>
-  <div class="container">
+  <div class="temp3-container-cls">
   
     <div class="header">
     ${
@@ -211,7 +229,7 @@ export default function generateHTMLTPL003(invoiceData) {
         ? `
       <div class=${invoiceData["Logo"] ? "title-logo" : ""}>
         <div class="invoice-title">
-          <h2 class="heading-title-cls">INVOICE</h2>
+          <h2>INVOICE</h2>
         </div>
         <div>
           ${
@@ -230,7 +248,7 @@ export default function generateHTMLTPL003(invoiceData) {
           invoiceData["Sender's Zipcode"] ||
           invoiceData["Sender's Address"] ||
           invoiceData["Sender's City"]
-            ? `<p class="paragraph-cls">
+            ? `<p>
             ${
               invoiceData["Sender's Zipcode"]
                 ? `${invoiceData["Sender's Zipcode"]}, `
@@ -262,10 +280,10 @@ export default function generateHTMLTPL003(invoiceData) {
 
     <div class="bill-ship">
       <div class="bill">
-        <h2 class="heading-title-cls">BILL TO</h2>
+        <h2>BILL TO</h2>
         ${
           invoiceData["Sender's Name"]
-            ? `<p class="paragraph-cls">${invoiceData["Sender's Name"]}</p>`
+            ? `<p>${invoiceData["Sender's Name"]}</p>`
             : ""
         }
         
@@ -273,7 +291,7 @@ export default function generateHTMLTPL003(invoiceData) {
           invoiceData["Sender's Zipcode"] ||
           invoiceData["Sender's Address"] ||
           invoiceData["Sender's City"]
-            ? `<p class="paragraph-cls">
+            ? `<p>
             ${
               invoiceData["Sender's Zipcode"]
                 ? `${invoiceData["Sender's Zipcode"]}, `
@@ -291,7 +309,7 @@ export default function generateHTMLTPL003(invoiceData) {
       
         ${
           invoiceData["Sender's State"]
-            ? `<p class="paragraph-cls">
+            ? `<p>
             ${
               invoiceData["Sender's State"]
                 ? `${invoiceData["Sender's State"]}, `
@@ -303,22 +321,22 @@ export default function generateHTMLTPL003(invoiceData) {
         
         ${
           invoiceData["Sender's Contact No"]
-            ? `<p class="paragraph-cls">${invoiceData["Sender's Contact No"]}</p>`
+            ? `<p>${invoiceData["Sender's Contact No"]}</p>`
             : ""
         }
         ${
           invoiceData["Sender's Email"]
-            ? `<p class="paragraph-cls">${invoiceData["Sender's Email"]}</p>`
+            ? `<p>${invoiceData["Sender's Email"]}</p>`
             : ""
         }
         ${
           invoiceData["Sender's Tax No"]
-            ? `<p class="paragraph-cls">${invoiceData["Sender's Tax No"]}</p>`
+            ? `<p>${invoiceData["Sender's Tax No"]}</p>`
             : ""
         }
         ${
           invoiceData["Sender's PAN No"]
-            ? `<p class="paragraph-cls">${invoiceData["Sender's PAN No"]}</p>`
+            ? `<p>${invoiceData["Sender's PAN No"]}</p>`
             : ""
         }
         ${
@@ -331,7 +349,7 @@ export default function generateHTMLTPL003(invoiceData) {
                 item["fieldName"] && item["fieldValue"]
                   ? `
                 <div style="display: flex; align-items: center;">
-                    <p class="paragraph-cls">${item["fieldName"]}:</p><p class="paragraph-cls"> ${item["fieldValue"]}</p>
+                    <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
                 </div>
                 `
                   : ""
@@ -345,10 +363,10 @@ export default function generateHTMLTPL003(invoiceData) {
 
       </div>
       <div class="ship">
-        <h2 class="heading-title-cls">SHIP TO</h2>
+        <h2>SHIP TO</h2>
         ${
           invoiceData["Receiver's Name"]
-            ? `<p class="paragraph-cls">${invoiceData["Receiver's Name"]}</p>`
+            ? `<p>${invoiceData["Receiver's Name"]}</p>`
             : ""
         }
         
@@ -356,7 +374,7 @@ export default function generateHTMLTPL003(invoiceData) {
           invoiceData["Receiver's Zipcode"] ||
           invoiceData["Receiver's Address"] ||
           invoiceData["Receiver's City"]
-            ? `<p class="paragraph-cls">
+            ? `<p>
             ${
               invoiceData["Receiver's Zipcode"]
                 ? `${invoiceData["Receiver's Zipcode"]}, `
@@ -374,7 +392,7 @@ export default function generateHTMLTPL003(invoiceData) {
         
         ${
           invoiceData["Receiver's State"]
-            ? `<p class="paragraph-cls">
+            ? `<p>
             ${
               invoiceData["Receiver's State"]
                 ? `${invoiceData["Receiver's State"]}, `
@@ -386,22 +404,22 @@ export default function generateHTMLTPL003(invoiceData) {
       
         ${
           invoiceData["Receiver's Contact No"]
-            ? `<p class="paragraph-cls">${invoiceData["Receiver's Contact No"]}</p>`
+            ? `<p>${invoiceData["Receiver's Contact No"]}</p>`
             : ""
         }
         ${
           invoiceData["Receiver's Email"]
-            ? `<p class="paragraph-cls">${invoiceData["Receiver's Email"]}</p>`
+            ? `<p>${invoiceData["Receiver's Email"]}</p>`
             : ""
         }
         ${
           invoiceData["Receiver's Tax No"]
-            ? `<p class="paragraph-cls">${invoiceData["Receiver's Tax No"]}</p>`
+            ? `<p>${invoiceData["Receiver's Tax No"]}</p>`
             : ""
         }
         ${
           invoiceData["Receiver's PAN No"]
-            ? `<p class="paragraph-cls">${invoiceData["Receiver's PAN No"]}</p>`
+            ? `<p>${invoiceData["Receiver's PAN No"]}</p>`
             : ""
         }
         ${
@@ -415,7 +433,7 @@ export default function generateHTMLTPL003(invoiceData) {
                   item["fieldName"] && item["fieldValue"]
                     ? `
                   <div style="display: flex; align-items: center;">
-                      <p class="paragraph-cls">${item["fieldName"]}:</p><p class="paragraph-cls"> ${item["fieldValue"]}</p>
+                      <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
                   </div>
                   `
                     : ""
@@ -428,7 +446,7 @@ export default function generateHTMLTPL003(invoiceData) {
         }
       </div>
       <div class="invoice-info">
-        <h2 class="heading-title-cls">INVOICE DETAILS</h2>
+        <h2>INVOICE DETAILS</h2>
         <div>
             <span class="invoice-details-heading" style="margin: 8px 0;">INVOICE NO.</span><span>${
               invoiceData["Invoice No."]
@@ -587,7 +605,7 @@ export default function generateHTMLTPL003(invoiceData) {
     ${
       bankDetailsAvailable
         ? `<div class="bank-details-container">
-      <h2 class="heading-title-cls">Bank Details</h2>
+      <h2>Bank Details</h2>
       ${
         invoiceData["Bank Name"]
           ? `

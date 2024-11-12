@@ -85,17 +85,17 @@ export default function generateHTMLTPL002(invoiceData) {
     padding: 0;
   }
 
-  .container {
+  .temp1-container-cls {
     padding: 20px;
   }
 
-  .container h2 {
+  .temp1-container-cls h2 {
     font-size: 18px;
     margin-bottom: 5px;
     font-weight: bold;
   }
 
-  .container p {
+  .temp1-container-cls p {
     color: #000000 !important;
   }
 
@@ -204,7 +204,7 @@ export default function generateHTMLTPL002(invoiceData) {
 
 </head>
 <body>
-  <div class="container">
+  <div class="temp1-container-cls">
     <!-- Header Section -->
     <div class="header">
       <div class="invoice-title">
