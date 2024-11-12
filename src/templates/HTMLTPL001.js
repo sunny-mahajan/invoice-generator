@@ -69,6 +69,7 @@ export default function generateHTMLTPL001(invoiceData) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name='viewport', content='width=device-width, initial-scale=0.5, maximum-scale=1.0'>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
     body {
         margin: 0;
@@ -95,7 +96,6 @@ export default function generateHTMLTPL001(invoiceData) {
         text-transform: uppercase;
         letter-spacing: 7px;
         font-size: 40px;
-        font-family: sans-serif;
         font-weight: 600;
     }
 
@@ -224,7 +224,6 @@ export default function generateHTMLTPL001(invoiceData) {
     .main-container-cls {
         padding: 0 70px;
         margin: 0 auto;
-        font-family: Helvetica;
     }
 
     .main-container-cls h2 {
