@@ -91,7 +91,7 @@ export default function generateHTMLTPL004(invoiceData) {
             font-weight: bold;
           }
           p{
-            margin: 0 !important;
+            color: #000000 !important;
           }
         }
         h1 {
