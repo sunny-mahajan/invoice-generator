@@ -57,8 +57,8 @@ export default function generateHTMLTPL001(invoiceData) {
   const taxPercentage = (taxAmount / subAmount) * 100 || 0;
   const remarksUI = invoiceData["Remarks"]
     ? `<div class="sec6-container">
-            <p>Notes:</p>
-            <p>${invoiceData["Remarks"]}</p>
+            <p class="paragraph-cls">Notes:</p>
+            <p class="paragraph-cls">${invoiceData["Remarks"]}</p>
         </div>`
     : "";
 
@@ -75,10 +75,8 @@ export default function generateHTMLTPL001(invoiceData) {
             padding: 0;
             box-sizing: border-box;
         }
-        .main-container-cls {
-          p{
-            color: #000000 !important;
-          }
+        .paragraph-cls {
+          color: #000000 !important;
         }
         .title-container-cls {
             display: flex;
@@ -142,8 +140,8 @@ export default function generateHTMLTPL001(invoiceData) {
         padding: 5px 0;
         border-bottom: 1px solid #ddd;
       }
-            .sub-sec4-header h2,
-      .sub-sec4-item p {
+            .sub-sec4-header .heading-title-cls,
+      .sub-sec4-item .paragraph-cls {
       width:80px;
         text-align: right;
         margin: 0;
@@ -209,13 +207,13 @@ export default function generateHTMLTPL001(invoiceData) {
             padding: 0 70px;
             margin: 0 auto;
             font-family: Helvetica;
-             h2 {
+             .heading-title-cls {
               font-size: 21px;
               font-weight: bold;
                 margin: 0;
                 margin-bottom: 10px;
             }
-            p {
+            .paragraph-cls {
                 margin: 0;
               margin-bottom: 10px;
             }
@@ -289,16 +287,18 @@ export default function generateHTMLTPL001(invoiceData) {
         </div>
         <div class="sec3-container">
           <div>
-  <h2>From</h2>
+  <h2 class="heading-title-cls">From</h2>
   ${
-    invoiceData["Sender's Name"] ? `<p>${invoiceData["Sender's Name"]}</p>` : ""
+    invoiceData["Sender's Name"]
+      ? `<p class="paragraph-cls">${invoiceData["Sender's Name"]}</p>`
+      : ""
   }
   
   ${
     invoiceData["Sender's Zipcode"] ||
     invoiceData["Sender's Address"] ||
     invoiceData["Sender's City"]
-      ? `<p>
+      ? `<p class="paragraph-cls">
       ${
         invoiceData["Sender's Zipcode"]
           ? `${invoiceData["Sender's Zipcode"]}, `
@@ -316,7 +316,7 @@ export default function generateHTMLTPL001(invoiceData) {
 
   ${
     invoiceData["Sender's State"]
-      ? `<p>
+      ? `<p class="paragraph-cls">
       ${
         invoiceData["Sender's State"]
           ? `${invoiceData["Sender's State"]}, `
@@ -328,22 +328,22 @@ export default function generateHTMLTPL001(invoiceData) {
   
   ${
     invoiceData["Sender's Contact No"]
-      ? `<p>+91${invoiceData["Sender's Contact No"]}</p>`
+      ? `<p class="paragraph-cls">+91${invoiceData["Sender's Contact No"]}</p>`
       : ""
   }
   ${
     invoiceData["Sender's Email"]
-      ? `<p>${invoiceData["Sender's Email"]}</p>`
+      ? `<p class="paragraph-cls">${invoiceData["Sender's Email"]}</p>`
       : ""
   }
   ${
     invoiceData["Sender's Tax No"]
-      ? `<p>${invoiceData["Sender's Tax No"]}</p>`
+      ? `<p class="paragraph-cls">${invoiceData["Sender's Tax No"]}</p>`
       : ""
   }
   ${
     invoiceData["Sender's PAN No"]
-      ? `<p>${invoiceData["Sender's PAN No"]}</p>`
+      ? `<p class="paragraph-cls">${invoiceData["Sender's PAN No"]}</p>`
       : ""
   }
   ${
@@ -357,7 +357,7 @@ export default function generateHTMLTPL001(invoiceData) {
             item["fieldName"] && item["fieldValue"]
               ? `
             <div style="display: flex; align-items: center;">
-                <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                <p class="paragraph-cls">${item["fieldName"]}:</p><p class="paragraph-cls"> ${item["fieldValue"]}</p>
             </div>
             `
               : ""
@@ -371,10 +371,10 @@ export default function generateHTMLTPL001(invoiceData) {
 </div>
 
 <div>
-  <h2>To</h2>
+  <h2 class="heading-title-cls">To</h2>
   ${
     invoiceData["Receiver's Name"]
-      ? `<p>${invoiceData["Receiver's Name"]}</p>`
+      ? `<p class="paragraph-cls">${invoiceData["Receiver's Name"]}</p>`
       : ""
   }
   
@@ -382,7 +382,7 @@ export default function generateHTMLTPL001(invoiceData) {
     invoiceData["Receiver's Zipcode"] ||
     invoiceData["Receiver's Address"] ||
     invoiceData["Receiver's City"]
-      ? `<p>
+      ? `<p class="paragraph-cls">
       ${
         invoiceData["Receiver's Zipcode"]
           ? `${invoiceData["Receiver's Zipcode"]}, `
@@ -400,7 +400,7 @@ export default function generateHTMLTPL001(invoiceData) {
   
   ${
     invoiceData["Receiver's State"]
-      ? `<p>
+      ? `<p class="paragraph-cls">
       ${
         invoiceData["Receiver's State"]
           ? `${invoiceData["Receiver's State"]}, `
@@ -412,22 +412,22 @@ export default function generateHTMLTPL001(invoiceData) {
 
   ${
     invoiceData["Receiver's Contact No"]
-      ? `<p>+91${invoiceData["Receiver's Contact No"]}</p>`
+      ? `<p class="paragraph-cls">+91${invoiceData["Receiver's Contact No"]}</p>`
       : ""
   }
   ${
     invoiceData["Receiver's Email"]
-      ? `<p>${invoiceData["Receiver's Email"]}</p>`
+      ? `<p class="paragraph-cls">${invoiceData["Receiver's Email"]}</p>`
       : ""
   }
   ${
     invoiceData["Receiver's Tax No"]
-      ? `<p>${invoiceData["Receiver's Tax No"]}</p>`
+      ? `<p class="paragraph-cls">${invoiceData["Receiver's Tax No"]}</p>`
       : ""
   }
   ${
     invoiceData["Receiver's PAN No"]
-      ? `<p>${invoiceData["Receiver's PAN No"]}</p>`
+      ? `<p class="paragraph-cls">${invoiceData["Receiver's PAN No"]}</p>`
       : ""
   }
   ${
@@ -441,7 +441,7 @@ export default function generateHTMLTPL001(invoiceData) {
             item["fieldName"] && item["fieldValue"]
               ? `
             <div style="display: flex; align-items: center;">
-                <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                <p class="paragraph-cls">${item["fieldName"]}:</p><p class="paragraph-cls"> ${item["fieldValue"]}</p>
             </div>
             `
               : ""
@@ -457,47 +457,51 @@ export default function generateHTMLTPL001(invoiceData) {
         <div class="sec4-container">
             <div class="sub-sec4-container">
                  <div class="sub-sec4-header">
-                    <h2 class="sub-sec4-item-name">Item Name</h2>
-                    <h2 class="sub-sec4-item-quantity">Qty</h2>
-                    <h2 class="sub-sec4-item-price">Price</h2>
-                    <h2 class="sub-sec4-item-amount">Amount</h2>
-                    <h2 class="sub-sec4-item-tax">Tax %</h2>
-                    <h2 class="sub-sec4-item-tax-amount">Tax ${currencySymbol(
+                    <h2 class="sub-sec4-item-name heading-title-cls">Item Name</h2>
+                    <h2 class="sub-sec4-item-quantity heading-title-cls">Qty</h2>
+                    <h2 class="sub-sec4-item-price heading-title-cls">Price</h2>
+                    <h2 class="sub-sec4-item-amount heading-title-cls">Amount</h2>
+                    <h2 class="sub-sec4-item-tax heading-title-cls">Tax %</h2>
+                    <h2 class="sub-sec4-item-tax-amount heading-title-cls">Tax ${currencySymbol(
                       invoiceData["Currency"]
                     )}</h2>
-                    <h2 class="sub-sec4-item-total">Total</h2>
+                    <h2 class="sub-sec4-item-total heading-title-cls">Total</h2>
                 </div>
                 ${invoiceData["Items"]
                   .map(
                     (item) => `
                     <div class="sub-sec4-item">
                       <div>
-                          <p class="sub-sec4-item-name">${item["name"]}</p>
+                          <p class="sub-sec4-item-name paragraph-cls">${
+                            item["name"]
+                          }</p>
                           ${
                             isDescriptionAvailable && item["description"]
-                              ? `<p class="sub-sec4-item-description">${item["description"]}</p>`
+                              ? `<p class="sub-sec4-item-description paragraph-cls">${item["description"]}</p>`
                               : ""
                           }
                           
                       </div>
-                        <p class="sub-sec4-item-quantity">${
+                        <p class="sub-sec4-item-quantity paragraph-cls">${
                           item["quantity"]
                         }</p>
-                        <p class="sub-sec4-item-price">${currencySymbol(
+                        <p class="sub-sec4-item-price paragraph-cls">${currencySymbol(
                           invoiceData["Currency"]
                         )}${item["price"]}</p>
-                    <p class="sub-sec4-item-amount">${currencySymbol(
+                    <p class="sub-sec4-item-amount paragraph-cls">${currencySymbol(
                       invoiceData["Currency"]
                     )}${item["price"] * item["quantity"]}</p>
-                    <p class="sub-sec4-item-tax">${item["taxPercentage"]}%</p>
-                    <p class="sub-sec4-item-tax-amount">${currencySymbol(
+                    <p class="sub-sec4-item-tax paragraph-cls">${
+                      item["taxPercentage"]
+                    }%</p>
+                    <p class="sub-sec4-item-tax-amount paragraph-cls">${currencySymbol(
                       invoiceData["Currency"]
                     )}${(
                       item["price"] *
                       item["quantity"] *
                       (item["taxPercentage"] / 100)
                     ).toFixed(1)}</p>
-                    <p class="sub-sec4-item-total">${currencySymbol(
+                    <p class="sub-sec4-item-total paragraph-cls">${currencySymbol(
                       invoiceData["Currency"]
                     )}${
                       item["price"] * item["quantity"] +
@@ -519,7 +523,7 @@ export default function generateHTMLTPL001(invoiceData) {
                    taxPercentage > 0
                      ? `
                   <div class="sub-sec5-item">
-                        <p class="sub-sec5-title">Subtotal</p><span>${currencySymbol(
+                        <p class="sub-sec5-title paragraph-cls">Subtotal</p><span>${currencySymbol(
                           invoiceData["Currency"]
                         )}${subAmount.toFixed(1)}</span>
                     </div>
@@ -527,7 +531,7 @@ export default function generateHTMLTPL001(invoiceData) {
                     ${
                       invoiceData["Sender's Tax Type"] === "IGST"
                         ? `
-                    <p class="sub-sec5-title">${
+                    <p class="sub-sec5-title paragraph-cls">${
                       invoiceData["Sender's Tax Type"]
                     } (${taxPercentage.toFixed(1)}%)</p><span>${currencySymbol(
                             invoiceData["Currency"]
@@ -536,14 +540,14 @@ export default function generateHTMLTPL001(invoiceData) {
                         : `
                         <div style="display: flex; align-items: center; flex-direction: column; gap: 10px;">
                           <div style="display: flex; align-items: center;">
-                            <p class="sub-sec5-title">CGST (${(
+                            <p class="sub-sec5-title paragraph-cls">CGST (${(
                               taxPercentage / 2
                             ).toFixed(1)}%)</p><span>${currencySymbol(
                             invoiceData["Currency"]
                           )}${(taxAmount / 2).toFixed(1)}</span>
                           </div>
                           <div style="display: flex; align-items: center;">
-                            <p class="sub-sec5-title">SGST (${(
+                            <p class="sub-sec5-title paragraph-cls">SGST (${(
                               taxPercentage / 2
                             ).toFixed(1)}%)</p><span>${currencySymbol(
                             invoiceData["Currency"]
@@ -558,7 +562,7 @@ export default function generateHTMLTPL001(invoiceData) {
                  }
                     
                      <div class="sub-sec5-item">
-                        <h2 class="sub-sec5-title">Total</h2><span>${currencySymbol(
+                        <h2 class="sub-sec5-title heading-title-cls">Total</h2><span>${currencySymbol(
                           invoiceData["Currency"]
                         )}${totalAmount.toFixed(1)}</span>
                      </div>
@@ -568,7 +572,7 @@ export default function generateHTMLTPL001(invoiceData) {
         ${
           bankDetailsAvailable
             ? `<div class="sec7-container">
-          <h2>Bank Details</h2>
+          <h2 class="heading-title-cls">Bank Details</h2>
           ${
             invoiceData["Bank Name"]
               ? `
