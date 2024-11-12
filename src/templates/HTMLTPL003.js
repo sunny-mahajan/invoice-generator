@@ -96,6 +96,9 @@ export default function generateHTMLTPL003(invoiceData) {
         margin-bottom: 5px;
         font-weight: bold;
       }
+      div {
+        line-height: 1em;
+      }
     }
     .header {
       display: flex;

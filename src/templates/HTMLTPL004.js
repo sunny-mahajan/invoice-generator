@@ -84,9 +84,6 @@ export default function generateHTMLTPL004(invoiceData) {
             margin: 0 auto;
             padding: 20px;
         }
-          div {
-    line-height: 1em;
-}  
         .container-cls {
           h2 {
             font-size: 18px;
@@ -96,6 +93,9 @@ export default function generateHTMLTPL004(invoiceData) {
           p{
             color: #000000 !important;
           }
+          div {
+            line-height: 1em;
+          }  
         }
         h1 {
             font-size: 36px;
