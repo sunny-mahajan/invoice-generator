@@ -57,8 +57,8 @@ export default function generateHTMLTPL001(invoiceData) {
   const taxPercentage = (taxAmount / subAmount) * 100 || 0;
   const remarksUI = invoiceData["Remarks"]
     ? `<div class="sec6-container">
-            <p class="paragraph-cls">Notes:</p>
-            <p class="paragraph-cls">${invoiceData["Remarks"]}</p>
+            <p>Notes:</p>
+            <p>${invoiceData["Remarks"]}</p>
         </div>`
     : "";
 
@@ -70,163 +70,183 @@ export default function generateHTMLTPL001(invoiceData) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name='viewport', content='width=device-width, initial-scale=0.5, maximum-scale=1.0'>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        .paragraph-cls {
-          color: #000000 !important;
-        }
-        .title-container-cls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-        }
-        .title-container-cls h1 {
-            border: 1px solid rgb(240, 80, 80);
-            padding: 3px 8px;
-            text-transform: uppercase;
-            letter-spacing: 7px;
-            font-size: 40px;
-            font-family: sans-serif;
-            font-weight: 600;
-            
-        }
-        .sec2-container {
-            justify-content: center;
-            width: 100%;
-            margin-bottom: 30px;
-            box-sizing: border-box;
-            display: grid;
-            column-gap: 10px;
-            grid-template-columns: max-content auto;
-            .sub-sec2-container {
-                display: contents;
-                align-items: center;
-                justify-content: center;
-                .sub-sec2-title {
-                  text-align: left;
-                }
-                .sub-sec2-title-value {
-                  text-align: left;
-                }
-            }
-        }
-        .sec3-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-bottom: 30px;
-            box-sizing: border-box;
-        }
-             .sec4-container {
+    body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .main-container-cls {
+        padding: 0 70px;
+        margin: 0 auto;
+        font-family: Helvetica;
+    }
+
+    .main-container-cls h2 {
+        font-size: 21px;
+        font-weight: bold;
+        margin: 0;
+        margin-bottom: 10px;
+    }
+
+    .main-container-cls p {
+        margin: 0;
+        margin-bottom: 10px;
+        color: #000000 !important;
+    }
+
+    .title-container-cls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+
+    .title-container-cls h1 {
+        border: 1px solid rgb(240, 80, 80);
+        padding: 3px 8px;
+        text-transform: uppercase;
+        letter-spacing: 7px;
+        font-size: 40px;
+        font-family: sans-serif;
+        font-weight: 600;
+    }
+
+    .sec2-container {
+        display: grid;
+        column-gap: 10px;
+        grid-template-columns: max-content auto;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 30px;
+        box-sizing: border-box;
+    }
+
+    .sub-sec2-container {
+        display: contents;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sub-sec2-title, .sub-sec2-title-value {
+        text-align: left;
+    }
+
+    .sec3-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 30px;
+        box-sizing: border-box;
+    }
+
+    .sec4-container {
         display: flex;
         flex-direction: column;
         width: 100%;
         margin-bottom: 20px;
         box-sizing: border-box;
-      }
-      .sub-sec4-container {
+    }
+
+    .sub-sec4-container {
         width: 100%;
-      }
-      .sub-sec4-header,
-      .sub-sec4-item {
+    }
+
+    .sub-sec4-header,
+    .sub-sec4-item {
         display: flex;
         justify-content: space-between;
         padding: 5px 0;
         border-bottom: 1px solid #ddd;
-      }
-            .sub-sec4-header .heading-title-cls,
-      .sub-sec4-item .paragraph-cls {
-      width:80px;
+    }
+
+    .sub-sec4-header h2,
+    .sub-sec4-item p {
+        width: 80px;
         text-align: right;
         margin: 0;
         padding: 5px 0;
         box-sizing: border-box;
-      }
-      .sub-sec4-item-amount {
+    }
+
+    .sub-sec4-item-amount {
         width: 100px !important;
-      }
-      .sub-sec4-item-description {
-      width: 150px !important;
+    }
+
+    .sub-sec4-item-description {
+        width: 150px !important;
         text-align: left !important;
         word-wrap: break-word;
-      }
-        .sub-sec4-item-quantity{
+    }
+
+    .sub-sec4-item-quantity {
         width: 50px;
         text-align: center !important;
-      }
-      .sub-sec4-item-name {
+    }
+
+    .sub-sec4-item-name {
         text-align: left !important;
         width: 150px !important;
         word-wrap: break-word;
-      } 
-        
-        .sec5-container {
+    }
+
+    .sec5-container {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        margin-bottom: 30px;
+        box-sizing: border-box;
+    }
+
+    .sub-sec5-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sub-sec5-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .sub-sec5-title {
+        margin: 0;
+        width: 150px;
+    }
+
+    .sec6-container {
+        width: 100%;
+        margin-bottom: 30px;
+        box-sizing: border-box;
+        text-align: right;
+    }
+
+    .sec7-container {
+        .sub-sec7-container {
             display: flex;
-            width: 100%;
-            justify-content: flex-end;
-            margin-bottom: 30px;
-            box-sizing: border-box;
-            .sub-sec5-container {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                .sub-sec5-item{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;}
-                .sub-sec5-title {
-                    margin: 0;
-                    width: 150px;
-                }
-            }
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 7px;
         }
-        .sec6-container {
-            width: 100%;
-            margin-bottom: 30px;
-            box-sizing: border-box;
-            text-align: right;
+
+        .sub-sec7-title {
+            width: 130px;
         }
-        .sec7-container {
-            .sub-sec7-container {
-              display: flex;
-              align-items: center;
-              gap: 10px;
-              margin-bottom: 7px;
-              .sub-sec7-title {
-                width: 130px;
-              }
-            }
-        }
-        .main-container-cls {
-            padding: 0 70px;
-            margin: 0 auto;
-            font-family: Helvetica;
-             .heading-title-cls {
-              font-size: 21px;
-              font-weight: bold;
-                margin: 0;
-                margin-bottom: 10px;
-            }
-            .paragraph-cls {
-                margin: 0;
-              margin-bottom: 10px;
-            }
-        }
-        .invoice-logo {
-          width: 100px;
-          height: 100px;
-          object-fit: contain;
-          position: absolute;
-          top: 10px;
-          right: 10px;
-        }
-    </style>
+    }
+
+    .invoice-logo {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+</style>
+
 </head>
 <body>
     <div class="main-container-cls">
@@ -287,18 +307,16 @@ export default function generateHTMLTPL001(invoiceData) {
         </div>
         <div class="sec3-container">
           <div>
-  <h2 class="heading-title-cls">From</h2>
+  <h2>From</h2>
   ${
-    invoiceData["Sender's Name"]
-      ? `<p class="paragraph-cls">${invoiceData["Sender's Name"]}</p>`
-      : ""
+    invoiceData["Sender's Name"] ? `<p>${invoiceData["Sender's Name"]}</p>` : ""
   }
   
   ${
     invoiceData["Sender's Zipcode"] ||
     invoiceData["Sender's Address"] ||
     invoiceData["Sender's City"]
-      ? `<p class="paragraph-cls">
+      ? `<p>
       ${
         invoiceData["Sender's Zipcode"]
           ? `${invoiceData["Sender's Zipcode"]}, `
@@ -316,7 +334,7 @@ export default function generateHTMLTPL001(invoiceData) {
 
   ${
     invoiceData["Sender's State"]
-      ? `<p class="paragraph-cls">
+      ? `<p>
       ${
         invoiceData["Sender's State"]
           ? `${invoiceData["Sender's State"]}, `
@@ -328,22 +346,22 @@ export default function generateHTMLTPL001(invoiceData) {
   
   ${
     invoiceData["Sender's Contact No"]
-      ? `<p class="paragraph-cls">+91${invoiceData["Sender's Contact No"]}</p>`
+      ? `<p>+91${invoiceData["Sender's Contact No"]}</p>`
       : ""
   }
   ${
     invoiceData["Sender's Email"]
-      ? `<p class="paragraph-cls">${invoiceData["Sender's Email"]}</p>`
+      ? `<p>${invoiceData["Sender's Email"]}</p>`
       : ""
   }
   ${
     invoiceData["Sender's Tax No"]
-      ? `<p class="paragraph-cls">${invoiceData["Sender's Tax No"]}</p>`
+      ? `<p>${invoiceData["Sender's Tax No"]}</p>`
       : ""
   }
   ${
     invoiceData["Sender's PAN No"]
-      ? `<p class="paragraph-cls">${invoiceData["Sender's PAN No"]}</p>`
+      ? `<p>${invoiceData["Sender's PAN No"]}</p>`
       : ""
   }
   ${
@@ -357,7 +375,7 @@ export default function generateHTMLTPL001(invoiceData) {
             item["fieldName"] && item["fieldValue"]
               ? `
             <div style="display: flex; align-items: center;">
-                <p class="paragraph-cls">${item["fieldName"]}:</p><p class="paragraph-cls"> ${item["fieldValue"]}</p>
+                <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
             </div>
             `
               : ""
@@ -371,10 +389,10 @@ export default function generateHTMLTPL001(invoiceData) {
 </div>
 
 <div>
-  <h2 class="heading-title-cls">To</h2>
+  <h2>To</h2>
   ${
     invoiceData["Receiver's Name"]
-      ? `<p class="paragraph-cls">${invoiceData["Receiver's Name"]}</p>`
+      ? `<p>${invoiceData["Receiver's Name"]}</p>`
       : ""
   }
   
@@ -382,7 +400,7 @@ export default function generateHTMLTPL001(invoiceData) {
     invoiceData["Receiver's Zipcode"] ||
     invoiceData["Receiver's Address"] ||
     invoiceData["Receiver's City"]
-      ? `<p class="paragraph-cls">
+      ? `<p>
       ${
         invoiceData["Receiver's Zipcode"]
           ? `${invoiceData["Receiver's Zipcode"]}, `
@@ -400,7 +418,7 @@ export default function generateHTMLTPL001(invoiceData) {
   
   ${
     invoiceData["Receiver's State"]
-      ? `<p class="paragraph-cls">
+      ? `<p>
       ${
         invoiceData["Receiver's State"]
           ? `${invoiceData["Receiver's State"]}, `
@@ -412,22 +430,22 @@ export default function generateHTMLTPL001(invoiceData) {
 
   ${
     invoiceData["Receiver's Contact No"]
-      ? `<p class="paragraph-cls">+91${invoiceData["Receiver's Contact No"]}</p>`
+      ? `<p>+91${invoiceData["Receiver's Contact No"]}</p>`
       : ""
   }
   ${
     invoiceData["Receiver's Email"]
-      ? `<p class="paragraph-cls">${invoiceData["Receiver's Email"]}</p>`
+      ? `<p>${invoiceData["Receiver's Email"]}</p>`
       : ""
   }
   ${
     invoiceData["Receiver's Tax No"]
-      ? `<p class="paragraph-cls">${invoiceData["Receiver's Tax No"]}</p>`
+      ? `<p>${invoiceData["Receiver's Tax No"]}</p>`
       : ""
   }
   ${
     invoiceData["Receiver's PAN No"]
-      ? `<p class="paragraph-cls">${invoiceData["Receiver's PAN No"]}</p>`
+      ? `<p>${invoiceData["Receiver's PAN No"]}</p>`
       : ""
   }
   ${
@@ -441,7 +459,7 @@ export default function generateHTMLTPL001(invoiceData) {
             item["fieldName"] && item["fieldValue"]
               ? `
             <div style="display: flex; align-items: center;">
-                <p class="paragraph-cls">${item["fieldName"]}:</p><p class="paragraph-cls"> ${item["fieldValue"]}</p>
+                <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
             </div>
             `
               : ""
@@ -457,51 +475,47 @@ export default function generateHTMLTPL001(invoiceData) {
         <div class="sec4-container">
             <div class="sub-sec4-container">
                  <div class="sub-sec4-header">
-                    <h2 class="sub-sec4-item-name heading-title-cls">Item Name</h2>
-                    <h2 class="sub-sec4-item-quantity heading-title-cls">Qty</h2>
-                    <h2 class="sub-sec4-item-price heading-title-cls">Price</h2>
-                    <h2 class="sub-sec4-item-amount heading-title-cls">Amount</h2>
-                    <h2 class="sub-sec4-item-tax heading-title-cls">Tax %</h2>
-                    <h2 class="sub-sec4-item-tax-amount heading-title-cls">Tax ${currencySymbol(
+                    <h2 class="sub-sec4-item-name">Item Name</h2>
+                    <h2 class="sub-sec4-item-quantity">Qty</h2>
+                    <h2 class="sub-sec4-item-price">Price</h2>
+                    <h2 class="sub-sec4-item-amount">Amount</h2>
+                    <h2 class="sub-sec4-item-tax">Tax %</h2>
+                    <h2 class="sub-sec4-item-tax-amount">Tax ${currencySymbol(
                       invoiceData["Currency"]
                     )}</h2>
-                    <h2 class="sub-sec4-item-total heading-title-cls">Total</h2>
+                    <h2 class="sub-sec4-item-total">Total</h2>
                 </div>
                 ${invoiceData["Items"]
                   .map(
                     (item) => `
                     <div class="sub-sec4-item">
                       <div>
-                          <p class="sub-sec4-item-name paragraph-cls">${
-                            item["name"]
-                          }</p>
+                          <p class="sub-sec4-item-name">${item["name"]}</p>
                           ${
                             isDescriptionAvailable && item["description"]
-                              ? `<p class="sub-sec4-item-description paragraph-cls">${item["description"]}</p>`
+                              ? `<p class="sub-sec4-item-description">${item["description"]}</p>`
                               : ""
                           }
                           
                       </div>
-                        <p class="sub-sec4-item-quantity paragraph-cls">${
+                        <p class="sub-sec4-item-quantity">${
                           item["quantity"]
                         }</p>
-                        <p class="sub-sec4-item-price paragraph-cls">${currencySymbol(
+                        <p class="sub-sec4-item-price">${currencySymbol(
                           invoiceData["Currency"]
                         )}${item["price"]}</p>
-                    <p class="sub-sec4-item-amount paragraph-cls">${currencySymbol(
+                    <p class="sub-sec4-item-amount">${currencySymbol(
                       invoiceData["Currency"]
                     )}${item["price"] * item["quantity"]}</p>
-                    <p class="sub-sec4-item-tax paragraph-cls">${
-                      item["taxPercentage"]
-                    }%</p>
-                    <p class="sub-sec4-item-tax-amount paragraph-cls">${currencySymbol(
+                    <p class="sub-sec4-item-tax">${item["taxPercentage"]}%</p>
+                    <p class="sub-sec4-item-tax-amount">${currencySymbol(
                       invoiceData["Currency"]
                     )}${(
                       item["price"] *
                       item["quantity"] *
                       (item["taxPercentage"] / 100)
                     ).toFixed(1)}</p>
-                    <p class="sub-sec4-item-total paragraph-cls">${currencySymbol(
+                    <p class="sub-sec4-item-total">${currencySymbol(
                       invoiceData["Currency"]
                     )}${
                       item["price"] * item["quantity"] +
@@ -523,7 +537,7 @@ export default function generateHTMLTPL001(invoiceData) {
                    taxPercentage > 0
                      ? `
                   <div class="sub-sec5-item">
-                        <p class="sub-sec5-title paragraph-cls">Subtotal</p><span>${currencySymbol(
+                        <p class="sub-sec5-title">Subtotal</p><span>${currencySymbol(
                           invoiceData["Currency"]
                         )}${subAmount.toFixed(1)}</span>
                     </div>
@@ -531,7 +545,7 @@ export default function generateHTMLTPL001(invoiceData) {
                     ${
                       invoiceData["Sender's Tax Type"] === "IGST"
                         ? `
-                    <p class="sub-sec5-title paragraph-cls">${
+                    <p class="sub-sec5-title">${
                       invoiceData["Sender's Tax Type"]
                     } (${taxPercentage.toFixed(1)}%)</p><span>${currencySymbol(
                             invoiceData["Currency"]
@@ -540,14 +554,14 @@ export default function generateHTMLTPL001(invoiceData) {
                         : `
                         <div style="display: flex; align-items: center; flex-direction: column; gap: 10px;">
                           <div style="display: flex; align-items: center;">
-                            <p class="sub-sec5-title paragraph-cls">CGST (${(
+                            <p class="sub-sec5-title">CGST (${(
                               taxPercentage / 2
                             ).toFixed(1)}%)</p><span>${currencySymbol(
                             invoiceData["Currency"]
                           )}${(taxAmount / 2).toFixed(1)}</span>
                           </div>
                           <div style="display: flex; align-items: center;">
-                            <p class="sub-sec5-title paragraph-cls">SGST (${(
+                            <p class="sub-sec5-title">SGST (${(
                               taxPercentage / 2
                             ).toFixed(1)}%)</p><span>${currencySymbol(
                             invoiceData["Currency"]
@@ -562,7 +576,7 @@ export default function generateHTMLTPL001(invoiceData) {
                  }
                     
                      <div class="sub-sec5-item">
-                        <h2 class="sub-sec5-title heading-title-cls">Total</h2><span>${currencySymbol(
+                        <h2 class="sub-sec5-title">Total</h2><span>${currencySymbol(
                           invoiceData["Currency"]
                         )}${totalAmount.toFixed(1)}</span>
                      </div>
@@ -572,7 +586,7 @@ export default function generateHTMLTPL001(invoiceData) {
         ${
           bankDetailsAvailable
             ? `<div class="sec7-container">
-          <h2 class="heading-title-cls">Bank Details</h2>
+          <h2>Bank Details</h2>
           ${
             invoiceData["Bank Name"]
               ? `

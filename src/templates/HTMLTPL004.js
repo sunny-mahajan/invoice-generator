@@ -79,127 +79,146 @@ export default function generateHTMLTPL004(invoiceData) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .container-cls {
-          h2 {
-            font-size: 18px;
-            margin-bottom: 5px;
-            font-weight: bold;
-          }
-          p{
-            color: #000000 !important;
-          } 
-        }
-        div {
-          line-height: 1em;
-        } 
-        h1 {
-            font-size: 36px;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .header div {
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .container-cls h2 {
+        font-size: 18px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        margin: 0 !important;
+    }
+
+    .container-cls p {
+        margin: 0 !important;
+        color: #000000 !important;
+    }
+
+    h1 {
+        font-size: 36px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .header div {
         width: 45%;
-            p {
-            margin: 10px 0;
-            }
-        }
-        .invoice-info, .billing-info {
-            margin-bottom: 20px;
-        }
-        .invoice-info p, .billing-info p {
-            margin: 10px 0;
-            width: 100%;
-        }
-        .product-description table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        .product-description th {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: center;
-        }
-        .product-description td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: right;
-        }
-        .product-description .item-name-cls {
+    }
+
+    .header div p {
+        margin: 10px 0;
+    }
+
+    .invoice-info, .billing-info {
+        margin-bottom: 20px;
+    }
+
+    .invoice-info p, .billing-info p {
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .product-description table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    .product-description th {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: center;
+        background-color: #d9d9d9;
+    }
+
+    .product-description td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: right;
+    }
+
+    .product-description .item-name-cls {
         max-width: 150px;
-            text-align: center !important;
-        }
-        .product-description .item-cls {
-            text-align: left !important;
-            width: 200px;
-        }
-        .product-description th {
-            background-color: #d9d9d9;
-        }
-        .totals {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .totals div {
-            width: 45%;
-        }
-        .totals table {
-            width: 100%;
-        }
-        .totals td {
-            padding: 8px;
-        }
-        .footer-cls {
-            display: flex;
-            justify-content: space-between;
-            div {
-              margin-top: 20px
-            }
-        }
-        .footer-cls p {
-            margin: 10px 0;
-        }
-        .bank-details-container {
-        .sub-bank-details-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 10px 0;
-            width: 100%;
-            .sub-bank-details-title {
-            width: 165px;
-            }
-        }
-      }
+        text-align: center !important;
+    }
+
+    .product-description .item-cls {
+        text-align: left !important;
+        width: 200px;
+    }
+
+    .totals {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .totals div {
+        width: 45%;
+    }
+
+    .totals table {
+        width: 100%;
+    }
+
+    .totals td {
+        padding: 8px;
+    }
+
+    .footer-cls {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .footer-cls div {
+        margin-top: 20px;
+    }
+
+    .footer-cls p {
+        margin: 10px 0;
+    }
+
+    .bank-details-container .sub-bank-details-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .bank-details-container .sub-bank-details-title {
+        width: 165px;
+    }
+
     .invoice-logo {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      position: absolute;
-      top: 0;
-      right: 0;
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        position: absolute;
+        top: 0;
+        right: 0;
     }
+
     .title-logo {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 70px;
-      position: relative
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 70px;
+        position: relative;
     }
-        .notes {
-            margin-top: 25px;
-        }
-    </style>
+
+    .notes {
+        margin-top: 25px;
+    }
+</style>
+
 </head>
 <body>
 <div class="container-cls">
