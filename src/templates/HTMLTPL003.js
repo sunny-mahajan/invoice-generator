@@ -83,6 +83,9 @@ export default function generateHTMLTPL003(invoiceData) {
       font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
+      div {
+        line-height: 1em;
+      }
     }
     .container {
       margin-top: 20px;
@@ -95,9 +98,6 @@ export default function generateHTMLTPL003(invoiceData) {
         font-size: 18px;
         margin-bottom: 5px;
         font-weight: bold;
-      }
-      div {
-        line-height: 1em;
       }
     }
     .header {
