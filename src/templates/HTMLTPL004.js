@@ -94,7 +94,7 @@ export default function generateHTMLTPL004(invoiceData) {
 
     .container-cls p {
         margin: 0;
-        color: #000000;
+        color: #000000 !important;
     }
 
     h1 {
