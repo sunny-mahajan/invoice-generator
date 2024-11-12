@@ -59,8 +59,8 @@ export default function generateHTMLTPL003(invoiceData) {
 
   const remarksUI = invoiceData["Remarks"]
     ? `<div class="footer-cls">
-            <p>Notes:</p>
-            <p>${invoiceData["Remarks"]}</p>
+            <p class="paragraph-cls">Notes:</p>
+            <p class="paragraph-cls">${invoiceData["Remarks"]}</p>
         </div>`
     : "";
 
@@ -91,14 +91,9 @@ export default function generateHTMLTPL003(invoiceData) {
       margin-top: 20px;
       padding: 20px;
       border-top: #007BFF solid 20px;
-       p{
-        color: #000000 !important;
-      }
-      h2 {
-        font-size: 18px;
-        margin-bottom: 5px;
-        font-weight: bold;
-      }
+    }
+    .paragraph-cls {
+      color: #000000 !important;
     }
     .header {
       display: flex;
@@ -108,7 +103,7 @@ export default function generateHTMLTPL003(invoiceData) {
     }
     .company-info {
       text-align: left;
-      p{
+      .paragraph-cls {
         max-width: 200px;
       }
     }
@@ -125,12 +120,17 @@ export default function generateHTMLTPL003(invoiceData) {
       display: flex;
       justify-content: space-between;
       margin-top: 20px;
-      p {
+      .paragraph-cls {
         margin: 8px 0;
       }
       .bill, .ship {
         max-width: 200px;
       }
+    }
+    .heading-title-cls{
+      font-size: 18px;
+      margin-bottom: 5px;
+      font-weight: bold;
     }
     .items {
       width: 100%;
@@ -166,7 +166,7 @@ export default function generateHTMLTPL003(invoiceData) {
       justify-content: space-between;
     }
     .bank-details-container {
-    margin-top: 20px;
+      margin-top: 20px;
       .sub-bank-details-container {
         display: flex;
         align-items: center;
@@ -182,9 +182,7 @@ export default function generateHTMLTPL003(invoiceData) {
       text-align: right;
     }
     .invoice-title {
-      text-align: right;
-      font-size: 24px;
-      h2 {
+      .heading-title-cls {
         margin: 0;
       }
     }
@@ -213,7 +211,7 @@ export default function generateHTMLTPL003(invoiceData) {
         ? `
       <div class=${invoiceData["Logo"] ? "title-logo" : ""}>
         <div class="invoice-title">
-          <h2>INVOICE</h2>
+          <h2 class="heading-title-cls">INVOICE</h2>
         </div>
         <div>
           ${
@@ -232,7 +230,7 @@ export default function generateHTMLTPL003(invoiceData) {
           invoiceData["Sender's Zipcode"] ||
           invoiceData["Sender's Address"] ||
           invoiceData["Sender's City"]
-            ? `<p>
+            ? `<p class="paragraph-cls">
             ${
               invoiceData["Sender's Zipcode"]
                 ? `${invoiceData["Sender's Zipcode"]}, `
@@ -264,10 +262,10 @@ export default function generateHTMLTPL003(invoiceData) {
 
     <div class="bill-ship">
       <div class="bill">
-        <h2>BILL TO</h2>
+        <h2 class="heading-title-cls">BILL TO</h2>
         ${
           invoiceData["Sender's Name"]
-            ? `<p>${invoiceData["Sender's Name"]}</p>`
+            ? `<p class="paragraph-cls">${invoiceData["Sender's Name"]}</p>`
             : ""
         }
         
@@ -275,7 +273,7 @@ export default function generateHTMLTPL003(invoiceData) {
           invoiceData["Sender's Zipcode"] ||
           invoiceData["Sender's Address"] ||
           invoiceData["Sender's City"]
-            ? `<p>
+            ? `<p class="paragraph-cls">
             ${
               invoiceData["Sender's Zipcode"]
                 ? `${invoiceData["Sender's Zipcode"]}, `
@@ -293,7 +291,7 @@ export default function generateHTMLTPL003(invoiceData) {
       
         ${
           invoiceData["Sender's State"]
-            ? `<p>
+            ? `<p class="paragraph-cls">
             ${
               invoiceData["Sender's State"]
                 ? `${invoiceData["Sender's State"]}, `
@@ -305,22 +303,22 @@ export default function generateHTMLTPL003(invoiceData) {
         
         ${
           invoiceData["Sender's Contact No"]
-            ? `<p>${invoiceData["Sender's Contact No"]}</p>`
+            ? `<p class="paragraph-cls">${invoiceData["Sender's Contact No"]}</p>`
             : ""
         }
         ${
           invoiceData["Sender's Email"]
-            ? `<p>${invoiceData["Sender's Email"]}</p>`
+            ? `<p class="paragraph-cls">${invoiceData["Sender's Email"]}</p>`
             : ""
         }
         ${
           invoiceData["Sender's Tax No"]
-            ? `<p>${invoiceData["Sender's Tax No"]}</p>`
+            ? `<p class="paragraph-cls">${invoiceData["Sender's Tax No"]}</p>`
             : ""
         }
         ${
           invoiceData["Sender's PAN No"]
-            ? `<p>${invoiceData["Sender's PAN No"]}</p>`
+            ? `<p class="paragraph-cls">${invoiceData["Sender's PAN No"]}</p>`
             : ""
         }
         ${
@@ -333,7 +331,7 @@ export default function generateHTMLTPL003(invoiceData) {
                 item["fieldName"] && item["fieldValue"]
                   ? `
                 <div style="display: flex; align-items: center;">
-                    <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                    <p class="paragraph-cls">${item["fieldName"]}:</p><p class="paragraph-cls"> ${item["fieldValue"]}</p>
                 </div>
                 `
                   : ""
@@ -347,10 +345,10 @@ export default function generateHTMLTPL003(invoiceData) {
 
       </div>
       <div class="ship">
-        <h2>SHIP TO</h2>
+        <h2 class="heading-title-cls">SHIP TO</h2>
         ${
           invoiceData["Receiver's Name"]
-            ? `<p>${invoiceData["Receiver's Name"]}</p>`
+            ? `<p class="paragraph-cls">${invoiceData["Receiver's Name"]}</p>`
             : ""
         }
         
@@ -358,7 +356,7 @@ export default function generateHTMLTPL003(invoiceData) {
           invoiceData["Receiver's Zipcode"] ||
           invoiceData["Receiver's Address"] ||
           invoiceData["Receiver's City"]
-            ? `<p>
+            ? `<p class="paragraph-cls">
             ${
               invoiceData["Receiver's Zipcode"]
                 ? `${invoiceData["Receiver's Zipcode"]}, `
@@ -376,7 +374,7 @@ export default function generateHTMLTPL003(invoiceData) {
         
         ${
           invoiceData["Receiver's State"]
-            ? `<p>
+            ? `<p class="paragraph-cls">
             ${
               invoiceData["Receiver's State"]
                 ? `${invoiceData["Receiver's State"]}, `
@@ -388,22 +386,22 @@ export default function generateHTMLTPL003(invoiceData) {
       
         ${
           invoiceData["Receiver's Contact No"]
-            ? `<p>${invoiceData["Receiver's Contact No"]}</p>`
+            ? `<p class="paragraph-cls">${invoiceData["Receiver's Contact No"]}</p>`
             : ""
         }
         ${
           invoiceData["Receiver's Email"]
-            ? `<p>${invoiceData["Receiver's Email"]}</p>`
+            ? `<p class="paragraph-cls">${invoiceData["Receiver's Email"]}</p>`
             : ""
         }
         ${
           invoiceData["Receiver's Tax No"]
-            ? `<p>${invoiceData["Receiver's Tax No"]}</p>`
+            ? `<p class="paragraph-cls">${invoiceData["Receiver's Tax No"]}</p>`
             : ""
         }
         ${
           invoiceData["Receiver's PAN No"]
-            ? `<p>${invoiceData["Receiver's PAN No"]}</p>`
+            ? `<p class="paragraph-cls">${invoiceData["Receiver's PAN No"]}</p>`
             : ""
         }
         ${
@@ -417,7 +415,7 @@ export default function generateHTMLTPL003(invoiceData) {
                   item["fieldName"] && item["fieldValue"]
                     ? `
                   <div style="display: flex; align-items: center;">
-                      <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                      <p class="paragraph-cls">${item["fieldName"]}:</p><p class="paragraph-cls"> ${item["fieldValue"]}</p>
                   </div>
                   `
                     : ""
@@ -430,7 +428,7 @@ export default function generateHTMLTPL003(invoiceData) {
         }
       </div>
       <div class="invoice-info">
-        <h2>INVOICE DETAILS</h2>
+        <h2 class="heading-title-cls">INVOICE DETAILS</h2>
         <div>
             <span class="invoice-details-heading" style="margin: 8px 0;">INVOICE NO.</span><span>${
               invoiceData["Invoice No."]
@@ -589,7 +587,7 @@ export default function generateHTMLTPL003(invoiceData) {
     ${
       bankDetailsAvailable
         ? `<div class="bank-details-container">
-      <h2>Bank Details</h2>
+      <h2 class="heading-title-cls">Bank Details</h2>
       ${
         invoiceData["Bank Name"]
           ? `
