@@ -83,9 +83,9 @@ export default function generateHTMLTPL002(invoiceData) {
       font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      div {
-        line-height: 1em;
-      }
+    }
+    div {
+      line-height: 1em;
     }
     .container {
       padding: 20px;
