@@ -80,9 +80,6 @@ export default function generateHTMLTPL001(invoiceData) {
             color: #000000 !important;
           }
         }
-        div {
-          line-height: 1em;
-        }
         .title-container-cls {
             display: flex;
             align-items: center;
