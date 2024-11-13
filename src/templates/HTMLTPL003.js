@@ -132,6 +132,7 @@ export default function generateHTMLTPL003(invoiceData) {
         display: flex;
         justify-content: space-between;
         margin-top: 20px;
+        gap: 20px;
     }
 
     .bill-ship p {

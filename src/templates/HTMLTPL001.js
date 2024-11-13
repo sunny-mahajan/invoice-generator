@@ -127,6 +127,7 @@ export default function generateHTMLTPL001(invoiceData) {
         width: 100%;
         margin-bottom: 30px;
         box-sizing: border-box;
+        gap: 20px;
     }
     .sub-sec3-container {
       max-width: 350px;
