@@ -320,7 +320,7 @@ const BillFromForm = ({
                     height: "100%",
                     flex: "0 1 auto",
                   }}
-                  className="pb-5 md:pb-0"
+                  className="pb-4"
                 >
                   <DeleteIcon />
                 </div>
