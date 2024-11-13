@@ -77,12 +77,13 @@ export default function generateHTMLTPL004(invoiceData) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap" rel="stylesheet" ></link>
     <title>Invoice</title>
     <style>
     body {
         margin: 0 auto;
         padding: 20px;
+        font-family: 'Spartan', sans-serif;
     }
 
     .container-cls h2 {
