@@ -98,7 +98,7 @@ const ItemDetails = ({
                     : "lg:w-[100%]" // Add a default width when the condition is false
                 }`}
               >
-                <div className="block md:flex gap-5">
+                <div className="block md:flex gap-5 flex-1">
                   <div className="w-full">
                     <CustomInput
                       type="number"
