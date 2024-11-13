@@ -215,6 +215,11 @@ export default function generateHTMLTPL004(invoiceData) {
         position: relative;
     }
 
+    .bill-info-cls {
+      max-width: 300px;
+      word-break: break-all;
+    }
+
     .notes {
         margin-top: 25px;
     }
@@ -238,7 +243,7 @@ export default function generateHTMLTPL004(invoiceData) {
         </div>
       </div>
     <div class="header">
-        <div>
+        <div class="bill-info-cls">
            <h2>TO:</h2>
             ${
               invoiceData["Receiver's Name"]
@@ -470,7 +475,7 @@ export default function generateHTMLTPL004(invoiceData) {
     
 
     <div class="footer-cls">
-        <div>
+        <div class="bill-info-cls">
         <h2>FROM:</h2>
         ${
           invoiceData["Sender's Name"]

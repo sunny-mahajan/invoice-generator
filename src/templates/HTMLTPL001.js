@@ -128,7 +128,10 @@ export default function generateHTMLTPL001(invoiceData) {
         margin-bottom: 30px;
         box-sizing: border-box;
     }
-
+    .sub-sec3-container {
+      max-width: 350px;
+      word-break: break-word;
+    }
     .sec4-container {
         display: flex;
         flex-direction: column;
@@ -239,6 +242,7 @@ export default function generateHTMLTPL001(invoiceData) {
     .main-container-cls p {
         margin: 0;
         margin-bottom: 7px;
+
     }
 
     .invoice-logo {
@@ -310,7 +314,7 @@ export default function generateHTMLTPL001(invoiceData) {
           }
         </div>
         <div class="sec3-container">
-          <div>
+          <div class="sub-sec3-container">
   <h2>From</h2>
   ${
     invoiceData["Sender's Name"] ? `<p>${invoiceData["Sender's Name"]}</p>` : ""
@@ -392,7 +396,7 @@ export default function generateHTMLTPL001(invoiceData) {
   }
 </div>
 
-<div>
+<div class="sub-sec3-container">
   <h2>To</h2>
   ${
     invoiceData["Receiver's Name"]

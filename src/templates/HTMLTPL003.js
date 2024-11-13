@@ -136,10 +136,12 @@ export default function generateHTMLTPL003(invoiceData) {
 
     .bill-ship p {
         margin: 8px 0;
+        max-width: 270px;
+        word-break: break-word;
     }
 
     .bill-ship .bill, .bill-ship .ship {
-        max-width: 200px;
+        max-width: 270px;
     }
 
     .items {
