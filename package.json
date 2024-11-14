@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@sparticuz/chromium": "^119.0.2",
+    "bcryptjs": "^2.4.3",
     "csv-parser": "^3.0.0",
     "file-saver": "^2.0.5",
     "firebase": "^10.14.0",
@@ -26,7 +27,8 @@
     "react-phone-number-input": "^3.4.8",
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.5",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@types/node": "^18",

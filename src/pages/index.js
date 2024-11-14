@@ -1,8 +1,6 @@
 import Layout from "../components/Layout";
 import React, { useRef, useState, useEffect } from "react";
 import CustomButton from "../components/Button";
-import CustomInput from "../components/Input";
-import FormCustomDropdown from "../components/FormDropdown";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
@@ -13,14 +11,11 @@ import {
   mapBankDetails,
   mapReceiverDetails,
   mapSenderDetails,
-  validateField,
   fileToBase64,
 } from "../utils/helpers";
 import InvoiceTemplates from "../components/InvoiceTemplates";
 import useClickOutside from "../hooks/useClickOutside";
 import {
-  currencyOptions,
-  allowedKeys,
   taxTypeOptions,
   currencySymbols,
   previewInvoiceData,
@@ -30,7 +25,6 @@ import BillFromForm from "../components/InvoiceForms/billFrom";
 import BillToForm from "../components/InvoiceForms/billTo";
 import InvoiceDetailsForm from "../components/InvoiceForms/invoiceDetails";
 import ItemDetails from "../components/InvoiceForms/items";
-import BankDetails from "../components/InvoiceForms/bankDetails";
 import { useSession } from "next-auth/react";
 import InvoicePreview from "../components/InvoicePreview";
 

@@ -51,7 +51,7 @@ const InvoiceDetailsForm = ({
         };
         img.src = objectUrl;
       } else {
-        alert("Only JPG and PNG formats are allowed.");
+        toast.error("Only JPG and PNG formats are allowed.");
       }
     }
   };

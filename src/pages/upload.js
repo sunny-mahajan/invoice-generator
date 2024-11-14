@@ -249,10 +249,8 @@ export default function UploadCSV() {
       // Assign the first template ID to all invoices when toggle is off
       assignTemplateToInvoices(() => templateIds[0]);
       setIsTemplateSelectable(true);
-      toast.info("Random template selection is disabled");
     } else {
       setIsTemplateSelectable(false);
-      toast.success("Template IDs assigned randomly to invoices");
     }
   };
 
@@ -343,11 +341,11 @@ export default function UploadCSV() {
   return (
     <Layout>
       <div className="container mx-auto pt-8 px-0 upload-container-cls">
-        <div className="flex flex-col items-center mb-5 md:mb-0">
+        <div className="flex md:flex-row flex-col items-center mb-5 md:mb-0 p-4 gap-10">
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className="flex items-center justify-center w-full max-w-[800px] h-[200px] transition duration-200 min-w-[400px]"
+            className="flex items-center justify-center w-[60%] h-[200px] transition duration-200 min-w-[400px] flex-1"
           >
             <div
               onClick={() => fileInputRef.current.click()}
@@ -417,6 +415,19 @@ export default function UploadCSV() {
               className="hidden"
             />
           </div>
+          <div className="instruction-container w-[40%]">
+            <h2 className="text-lg font-semibold mb-2">Instructions</h2>
+            <ol className="list-decimal list-inside space-y-1">
+              <li>Download the sample CSV file to see the correct format.</li>
+              <li>
+                Select an invoice template from the list or use a random
+                template.
+              </li>
+              <li>Fill in your data following the sample CSV format.</li>
+              <li>Upload your CSV file.</li>
+              <li>Click Generate Invoices as ZIP to download your invoices.</li>
+            </ol>
+          </div>
         </div>
       </div>
       <div className="p-4 mx-auto w-full">
@@ -442,18 +453,6 @@ export default function UploadCSV() {
           </CustomButton>
         </div>
       )}
-      <div className="instruction-container p-4 mx-auto w-full">
-        <h2 className="text-lg font-semibold mb-2">Instructions</h2>
-        <ol className="list-decimal list-inside space-y-1">
-          <li>Download the sample CSV file to see the correct format.</li>
-          <li>
-            Select an invoice template from the list or use a random template.
-          </li>
-          <li>Fill in your data following the sample CSV format.</li>
-          <li>Upload your CSV file.</li>
-          <li>Click Generate Invoices as ZIP to download your invoices.</li>
-        </ol>
-      </div>
     </Layout>
   );
 }
