@@ -11,10 +11,10 @@ import { DropImageIcon, infoIcon } from "../utils/icons";
 import DialogBox from "../components/DialogBox/index";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSession } from "next-auth/react";
 import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { previewInvoiceData } from "../utils/constants";
+import { useUser } from "../app/context/userContext";
 
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
@@ -30,7 +30,8 @@ export default function UploadCSV() {
     useState(false);
   const [isTemplateIdUpdated, setIsTemplateIdUpdated] = useState(false);
   const fileInputRef = useRef(null); // Create a reference for the file input
-  const { data: session } = useSession();
+  const { userData } = useUser();
+  
 
   useEffect(() => {
     getTemplatesID();
@@ -259,7 +260,7 @@ export default function UploadCSV() {
 
     const zip = new JSZip();
     for (const invoice of invoices) {
-      const pdfBlob = await generateHTMLPDF(invoice, session.user);
+      const pdfBlob = await generateHTMLPDF(invoice, userData);
       zip.file(`invoice_${invoice["Invoice No."]}.pdf`, pdfBlob);
     }
 

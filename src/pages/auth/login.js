@@ -1,40 +1,4 @@
-// import { signIn, useSession } from "next-auth/react";
-// import { useRouter } from "next/router";
-// import { useEffect } from "react";
-// import { googleIcons } from "../../utils/icons";
-
-// export default function LoginPage() {
-//   const { data: session } = useSession();
-//   const router = useRouter();
-//   const { callbackUrl } = router.query;
-
-//   useEffect(() => {
-//     if (session) {
-//       router.push("/"); // Redirect to home page if already signed in
-//     }
-//   }, [session, router]);
-
-//   const handleSignIn = () => {
-//     signIn("google", { callbackUrl: callbackUrl || "/" }); // Redirect to home page after sign-in
-//   };
-
-//   return (
-//     <div className="login-container-cls">
-//       <div className="login-social-container">
-//         <div className="login-container-wrapper">
-//           <h1>Login</h1>
-//           <div className="social-btn-container" onClick={handleSignIn}>
-//             <span>{googleIcons()}</span>
-//             <span className="social-btn-text">Sign in with Google</span>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
 // components/Login.js
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -43,7 +7,6 @@ import CustomButton from "../../components/Button";
 import "./login.css";
 
 export default function Login() {
-  const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -53,66 +16,26 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    if (session) {
-      router.push("/"); // Redirect if already signed in
-    }
-  }, [session, router]);
-
-  // Email login handler
-  // const handleEmailLogin = async (data) => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await fetch("/api/auth/login", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         email: data.email,
-  //         password: data.password,
-  //       }),
-  //     });
-
-  //     if (response.ok) {
-  //       console.log("Login successful");
-  //       router.push("/");
-  //     } else {
-  //       const errorData = await response.json();
-  //       alert(`Login failed: ${errorData.message || "Invalid credentials"}`);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during login:", error);
-  //     alert("Login failed. Please try again.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  const handleEmailLogin = async (data) => {
+  const handleLogin = async (data) => {
     setLoading(true);
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
+        body: JSON.stringify({ email: data.email, password: data.password }),
       });
-
+    
+      const result = await response.json();
+    
       if (response.ok) {
-        const { sessionId } = await response.json();
-        console.log("Login successful, session ID:", sessionId);
-        localStorage.setItem("sessionId", sessionId); // Store sessionId in localStorage
+        localStorage.setItem("token", result.token);
         router.push("/");
       } else {
-        const errorData = await response.json();
-        alert(`Login failed: ${errorData.message || "Invalid credentials"}`);
+        alert(result.error || "An error occurred");
       }
     } catch (error) {
-      console.error("Error during login:", error);
-      alert("Login failed. Please try again.");
-    } finally {
-      setLoading(false);
+      console.error("Fetch error:", error);
+      alert("Login failed");
     }
   };
 
@@ -121,7 +44,7 @@ export default function Login() {
       <div className="login-social-container">
         <div className="login-container-wrapper">
           <h1>Login</h1>
-          <form onSubmit={handleSubmit(handleEmailLogin)}>
+          <form onSubmit={handleSubmit(handleLogin)}>
             <CustomInput
               type="text"
               name="email"

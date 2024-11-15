@@ -1,109 +1,55 @@
-// import { useEffect } from "react";
-// import { useRouter } from "next/router";
-// import { useSession } from "next-auth/react";
-
-// const ProtectedPage = ({ children }) => {
-//   const { data: session, status } = useSession();
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     if (status === "loading") return; // Do nothing while loading
-
-//     if (!session) {
-//       router.push("/auth/login"); // Redirect to login if not authenticated
-//     }
-//   }, [session, status, router]);
-
-//   if (session && status === "loading") {
-//     return <div>Loading...</div>; // Loading state while checking authentication
-//   }
-
-//   // Render the children if authenticated
-//   if (session) {
-//     return <>{children}</>;
-//   }
-// };
-
-// export default ProtectedPage;
-
-// import { useEffect, useState } from "react";
-// import { useRouter } from "next/router";
-
-// const ProtectedPage = ({ children }) => {
-//   const [isSessionValid, setIsSessionValid] = useState(false);
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     // Check if we're on the client side
-//     if (typeof window !== "undefined") {
-//       const sessionId = localStorage.getItem("sessionId");
-//       if (!sessionId) {
-//         // Redirect to login if sessionId does not exist
-//         router.push("/auth/login");
-//       } else {
-//         setIsSessionValid(true);
-//       }
-//     }
-//   }, [router]);
-
-//   if (!isSessionValid) {
-//     return <div>Loading...</div>; // Loading state while checking session
-//   }
-
-//   // Render the children if sessionId exists
-//   return <>{children}</>;
-// };
-
-// export default ProtectedPage;
-
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useUser } from "./context/userContext";
 
-const ProtectedPage = () => {
-  const [message, setMessage] = useState("");
-  const [user, setUser] = useState(null);
+const ProtectedPage = ({ children }) => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const { setUser, clearUser } = useUser();
 
   useEffect(() => {
-    // Get session ID from localStorage
-    const sessionId = localStorage.getItem("sessionId");
+    const token = localStorage.getItem("token");
 
-    if (!sessionId) {
-      console.log("No session found. Redirecting to login.");
-      return; // You can redirect to the login page here
+    // Redirect if token is missing
+    if (!token) {
+      router.push("/auth/login");
+      return;
     }
 
-    // Call the protected API route
-    const fetchProtectedData = async () => {
-      try {
-        const response = await fetch("/api/auth/protected", {
-          method: "GET",
-          headers: {
-            Authorization: sessionId, // Send sessionId in the Authorization header
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setMessage(data.message);
-          setUser(data.user); // Assuming the response includes the user data
-        } else {
-          const errorData = await response.json();
-          setMessage(errorData.error || "Access denied");
-        }
-      } catch (error) {
-        console.error("Error fetching protected data:", error);
-      }
-    };
-
-    fetchProtectedData();
+    // Fetch protected data
+    fetchProtectedData(token);
   }, []);
 
-  return (
-    <div>
-      <h1>Protected Page</h1>
-      <p>{message}</p>
-      {user && <div>User: {user.email}</div>}
-    </div>
-  );
+  const fetchProtectedData = async (token) => {
+    try {
+      const response = await fetch("/api/auth/protected", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+        // Parse the response JSON data
+        const data = await response.json();
+        setUser(data.user)
+        console.log("Protected data:", data.user);
+        if (!response.ok || !data.user.verified) {
+          alert("Please verify your email to access this page.");
+          clearUser();
+          router.push("/auth/login");
+          return;
+        }
+      // Protected data is fetched successfully, stop loading
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch protected data:", error);
+      router.push("/auth/login");
+    }
+  };
+
+  // Show loading indicator while fetching data
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return <>{children}</>;
 };
 
 export default ProtectedPage;
+

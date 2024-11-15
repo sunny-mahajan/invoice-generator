@@ -25,8 +25,8 @@ import BillFromForm from "../components/InvoiceForms/billFrom";
 import BillToForm from "../components/InvoiceForms/billTo";
 import InvoiceDetailsForm from "../components/InvoiceForms/invoiceDetails";
 import ItemDetails from "../components/InvoiceForms/items";
-import { useSession } from "next-auth/react";
 import InvoicePreview from "../components/InvoicePreview";
+import { useUser } from "../app/context/userContext";
 
 let formDataInitialValues = {
   invoiceNo: "",
@@ -97,7 +97,8 @@ const InvoiceForm = () => {
   const [isDueDatePickerOpen, setIsDueDatePickerOpen] = useState(false);
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
   const [dueDateAfter, setDueDateAfter] = useState(15);
-  const { data: session } = useSession();
+  const { userData } = useUser();
+
   const [isItemDataUpdated, setIsItemDataUpdated] = useState({
     name: false,
     quantity: false,
@@ -482,7 +483,7 @@ const InvoiceForm = () => {
       "Tax Percentage": formData.taxPercentage,
     };
     try {
-      const pdfBlob = await generateHTMLPDF(mappedData, session.user);
+      const pdfBlob = await generateHTMLPDF(mappedData, userData);
       if (pdfBlob) {
         const blobURL = URL.createObjectURL(pdfBlob);
         // window.open(blobURL, "_blank");

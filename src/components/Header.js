@@ -2,18 +2,16 @@ import React, { useState, useRef, useEffect } from "react";
 import useClickOutside from "../hooks/useClickOutside";
 import CustomButton from "./Button";
 import "../styles/globals.css";
-import { signOut } from "next-auth/react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { DarkThemeIcon, LightThemeIcon, logOutIcon } from "../utils/icons";
 import { useTheme } from "../utils/themeContext";
+import { useUser } from "../app/context/userContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { data: session } = useSession();
-  const [googleProfileImage, setGoogleProfileImage] = useState(false);
   const menuRef = useRef(null);
-
+  const { userData, clearUser } = useUser();
+console.log(userData, "user-------------")
   // adjust sidebar menu position
   const avatarRef = useRef(null);
   const [menuPosition, setMenuPosition] = useState({ left: 0, top: 0 });
@@ -31,17 +29,6 @@ const Header = () => {
   useEffect(() => {
     setActiveUpload(router.pathname === "/upload" ? "bulk" : "single");
   }, [router]);
-  const fetchImage = async () => {
-    if (session?.user?.image) {
-      const response = await fetch(session.user.image);
-      if (response.ok) {
-        setGoogleProfileImage(true);
-      }
-    }
-  };
-  useEffect(() => {
-    fetchImage();
-  }, []);
 
   useClickOutside([avatarRef, menuRef], () => setIsMenuOpen(false));
 
@@ -55,7 +42,9 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    signOut();
+    localStorage.removeItem("token");
+    clearUser();
+    router.push("auth/login")
     setIsMenuOpen(false);
   };
 
@@ -109,8 +98,7 @@ const Header = () => {
         {theme === "light" ? <DarkThemeIcon /> : <LightThemeIcon />}
       </button>
       <div className="sidebar-bottom d-flex items-center justify-content-center">
-        {!googleProfileImage ? (
-          <div
+      <div
             className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
             ref={avatarRef}
             onClick={handleProfileClick}
@@ -119,20 +107,9 @@ const Header = () => {
               className="user-profile-cls text-lg"
               style={{ marginTop: "1px" }}
             >
-              {session?.user?.name.charAt(0).toUpperCase()}
+              {userData?.name.charAt(0).toUpperCase()}
             </span>
           </div>
-        ) : (
-          <div className="sidebar-avatar" ref={avatarRef}>
-            <img
-              loading="lazy"
-              src={session?.user?.image}
-              alt="User Avatar"
-              onClick={handleProfileClick}
-              style={{ cursor: "pointer", borderRadius: "50%" }}
-            />
-          </div>
-        )}
       </div>
 
       {isMenuOpen && ( // Conditionally render the side menu
