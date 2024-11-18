@@ -31,7 +31,6 @@ export default function UploadCSV() {
   const [isTemplateIdUpdated, setIsTemplateIdUpdated] = useState(false);
   const fileInputRef = useRef(null); // Create a reference for the file input
   const { userData } = useUser();
-  
 
   useEffect(() => {
     getTemplatesID();
@@ -330,15 +329,6 @@ export default function UploadCSV() {
     e.preventDefault();
   };
 
-  const handleOpenDialog = (event) => {
-    event.stopPropagation();
-    setIsDialogOpen(true);
-  };
-  const handleCloseDialog = () => setIsDialogOpen(false);
-  const handleConfirm = () => {
-    setIsDialogOpen(false);
-  };
-
   return (
     <Layout>
       <div className="container mx-auto pt-8 px-0 upload-container-cls">
@@ -372,29 +362,6 @@ export default function UploadCSV() {
                     <span className="cursor-pointer font-semibold underline">
                       <a onClick={handleDownloadCSV}>Download sample file</a>
                     </span>
-                    <div>
-                      {/* <div
-                        className="ml-4 cursor-pointer"
-                        onClick={(e) => handleOpenDialog(e)}
-                      >
-                        {infoIcon()}
-                      </div>
-                      <div onClick={(e) => e.stopPropagation()}>
-                        <DialogBox
-                          isOpen={isDialogOpen}
-                          onClose={handleCloseDialog}
-                          title="Instructions"
-                          content={`1. Download the sample CSV file to see the correct format.
-                            2. Select an invoice template from the list or use a random template.
-                            3. Fill in your data following the sample CSV format.
-                            4. Upload your CSV file.
-                            5. Click 'Generate Invoices as ZIP' to download your invoices.`}
-                          confirmText="Got it!"
-                          cancelText=""
-                          onConfirm={handleConfirm}
-                        />
-                      </div> */}
-                    </div>
                   </div>
                 </div>
               )}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./style.css";
+import { HidePasswordIcon, ShowPasswordIcon } from "../../utils/icons";
 
 const CustomInput = ({
   type,
@@ -24,10 +25,17 @@ const CustomInput = ({
   touched = true,
   itemErrorsData = {},
 }) => {
-  // const [touched, setTouched] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const fieldError = name
     ?.split(".")
     .reduce((acc, part) => acc?.[part], errors);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const inputType = type === "password" && showPassword ? "text" : type;
   return (
     <div
       className={`input-container ${containerClass ? containerClass : ""}`}
@@ -44,30 +52,40 @@ const CustomInput = ({
           {required && <span className="text-red-600">*</span>}
         </div>
       )}
-      <div className="w-full">
+      <div className="input-cont-cls w-full">
         {!isText ? (
-          <input
-            type={type}
-            name={name}
-            style={inputStyle}
-            placeholder={placeholder}
-            className={`${inputClass ? inputClass : ""} ${
-              inputClass !== "input-invoice-cls" ? "input-field" : ""
-            }
+          <>
+            <input
+              type={inputType}
+              name={name}
+              style={inputStyle}
+              placeholder={placeholder}
+              className={`${inputClass ? inputClass : ""} ${
+                inputClass !== "input-invoice-cls" ? "input-field" : ""
+              }
              ${required && fieldError ? "input-error-cls" : ""}
             `}
-            onChange={onChange}
-            onKeyDown={onKeyDown}
-            onWheel={(e) => e.target.blur()}
-            // use the register prop from React Hook Form for validation
-            {...register(name, { ...validationRules, onBlur: onBlur })}
-          />
+              onChange={onChange}
+              onKeyDown={onKeyDown}
+              onWheel={(e) => e.target.blur()}
+              // use the register prop from React Hook Form for validation
+              {...register(name, { ...validationRules, onBlur: onBlur })}
+            />
+            {type === "password" && (
+              <span
+                className="show-hide-icon"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <ShowPasswordIcon /> : <HidePasswordIcon />}
+              </span>
+            )}
+          </>
         ) : (
           <div className="input-field-text">{value}</div>
         )}
         {/* Display validation error if exists */}
         {Object.keys(itemErrorsData).length === 0 && (
-          <div className="h-4">
+          <div className="h-4 input-error-container">
             {fieldError && touched && (
               <p className="input-error text-red-600">{fieldError.message}</p>
             )}

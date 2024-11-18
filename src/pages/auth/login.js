@@ -1,10 +1,10 @@
 // components/Login.js
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomInput from "../../components/Input";
 import CustomButton from "../../components/Button";
-import "./login.css";
+import "./style.css";
 
 export default function Login() {
   const router = useRouter();
@@ -24,9 +24,9 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: data.email, password: data.password }),
       });
-    
+
       const result = await response.json();
-    
+
       if (response.ok) {
         localStorage.setItem("token", result.token);
         router.push("/");
@@ -36,20 +36,22 @@ export default function Login() {
     } catch (error) {
       console.error("Fetch error:", error);
       alert("Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container-cls">
-      <div className="login-social-container">
-        <div className="login-container-wrapper">
+      <div className="login-container-wrapper">
+        <div className="login-form-cls">
           <h1>Login</h1>
           <form onSubmit={handleSubmit(handleLogin)}>
             <CustomInput
               type="text"
               name="email"
               title="Email"
-              placeholder="Enter your email"
+              placeholder="E-mail"
               inputClass="inputInvoiceCls"
               required
               register={register}
@@ -76,7 +78,6 @@ export default function Login() {
                 required: "Password is required",
               }}
             />
-
             <CustomButton
               type="purple"
               buttonStyle={{ marginTop: "1rem", minWidth: "250px" }}
@@ -85,14 +86,26 @@ export default function Login() {
               Login
             </CustomButton>
           </form>
-
-          <div>
-            <span>
-              Do not have an account?{" "}
-              <button onClick={() => router.push("/auth/register")}>
-                Sign up now
-              </button>
-            </span>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ padding: "1rem 0" }}>
+              <span>
+                Do not have an account?{" "}
+                <span
+                  onClick={() => router.push("/auth/register")}
+                  className="signup-signin-cls"
+                >
+                  Sign up now
+                </span>
+              </span>
+            </div>
+            <div>
+              <span
+                onClick={() => router.push("/auth/forgot-password")}
+                className="signup-signin-cls"
+              >
+                Forgot Password?
+              </span>
+            </div>
           </div>
         </div>
       </div>

@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import CustomInput from "../../components/Input";
 import CustomButton from "../../components/Button";
-import "./login.css";
+import "./style.css";
+import PhoneInputField from "../../components/Input/phoneInput";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ export default function Register() {
       });
 
       if (response.ok) {
-        alert("Registration successful! Please login.");
+        alert("Registration successful! Please verify your email.");
         reset();
       } else {
         const errorData = await response.json();
@@ -43,8 +44,8 @@ export default function Register() {
 
   return (
     <div className="login-container-cls">
-      <div className="login-social-container">
-        <div className="register-container-wrapper">
+      <div className="login-container-wrapper">
+        <div className="login-form-cls">
           <h1>Register</h1>
           <form onSubmit={handleSubmit(handleRegister)}>
             <CustomInput
@@ -79,17 +80,20 @@ export default function Register() {
               }}
             />
 
-            <CustomInput
-              type="text"
+            <PhoneInputField
+              type={"tel"}
               name="contactNo"
-              title="Contact Number"
-              placeholder="Enter your contact number"
-              inputClass="inputInvoiceCls"
-              register={register}
+              placeholder="9898989899"
               errors={errors}
+              register={register}
               validationRules={{
-                required: "Contact Number is required",
+                required: "Phone Number is required",
+                pattern: {
+                  value: /^\d{10}$/,
+                  message: "Invalid phone number",
+                },
               }}
+              touchedInput={true}
             />
 
             <CustomInput
@@ -114,12 +118,15 @@ export default function Register() {
               Create Account
             </CustomButton>
           </form>
-          <div>
+          <div style={{ padding: "1rem 0" }}>
             <span>
               Already have an account?{" "}
-              <button onClick={() => router.push("/auth/login")}>
+              <span
+                onClick={() => router.push("/auth/login")}
+                className="signup-signin-cls"
+              >
                 Login here
-              </button>
+              </span>
             </span>
           </div>
         </div>

@@ -548,29 +548,6 @@ const InvoiceForm = () => {
               />
             </div>
             <div className="items-details-container">
-              {/* <div className="block md:flex gap-5">
-                <div className="w-full lg:w-1/4 flex mt-2 flex-col">
-                  <FormCustomDropdown
-                    name="currency"
-                    title="Currency"
-                    label={formData.currency}
-                    onSelect={handleChange}
-                    style={styles.input}
-                    options={currencyOptions}
-                  />
-                </div>
-                <div className="flex w-full lg:w-1/4 mt-2 flex-col">
-                  <CustomInput
-                    type="number"
-                    name="taxPercentage"
-                    title="Tax Percentage"
-                    placeholder="Enter tax percentage"
-                    value={formData.taxPercentage}
-                    onChange={handleChange}
-                    style={styles.input}
-                  />
-                </div>
-              </div> */}
               <ItemDetails
                 formData={formData}
                 handleItemChange={handleItemChange}
@@ -580,12 +557,6 @@ const InvoiceForm = () => {
                 validateForm={validateForm}
                 errorsData={errorsData}
               />
-              {/* <BankDetails
-                formData={formData}
-                handleChange={handleChange}
-                errors={errors}
-                register={register}
-              /> */}
             </div>
           </div>
           <div>

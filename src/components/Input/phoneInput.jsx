@@ -9,8 +9,9 @@ const PhoneInputField = ({
   errors,
   name,
   validationRules = {},
+  touchedInput = false,
 }) => {
-  const [touched, setTouched] = useState(false); // Track if input is touched
+  const [touched, setTouched] = useState(touchedInput); // Track if input is touched
 
   const fieldError = name
     ?.split(".")
@@ -26,8 +27,8 @@ const PhoneInputField = ({
       <div className="input-title-container">
         <label className="input-title">Phone number:</label>
       </div>
-      <div className="flex items-center">
-        <div className="input-cont-color-cls flex items-center border font-semibold text-[13px] h-[40px] mb-[3px] w-max lg:w-[27%] p-[3px] rounded-l">
+      <div className="phone-number-input-container flex items-center">
+        <div className="input-cont-color-cls phone-number-input-cls flex items-center border font-semibold text-[13px] h-[40px] mb-[3px] w-max lg:w-[27%] p-[3px] rounded-l">
           <img
             src="/assets/images/indiaFlag.png"
             alt="Indian Flag"

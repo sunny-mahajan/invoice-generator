@@ -277,10 +277,6 @@ const ItemDetails = ({
                         <span>SGST ({taxPercentage / 2}%)</span>
                         <span>₹{taxAmount / 2}</span>
                       </div>
-                      {/* <div className="flex justify-end gap-20">
-                  <span>SGST</span>
-                  <span>20222</span>
-                </div> */}
                     </>
                   )}
                 </>
