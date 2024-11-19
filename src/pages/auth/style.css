@@ -26,6 +26,10 @@ body {
   font-size: 14px;
 }
 
+.login-container-cls .input-error-cls {
+  border-color: rgb(239 68 68) !important;
+}
+
 .login-container-cls label,
 .login-container-cls span {
   font-size: 14px !important;
@@ -92,6 +96,9 @@ body {
 .login-container-cls .phone-number-input-cls img {
   width: 1.5rem;
   height: 1rem;
+}
+.login-container-cls .input-container {
+  margin: 5px 0;
 }
 
 .login-container-cls .tel-input-field {

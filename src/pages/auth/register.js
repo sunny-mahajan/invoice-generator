@@ -98,6 +98,7 @@ export default function Register() {
                 },
               }}
               touchedInput={true}
+              required={true}
             />
 
             <CustomInput

@@ -49,7 +49,7 @@ const CustomInput = ({
           >
             {title}
           </label>
-          {required && <span className="text-red-600">*</span>}
+          {required && <span className="text-red-600"> *</span>}
         </div>
       )}
       <div className="input-cont-cls w-full">

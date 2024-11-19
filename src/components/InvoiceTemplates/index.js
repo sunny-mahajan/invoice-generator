@@ -92,54 +92,56 @@ const InvoiceTemplates = ({
           isRandomSelectionChecked ? "opacity-50 pointer-events-none" : ""
         }`}
       >
-        {invoiceTemplates.map((invoiceTemplate) => (
-          <div
-            key={invoiceTemplate.id}
-            className="template-tile w-full p-2 flex items-center flex-col cursor-pointer"
-            onClick={() => selectTemplate(invoiceTemplate.id)}
-          >
+        {invoiceTemplates
+          .filter((template) => template.isActive)
+          .map((invoiceTemplate) => (
             <div
-              className={`template-content flex items-center flex-col relative group  ${
-                selectedTemplateId === invoiceTemplate.id && selectable
-                  ? "selected-invoice-template"
-                  : ""
-              }`}
+              key={invoiceTemplate.id}
+              className="template-tile w-full p-2 flex items-center flex-col cursor-pointer"
+              onClick={() => selectTemplate(invoiceTemplate.id)}
             >
-              <div className="template-preview-image-container w-full overflow-hidden relative pt-[90%]">
-                <img
-                  className="template-preview-image h-full w-full absolute top-0 left-0"
-                  src={invoiceTemplate.previewUrl}
-                  alt={invoiceTemplate.name}
-                />
-              </div>
               <div
-                onClick={() => handleTemplatePreview(invoiceTemplate.id)}
-                className="absolute top-2 right-5 hidden group-hover:block"
+                className={`template-content flex items-center flex-col relative group  ${
+                  selectedTemplateId === invoiceTemplate.id && selectable
+                    ? "selected-invoice-template"
+                    : ""
+                }`}
               >
-                <PreviewIcon />
-              </div>
-              <div onClick={(e) => e.stopPropagation()}>
-                <DialogBox
-                  isOpen={isDialogOpen}
-                  onClose={handleCloseDialog}
-                  title="Invoice Template Preview"
-                  InvoiceTemplatePreview={true}
-                  invoiceData={invoiceData}
-                  selectedTemplateId={selectedTemplateId}
-                />
-              </div>
-              <div className="template-name">
-                {selectable ? (
-                  <span>{invoiceTemplate.name}</span>
-                ) : (
-                  <span style={{ fontSize: "12px" }}>
-                    Template Id: {invoiceTemplate.id}
-                  </span>
-                )}
+                <div className="template-preview-image-container w-full overflow-hidden relative pt-[90%]">
+                  <img
+                    className="template-preview-image h-full w-full absolute top-0 left-0"
+                    src={invoiceTemplate.previewUrl}
+                    alt={invoiceTemplate.name}
+                  />
+                </div>
+                <div
+                  onClick={() => handleTemplatePreview(invoiceTemplate.id)}
+                  className="absolute top-2 right-5 hidden group-hover:block"
+                >
+                  <PreviewIcon />
+                </div>
+                <div onClick={(e) => e.stopPropagation()}>
+                  <DialogBox
+                    isOpen={isDialogOpen}
+                    onClose={handleCloseDialog}
+                    title="Invoice Template Preview"
+                    InvoiceTemplatePreview={true}
+                    invoiceData={invoiceData}
+                    selectedTemplateId={selectedTemplateId}
+                  />
+                </div>
+                <div className="template-name">
+                  {selectable ? (
+                    <span>{invoiceTemplate.name}</span>
+                  ) : (
+                    <span style={{ fontSize: "12px" }}>
+                      Template Id: {invoiceTemplate.id}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
