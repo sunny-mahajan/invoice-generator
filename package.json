@@ -10,13 +10,16 @@
   },
   "dependencies": {
     "@sparticuz/chromium": "^119.0.2",
+    "bcryptjs": "^2.4.3",
     "csv-parser": "^3.0.0",
     "file-saver": "^2.0.5",
     "firebase": "^10.14.0",
     "firebase-admin": "^12.6.0",
+    "jsonwebtoken": "^9.0.2",
     "jszip": "^3.10.1",
     "next": "14.2.6",
     "next-auth": "^4.24.7",
+    "nodemailer": "^6.9.16",
     "papaparse": "^5.4.1",
     "puppeteer": "^23.2.0",
     "puppeteer-core": "^21.5.1",
@@ -26,7 +29,8 @@
     "react-phone-number-input": "^3.4.8",
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.5",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@types/node": "^18",

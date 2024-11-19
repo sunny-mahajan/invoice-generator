@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DialogBox from "../DialogBox";
-import { PreviewIcon } from "../../utils/icons";
+import { infoIcon, PreviewIcon } from "../../utils/icons";
 
 const InvoiceTemplates = ({
   handleSelectTemplates = () => {},
@@ -13,6 +13,7 @@ const InvoiceTemplates = ({
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [invoiceTemplates, setTemplates] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   useEffect(() => {
     fetchTemplates();
   }, []);
@@ -69,12 +70,25 @@ const InvoiceTemplates = ({
               <div className="random-temp-cls relative w-12 h-7 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
               <span className="ml-3">Use Random Template</span>
             </label>
+            <div
+              className="ml-4 cursor-pointer relative"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              {infoIcon()}
+
+              {isHovered && (
+                <div className="absolute top-full right-0 mt-2 w-80 p-2 bg-gray-200 text-black rounded shadow-lg z-50">
+                  Enable to randomly select a template, or choose one manually
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
 
       <div
-        className={`invoice-templates-cls grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4 ${
+        className={`invoice-templates-cls grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 p-4 ${
           isRandomSelectionChecked ? "opacity-50 pointer-events-none" : ""
         }`}
       >
@@ -91,9 +105,9 @@ const InvoiceTemplates = ({
                   : ""
               }`}
             >
-              <div className="template-preview-image-container w-full h-48 overflow-hidden">
+              <div className="template-preview-image-container w-full overflow-hidden relative pt-[90%]">
                 <img
-                  className="template-preview-image h-full w-full"
+                  className="template-preview-image h-full w-full absolute top-0 left-0"
                   src={invoiceTemplate.previewUrl}
                   alt={invoiceTemplate.name}
                 />

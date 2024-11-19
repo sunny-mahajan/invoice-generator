@@ -7,14 +7,13 @@ import Layout from "../components/Layout";
 import CustomButton from "../components/Button";
 import "./style.css";
 import InvoiceTemplates from "../components/InvoiceTemplates";
-import { DropImageIcon, infoIcon } from "../utils/icons";
-import DialogBox from "../components/DialogBox/index";
+import { DropImageIcon } from "../utils/icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSession } from "next-auth/react";
 import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { previewInvoiceData } from "../utils/constants";
+import { useUser } from "../app/context/userContext";
 
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
@@ -30,7 +29,7 @@ export default function UploadCSV() {
     useState(false);
   const [isTemplateIdUpdated, setIsTemplateIdUpdated] = useState(false);
   const fileInputRef = useRef(null); // Create a reference for the file input
-  const { data: session } = useSession();
+  const { userData } = useUser();
 
   useEffect(() => {
     getTemplatesID();
@@ -249,10 +248,8 @@ export default function UploadCSV() {
       // Assign the first template ID to all invoices when toggle is off
       assignTemplateToInvoices(() => templateIds[0]);
       setIsTemplateSelectable(true);
-      toast.info("Random template selection is disabled");
     } else {
       setIsTemplateSelectable(false);
-      toast.success("Template IDs assigned randomly to invoices");
     }
   };
 
@@ -261,7 +258,7 @@ export default function UploadCSV() {
 
     const zip = new JSZip();
     for (const invoice of invoices) {
-      const pdfBlob = await generateHTMLPDF(invoice, session.user);
+      const pdfBlob = await generateHTMLPDF(invoice, userData);
       zip.file(`invoice_${invoice["Invoice No."]}.pdf`, pdfBlob);
     }
 
@@ -331,23 +328,14 @@ export default function UploadCSV() {
     e.preventDefault();
   };
 
-  const handleOpenDialog = (event) => {
-    event.stopPropagation();
-    setIsDialogOpen(true);
-  };
-  const handleCloseDialog = () => setIsDialogOpen(false);
-  const handleConfirm = () => {
-    setIsDialogOpen(false);
-  };
-
   return (
     <Layout>
       <div className="container mx-auto pt-8 px-0 upload-container-cls">
-        <div className="flex flex-col items-center mb-5 md:mb-0">
+        <div className="flex md:flex-row flex-col items-center mb-5 md:mb-0 p-4 gap-10">
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className="flex items-center justify-center w-full max-w-[800px] h-[200px] transition duration-200 min-w-[400px]"
+            className="flex items-center justify-center w-[60%] h-[200px] transition duration-200 min-w-[400px] flex-1"
           >
             <div
               onClick={() => fileInputRef.current.click()}
@@ -373,29 +361,6 @@ export default function UploadCSV() {
                     <span className="cursor-pointer font-semibold underline">
                       <a onClick={handleDownloadCSV}>Download sample file</a>
                     </span>
-                    <div>
-                      {/* <div
-                        className="ml-4 cursor-pointer"
-                        onClick={(e) => handleOpenDialog(e)}
-                      >
-                        {infoIcon()}
-                      </div>
-                      <div onClick={(e) => e.stopPropagation()}>
-                        <DialogBox
-                          isOpen={isDialogOpen}
-                          onClose={handleCloseDialog}
-                          title="Instructions"
-                          content={`1. Download the sample CSV file to see the correct format.
-                            2. Select an invoice template from the list or use a random template.
-                            3. Fill in your data following the sample CSV format.
-                            4. Upload your CSV file.
-                            5. Click 'Generate Invoices as ZIP' to download your invoices.`}
-                          confirmText="Got it!"
-                          cancelText=""
-                          onConfirm={handleConfirm}
-                        />
-                      </div> */}
-                    </div>
                   </div>
                 </div>
               )}
@@ -416,6 +381,19 @@ export default function UploadCSV() {
               onChange={handleFileUpload}
               className="hidden"
             />
+          </div>
+          <div className="instruction-container w-[40%]">
+            <h2 className="text-lg font-semibold mb-2">Instructions</h2>
+            <ol className="list-decimal list-inside space-y-1">
+              <li>Download the sample CSV file to see the correct format.</li>
+              <li>
+                Select an invoice template from the list or use a random
+                template.
+              </li>
+              <li>Fill in your data following the sample CSV format.</li>
+              <li>Upload your CSV file.</li>
+              <li>Click Generate Invoices as ZIP to download your invoices.</li>
+            </ol>
           </div>
         </div>
       </div>
@@ -442,18 +420,6 @@ export default function UploadCSV() {
           </CustomButton>
         </div>
       )}
-      <div className="instruction-container p-4 mx-auto w-full">
-        <h2 className="text-lg font-semibold mb-2">Instructions</h2>
-        <ol className="list-decimal list-inside space-y-1">
-          <li>Download the sample CSV file to see the correct format.</li>
-          <li>
-            Select an invoice template from the list or use a random template.
-          </li>
-          <li>Fill in your data following the sample CSV format.</li>
-          <li>Upload your CSV file.</li>
-          <li>Click Generate Invoices as ZIP to download your invoices.</li>
-        </ol>
-      </div>
     </Layout>
   );
 }
