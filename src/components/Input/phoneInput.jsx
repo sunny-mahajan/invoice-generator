@@ -10,6 +10,7 @@ const PhoneInputField = ({
   name,
   validationRules = {},
   touchedInput = false,
+  required = false,
 }) => {
   const [touched, setTouched] = useState(touchedInput); // Track if input is touched
 
@@ -25,11 +26,17 @@ const PhoneInputField = ({
   return (
     <div className="input-container">
       <div className="input-title-container">
-        <label className="input-title">Phone number:</label>
+        <label className="input-title">
+          {required ? "Phone number *" : "Phone number"}{" "}
+        </label>
       </div>
       <div>
         <div className="phone-number-input-container flex items-center">
-          <div className="input-cont-color-cls phone-number-input-cls flex items-center border font-semibold text-[13px] h-[40px] w-max lg:w-[27%] p-[3px] rounded-l">
+          <div
+            className={`input-cont-color-cls phone-number-input-cls flex items-center border font-semibold text-[13px] h-[40px] w-max lg:w-[27%] p-[3px] rounded-l ${
+              required && fieldError ? "input-error-cls" : ""
+            }`}
+          >
             <img
               src="/assets/images/indiaFlag.png"
               alt="Indian Flag"
@@ -39,7 +46,9 @@ const PhoneInputField = ({
           </div>
           <div className="w-[70%] lg:w-[73%]">
             <input
-              className="tel-input-field input-cont-color-cls w-full py-[10px] px-[5px] h-[40px] rounded-r border font-semibold text-[14px] focus:outline-none"
+              className={`tel-input-field input-cont-color-cls w-full py-[10px] px-[5px] h-[40px] rounded-r border font-semibold text-[14px] focus:outline-none ${
+                required && fieldError ? "input-error-cls" : ""
+              }`}
               type={type}
               name={name}
               maxLength="10"
