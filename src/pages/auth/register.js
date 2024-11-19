@@ -1,43 +1,46 @@
-// components/Login.js
-import { useRouter } from "next/router";
+// components/Register.js
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import CustomInput from "../../components/Input";
 import CustomButton from "../../components/Button";
 import "./style.css";
+import PhoneInputField from "../../components/Input/phoneInput";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Login() {
-  const router = useRouter();
+export default function Register() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
-  const handleLogin = async (data) => {
+  // Registration handler
+  const handleRegister = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: data.email, password: data.password }),
+        body: JSON.stringify(data),
       });
 
-      const result = await response.json();
-
       if (response.ok) {
-        localStorage.setItem("token", result.token);
-        router.push("/");
+        toast.success("Registration successful! Please verify your email.");
+        reset();
       } else {
-        toast.error(result.error || "An error occurred");
+        const errorData = await response.json();
+        toast.error(
+          `Registration failed: ${errorData.error || "Unknown error"}`
+        );
       }
     } catch (error) {
-      console.error("Fetch error:", error);
-      toast.error("Login failed");
+      toast.error("Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -47,13 +50,27 @@ export default function Login() {
     <div className="login-container-cls">
       <div className="login-container-wrapper">
         <div className="login-form-cls">
-          <h1>Login</h1>
-          <form onSubmit={handleSubmit(handleLogin)}>
+          <h1>Register</h1>
+          <form onSubmit={handleSubmit(handleRegister)}>
+            <CustomInput
+              type="text"
+              name="name"
+              title="Name"
+              placeholder="Enter your name"
+              inputClass="inputInvoiceCls"
+              required
+              register={register}
+              errors={errors}
+              validationRules={{
+                required: "Name is required",
+              }}
+            />
+
             <CustomInput
               type="text"
               name="email"
               title="Email"
-              placeholder="E-mail"
+              placeholder="Enter your email"
               inputClass="inputInvoiceCls"
               required
               register={register}
@@ -65,6 +82,22 @@ export default function Login() {
                   message: "Invalid email address",
                 },
               }}
+            />
+
+            <PhoneInputField
+              type={"tel"}
+              name="contactNo"
+              placeholder="9898989899"
+              errors={errors}
+              register={register}
+              validationRules={{
+                required: "Phone Number is required",
+                pattern: {
+                  value: /^\d{10}$/,
+                  message: "Invalid phone number",
+                },
+              }}
+              touchedInput={true}
             />
 
             <CustomInput
@@ -80,38 +113,29 @@ export default function Login() {
                 required: "Password is required",
               }}
             />
+
             <CustomButton
               type="purple"
               buttonStyle={{ marginTop: "1rem", minWidth: "250px" }}
               isLoading={loading}
             >
-              Login
+              Create Account
             </CustomButton>
           </form>
-          <div style={{ textAlign: "center" }}>
-            <div style={{ padding: "1rem 0" }}>
-              <span>
-                Do not have an account?{" "}
-                <span
-                  onClick={() => router.push("/auth/register")}
-                  className="signup-signin-cls"
-                >
-                  Sign up now
-                </span>
-              </span>
-            </div>
-            <div>
+          <div style={{ padding: "1rem 0" }}>
+            <span>
+              Already have an account?{" "}
               <span
-                onClick={() => router.push("/auth/forgot-password")}
+                onClick={() => router.push("/auth/login")}
                 className="signup-signin-cls"
               >
-                Forgot Password?
+                Login here
               </span>
-            </div>
+            </span>
           </div>
+          <ToastContainer />
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

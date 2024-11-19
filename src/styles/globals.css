@@ -398,3 +398,6 @@ body[data-theme="light"] .add-new-btn-cls {
 .instruction-container {
   color: var(--color);
 }
+.instruction-container li {
+  font-size: 14px;
+}

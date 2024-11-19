@@ -52,30 +52,6 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 style={styles.input}
               />
             </div>
-
-            {/* <div className="w-full flex flex-col">
-              <CustomInput
-                type="number"
-                name="bankDetails.confirmAccountNumber"
-                title="Confirm Account No."
-                placeholder="Confirm account number"
-                value={formData.bankDetails.confirmAccountNumber}
-                onChange={handleChange}
-                style={styles.input}
-                errors={errors}
-                register={register}
-                validationRules={{
-                  required: formData.bankDetails.accountNumber
-                    ? "Confirm account number is required"
-                    : false,
-                  validate: (value) =>
-                    formData.bankDetails.accountNumber
-                      ? value === formData.bankDetails.accountNumber ||
-                        "Confirm account number does not match account number"
-                      : true,
-                }}
-              />
-            </div> */}
           </div>
 
           <div className="block md:flex gap-5">
@@ -105,16 +81,6 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
 
           <div className="block md:flex gap-5">
             <div className="w-full flex flex-col">
-              {/* <CustomInput
-                type="text"
-                name="bankDetails.bankAccountType"
-                title="Account Type"
-                placeholder="Enter account type"
-                value={formData.bankDetails.bankAccountType}
-                onChange={handleChange}
-                style={styles.input}
-              /> */}
-
               <FormCustomDropdown
                 name="bankDetails.bankAccountType"
                 title="Account Type"

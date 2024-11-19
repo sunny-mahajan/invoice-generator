@@ -1,25 +1,24 @@
-import { SessionProvider } from "next-auth/react";
-import ProtectedPage from "../app/protected"; // Adjust path if necessary
+import ProtectedPage from "../app/protected";
 import "./style.css";
 import { ThemeProvider } from "../utils/themeContext";
+import { UserProvider } from "../app/context/userContext";
 
 function MyApp({ Component, pageProps, router }) {
   const protectedRoutes = ["/", "/upload"]; // Define protected routes
-
   const isProtectedRoute = protectedRoutes.includes(router.pathname);
 
   return (
-    <SessionProvider session={pageProps.session}>
-      {isProtectedRoute ? (
-        <ProtectedPage>
-          <ThemeProvider>
+    <ThemeProvider>
+      <UserProvider>
+        {isProtectedRoute ? (
+          <ProtectedPage>
             <Component {...pageProps} />
-          </ThemeProvider>
-        </ProtectedPage>
-      ) : (
-        <Component {...pageProps} />
-      )}
-    </SessionProvider>
+          </ProtectedPage>
+        ) : (
+          <Component {...pageProps} />
+        )}
+      </UserProvider>
+    </ThemeProvider>
   );
 }
 

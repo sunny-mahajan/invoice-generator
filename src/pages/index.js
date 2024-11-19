@@ -1,8 +1,6 @@
 import Layout from "../components/Layout";
 import React, { useRef, useState, useEffect } from "react";
 import CustomButton from "../components/Button";
-import CustomInput from "../components/Input";
-import FormCustomDropdown from "../components/FormDropdown";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
@@ -13,14 +11,11 @@ import {
   mapBankDetails,
   mapReceiverDetails,
   mapSenderDetails,
-  validateField,
   fileToBase64,
 } from "../utils/helpers";
 import InvoiceTemplates from "../components/InvoiceTemplates";
 import useClickOutside from "../hooks/useClickOutside";
 import {
-  currencyOptions,
-  allowedKeys,
   taxTypeOptions,
   currencySymbols,
   previewInvoiceData,
@@ -30,9 +25,8 @@ import BillFromForm from "../components/InvoiceForms/billFrom";
 import BillToForm from "../components/InvoiceForms/billTo";
 import InvoiceDetailsForm from "../components/InvoiceForms/invoiceDetails";
 import ItemDetails from "../components/InvoiceForms/items";
-import BankDetails from "../components/InvoiceForms/bankDetails";
-import { useSession } from "next-auth/react";
 import InvoicePreview from "../components/InvoicePreview";
+import { useUser } from "../app/context/userContext";
 
 let formDataInitialValues = {
   invoiceNo: "",
@@ -103,7 +97,8 @@ const InvoiceForm = () => {
   const [isDueDatePickerOpen, setIsDueDatePickerOpen] = useState(false);
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
   const [dueDateAfter, setDueDateAfter] = useState(15);
-  const { data: session } = useSession();
+  const { userData } = useUser();
+
   const [isItemDataUpdated, setIsItemDataUpdated] = useState({
     name: false,
     quantity: false,
@@ -488,7 +483,7 @@ const InvoiceForm = () => {
       "Tax Percentage": formData.taxPercentage,
     };
     try {
-      const pdfBlob = await generateHTMLPDF(mappedData, session.user);
+      const pdfBlob = await generateHTMLPDF(mappedData, userData);
       if (pdfBlob) {
         const blobURL = URL.createObjectURL(pdfBlob);
         // window.open(blobURL, "_blank");
@@ -553,29 +548,6 @@ const InvoiceForm = () => {
               />
             </div>
             <div className="items-details-container">
-              {/* <div className="block md:flex gap-5">
-                <div className="w-full lg:w-1/4 flex mt-2 flex-col">
-                  <FormCustomDropdown
-                    name="currency"
-                    title="Currency"
-                    label={formData.currency}
-                    onSelect={handleChange}
-                    style={styles.input}
-                    options={currencyOptions}
-                  />
-                </div>
-                <div className="flex w-full lg:w-1/4 mt-2 flex-col">
-                  <CustomInput
-                    type="number"
-                    name="taxPercentage"
-                    title="Tax Percentage"
-                    placeholder="Enter tax percentage"
-                    value={formData.taxPercentage}
-                    onChange={handleChange}
-                    style={styles.input}
-                  />
-                </div>
-              </div> */}
               <ItemDetails
                 formData={formData}
                 handleItemChange={handleItemChange}
@@ -585,12 +557,6 @@ const InvoiceForm = () => {
                 validateForm={validateForm}
                 errorsData={errorsData}
               />
-              {/* <BankDetails
-                formData={formData}
-                handleChange={handleChange}
-                errors={errors}
-                register={register}
-              /> */}
             </div>
           </div>
           <div>

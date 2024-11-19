@@ -87,7 +87,7 @@ export const previewInvoiceData = {
   "Account No": "12345678",
   "Account Holder Name": "John Doe",
   "IFSC Code": "BOFAUS3N",
-  "Account Type": "Checking",
+  "Account Type": "Savings",
   "Bank Address": "New York, NY, USA",
   Logo: "https://img.freepik.com/premium-vector/minimalist-…orporate-brand-business-company_1253202-77511.jpg",
   Currency: "INR",

@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import CustomInput from "../Input/index"; // Make sure to adjust the import path as needed
 import PhoneInputField from "../Input/phoneInput"; // Adjust import path
-import FormCustomDropdown from "../FormDropdown"; // Adjust import path
 import {
   UpArrowIcon,
   DownArrowIcon,
@@ -158,19 +157,6 @@ const BillFromForm = ({
                 />
               </div>
             </div>
-            {/* <div className="block md:flex gap-5">
-              <div className="flex w-full md:w-[48%] flex-col">
-                <CustomInput
-                  type="text"
-                  name="senderDetails.country"
-                  title="Country"
-                  placeholder={"Enter country"}
-                  value={formData?.senderDetails?.country}
-                  onChange={handleChange}
-                  style={styles.input}
-                />
-              </div>
-            </div> */}
           </div>
         </div>
 
