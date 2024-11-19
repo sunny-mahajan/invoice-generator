@@ -27,31 +27,35 @@ const PhoneInputField = ({
       <div className="input-title-container">
         <label className="input-title">Phone number:</label>
       </div>
-      <div className="phone-number-input-container flex items-center">
-        <div className="input-cont-color-cls phone-number-input-cls flex items-center border font-semibold text-[13px] h-[40px] mb-[3px] w-max lg:w-[27%] p-[3px] rounded-l">
-          <img
-            src="/assets/images/indiaFlag.png"
-            alt="Indian Flag"
-            className="w-6 h-4 mr-1"
-          />
-          <span className="mt-[3px]">+91</span>
+      <div>
+        <div className="phone-number-input-container flex items-center">
+          <div className="input-cont-color-cls phone-number-input-cls flex items-center border font-semibold text-[13px] h-[40px] w-max lg:w-[27%] p-[3px] rounded-l">
+            <img
+              src="/assets/images/indiaFlag.png"
+              alt="Indian Flag"
+              className="w-6 h-4 mr-1"
+            />
+            <span className="mt-[3px]">+91</span>
+          </div>
+          <div className="w-[70%] lg:w-[73%]">
+            <input
+              className="tel-input-field input-cont-color-cls w-full py-[10px] px-[5px] h-[40px] rounded-r border font-semibold text-[14px] focus:outline-none"
+              type={type}
+              name={name}
+              maxLength="10"
+              placeholder={placeholder}
+              onChange={onChange}
+              {...register(name, { ...validationRules, onBlur: handleBlur })} // Register + custom onBlur
+            />
+          </div>
         </div>
-        <div className="w-[70%] lg:w-[73%]">
-          <input
-            className="tel-input-field input-cont-color-cls w-full py-[10px] px-[5px] h-[40px] rounded-r border font-semibold text-[14px] mb-[3px] focus:outline-none"
-            type={type}
-            name={name}
-            maxLength="10"
-            placeholder={placeholder}
-            onChange={onChange}
-            {...register(name, { ...validationRules, onBlur: handleBlur })} // Register + custom onBlur
-          />
+        <div style={{ height: "16px" }}>
+          {fieldError &&
+            touched && ( // Show error only if touched and error exists
+              <p className="input-error text-red-600">{fieldError.message}</p>
+            )}
         </div>
       </div>
-      {fieldError &&
-        touched && ( // Show error only if touched and error exists
-          <p className="input-error text-red-600">{fieldError.message}</p>
-        )}
     </div>
   );
 };

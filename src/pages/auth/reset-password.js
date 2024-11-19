@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import "./style.css";
 import CustomInput from "../../components/Input";
 import CustomButton from "../../components/Button";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ResetPassword() {
   const router = useRouter();
@@ -26,15 +28,17 @@ export default function ResetPassword() {
 
       const data = await response.json();
       if (!response.ok) {
-        alert(data.error);
+        toast.error(data.error);
       } else {
-        alert(data.message);
+        toast.success(data.message);
         setLoading(false);
-        router.push("/auth/login");
+        setTimeout(() => {
+          router.push("/auth/login");
+        }, 2000);
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -69,6 +73,7 @@ export default function ResetPassword() {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

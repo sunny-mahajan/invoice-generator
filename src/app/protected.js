@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "./context/userContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProtectedPage = ({ children }) => {
   const router = useRouter();
@@ -25,16 +27,15 @@ const ProtectedPage = ({ children }) => {
       const response = await fetch("/api/auth/protected", {
         headers: { Authorization: `Bearer ${token}` },
       });
-        // Parse the response JSON data
-        const data = await response.json();
-        setUser(data.user)
-        console.log("Protected data:", data.user);
-        if (!response.ok || !data.user.verified) {
-          alert("Please verify your email to access this page.");
-          clearUser();
-          router.push("/auth/login");
-          return;
-        }
+      // Parse the response JSON data
+      const data = await response.json();
+      setUser(data.user);
+      if (!response.ok || !data.user.verified) {
+        toast.info("Please verify your email to access this page.");
+        clearUser();
+        router.push("/auth/login");
+        return;
+      }
       // Protected data is fetched successfully, stop loading
       setLoading(false);
     } catch (error) {
@@ -52,4 +53,3 @@ const ProtectedPage = ({ children }) => {
 };
 
 export default ProtectedPage;
-

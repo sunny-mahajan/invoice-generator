@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import CustomInput from "../../components/Input";
 import CustomButton from "../../components/Button";
 import "./style.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const router = useRouter();
@@ -31,11 +33,11 @@ export default function Login() {
         localStorage.setItem("token", result.token);
         router.push("/");
       } else {
-        alert(result.error || "An error occurred");
+        toast.error(result.error || "An error occurred");
       }
     } catch (error) {
       console.error("Fetch error:", error);
-      alert("Login failed");
+      toast.error("Login failed");
     } finally {
       setLoading(false);
     }
@@ -109,6 +111,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

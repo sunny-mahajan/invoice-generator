@@ -11,7 +11,6 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const { userData, clearUser } = useUser();
-console.log(userData, "user-------------")
   // adjust sidebar menu position
   const avatarRef = useRef(null);
   const [menuPosition, setMenuPosition] = useState({ left: 0, top: 0 });
@@ -44,7 +43,7 @@ console.log(userData, "user-------------")
   const handleLogout = () => {
     localStorage.removeItem("token");
     clearUser();
-    router.push("auth/login")
+    router.push("auth/login");
     setIsMenuOpen(false);
   };
 
@@ -98,18 +97,18 @@ console.log(userData, "user-------------")
         {theme === "light" ? <DarkThemeIcon /> : <LightThemeIcon />}
       </button>
       <div className="sidebar-bottom d-flex items-center justify-content-center">
-      <div
-            className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
-            ref={avatarRef}
-            onClick={handleProfileClick}
+        <div
+          className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
+          ref={avatarRef}
+          onClick={handleProfileClick}
+        >
+          <span
+            className="user-profile-cls text-lg"
+            style={{ marginTop: "1px" }}
           >
-            <span
-              className="user-profile-cls text-lg"
-              style={{ marginTop: "1px" }}
-            >
-              {userData?.name.charAt(0).toUpperCase()}
-            </span>
-          </div>
+            {userData?.name.charAt(0).toUpperCase()}
+          </span>
+        </div>
       </div>
 
       {isMenuOpen && ( // Conditionally render the side menu

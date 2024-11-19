@@ -5,7 +5,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export default async function handler(req, res) {
-  console.log("email and password");
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -26,10 +25,14 @@ export default async function handler(req, res) {
     if (!isPasswordValid) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
-console.log(user, "user-----------")
     // Create JWT token
     const token = jwt.sign(
-      { id: user.id, email: user.email, name: user.name, verified: user.verified },
+      {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        verified: user.verified,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
@@ -40,4 +43,3 @@ console.log(user, "user-----------")
     res.status(500).json({ error: "Internal server error" });
   }
 }
-

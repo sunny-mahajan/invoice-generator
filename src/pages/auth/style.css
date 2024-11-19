@@ -1,8 +1,8 @@
 body {
   background-color: #141625;
+  color: #fff;
 }
 .login-container-cls {
-  background-color: #141625;
   height: 100vh;
   font-family: "Spartan", sans-serif !important;
 }
@@ -24,13 +24,10 @@ body {
   font-family: inherit;
   font-weight: 600;
   font-size: 14px;
-  /* background-color: white !important; */
-  color: white !important;
 }
 
 .login-container-cls label,
 .login-container-cls span {
-  color: white !important;
   font-size: 14px !important;
 }
 
@@ -43,7 +40,8 @@ body {
 }
 
 .login-container-cls .purple-button {
-  font-size: 14px !important;
+  padding: 0 !important;
+  min-height: 45px;
 }
 
 .login-container-cls .signup-signin-cls {

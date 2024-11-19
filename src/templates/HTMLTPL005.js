@@ -88,13 +88,15 @@ export default function generateHTMLTPL003(invoiceData) {
 
       body {
         font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
+        background-color: white;
       }
 
       .invoice-container {
-        background-color: white;
         padding: 20px;
       }
+        .invoice-container h2,.invoice-container h3 {
+            font-weight: 700 !important;
+        }
 
     .invoice-container p {
         color: #000000 !important;
@@ -168,11 +170,6 @@ export default function generateHTMLTPL003(invoiceData) {
         display: flex;
         justify-content: space-between;
         margin-top: 20px;
-      }
-
-      .invoice-details-cls,
-      .bank-details-cls {
-        width: 45%;
       }
 
       .invoice-details-cls h3,

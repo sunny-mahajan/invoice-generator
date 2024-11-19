@@ -6,6 +6,8 @@ import CustomInput from "../../components/Input";
 import CustomButton from "../../components/Button";
 import "./style.css";
 import PhoneInputField from "../../components/Input/phoneInput";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
@@ -29,14 +31,16 @@ export default function Register() {
       });
 
       if (response.ok) {
-        alert("Registration successful! Please verify your email.");
+        toast.success("Registration successful! Please verify your email.");
         reset();
       } else {
         const errorData = await response.json();
-        alert(`Registration failed: ${errorData.message || "Unknown error"}`);
+        toast.error(
+          `Registration failed: ${errorData.error || "Unknown error"}`
+        );
       }
     } catch (error) {
-      alert("Registration failed. Please try again.");
+      toast.error("Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -129,6 +133,7 @@ export default function Register() {
               </span>
             </span>
           </div>
+          <ToastContainer />
         </div>
       </div>
     </div>

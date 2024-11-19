@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Verify = () => {
   const router = useRouter();
@@ -20,14 +22,19 @@ const Verify = () => {
         router.push("/auth/login");
       } else {
         const errorData = await response.json();
-        alert(`Verification failed: ${errorData.message}`);
+        toast.error(`Verification failed: ${errorData.error}`);
       }
     } catch (error) {
-      alert("Verification failed. Please try again.");
+      toast.error("Verification failed. Please try again.");
     }
   };
 
-  return <div>Verifying your email...</div>;
+  return (
+    <div>
+      <ToastContainer />
+      Verifying your email...
+    </div>
+  );
 };
 
 export default Verify;
