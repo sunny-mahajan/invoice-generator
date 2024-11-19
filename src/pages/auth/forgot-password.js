@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import "./style.css";
 import CustomInput from "../../components/Input";
 import CustomButton from "../../components/Button";
@@ -13,6 +14,7 @@ export default function ForgotPassword() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const router = useRouter();
 
   const handleForgotPassword = async (e) => {
     setLoading(true);
@@ -69,6 +71,14 @@ export default function ForgotPassword() {
               Send Reset Email
             </CustomButton>
           </form>
+          <div>
+            <span
+              onClick={() => router.push("/auth/login")}
+              className="signup-signin-cls"
+            >
+              Login here
+            </span>
+          </div>
         </div>
       </div>
       <ToastContainer />
