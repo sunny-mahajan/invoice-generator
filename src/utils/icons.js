@@ -359,8 +359,8 @@ export function PreviewIcon() {
     <svg
       fill="#000000"
       xmlns="http://www.w3.org/2000/svg"
-      width="30px"
-      height="30px"
+      width="80px"
+      height="80px"
       viewBox="0 0 52 52"
       enable-background="new 0 0 52 52"
     >

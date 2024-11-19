@@ -113,12 +113,12 @@ const InvoiceTemplates = ({
                     src={invoiceTemplate.previewUrl}
                     alt={invoiceTemplate.name}
                   />
-                </div>
-                <div
-                  onClick={() => handleTemplatePreview(invoiceTemplate.id)}
-                  className="absolute top-2 right-5 hidden group-hover:block"
-                >
-                  <PreviewIcon />
+                  <div
+                    onClick={() => handleTemplatePreview(invoiceTemplate.id)}
+                    className="absolute top-[50%] right-[50%] translate-x-[50%] translate-y-[-50%] hidden group-hover:block"
+                  >
+                    <PreviewIcon />
+                  </div>
                 </div>
                 <div onClick={(e) => e.stopPropagation()}>
                   <DialogBox
