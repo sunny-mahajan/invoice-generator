@@ -9,6 +9,7 @@ import generateHTMLTPL002 from "../../templates/HTMLTPL002";
 import generateHTMLTPL003 from "../../templates/HTMLTPL003";
 import generateHTMLTPL004 from "../../templates/HTMLTPL004";
 import generateHTMLTPL005 from "../../templates/HTMLTPL005";
+import generateHTMLTPL008 from "../../templates/HTMLTPL008";
 
 export default function InvoicePreview({
   formData = {},
@@ -68,7 +69,10 @@ export default function InvoicePreview({
         ? generateHTMLTPL003(invoiceData)
         : selectedTemplateId === "TPL004"
         ? generateHTMLTPL004(invoiceData)
-        : generateHTMLTPL005(invoiceData);
+        : selectedTemplateId === "TPL005"
+        ? generateHTMLTPL005(invoiceData)
+        : generateHTMLTPL008(invoiceData);
+
     setPreviewHtml(htmlString);
   };
 
