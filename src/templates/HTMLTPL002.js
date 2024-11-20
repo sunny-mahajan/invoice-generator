@@ -412,10 +412,10 @@ export default function generateHTMLTPL002(invoiceData) {
     <table class="items">
       <thead>
         <tr>
-          <th>QTY</th>
+          <th>#</th>
           <th>NAME</th>
-          ${isDescriptionAvailable ? `<th>DESCRIPTION</th>` : ""}
           <th>PRICE</th>
+          <th>QTY</th>
           <th>AMOUNT</th>
           <th>TAX %</th>
           <th>TAX ${currencySymbol(invoiceData["Currency"])}</th>
@@ -425,15 +425,14 @@ export default function generateHTMLTPL002(invoiceData) {
       <tbody>
       ${invoiceData["Items"]
         .map(
-          (item) => `<tr>
-          <td>${item["quantity"]}</td>
-          <td class="item-cls">${item["name"]}</td>
-          ${
-            isDescriptionAvailable
-              ? `<td class="item-cls">${item["description"]}</td>`
-              : ""
-          }
+          (item, index) => `<tr>
+          
+          <td >${index + 1}</td>
+          <td class="item-cls">${item["name"]}
+          ${isDescriptionAvailable ? `<p>${item["description"]}</p>` : ""}
+          </td>
           <td>${currencySymbol(invoiceData["Currency"])}${item["price"]}</td>
+          <td>${item["quantity"]}</td>
           <td>${currencySymbol(invoiceData["Currency"])}${
             item["price"] * item["quantity"]
           }</td>

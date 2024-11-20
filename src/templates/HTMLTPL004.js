@@ -132,7 +132,9 @@ export default function generateHTMLTPL004(invoiceData) {
         padding: 8px;
         text-align: right;
     }
-
+    .product-description td:first-child {
+      text-align: center;
+    }
     .product-description .item-name-cls {
         max-width: 150px;
         text-align: center !important;
@@ -344,10 +346,10 @@ export default function generateHTMLTPL004(invoiceData) {
         <table>
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Item Name</th>
-                    ${isDescriptionAvailable ? "<th>Description</th>" : ""}
-                    <th>Qty</th>
                     <th>Price</th>
+                    <th>Qty</th>
                     <th>AMOUNT</th>
                     <th>TAX %</th>
                     <th>TAX ${currencySymbol(invoiceData["Currency"])}</th>
@@ -357,19 +359,21 @@ export default function generateHTMLTPL004(invoiceData) {
             <tbody>
             ${invoiceData["Items"]
               .map(
-                (item) => `
+                (item, index) => `
                   <tr>
-                      <td class="item-name-cls">${item["name"]}</td>
+                      <td >${index + 1}</td>
+                      <td class="item-name-cls">${item["name"]}
                       ${
                         isDescriptionAvailable
-                          ? `<td class="item-cls">${item["description"]}</td>`
+                          ? `<p>${item["description"]}</p>`
                           : ""
                       }
-                      <td>${item["quantity"]}</td>
+                      </td>
                       <td>${currencySymbol(invoiceData["Currency"])}${
                   item["price"]
                 }</td>
-<td>${currencySymbol(invoiceData["Currency"])}${
+                <td>${item["quantity"]}</td>
+                <td>${currencySymbol(invoiceData["Currency"])}${
                   item["price"] * item["quantity"]
                 }</td>
           <td>${item["taxPercentage"]}%</td>

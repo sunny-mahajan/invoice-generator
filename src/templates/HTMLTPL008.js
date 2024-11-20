@@ -152,40 +152,43 @@ export default function generateHTMLTPL003(invoiceData) {
 
         .invoice-table th,
         .invoice-table td {
-            text-align: left;
+            text-align: right;
             padding: 8px;
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .invoice-table th {
             background: rgba(255, 255, 255, 0.2);
-        }
-
-        .invoice-table .item-des-cls {
-          text-align: left;
-          max-width: 120px;
+            text-align: center;
         }
 
         .invoice-table .item-name-cls {
             text-align: center;
             max-width: 150px;
         }
-
+        .invoice-table td:first-child {
+          text-align: center;
+        }
+        .invoice-total-container {
+          display: flex;
+          width: 100%;
+          justify-content: flex-end;
+        }
         .invoice-total {
-            font-size: 16px;
-            margin-top: 10px;
+          font-size: 16px;
+          margin-top: 10px;
         }
         .invoice-total div {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: flex-end;
         }
         .invoice-total div p {
             margin: 3px 0; /* Prevent extra spacing */
             padding: 0; /* Prevent extra padding */
         }
         .total-title-cls {
-            width: 150px;
+            min-width: 150px;
         }
     </style>
   </head>
@@ -423,14 +426,10 @@ export default function generateHTMLTPL003(invoiceData) {
         <table class="invoice-table">
           <thead>
             <tr>
-                <th>QTY</th>
+                <th>#</th>
                 <th class="item-name-cls">NAME</th>
-                ${
-                  isDescriptionAvailable
-                    ? `<th class="item-des-cls">DESCRIPTION</th>`
-                    : ""
-                }
                 <th>PRICE</th>
+                <th>QTY</th>
                 <th>AMOUNT</th>
                 <th>TAX %</th>
                 <th>TAX ${currencySymbol(invoiceData["Currency"])}</th>
@@ -440,22 +439,20 @@ export default function generateHTMLTPL003(invoiceData) {
           <tbody>
           ${invoiceData["Items"]
             .map(
-              (item) => `<tr>
-              <td>${item["quantity"]}</td>
-              <td class="item-name-cls">${item["name"]}</td>
-              ${
-                isDescriptionAvailable
-                  ? `<td class="item-des-cls">${item["description"]}</td>`
-                  : ""
-              }
+              (item, index) => `<tr>
+              <td>${index + 1}</td>
+              <td class="item-name-cls">${item["name"]}
+              ${isDescriptionAvailable ? `<p>${item["description"]}</p>` : ""}
+              </td>
               <td>${currencySymbol(invoiceData["Currency"])}${
                 item["price"]
               }</td>
+              <td>${item["quantity"]}</td>
               <td>${currencySymbol(invoiceData["Currency"])}${
                 item["price"] * item["quantity"]
               }</td>
               <td>${item["taxPercentage"]}%</td>
-               <td>${currencySymbol(invoiceData["Currency"])}${(
+              <td>${currencySymbol(invoiceData["Currency"])}${(
                 item["price"] *
                 item["quantity"] *
                 (item["taxPercentage"] / 100)
@@ -471,58 +468,59 @@ export default function generateHTMLTPL003(invoiceData) {
             .join("")}
           </tbody>
         </table>
-
-        <div class="invoice-total">
-            ${
-              taxPercentage > 0
-                ? `
-                    <div>
-                        <p class="total-title-cls">Subtotal:</p>
-                        <p>
-                            ${currencySymbol(
-                              invoiceData["Currency"]
-                            )}${subAmount.toFixed(1)}
-                        </p>
-                    </div>
-                    ${
-                      invoiceData["Sender's Tax Type"] === "IGST"
-                        ? `
+        <div class="invoice-total-container">
+            <div class="invoice-total">
+                ${
+                  taxPercentage > 0
+                    ? `
                         <div>
-                            <p class="total-title-cls">${
-                              invoiceData["Sender's Tax Type"]
-                            } (${taxPercentage.toFixed(1)}%):</p>
-                            <p> ${currencySymbol(
-                              invoiceData["Currency"]
-                            )}${taxAmount.toFixed(1)}</p>
+                            <p class="total-title-cls">Subtotal:</p>
+                            <p>
+                                ${currencySymbol(
+                                  invoiceData["Currency"]
+                                )}${subAmount.toFixed(1)}
+                            </p>
                         </div>
-                                `
-                        : `
-                        <div>
-                            <p class="total-title-cls">CGST (${(
-                              taxPercentage / 2
-                            ).toFixed(1)}%):</p>
+                        ${
+                          invoiceData["Sender's Tax Type"] === "IGST"
+                            ? `
+                            <div>
+                                <p class="total-title-cls">${
+                                  invoiceData["Sender's Tax Type"]
+                                } (${taxPercentage.toFixed(1)}%):</p>
                                 <p> ${currencySymbol(
                                   invoiceData["Currency"]
-                                )}${(taxAmount / 2).toFixed(1)}</p>
-                        </div>
-                        <div>
-                            <p class="total-title-cls">SGST (${(
-                              taxPercentage / 2
-                            ).toFixed(1)}%):</p>
-                                <p> ${currencySymbol(
-                                  invoiceData["Currency"]
-                                )}${(taxAmount / 2).toFixed(1)}</p>
-                        </div>
-                                `
-                    }
-                `
-                : ""
-            }
-            <div>
-                <p class="total-title-cls"><strong>Total:</strong></p>
-                <p>${currencySymbol(
-                  invoiceData["Currency"]
-                )}${totalAmount.toFixed(1)}</strong></p>
+                                )}${taxAmount.toFixed(1)}</p>
+                            </div>
+                                    `
+                            : `
+                            <div>
+                                <p class="total-title-cls">CGST (${(
+                                  taxPercentage / 2
+                                ).toFixed(1)}%):</p>
+                                    <p> ${currencySymbol(
+                                      invoiceData["Currency"]
+                                    )}${(taxAmount / 2).toFixed(1)}</p>
+                            </div>
+                            <div>
+                                <p class="total-title-cls">SGST (${(
+                                  taxPercentage / 2
+                                ).toFixed(1)}%):</p>
+                                    <p> ${currencySymbol(
+                                      invoiceData["Currency"]
+                                    )}${(taxAmount / 2).toFixed(1)}</p>
+                            </div>
+                                    `
+                        }
+                    `
+                    : ""
+                }
+                <div>
+                    <p class="total-title-cls" style="font-size: 24px;"><strong>Total:</strong></p>
+                    <p>${currencySymbol(
+                      invoiceData["Currency"]
+                    )}${totalAmount.toFixed(1)}</strong></p>
+                </div>
             </div>
         </div>
 

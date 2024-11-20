@@ -169,10 +169,12 @@ export default function generateHTMLTPL001(invoiceData) {
     }
 
     .sub-sec4-item-quantity {
-        width: 50px;
+        width: 60px !important;
+     }
+    .sub-sec4-item-no {
+        width: 30px !important;
         text-align: center !important;
     }
-
     .sub-sec4-item-name {
         text-align: left !important;
         width: 150px !important;
@@ -195,7 +197,6 @@ export default function generateHTMLTPL001(invoiceData) {
 
     .sec5-container .sub-sec5-container .sub-sec5-item {
         display: flex;
-        justify-content: space-between;
         align-items: center;
     }
 
@@ -479,9 +480,10 @@ export default function generateHTMLTPL001(invoiceData) {
         <div class="sec4-container">
             <div class="sub-sec4-container">
                  <div class="sub-sec4-header">
+                    <h2 class="sub-sec4-item-no">#</h2>
                     <h2 class="sub-sec4-item-name">Item Name</h2>
-                    <h2 class="sub-sec4-item-quantity">Qty</h2>
                     <h2 class="sub-sec4-item-price">Price</h2>
+                    <h2 class="sub-sec4-item-quantity">Qty</h2>
                     <h2 class="sub-sec4-item-amount">Amount</h2>
                     <h2 class="sub-sec4-item-tax">Tax %</h2>
                     <h2 class="sub-sec4-item-tax-amount">Tax ${currencySymbol(
@@ -491,8 +493,9 @@ export default function generateHTMLTPL001(invoiceData) {
                 </div>
                 ${invoiceData["Items"]
                   .map(
-                    (item) => `
+                    (item, index) => `
                     <div class="sub-sec4-item">
+                      <p class="sub-sec4-item-no">${index + 1}</p>
                       <div>
                           <p class="sub-sec4-item-name">${item["name"]}</p>
                           ${
@@ -502,12 +505,12 @@ export default function generateHTMLTPL001(invoiceData) {
                           }
                           
                       </div>
+                      <p class="sub-sec4-item-price">${currencySymbol(
+                        invoiceData["Currency"]
+                      )}${item["price"]}</p>
                         <p class="sub-sec4-item-quantity">${
                           item["quantity"]
                         }</p>
-                        <p class="sub-sec4-item-price">${currencySymbol(
-                          invoiceData["Currency"]
-                        )}${item["price"]}</p>
                     <p class="sub-sec4-item-amount">${currencySymbol(
                       invoiceData["Currency"]
                     )}${item["price"] * item["quantity"]}</p>
