@@ -51,18 +51,6 @@ export default function generateHTMLTPL004(invoiceData) {
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = (taxAmount / subAmount) * 100 || 0;
-  // Calculate tax amount
-  // const taxAmount = (subAmount * taxPercentage) / 100;
-
-  // Calculate the total amount
-  // const totalAmount = subAmount + taxAmount;
-
-  const remarksUI = invoiceData["Remarks"]
-    ? `<div class="notes">
-              <p>Notes:</p>
-              <p>${invoiceData["Remarks"]}</p>
-          </div>`
-    : "";
 
   const bankDetailsAvailable =
     invoiceData["Bank"] ||
@@ -103,18 +91,18 @@ export default function generateHTMLTPL004(invoiceData) {
         font-family: 'Courier New', Courier, monospace;
     }
 
-    .header {
+    .header-cls {
         display: flex;
         justify-content: space-between;
         margin-bottom: 20px;
     }
 
-    .header div {
+    .header-cls div {
         width: 45%;
     }
 
-    .header div p {
-        margin: 10px 0;
+    .header-cls div p {
+        margin: 8px 0;
     }
 
     .invoice-info, .billing-info {
@@ -122,7 +110,7 @@ export default function generateHTMLTPL004(invoiceData) {
     }
 
     .invoice-info p, .billing-info p {
-        margin: 10px 0;
+        margin: 8px 0;
         width: 100%;
     }
 
@@ -178,19 +166,19 @@ export default function generateHTMLTPL004(invoiceData) {
         justify-content: space-between;
     }
 
-    .footer-cls div {
+    .footer-cls .bill-info-cls {
         margin-top: 20px;
     }
 
     .footer-cls p {
-        margin: 10px 0;
+        margin: 8px 0;
     }
 
     .bank-details-container .sub-bank-details-container {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin: 10px 0;
+        margin: 8px 0;
         width: 100%;
     }
 
@@ -200,19 +188,15 @@ export default function generateHTMLTPL004(invoiceData) {
 
     .invoice-logo {
         width: 100px;
-        height: 100px;
+        height: auto;
+        max-height: 100px;
         object-fit: contain;
-        position: absolute;
-        top: 0;
-        right: 0;
     }
 
     .title-logo {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        margin-bottom: 70px;
-        position: relative;
+        margin-bottom: 10px;
     }
 
     .bill-info-cls {
@@ -228,7 +212,7 @@ export default function generateHTMLTPL004(invoiceData) {
 </head>
 <body>
 <div class="container-cls">
-    <div class="${invoiceData["Logo"] ? "title-logo logo-preview" : ""}">
+    <div class="title-logo">
         <h1>Invoice</h1>
         <div>
           ${
@@ -242,7 +226,7 @@ export default function generateHTMLTPL004(invoiceData) {
           }
         </div>
       </div>
-    <div class="header">
+    <div class="header-cls">
         <div class="bill-info-cls">
            <h2>TO:</h2>
             ${
@@ -313,8 +297,8 @@ export default function generateHTMLTPL004(invoiceData) {
                       ${
                         item["fieldName"] && item["fieldValue"]
                           ? `
-                        <div style="display: flex; align-items: center;">
-                            <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                        <div style="display: flex; align-items: center; margin: 8px 0;">
+                            <p style="margin: 0;>${item["fieldName"]}:</p><p style="margin: 0;"> ${item["fieldValue"]}</p>
                         </div>
                         `
                           : ""
@@ -545,8 +529,8 @@ export default function generateHTMLTPL004(invoiceData) {
                   ${
                     item["fieldName"] && item["fieldValue"]
                       ? `
-                    <div style="display: flex; align-items: center;">
-                        <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                    <div style="display: flex; align-items: center; margin: 8px 0;">
+                        <p style="margin: 0;">${item["fieldName"]}:</p><p style="margin: 0;"> ${item["fieldValue"]}</p>
                     </div>
                     `
                       : ""
@@ -615,7 +599,6 @@ export default function generateHTMLTPL004(invoiceData) {
        
 
     </div>
-    ${remarksUI}
   </div>
 </body>
 </html>

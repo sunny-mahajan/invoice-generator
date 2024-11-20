@@ -51,18 +51,6 @@ export default function generateHTMLTPL003(invoiceData) {
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = (taxAmount / subAmount) * 100 || 0;
-  // Calculate tax amount
-  // const taxAmount = (subAmount * taxPercentage) / 100;
-
-  // Calculate the total amount
-  // const totalAmount = subAmount + taxAmount;
-
-  const remarksUI = invoiceData["Remarks"]
-    ? `<div class="footer-cls">
-              <p>Notes:</p>
-              <p>${invoiceData["Remarks"]}</p>
-          </div>`
-    : "";
 
   const bankDetailsAvailable =
     invoiceData["Bank Name"] ||
@@ -86,7 +74,6 @@ export default function generateHTMLTPL003(invoiceData) {
             background: linear-gradient(135deg, #7e57c2, #64b5f6);
             color: #fff;
             padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         .bill-ship {
             display: flex;
@@ -157,8 +144,9 @@ export default function generateHTMLTPL003(invoiceData) {
         }
 
         .invoice-logo {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: auto;
+            max-height: 80px;
             object-fit: contain;
         }
 
@@ -288,8 +276,8 @@ export default function generateHTMLTPL003(invoiceData) {
                     ${
                       item["fieldName"] && item["fieldValue"]
                         ? `
-                        <div style="display: flex; align-items: center;">
-                            <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                        <div style="display: flex; align-items: center; margin: 8px 0;">
+                            <p style="margin: 0;">${item["fieldName"]}:</p><p style="margin: 0;"> ${item["fieldValue"]}</p>
                         </div>
                         `
                         : ""
@@ -372,8 +360,8 @@ export default function generateHTMLTPL003(invoiceData) {
                         ${
                           item["fieldName"] && item["fieldValue"]
                             ? `
-                        <div style="display: flex; align-items: center;">
-                            <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                        <div style="display: flex; align-items: center; margin: 8px 0;">
+                            <p style="margin: 0;">${item["fieldName"]}:</p><p style="margin: 0;"> ${item["fieldValue"]}</p>
                         </div>
                         `
                             : ""

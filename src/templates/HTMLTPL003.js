@@ -51,18 +51,6 @@ export default function generateHTMLTPL003(invoiceData) {
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = (taxAmount / subAmount) * 100 || 0;
-  // Calculate tax amount
-  // const taxAmount = (subAmount * taxPercentage) / 100;
-
-  // Calculate the total amount
-  // const totalAmount = subAmount + taxAmount;
-
-  const remarksUI = invoiceData["Remarks"]
-    ? `<div class="footer-cls">
-            <p>Notes:</p>
-            <p>${invoiceData["Remarks"]}</p>
-        </div>`
-    : "";
 
   const bankDetailsAvailable =
     invoiceData["Bank Name"] ||
@@ -102,11 +90,10 @@ export default function generateHTMLTPL003(invoiceData) {
         font-weight: bold;
     }
 
-    .header {
+    .header-cls {
         display: flex;
         justify-content: space-between;
         padding-bottom: 10px;
-        position: relative;
     }
 
     .company-info {
@@ -143,6 +130,11 @@ export default function generateHTMLTPL003(invoiceData) {
 
     .bill-ship .bill, .bill-ship .ship {
         max-width: 270px;
+        width: 100%;
+    }
+
+    .invoice-info {
+      width: 100%;
     }
 
     .items {
@@ -186,6 +178,11 @@ export default function generateHTMLTPL003(invoiceData) {
         margin: 0;
     }
 
+    .invoice-title h1 {
+        margin: 0;
+        font-size: 32px;
+    }
+
     .bank-details-container {
         margin-top: 20px;
     }
@@ -208,18 +205,9 @@ export default function generateHTMLTPL003(invoiceData) {
 
     .invoice-logo {
         width: 100px;
-        height: 100px;
+        height: auto;
+        max-height: 100px;
         object-fit: contain;
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-
-    .title-logo {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 70px;
     }
 </style>
 
@@ -227,13 +215,9 @@ export default function generateHTMLTPL003(invoiceData) {
 <body>
   <div class="temp3-container-cls">
   
-    <div class="header">
-    ${
-      invoiceData["Logo"]
-        ? `
-      <div class=${invoiceData["Logo"] ? "title-logo" : ""}>
+    <div class="header-cls">
         <div class="invoice-title">
-          <h2>INVOICE</h2>
+          <h1><strong>INVOICE</strong></h1>
         </div>
         <div>
           ${
@@ -246,40 +230,6 @@ export default function generateHTMLTPL003(invoiceData) {
               : ""
           }
         </div>
-      </div>`
-        : `<div class="company-info">
-        ${
-          invoiceData["Sender's Zipcode"] ||
-          invoiceData["Sender's Address"] ||
-          invoiceData["Sender's City"]
-            ? `<p>
-            ${
-              invoiceData["Sender's Zipcode"]
-                ? `${invoiceData["Sender's Zipcode"]}, `
-                : ""
-            }
-            ${
-              invoiceData["Sender's Address"]
-                ? `${invoiceData["Sender's Address"]}, `
-                : ""
-            }
-            ${
-              invoiceData["Sender's City"]
-                ? `${invoiceData["Sender's City"]}, `
-                : ""
-            }
-            ${
-              invoiceData["Sender's Contact No"]
-                ? `
-              <br> Phone: ${invoiceData["Sender's Contact No"]}`
-                : ""
-            } 
-          </p>`
-            : ""
-        }
-      </div>`
-    }
-      
     </div>
 
     <div class="bill-ship">
@@ -352,8 +302,8 @@ export default function generateHTMLTPL003(invoiceData) {
               ${
                 item["fieldName"] && item["fieldValue"]
                   ? `
-                <div style="display: flex; align-items: center;">
-                    <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                <div style="display: flex; align-items: center; margin: 8px 0;">
+                    <p style="margin: 0;>${item["fieldName"]}:</p><p style="margin: 0;> ${item["fieldValue"]}</p>
                 </div>
                 `
                   : ""
@@ -436,8 +386,8 @@ export default function generateHTMLTPL003(invoiceData) {
                 ${
                   item["fieldName"] && item["fieldValue"]
                     ? `
-                  <div style="display: flex; align-items: center;">
-                      <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                  <div style="display: flex; align-items: center; margin: 8px 0;">
+                      <p style="margin: 0;">${item["fieldName"]}:</p><p style="margin: 0;"> ${item["fieldValue"]}</p>
                   </div>
                   `
                     : ""
@@ -457,7 +407,7 @@ export default function generateHTMLTPL003(invoiceData) {
             }</span>
         </div>
         <div>
-            <span class="invoice-details-heading" style="margin: 0 0 8px 0;">DATE</span><span>${
+            <span class="invoice-details-heading" style="margin: 0 0 8px 0;">DATE</span><span style="min-width:200px">${
               invoiceData["Invoice Issue Date"]
             }</span>
         </div>
@@ -662,7 +612,6 @@ export default function generateHTMLTPL003(invoiceData) {
         : ""
     }
 
-    ${remarksUI}
   </div>
 </body>
 </html>

@@ -55,12 +55,6 @@ export default function generateHTMLTPL001(invoiceData) {
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = (taxAmount / subAmount) * 100 || 0;
-  const remarksUI = invoiceData["Remarks"]
-    ? `<div class="sec6-container">
-            <p>Notes:</p>
-            <p>${invoiceData["Remarks"]}</p>
-        </div>`
-    : "";
 
   return `
     <!DOCTYPE html>
@@ -248,7 +242,8 @@ export default function generateHTMLTPL001(invoiceData) {
 
     .invoice-logo {
         width: 100px;
-        height: 100px;
+        height: auto;
+        max-height: 100px;
         object-fit: contain;
         position: absolute;
         top: 10px;
@@ -647,7 +642,6 @@ export default function generateHTMLTPL001(invoiceData) {
       </div>`
             : ""
         }
-      ${remarksUI}
     </div>
 </body>
 </html>

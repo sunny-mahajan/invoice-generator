@@ -4,6 +4,7 @@ import generateHTMLTPL003 from "../templates/HTMLTPL003";
 import generateHTMLTPL004 from "../templates/HTMLTPL004";
 import generateHTMLTPL005 from "../templates/HTMLTPL005";
 import generateHTMLTPL008 from "../templates/HTMLTPL008";
+import generateHTMLTPL009 from "../templates/HTMLTPL009";
 
 export async function generateHTMLPDF(invoiceData, userData) {
   try {
@@ -33,7 +34,12 @@ export async function generateHTMLPDF(invoiceData, userData) {
 
       case "TPL008":
         HTMLTemplate = generateHTMLTPL008(invoiceData);
-        break; // Stops execution here after generating TPL006
+        break; // Stops execution here after generating TPL008
+
+      case "TPL009":
+        HTMLTemplate = generateHTMLTPL009(invoiceData);
+        break; // Stops execution here after generating TPL009
+
       default:
         throw new Error(`Unsupported template ID: ${templateId}`);
     }
