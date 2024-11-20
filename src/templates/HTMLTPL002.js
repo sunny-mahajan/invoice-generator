@@ -58,18 +58,6 @@ export default function generateHTMLTPL002(invoiceData) {
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = (taxAmount / subAmount) * 100 || 0;
-  // Calculate tax amount
-  // const taxAmount = (subAmount * taxPercentage) / 100;
-
-  // Calculate the total amount
-  // const totalAmount = subAmount + taxAmount;
-
-  const remarksUI = invoiceData["Remarks"]
-    ? `<div class="footer-cls">
-            <p>Notes:</p>
-            <p>${invoiceData["Remarks"]}</p>
-        </div>`
-    : "";
 
   return `
     <!DOCTYPE html>
@@ -100,11 +88,10 @@ export default function generateHTMLTPL002(invoiceData) {
     color: #000000 !important;
   }
 
-  .header {
+  .header-cls {
     display: flex;
     justify-content: space-between;
     padding-bottom: 10px;
-    position: relative;
   }
 
   .company-info {
@@ -197,11 +184,9 @@ export default function generateHTMLTPL002(invoiceData) {
 
   .invoice-logo {
     width: 100px;
-    height: 100px;
+    height: auto;
+    max-height: 80px;
     object-fit: contain;
-    position: absolute;
-    top: 0;
-    right: 0;
   }
 </style>
 
@@ -209,52 +194,20 @@ export default function generateHTMLTPL002(invoiceData) {
 <body>
   <div class="temp1-container-cls">
     <!-- Header Section -->
-    <div class="header">
+    <div class="header-cls">
       <div class="invoice-title">
         <h2>INVOICE</h2>
       </div>
       ${
-        invoiceData["Logo"]
-          ? `<div style="margin-bottom: 80px;">
-          <img
-                src=${invoiceData["Logo"]}
-                alt="Business Logo"
-                class="invoice-logo"
-            /> </div>`
-          : `<div class="company-info">
-
-      ${
-        invoiceData["Sender's Zipcode"] ||
-        invoiceData["Sender's Address"] ||
-        invoiceData["Sender's City"] ||
-        invoiceData["Sender's Contact No"]
-          ? `<p>
-          ${
-            invoiceData["Sender's Zipcode"]
-              ? `${invoiceData["Sender's Zipcode"]}, `
-              : ""
-          }
-              ${
-                invoiceData["Sender's Address"]
-                  ? `${invoiceData["Sender's Address"]}, `
-                  : ""
-              }
-              ${
-                invoiceData["Sender's City"]
-                  ? `${invoiceData["Sender's City"]}, `
-                  : ""
-              }
-              ${
-                invoiceData["Sender's Contact No"]
-                  ? `${invoiceData["Sender's Contact No"]}`
-                  : ""
-              }
-          </p>`
-          : ""
+        invoiceData["Logo"] &&
+        `<div>
+            <img
+              src=${invoiceData["Logo"]}
+              alt="Business Logo"
+              class="invoice-logo"
+            />
+          </div>`
       }
-      </div>`
-      }
-      
     </div>
     
     <div class="bill-ship">
@@ -327,8 +280,8 @@ export default function generateHTMLTPL002(invoiceData) {
               ${
                 item["fieldName"] && item["fieldValue"]
                   ? `
-                <div style="display: flex; align-items: center;">
-                    <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                <div style="display: flex; align-items: center; margin: 8px 0;">
+                    <p style="margin: 0">${item["fieldName"]}:</p><p style="margin: 0"> ${item["fieldValue"]}</p>
                 </div>
                 `
                   : ""
@@ -410,8 +363,8 @@ export default function generateHTMLTPL002(invoiceData) {
                 ${
                   item["fieldName"] && item["fieldValue"]
                     ? `
-                  <div style="display: flex; align-items: center;">
-                      <p>${item["fieldName"]}:</p><p> ${item["fieldValue"]}</p>
+                  <div style="display: flex; align-items: center; margin: 8px 0;">
+                      <p style="margin: 0;">${item["fieldName"]}:</p><p style="margin: 0;"> ${item["fieldValue"]}</p>
                   </div>
                   `
                     : ""
@@ -616,7 +569,6 @@ export default function generateHTMLTPL002(invoiceData) {
   </div>`
         : ""
     }
-    ${remarksUI}
   </div>
 </body>
 </html>

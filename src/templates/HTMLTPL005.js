@@ -51,18 +51,6 @@ export default function generateHTMLTPL003(invoiceData) {
 
   // Retrieve tax percentage from invoice data
   const taxPercentage = (taxAmount / subAmount) * 100 || 0;
-  // Calculate tax amount
-  // const taxAmount = (subAmount * taxPercentage) / 100;
-
-  // Calculate the total amount
-  // const totalAmount = subAmount + taxAmount;
-
-  const remarksUI = invoiceData["Remarks"]
-    ? `<div class="footer-cls">
-              <p>Notes:</p>
-              <p>${invoiceData["Remarks"]}</p>
-          </div>`
-    : "";
 
   const bankDetailsAvailable =
     invoiceData["Bank Name"] ||
@@ -112,6 +100,8 @@ export default function generateHTMLTPL003(invoiceData) {
         object-fit: contain;
         width: 100px;
         height: auto;
+        max-height: 80px;
+        margin-bottom: 10px;
       }
 
       .invoice-info h2 {
