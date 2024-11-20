@@ -165,12 +165,22 @@ export default function generateHTMLTPL003(invoiceData) {
         .invoice-table th,
         .invoice-table td {
             text-align: left;
-            padding: 8px 12px;
+            padding: 8px;
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .invoice-table th {
             background: rgba(255, 255, 255, 0.2);
+        }
+
+        .invoice-table .item-des-cls {
+          text-align: left;
+          max-width: 120px;
+        }
+
+        .invoice-table .item-name-cls {
+            text-align: center;
+            max-width: 150px;
         }
 
         .invoice-total {
