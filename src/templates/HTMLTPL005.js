@@ -135,22 +135,20 @@ export default function generateHTMLTPL003(invoiceData) {
         margin-top: 20px;
         border-collapse: collapse;
       }
-
+ 
       .invoice-table th {
         background-color: #e67e22;
         color: white;
+        text-align: center !important;
       }
         .invoice-table th, .invoice-table td {
         border: 1px solid #dcdcdc;
           padding: 10px;
           text-align: right;
       }
-
-      .invoice-table .item-des-cls {
-          text-align: left;
-          max-width: 120px;
+      .invoice-table td:first-child, .invoice-table th:first-child {
+        text-align: center;
       }
-
       .invoice-table .item-name-cls {
           text-align: center;
           max-width: 150px;
@@ -159,9 +157,11 @@ export default function generateHTMLTPL003(invoiceData) {
       .invoice-summary {
         display: flex;
         justify-content: space-between;
+      }
+        
+      .invoice-summary .invoice-details-cls, .invoice-summary .bank-details-cls, .invoice-summary .totals {
         margin-top: 20px;
       }
-
       .invoice-details-cls h3,
       .bank-details-cls h3 {
         font-size: 18px;
@@ -378,30 +378,24 @@ export default function generateHTMLTPL003(invoiceData) {
       <table class="invoice-table">
         <thead>
         <tr>
+          <th>#</th>
           <th class="item-name-cls">NAME</th>
-          ${
-            isDescriptionAvailable
-              ? `<th class="item-des-cls">DESCRIPTION</th>`
-              : ""
-          }
-          <th>QTY</th>
           <th>PRICE</th>
+          <th>QTY</th>
           <th>AMOUNT</th>
-          <th>TAX %</th>
-          <th>TAX ${currencySymbol(invoiceData["Currency"])}</th>
+          <th>GST %</th>
+          <th>GST ${currencySymbol(invoiceData["Currency"])}</th>
           <th>TOTAL</th>
         </tr>
         </thead>
         <tbody>
         ${invoiceData["Items"]
           .map(
-            (item) => `<tr>
-          <td class="item-name-cls">${item["name"]}</td>
-          ${
-            isDescriptionAvailable
-              ? `<td class="item-des-cls">${item["description"]}</td>`
-              : ""
-          }
+            (item, index) => `<tr style="page-break-inside: avoid;">
+          <td>${index + 1}</td>
+          <td class="item-name-cls">${item["name"]}
+          ${isDescriptionAvailable ? `<p>${item["description"]}</p>` : ""}
+          </td>
           <td>${currencySymbol(invoiceData["Currency"])}${item["price"]}</td>
           <td>${item["quantity"]}</td>
           <td>${currencySymbol(invoiceData["Currency"])}${
@@ -425,7 +419,7 @@ export default function generateHTMLTPL003(invoiceData) {
       </tbody>
       </table>
 
-      <div class="invoice-summary">
+      <div class="invoice-summary" style="page-break-inside: avoid;">
         <div class="invoice-details-cls">
           <h3>Invoice Details:</h3>
           <p>Invoice Date: ${invoiceData["Invoice Issue Date"]}</p>

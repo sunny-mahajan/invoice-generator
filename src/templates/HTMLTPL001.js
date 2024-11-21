@@ -161,7 +161,7 @@ export default function generateHTMLTPL001(invoiceData) {
     }
 
     .sub-sec4-item-description {
-        width: 150px !important;
+        width: 140px !important;
         text-align: left !important;
         word-wrap: break-word;
         padding: 0 !important;
@@ -169,13 +169,15 @@ export default function generateHTMLTPL001(invoiceData) {
     }
 
     .sub-sec4-item-quantity {
-        width: 50px;
+        width: 60px !important;
+     }
+    .sub-sec4-item-no {
+        width: 30px !important;
         text-align: center !important;
     }
-
     .sub-sec4-item-name {
         text-align: left !important;
-        width: 150px !important;
+        width: 140px !important;
         word-wrap: break-word;
     }
 
@@ -195,7 +197,6 @@ export default function generateHTMLTPL001(invoiceData) {
 
     .sec5-container .sub-sec5-container .sub-sec5-item {
         display: flex;
-        justify-content: space-between;
         align-items: center;
     }
 
@@ -223,12 +224,12 @@ export default function generateHTMLTPL001(invoiceData) {
     }
 
     .main-container-cls {
-        padding: 0 70px;
+        padding: 0 20px;
         margin: 0 auto;
     }
 
     .main-container-cls h2 {
-        font-size: 21px;
+        font-size: 18px;
         font-weight: bold;
         margin: 0;
         margin-bottom: 7px;
@@ -479,20 +480,22 @@ export default function generateHTMLTPL001(invoiceData) {
         <div class="sec4-container">
             <div class="sub-sec4-container">
                  <div class="sub-sec4-header">
-                    <h2 class="sub-sec4-item-name">Item Name</h2>
-                    <h2 class="sub-sec4-item-quantity">Qty</h2>
+                    <h2 class="sub-sec4-item-no">#</h2>
+                    <h2 class="sub-sec4-item-name">Name</h2>
                     <h2 class="sub-sec4-item-price">Price</h2>
+                    <h2 class="sub-sec4-item-quantity">Qty</h2>
                     <h2 class="sub-sec4-item-amount">Amount</h2>
-                    <h2 class="sub-sec4-item-tax">Tax %</h2>
-                    <h2 class="sub-sec4-item-tax-amount">Tax ${currencySymbol(
+                    <h2 class="sub-sec4-item-tax">GST %</h2>
+                    <h2 class="sub-sec4-item-tax-amount">GST ${currencySymbol(
                       invoiceData["Currency"]
                     )}</h2>
                     <h2 class="sub-sec4-item-total">Total</h2>
                 </div>
                 ${invoiceData["Items"]
                   .map(
-                    (item) => `
-                    <div class="sub-sec4-item">
+                    (item, index) => `
+                    <div class="sub-sec4-item" style="page-break-inside: avoid;">
+                      <p class="sub-sec4-item-no">${index + 1}</p>
                       <div>
                           <p class="sub-sec4-item-name">${item["name"]}</p>
                           ${
@@ -502,12 +505,12 @@ export default function generateHTMLTPL001(invoiceData) {
                           }
                           
                       </div>
+                      <p class="sub-sec4-item-price">${currencySymbol(
+                        invoiceData["Currency"]
+                      )}${item["price"]}</p>
                         <p class="sub-sec4-item-quantity">${
                           item["quantity"]
                         }</p>
-                        <p class="sub-sec4-item-price">${currencySymbol(
-                          invoiceData["Currency"]
-                        )}${item["price"]}</p>
                     <p class="sub-sec4-item-amount">${currencySymbol(
                       invoiceData["Currency"]
                     )}${item["price"] * item["quantity"]}</p>
@@ -521,12 +524,12 @@ export default function generateHTMLTPL001(invoiceData) {
                     ).toFixed(1)}</p>
                     <p class="sub-sec4-item-total">${currencySymbol(
                       invoiceData["Currency"]
-                    )}${
+                    )}${(
                       item["price"] * item["quantity"] +
                       item["price"] *
                         item["quantity"] *
                         (item["taxPercentage"] / 100)
-                    }</p>
+                    ).toFixed(1)}</p>
                     </div>
                 `
                   )
@@ -534,7 +537,7 @@ export default function generateHTMLTPL001(invoiceData) {
                 
             </div>
         </div>
-        <div class="sec5-container">
+        <div class="sec5-container" style="page-break-inside: avoid;">
             <div>
                 <div class="sub-sec5-container">
                  ${
@@ -589,7 +592,7 @@ export default function generateHTMLTPL001(invoiceData) {
         </div>
         ${
           bankDetailsAvailable
-            ? `<div class="sec7-container">
+            ? `<div class="sec7-container" style="page-break-inside: avoid;">
           <h2>Bank Details</h2>
           ${
             invoiceData["Bank Name"]
