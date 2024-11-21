@@ -417,15 +417,15 @@ export default function generateHTMLTPL002(invoiceData) {
           <th>PRICE</th>
           <th>QTY</th>
           <th>AMOUNT</th>
-          <th>TAX %</th>
-          <th>TAX ${currencySymbol(invoiceData["Currency"])}</th>
+          <th>GST %</th>
+          <th>GST ${currencySymbol(invoiceData["Currency"])}</th>
           <th>TOTAL</th>
         </tr>
       </thead>
       <tbody>
       ${invoiceData["Items"]
         .map(
-          (item, index) => `<tr>
+          (item, index) => `<tr style="page-break-inside: avoid;">
           
           <td >${index + 1}</td>
           <td class="item-cls">${item["name"]}
@@ -516,7 +516,7 @@ export default function generateHTMLTPL002(invoiceData) {
     </table>
     ${
       bankDetailsAvailable
-        ? `<div class="bank-details-container">
+        ? `<div class="bank-details-container" style="page-break-inside: avoid;">
       <h2>Bank Details</h2>
       ${
         invoiceData["Bank Name"]

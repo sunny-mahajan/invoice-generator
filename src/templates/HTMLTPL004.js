@@ -168,7 +168,7 @@ export default function generateHTMLTPL004(invoiceData) {
         justify-content: space-between;
     }
 
-    .footer-cls .bill-info-cls {
+    .footer-cls .bill-info-cls, .footer-cls .bank-details-container {
         margin-top: 20px;
     }
 
@@ -351,8 +351,8 @@ export default function generateHTMLTPL004(invoiceData) {
                     <th>Price</th>
                     <th>Qty</th>
                     <th>AMOUNT</th>
-                    <th>TAX %</th>
-                    <th>TAX ${currencySymbol(invoiceData["Currency"])}</th>
+                    <th>GST %</th>
+                    <th>GST ${currencySymbol(invoiceData["Currency"])}</th>
                     <th>Total</th>
                 </tr>
             </thead>
@@ -360,7 +360,7 @@ export default function generateHTMLTPL004(invoiceData) {
             ${invoiceData["Items"]
               .map(
                 (item, index) => `
-                  <tr>
+                  <tr style="page-break-inside: avoid;">
                       <td >${index + 1}</td>
                       <td class="item-name-cls">${item["name"]}
                       ${
@@ -462,7 +462,7 @@ export default function generateHTMLTPL004(invoiceData) {
 
     
 
-    <div class="footer-cls">
+    <div class="footer-cls" style="page-break-inside: avoid;">
         <div class="bill-info-cls">
         <h2>FROM:</h2>
         ${

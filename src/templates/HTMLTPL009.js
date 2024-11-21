@@ -370,15 +370,15 @@ export default function generateHTMLTPL003(invoiceData) {
                 <th>PRICE</th>
                 <th>QTY</th>
                 <th>AMOUNT</th>
-                <th>TAX %</th>
-                <th>TAX ${currencySymbol(invoiceData["Currency"])}</th>
+                <th>GST %</th>
+                <th>GST ${currencySymbol(invoiceData["Currency"])}</th>
                 <th>TOTAL</th>
             </tr>
           </thead>
           <tbody>
           ${invoiceData["Items"]
             .map(
-              (item, index) => `<tr>
+              (item, index) => `<tr style="page-break-inside: avoid;">
               <td>${index + 1}</td>
               <td class="item-name-cls">${item["name"]}
               ${isDescriptionAvailable ? `<p>${item["description"]}</p>` : ""}
@@ -410,43 +410,43 @@ export default function generateHTMLTPL003(invoiceData) {
       </div>
 
       <!-- Summary Section -->
-      <div class="summary">
-      ${
-        taxPercentage > 0
-          ? `
-        <div>
-            <p><strong>Subtotal:</strong> ${currencySymbol(
-              invoiceData["Currency"]
-            )}${subAmount.toFixed(1)}</p>
-            ${
-              invoiceData["Sender's Tax Type"] === "IGST"
-                ? `
-                    <p><strong>${
-                      invoiceData["Sender's Tax Type"]
-                    } (${taxPercentage.toFixed(1)}%):</strong>
-                    ${currencySymbol(
-                      invoiceData["Currency"]
-                    )}${taxAmount.toFixed(1)}</p>
-                        `
-                : `
-                    <p><strong>CGST (${(taxPercentage / 2).toFixed(
-                      1
-                    )}%)</strong>:
-                         ${currencySymbol(invoiceData["Currency"])}${(
-                    taxAmount / 2
-                  ).toFixed(1)}</p>
-                    <p><strong>SGST (${(taxPercentage / 2).toFixed(
-                      1
-                    )}%):</strong>
-                         ${currencySymbol(invoiceData["Currency"])}${(
-                    taxAmount / 2
-                  ).toFixed(1)}</p>
-                        `
-            }
-        </div>
-        `
-          : ""
-      }
+      <div class="summary" style="page-break-inside: avoid;">
+        ${
+          taxPercentage > 0
+            ? `
+          <div>
+              <p><strong>Subtotal:</strong> ${currencySymbol(
+                invoiceData["Currency"]
+              )}${subAmount.toFixed(1)}</p>
+              ${
+                invoiceData["Sender's Tax Type"] === "IGST"
+                  ? `
+                      <p><strong>${
+                        invoiceData["Sender's Tax Type"]
+                      } (${taxPercentage.toFixed(1)}%):</strong>
+                      ${currencySymbol(
+                        invoiceData["Currency"]
+                      )}${taxAmount.toFixed(1)}</p>
+                          `
+                  : `
+                      <p><strong>CGST (${(taxPercentage / 2).toFixed(
+                        1
+                      )}%)</strong>:
+                          ${currencySymbol(invoiceData["Currency"])}${(
+                      taxAmount / 2
+                    ).toFixed(1)}</p>
+                      <p><strong>SGST (${(taxPercentage / 2).toFixed(
+                        1
+                      )}%):</strong>
+                          ${currencySymbol(invoiceData["Currency"])}${(
+                      taxAmount / 2
+                    ).toFixed(1)}</p>
+                          `
+              }
+          </div>
+          `
+            : ""
+        }
           
         
         <div class="total">
@@ -455,7 +455,7 @@ export default function generateHTMLTPL003(invoiceData) {
           )}${totalAmount.toFixed(1)}</p>
         </div>
       </div>
-      <div class="bill-to-bank-deatils">
+      <div class="bill-to-bank-deatils" style="page-break-inside: avoid;">
         ${
           bankDetailsAvailable
             ? `
