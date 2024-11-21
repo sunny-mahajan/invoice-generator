@@ -3,8 +3,11 @@ import generateHTMLTPL002 from "../templates/HTMLTPL002";
 import generateHTMLTPL003 from "../templates/HTMLTPL003";
 import generateHTMLTPL004 from "../templates/HTMLTPL004";
 import generateHTMLTPL005 from "../templates/HTMLTPL005";
+import generateHTMLTPL006 from "../templates/HTMLTPL006";
+import generateHTMLTPL007 from "../templates/HTMLTPL007";
 import generateHTMLTPL008 from "../templates/HTMLTPL008";
 import generateHTMLTPL009 from "../templates/HTMLTPL009";
+import generateHTMLTPL0010 from "../templates/HTMLTPL0010";
 
 export async function generateHTMLPDF(invoiceData, userData) {
   try {
@@ -28,6 +31,14 @@ export async function generateHTMLPDF(invoiceData, userData) {
         HTMLTemplate = generateHTMLTPL004(invoiceData);
         break; // Stops execution here after generating TPL004
 
+      case "TPL006":
+        HTMLTemplate = generateHTMLTPL006(invoiceData);
+        break; // Stops execution here after generating TPL005
+
+      case "TPL007":
+        HTMLTemplate = generateHTMLTPL007(invoiceData);
+        break; // Stops execution here after generating TPL004
+
       case "TPL005":
         HTMLTemplate = generateHTMLTPL005(invoiceData);
         break; // Stops execution here after generating TPL005
@@ -38,6 +49,10 @@ export async function generateHTMLPDF(invoiceData, userData) {
 
       case "TPL009":
         HTMLTemplate = generateHTMLTPL009(invoiceData);
+        break; // Stops execution here after generating TPL009
+
+      case "TPL0010":
+        HTMLTemplate = generateHTMLTPL0010(invoiceData);
         break; // Stops execution here after generating TPL009
 
       default:

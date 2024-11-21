@@ -432,18 +432,18 @@ const InvoiceForm = () => {
     return formData;
   };
 
-  const validateForm = () => {
+  const validateForm = (isItemData = false) => {
     const newErrors = {};
     formData.items.forEach((item, index) => {
       newErrors[index] = {}; // Create an object for each item to store errors individually
 
-      if (!item.name && isItemDataUpdated?.name) {
+      if (!item.name && (isItemData || isItemDataUpdated?.name)) {
         newErrors[index].name = "Item name is required";
       }
-      if (!item.quantity && isItemDataUpdated?.quantity) {
+      if (!item.quantity && (isItemData || isItemDataUpdated?.quantity)) {
         newErrors[index].quantity = "Quantity is required";
       }
-      if (!item.price && isItemDataUpdated?.price) {
+      if (!item.price && (isItemData || isItemDataUpdated?.price)) {
         newErrors[index].price = "Price is required";
       }
     });
@@ -459,7 +459,7 @@ const InvoiceForm = () => {
     const isValid = await trigger();
     setIsItemDataUpdated({ name: true, quantity: true, price: true });
     validateForm();
-    if (!isValid || !validateForm()) {
+    if (!isValid || !validateForm(true)) {
       toast.error("Please fill all required fields before submitting");
       return;
     }
