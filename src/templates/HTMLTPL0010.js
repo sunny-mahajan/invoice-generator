@@ -159,9 +159,10 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     .details {
-      margin-top: 20px;
       display: flex;
       justify-content: space-between;
+      gap:10px;
+      margin-top: 20px;
     }
 
     .details {
@@ -195,18 +196,6 @@ export default function generateHTMLTPL0010(invoiceData) {
       gap: 10px;
       align-items: start;
     } 
-
-    .invoice-number div span {
-      display: block;
-    }
-    
-    .invoice-number .grid-container .data {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
 
     .table {
       width: 100%;
@@ -469,64 +458,25 @@ export default function generateHTMLTPL0010(invoiceData) {
       </div>
       <div class="invoice-number">
       <div class="grid-container">
-          <div class="title">
           <span class="details-title align-left" >INVOICE # </span>
+          <span class="details-data align-right">${invoiceData["Invoice No."]}</span>
           <span class="details-title align-left">INVOICE DATE</span>
+          <span class="details-data align-right">${invoiceData["Invoice Issue Date"]}</span>
           ${
             invoiceData["Invoice Due Date"]
-              ? `<span class="details-title align-left">DUE DATE </span>`
+              ? `<span class="details-title align-left">DUE DATE </span>
+                <span class="details-data align-right">${invoiceData["Invoice Due Date"]}</span>`
               : ""
           }
-          ${
-            invoiceData["newFields"]?.length > 0
-              ? `
-              ${invoiceData["newFields"]
-                .map(
-                  (item) =>
+          ${ invoiceData["newFields"]?.length > 0 ? `
+              ${invoiceData["newFields"].map((item) =>
                     `${
-                      item["fieldName"] && item["fieldValue"]
-                        ? `
-                    <span class="details-title align-left">${item["fieldName"]}:
-                    `
-                        : ""
-                    } `
-                )
-                .join("")}
-              `
-              : ""
+                      item["fieldName"] && item["fieldValue"] ? `
+                    <span class="details-title align-left">${item["fieldName"]}:</span>
+                    <span class="details-data align-right">${item["fieldValue"]}</span>
+                    ` : "" } ` ).join("")}
+              ` : ""
           }
-          </div>
-          <div class="data">
-            <span class="details-data align-right">${
-              invoiceData["Invoice No."]
-            }</span>
-            <span class="details-data align-right">${
-              invoiceData["Invoice Issue Date"]
-            }</span>
-            ${
-              invoiceData["Invoice Due Date"]
-                ? `<span class="details-data align-right">${invoiceData["Invoice Due Date"]}</span>`
-                : ""
-            }
-            ${
-              invoiceData["newFields"]?.length > 0
-                ? `
-                ${invoiceData["newFields"]
-                  .map(
-                    (item) =>
-                      `${
-                        item["fieldName"] && item["fieldValue"]
-                          ? `
-                      </span><span class="details-data align-right">${item["fieldValue"]}</span>
-                      `
-                          : ""
-                      }`
-                  )
-                  .join("")}
-                  `
-                : ""
-            }
-          </div>
         </div>
       </div>
   </div>
@@ -663,94 +613,36 @@ export default function generateHTMLTPL0010(invoiceData) {
         ? `
       <h3 class="details-title">Bank Details</h3>
       <div class="grid-container">
-          <div class="title">
-              ${
-                invoiceData["Bank Name"]
-                  ? `
-                <p class="details-data">Bank Name:</p>
-              `
-                  : ""
+          ${invoiceData["Bank Name"] ? `
+                    <p class="details-data">Bank Name:</p>
+                    <p class="details-data">${invoiceData["Bank Name"]}</p>
+              ` : ""
               }
-              ${
-                invoiceData["Account No"]
-                  ? `
+              ${invoiceData["Account No"] ? `
                     <p class="details-data">A/c No:</p>
-              `
-                  : ""
+                    <p class="details-data">${invoiceData["Account No"]}</p>
+              ` : ""
               }
-              ${
-                invoiceData["Account Holder Name"]
-                  ? `
+              ${invoiceData["Account Holder Name"] ? `
                     <p class="details-data">A/c Holder Name:</p>
-              `
-                  : ""
+                    <p class="details-data">${invoiceData["Account Holder Name"]}</p>
+              ` : ""
               }
-              ${
-                invoiceData["IFSC Code"]
-                  ? `
+              ${invoiceData["IFSC Code"] ? `
                     <p class="details-data">IFSC Code:</p>
-              `
-                  : ""
+                    <p class="details-data">${invoiceData["IFSC Code"]}</p>
+              ` : ""
               }
-              ${
-                invoiceData["Account Type"]
-                  ? `
+              ${invoiceData["Account Type"] ? `
                     <p class="details-data">A/c Type:</p>
-              `
-                  : ""
+                    <p class="details-data">${invoiceData["Account Type"]}</p>
+              ` : ""
               }
-              ${
-                invoiceData["Bank Address"]
-                  ? `
+              ${invoiceData["Bank Address"] ? `
                     <p class="details-data">Bank Address:</p>
-              `
-                  : ""
+                    <p class="details-data">${invoiceData["Bank Address"]}</p>
+              ` : ""
               }
-          </div>
-          <div class="data">
-            ${
-              invoiceData["Bank Name"]
-                ? `
-                  <p class="details-data">${invoiceData["Bank Name"]}</p>
-            `
-                : ""
-            }
-            ${
-              invoiceData["Account No"]
-                ? `
-                  <p class="details-data">${invoiceData["Account No"]}</p>
-            `
-                : ""
-            }
-            ${
-              invoiceData["Account Holder Name"]
-                ? `
-                  <p class="details-data">${invoiceData["Account Holder Name"]}</p>
-            `
-                : ""
-            }
-            ${
-              invoiceData["IFSC Code"]
-                ? `
-                  <p class="details-data">${invoiceData["IFSC Code"]}</p>
-            `
-                : ""
-            }
-            ${
-              invoiceData["Account Type"]
-                ? `
-                  <p class="details-data">${invoiceData["Account Type"]}</p>
-            `
-                : ""
-            }
-            ${
-              invoiceData["Bank Address"]
-                ? `
-                  <p class="details-data">${invoiceData["Bank Address"]}</p>
-            `
-                : ""
-            }
-          </div>
         </div>
         `
         : ""

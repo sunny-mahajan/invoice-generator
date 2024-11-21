@@ -126,10 +126,11 @@ export default function generateHTMLTPL006(invoiceData) {
       justify-content: space-between;
       align-items: center;
       padding-bottom: 10px;
+      height: 200px;
     }
 
     .header h1 {
-      font-size: 10rem;
+      font-size: 8em;
       color: #013264;
       margin: 0;
     }
@@ -141,7 +142,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .details-title{
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 500;
       color: #013264;
     }
@@ -149,7 +150,7 @@ export default function generateHTMLTPL006(invoiceData) {
     .details-data{
       font-family: "Urbanist", sans-serif;
       font-optical-sizing: auto;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 400;
       font-style: normal;
       color: #777777;
@@ -162,9 +163,10 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .details {
-      margin-top: 20px;
       display: flex;
       justify-content: space-between;
+      gap:10px;
+      margin-top: 20px;
     }
 
     .details div span {
@@ -193,18 +195,6 @@ export default function generateHTMLTPL006(invoiceData) {
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       align-items: start;
-    } 
-
-    .invoice-number div span {
-      display: block;
-    }
-    
-    .invoice-number .grid-container .data {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      justify-content: space-between;
-      align-items: flex-start;
     }
 
     .table {
@@ -214,7 +204,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .table th {
-      font-size: 2em;
+      font-size: 24px;
       font-weight: 500;
       color: #013264;
       padding: 0 0.5em;
@@ -225,7 +215,7 @@ export default function generateHTMLTPL006(invoiceData) {
       font-optical-sizing: auto;
       font-weight: 400;
       font-style: normal;
-      font-size: 1.4em;
+      font-size: 18px;
       font-weight: 400;
       color: #777777;
       padding: 16px;
@@ -287,6 +277,20 @@ export default function generateHTMLTPL006(invoiceData) {
 
     .terms h3 {
       margin-bottom: 10px;
+    }
+
+    @media print {
+        .table th {
+            font-size: 22px
+        }
+     
+    .terms .grid-container {
+      grid-template-columns: 2fr 6fr;
+    }
+
+    @page {
+        margin: 1cm; /* Ensure adequate margins for print */
+        }
     }
   </style>
 </head>
@@ -459,37 +463,25 @@ export default function generateHTMLTPL006(invoiceData) {
       </div>
       <div class="invoice-number">
       <div class="grid-container">
-          <div class="title">
-          <span class="details-title align-left" >INVOICE # </span>
-          <span class="details-title align-left">INVOICE DATE</span>
+          <span class="details-title" >INVOICE # </span>
+          <span class="details-data">${invoiceData["Invoice No."]}</span>
+          <span class="details-title">INVOICE DATE</span>
+          <span class="details-data">${invoiceData["Invoice Issue Date"]}</span>
           ${
             invoiceData["Invoice Due Date"]
-              ? `<span class="details-title align-left">DUE DATE </span>`
+              ? `<span class="details-title">DUE DATE </span>
+                <span class="details-data">${invoiceData["Invoice Due Date"]}</span>`
               : ""
           }
           ${ invoiceData["newFields"]?.length > 0 ? `
               ${invoiceData["newFields"].map((item) =>
                     `${
                       item["fieldName"] && item["fieldValue"] ? `
-                    <span class="details-title align-left">${item["fieldName"]}:
+                    <span class="details-title align-left">${item["fieldName"]}:</span>
+                    <span class="details-data align-right">${item["fieldValue"]}</span>
                     ` : "" } ` ).join("")}
               ` : ""
           }
-          </div>
-          <div class="data">
-            <span class="details-data align-right">${invoiceData["Invoice No."]}</span>
-            <span class="details-data align-right">${invoiceData["Invoice Issue Date"]}</span>
-            ${invoiceData["Invoice Due Date"] ? 
-              `<span class="details-data align-right">${invoiceData["Invoice Due Date"]}</span>`
-              : "" }
-            ${ invoiceData["newFields"]?.length > 0 ? `
-                ${invoiceData["newFields"].map((item) =>
-                      `${item["fieldName"] && item["fieldValue"] ? `
-                      </span><span class="details-data align-right">${item["fieldValue"]}</span>
-                      ` : "" }` ).join("")}
-                  ` : ""
-            }
-          </div>
         </div>
       </div>
     </div>
@@ -591,58 +583,36 @@ export default function generateHTMLTPL006(invoiceData) {
     ${bankDetailsAvailable ? `
       <h3 class="details-title">Bank Details</h3>
       <div class="grid-container">
-          <div class="title">
-                  ${invoiceData["Bank Name"] ? `
+              ${invoiceData["Bank Name"] ? `
                     <p class="details-data">Bank Name:</p>
+                    <p class="details-data">${invoiceData["Bank Name"]}</p>
               ` : ""
               }
               ${invoiceData["Account No"] ? `
                     <p class="details-data">A/c No:</p>
+                    <p class="details-data">${invoiceData["Account No"]}</p>
               ` : ""
               }
               ${invoiceData["Account Holder Name"] ? `
                     <p class="details-data">A/c Holder Name:</p>
+                    <p class="details-data">${invoiceData["Account Holder Name"]}</p>
               ` : ""
               }
               ${invoiceData["IFSC Code"] ? `
                     <p class="details-data">IFSC Code:</p>
+                    <p class="details-data">${invoiceData["IFSC Code"]}</p>
               ` : ""
               }
               ${invoiceData["Account Type"] ? `
                     <p class="details-data">A/c Type:</p>
+                    <p class="details-data">${invoiceData["Account Type"]}</p>
               ` : ""
               }
               ${invoiceData["Bank Address"] ? `
                     <p class="details-data">Bank Address:</p>
+                    <p class="details-data">${invoiceData["Bank Address"]}</p>
               ` : ""
               }
-          </div>
-          <div class="data">
-            ${invoiceData["Bank Name"] ? `
-                  <p class="details-data">${invoiceData["Bank Name"]}</p>
-            ` : ""
-            }
-            ${invoiceData["Account No"] ? `
-                  <p class="details-data">${invoiceData["Account No"]}</p>
-            ` : ""
-            }
-            ${invoiceData["Account Holder Name"] ? `
-                  <p class="details-data">${invoiceData["Account Holder Name"]}</p>
-            ` : ""
-            }
-            ${invoiceData["IFSC Code"] ? `
-                  <p class="details-data">${invoiceData["IFSC Code"]}</p>
-            ` : ""
-            }
-            ${invoiceData["Account Type"] ? `
-                  <p class="details-data">${invoiceData["Account Type"]}</p>
-            ` : ""
-            }
-            ${invoiceData["Bank Address"] ? `
-                  <p class="details-data">${invoiceData["Bank Address"]}</p>
-            ` : ""
-            }
-          </div>
         </div>
         ` : ""}
       </div>
