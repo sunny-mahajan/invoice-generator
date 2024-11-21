@@ -152,11 +152,6 @@ export default function generateHTMLTPL003(invoiceData) {
         text-align: left;
     }
 
-    .items .item-des-cls {
-        text-align: left;
-        max-width: 120px;
-    }
-
     .items .item-name-cls {
         text-align: center;
         max-width: 150px;
@@ -457,32 +452,26 @@ export default function generateHTMLTPL003(invoiceData) {
     <table class="items">
       <thead>
         <tr>
-          <th>QTY</th>
+          <th>#</th>
           <th class="item-name-cls">NAME</th>
-          ${
-            isDescriptionAvailable
-              ? `<th class="item-des-cls">DESCRIPTION</th>`
-              : ""
-          }
           <th>PRICE</th>
+          <th>QTY</th>
           <th>AMOUNT</th>
-          <th>TAX %</th>
-          <th>TAX ${currencySymbol(invoiceData["Currency"])}</th>
+          <th>GST %</th>
+          <th>GST ${currencySymbol(invoiceData["Currency"])}</th>
           <th>TOTAL</th>
         </tr>
       </thead>
       <tbody>
       ${invoiceData["Items"]
         .map(
-          (item) => `<tr>
-          <td>${item["quantity"]}</td>
-          <td class="item-name-cls">${item["name"]}</td>
-          ${
-            isDescriptionAvailable
-              ? `<td class="item-des-cls">${item["description"]}</td>`
-              : ""
-          }
+          (item, index) => `<tr style="page-break-inside: avoid;">
+          <td>${index + 1}</td>
+          <td class="item-name-cls">${item["name"]}
+          ${isDescriptionAvailable ? `<p >${item["description"]}</p>` : ""}
+          </td>
           <td>${currencySymbol(invoiceData["Currency"])}${item["price"]}</td>
+          <td>${item["quantity"]}</td>
           <td>${currencySymbol(invoiceData["Currency"])}${
             item["price"] * item["quantity"]
           }</td>
@@ -558,7 +547,7 @@ export default function generateHTMLTPL003(invoiceData) {
     </table>
     ${
       bankDetailsAvailable
-        ? `<div class="bank-details-container">
+        ? `<div class="bank-details-container" style="page-break-inside: avoid;">
       <h2>Bank Details</h2>
       ${
         invoiceData["Bank Name"]

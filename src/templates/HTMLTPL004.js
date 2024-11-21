@@ -132,7 +132,9 @@ export default function generateHTMLTPL004(invoiceData) {
         padding: 8px;
         text-align: right;
     }
-
+    .product-description td:first-child {
+      text-align: center;
+    }
     .product-description .item-name-cls {
         max-width: 150px;
         text-align: center !important;
@@ -166,7 +168,7 @@ export default function generateHTMLTPL004(invoiceData) {
         justify-content: space-between;
     }
 
-    .footer-cls .bill-info-cls {
+    .footer-cls .bill-info-cls, .footer-cls .bank-details-container {
         margin-top: 20px;
     }
 
@@ -344,32 +346,34 @@ export default function generateHTMLTPL004(invoiceData) {
         <table>
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Item Name</th>
-                    ${isDescriptionAvailable ? "<th>Description</th>" : ""}
-                    <th>Qty</th>
                     <th>Price</th>
+                    <th>Qty</th>
                     <th>AMOUNT</th>
-                    <th>TAX %</th>
-                    <th>TAX ${currencySymbol(invoiceData["Currency"])}</th>
+                    <th>GST %</th>
+                    <th>GST ${currencySymbol(invoiceData["Currency"])}</th>
                     <th>Total</th>
                 </tr>
             </thead>
             <tbody>
             ${invoiceData["Items"]
               .map(
-                (item) => `
-                  <tr>
-                      <td class="item-name-cls">${item["name"]}</td>
+                (item, index) => `
+                  <tr style="page-break-inside: avoid;">
+                      <td >${index + 1}</td>
+                      <td class="item-name-cls">${item["name"]}
                       ${
                         isDescriptionAvailable
-                          ? `<td class="item-cls">${item["description"]}</td>`
+                          ? `<p>${item["description"]}</p>`
                           : ""
                       }
-                      <td>${item["quantity"]}</td>
+                      </td>
                       <td>${currencySymbol(invoiceData["Currency"])}${
                   item["price"]
                 }</td>
-<td>${currencySymbol(invoiceData["Currency"])}${
+                <td>${item["quantity"]}</td>
+                <td>${currencySymbol(invoiceData["Currency"])}${
                   item["price"] * item["quantity"]
                 }</td>
           <td>${item["taxPercentage"]}%</td>
@@ -458,7 +462,7 @@ export default function generateHTMLTPL004(invoiceData) {
 
     
 
-    <div class="footer-cls">
+    <div class="footer-cls" style="page-break-inside: avoid;">
         <div class="bill-info-cls">
         <h2>FROM:</h2>
         ${
