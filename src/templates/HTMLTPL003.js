@@ -494,9 +494,7 @@ export default function generateHTMLTPL003(invoiceData) {
           taxPercentage > 0
             ? `
           <tr>
-            <td colspan="${
-              isDescriptionAvailable ? "7" : "6"
-            }" style="text-align:right; padding-top: 30px;">Subtotal</td>
+            <td colspan="7" style="text-align:right; padding-top: 30px;">Subtotal</td>
             <td style="padding-top: 30px;text-align:right; width: auto">${currencySymbol(
               invoiceData["Currency"]
             )}${subAmount.toFixed(1)}</td>
@@ -505,11 +503,9 @@ export default function generateHTMLTPL003(invoiceData) {
             invoiceData["Sender's Tax Type"] === "IGST"
               ? `
           <tr>
-            <td colspan="${
-              isDescriptionAvailable ? "7" : "6"
-            }" style="text-align:right;">(${
-                  invoiceData["Sender's Tax Type"]
-                } ${taxPercentage.toFixed(1)}%)</td>
+            <td colspan="7" style="text-align:right;">(${
+              invoiceData["Sender's Tax Type"]
+            } ${taxPercentage.toFixed(1)}%)</td>
             <td style="text-align:right; width: auto">${currencySymbol(
               invoiceData["Currency"]
             )}${taxAmount.toFixed(1)}</td>
@@ -517,21 +513,17 @@ export default function generateHTMLTPL003(invoiceData) {
               `
               : `
           <tr>
-            <td colspan="${
-              isDescriptionAvailable ? "7" : "6"
-            }" style="text-align:right;">CGST (${(taxPercentage / 2).toFixed(
-                  2
-                )}%)</td>
+            <td colspan="7" style="text-align:right;">CGST (${(
+              taxPercentage / 2
+            ).toFixed(2)}%)</td>
             <td style="text-align:right; width: auto">${currencySymbol(
               invoiceData["Currency"]
             )}${(taxAmount / 2).toFixed(1)}</td>
           </tr>
           <tr>
-            <td colspan="${
-              isDescriptionAvailable ? "7" : "6"
-            }" style="text-align:right;">SGST (${(taxPercentage / 2).toFixed(
-                  2
-                )}%)</td>
+            <td colspan="7" style="text-align:right;">SGST (${(
+              taxPercentage / 2
+            ).toFixed(2)}%)</td>
             <td style="text-align:right; width: auto">${currencySymbol(
               invoiceData["Currency"]
             )}${(taxAmount / 2).toFixed(1)}</td>
