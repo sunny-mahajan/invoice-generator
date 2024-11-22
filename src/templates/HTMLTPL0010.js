@@ -83,8 +83,9 @@ export default function generateHTMLTPL0010(invoiceData) {
       height: 100%;
     }
 
-    .d-flex{
-      display: flex;
+    p{
+      margin: 0;
+      padding: 0;
     }
     
     .align-left{
@@ -105,10 +106,6 @@ export default function generateHTMLTPL0010(invoiceData) {
 
     .v-align-top{
       vertical-align: top;
-    }
-    
-    .w-50{
-      width: 50%;
     }
     
     img {
@@ -135,6 +132,9 @@ export default function generateHTMLTPL0010(invoiceData) {
       font-size: 5em;
       color: #545454;
       margin: 0;
+      padding: 0;
+      letter-spacing: 20px;
+      line-height: unset;
     }
 
     .header figure {
@@ -215,7 +215,6 @@ export default function generateHTMLTPL0010(invoiceData) {
       font-size: 20px;
       font-style: normal;
       font-weight: 400;
-      font-weight: 400;
       color: #777777;
       padding: 16px;
     }
@@ -269,13 +268,50 @@ export default function generateHTMLTPL0010(invoiceData) {
   
     .terms .grid-container {
       display: grid;
-      grid-template-columns: 1fr 6fr;
+      grid-template-columns: 1fr 4fr;
       gap: 10px;
       align-items: start;
     }
 
     .terms h3 {
       margin-bottom: 10px;
+    }
+
+    @media print {
+
+      .header h1 {
+        font-size: 4em;
+        
+      }
+      .table th {
+        font-size: 18px
+      }
+     
+      .table td {
+        font-size: 14px
+      }
+      
+      .details{
+        line-height: 20px;
+      }
+
+
+      .details-title{
+        font-size: 18px;
+      }
+
+      .details-data{
+        font-size: 14px;
+      }
+
+      .terms .grid-container {
+        grid-template-columns: 1fr 3fr;
+        gap: 8px;
+      }
+
+      @page {
+          margin: 0.5cm;
+      }
     }
   </style>
 </head>

@@ -87,8 +87,10 @@ export default function generateHTMLTPL007(invoiceData) {
       padding: 0;
       background-color: #fff;
     }
-    .d-flex{
-      display: flex;
+      
+    p{
+      margin: 0;
+      padding: 0;
     }
     
     .align-left{
@@ -111,18 +113,10 @@ export default function generateHTMLTPL007(invoiceData) {
       vertical-align: top;
     }
 
-    .w-50{
-      width: 50%;
-    }
-
     img {
       width: 100%;
       height: 100%;
       object-fit: contain;
-    }
-
-    .color-fff{
-      color: #fff !important;
     }
     
     .header {
@@ -134,7 +128,7 @@ export default function generateHTMLTPL007(invoiceData) {
       color: white;
       z-index: 1;
       padding: 2em 5em;
-      min-height: 270px;
+      height: 270px;
     }
 
     .header::before {
@@ -158,7 +152,7 @@ export default function generateHTMLTPL007(invoiceData) {
       height: 100%;
       background: #fff;
       z-index: -1; 
-      clip-path: polygon(0 95%, 100% 55%, 100% 60%, 0% 100%);
+      clip-path: polygon(0 96%, 100% 56%, 100% 60%, 0% 100%);
     }
 
     .header h1 {
@@ -179,11 +173,6 @@ export default function generateHTMLTPL007(invoiceData) {
       display: block;
       color: #fff;
     }
-    
-    .header .from-name{
-      font-weight: bold;
-      text-transform: uppercase;
-    }
 
     .details {
       display: flex;
@@ -198,7 +187,7 @@ export default function generateHTMLTPL007(invoiceData) {
     }
 
     .details-title{
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 500;
       color: #5983af;
       line-height: unset;
@@ -210,8 +199,7 @@ export default function generateHTMLTPL007(invoiceData) {
       font-optical-sizing: auto;
       font-weight: 400;
       font-style: normal;
-      font-size: 1.4em;
-      font-weight: 400;
+      font-size: 18px;
       color: #000;
       line-height: unset;
       letter-spacing: unset;
@@ -224,13 +212,6 @@ export default function generateHTMLTPL007(invoiceData) {
 
     .custom-field-value{
       display: unset !important;
-    }
-
-    .grid-container {
-      display: grid;
-      grid-template-columns: 6fr 1fr;
-      gap: 10px;
-      align-items: start;
     }
 
     .invoice-container {
@@ -257,7 +238,7 @@ export default function generateHTMLTPL007(invoiceData) {
     }
 
     .table th {
-      font-size: 2em;
+      font-size: 24px;
       font-weight: 500;
       color: #fff;
       padding: 0 0.5em;
@@ -269,8 +250,7 @@ export default function generateHTMLTPL007(invoiceData) {
       font-optical-sizing: auto;
       font-weight: 400;
       font-style: normal;
-      font-size: 1.4em;
-      font-weight: 400;
+      font-size: 18px;
       color: #000;
       padding: 16px;
     }
@@ -284,7 +264,6 @@ export default function generateHTMLTPL007(invoiceData) {
       margin-bottom: 5px;
       padding: 0 5em;
     }
-
     
     .totals .grid-container {
       display: grid;
@@ -310,10 +289,8 @@ export default function generateHTMLTPL007(invoiceData) {
 
     .terms {
       position: relative;
-      background: white; 
-      color: white;
-      z-index: 1;
-      padding: 2em 5em 2em 5em; 
+      z-index: 0;
+      padding: 2em 5em; 
       margin-top: 40px;
       font-size: 12px;
       text-align: end;
@@ -341,16 +318,65 @@ export default function generateHTMLTPL007(invoiceData) {
       height: 100%;
       background: #fff;
       z-index: -1; 
-      clip-path: polygon(0 60%, 100% 0, 100% 5%, 0 65%);
+      clip-path: polygon(0 60%, 100% 0, 100% 3%, 0 63%);
+    }
+
+    .terms .grid-container {
+      display: grid;
+      grid-template-columns: 4fr 1fr;
+      gap: 10px;
+      align-items: start;
     }
 
     .terms h3 {
-      margin-top: 1em;
+      margin-top: 1.2em;
       margin-bottom: 10px;
       color: #fff;
     }
+
     .terms p {
       color: #fff;
+    }
+
+    @media print {
+      .header{
+        height: 200px;
+      }
+      .header h1 {
+        font-size: 6em;
+      }
+      .table th {
+        font-size: 18px
+      }
+     
+      .table td {
+        font-size: 14px
+      }
+
+      .details{
+        line-height: 20px;
+      }
+
+      .details-title{
+        font-size: 18px;
+      }
+
+      .details-data{
+        font-size: 14px;
+      }
+
+      .terms .grid-container {
+        grid-template-columns: 3fr 1fr;
+        gap: 8px;
+      }
+
+      .terms{
+        min-height: 200px;
+      }
+
+      @page {
+          margin: 0.5cm;
+      }
     }
   </style>
 </head>
