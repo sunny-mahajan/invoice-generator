@@ -96,18 +96,18 @@ export default function generateHTMLTPL0010(invoiceData) {
       text-align: right;
     }
 
-    .border-left{
-      border-left: 3px solid #013264;
-    }
-
-    .border-right{
-      border-right: 3px solid #013264;
-    }
-
     .v-align-top{
       vertical-align: top;
     }
+
+    .w-10px{
+      width: 10px;
+    }
     
+    .w-25{
+      width: 25%;
+    }
+
     img {
       width: 100%;
       height: 100%;
@@ -119,7 +119,7 @@ export default function generateHTMLTPL0010(invoiceData) {
       height: 200px;
     }
 
-    .header {
+    .invoice-header .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -127,9 +127,9 @@ export default function generateHTMLTPL0010(invoiceData) {
       height: 100%;
     }
 
-    .header h1 {
+    .invoice-header .header h1 {
       font-family: "Della Respira", serif;
-      font-size: 5em;
+      font-size: 4em;
       color: #545454;
       margin: 0;
       padding: 0;
@@ -137,7 +137,7 @@ export default function generateHTMLTPL0010(invoiceData) {
       line-height: unset;
     }
 
-    .header figure {
+    .invoice-header .header figure {
       margin: 0;
       padding: 0;
       height: 100px;
@@ -216,9 +216,13 @@ export default function generateHTMLTPL0010(invoiceData) {
       font-style: normal;
       font-weight: 400;
       color: #777777;
-      padding: 16px;
+      padding: 10px;
     }
 
+    .table td .description {
+      opacity: 0.9;
+      font-size: 16px;  
+    }
     .totals {
       display: flex;
       justify-content: flex-end;
@@ -279,7 +283,7 @@ export default function generateHTMLTPL0010(invoiceData) {
 
     @media print {
 
-      .header h1 {
+      .invoice-header .header h1 {
         font-size: 4em;
         
       }
@@ -295,6 +299,9 @@ export default function generateHTMLTPL0010(invoiceData) {
         line-height: 20px;
       }
 
+      .table td .description {
+        font-size: 12px;  
+      }
 
       .details-title{
         font-size: 18px;
@@ -302,6 +309,11 @@ export default function generateHTMLTPL0010(invoiceData) {
 
       .details-data{
         font-size: 14px;
+      }
+
+      .terms{
+        page-break-inside: avoid;
+        page-break-after: always;
       }
 
       .terms .grid-container {
@@ -519,9 +531,9 @@ export default function generateHTMLTPL0010(invoiceData) {
     <table class="table">
       <thead>
         <tr>
-          <th class="align-left">No.</th>
-          <th class="align-left">Item Name</th>
-          <th class="align-left">Price</th>
+          <th class="align-left w-10px">No.</th>
+          <th class="align-left w-25">Item Name</th>
+          <th class="align-right">Price</th>
           <th class="align-right">QTY</th>
           <th class="align-right">Amount</th>
           <th class="align-right">Tax %</th>
@@ -542,11 +554,11 @@ export default function generateHTMLTPL0010(invoiceData) {
             </br>
             ${
               isDescriptionAvailable && item["description"]
-                ? `${item["description"]}`
+                ? `<span class="description">${item["description"]}</span>`
                 : ""
             }
           </td>
-          <td class="align-left">
+          <td class="align-right">
               ${currencySymbol(invoiceData["Currency"])}
               ${item["price"]}
           </td>
@@ -581,59 +593,18 @@ export default function generateHTMLTPL0010(invoiceData) {
     </table>
     <div class="totals">
         <div class="grid-container">
-          <div class="title">
-            ${
-              taxPercentage > 0
-                ? `
-              <span class="details-data">Subtotal</span>
-              ${
-                invoiceData["Sender's Tax Type"] === "IGST"
-                  ? `
-              <span class="details-data">${
-                invoiceData["Sender's Tax Type"]
-              } (${taxPercentage.toFixed(1)}%)</span> 
-              `
-                  : `
-              <span class="details-data">CGST(${(taxPercentage / 2).toFixed(
-                1
-              )}%)</span>
-              <span class="details-data">SGST(${(taxPercentage / 2).toFixed(
-                1
-              )}%)</span>
-              `
-              } `
-                : ""
-            }
-          </div>
-          <div class="data">
-              ${
-                taxPercentage > 0
-                  ? `
-                <span class="details-data">
-                  ${currencySymbol(invoiceData["Currency"])}
-                  ${subAmount.toFixed(1)}
-                </span> 
-                ${
-                  invoiceData["Sender's Tax Type"] === "IGST"
-                    ? `
-                 <span class="details-data">
-                  ${currencySymbol(invoiceData["Currency"])}
-                  ${taxAmount.toFixed(1)}
-                </span> `
-                    : `
-               <span class="details-data">
-                  ${currencySymbol(invoiceData["Currency"])}
-                  ${(taxAmount / 2).toFixed(1)}
-              </span>
-              <span class="details-data">
-                  ${currencySymbol(invoiceData["Currency"])}
-                  ${(taxAmount / 2).toFixed(1)}
-              </span>
-                `
-                } `
-                  : ""
-              }
-          </div>
+        ${taxPercentage > 0 ? `
+          <span class="details-data">Subtotal</span>
+          <span class="details-data">${currencySymbol(invoiceData["Currency"])}${subAmount.toFixed(1)}</span>
+          ${invoiceData["Sender's Tax Type"] === "IGST" ? `
+          <span class="details-data">${invoiceData["Sender's Tax Type"]} (${taxPercentage.toFixed(1)}%)</span>
+          <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount).toFixed(1)}</span>
+          ` : `
+          <span class="details-data">CGST(${(taxPercentage / 2 ).toFixed(1)}%)</span>
+          <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount / 2).toFixed(1)}</span>
+          <span class="details-data">SGST(${(taxPercentage / 2 ).toFixed(1)}%)</span>
+          <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount / 2).toFixed(1)}</span>
+          ` } ` : ""}
       </div>
     </div>
     <div class="result-container">
