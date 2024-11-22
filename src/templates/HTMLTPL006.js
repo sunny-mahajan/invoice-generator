@@ -87,8 +87,10 @@ export default function generateHTMLTPL006(invoiceData) {
       padding: 0;
       background-color: #fff;
     }
-    .d-flex{
-      display: flex;
+    
+    p{
+      margin: 0;
+      padding: 0;
     }
     
     .align-left{
@@ -110,11 +112,7 @@ export default function generateHTMLTPL006(invoiceData) {
     .v-align-top{
       vertical-align: top;
     }
-    
-    .w-50{
-      width: 50%;
-    }
-    
+
     img {
       width: 100%;
       height: 100%;
@@ -133,6 +131,9 @@ export default function generateHTMLTPL006(invoiceData) {
       font-size: 8em;
       color: #013264;
       margin: 0;
+      padding: 0;
+      line-height: unset;
+      letter-spacing: unset;
     }
 
     .header figure {
@@ -143,6 +144,7 @@ export default function generateHTMLTPL006(invoiceData) {
 
     .details-title{
       font-size: 24px;
+      font-style: normal;
       font-weight: 500;
       color: #013264;
     }
@@ -205,6 +207,7 @@ export default function generateHTMLTPL006(invoiceData) {
 
     .table th {
       font-size: 24px;
+      font-style: normal;
       font-weight: 500;
       color: #013264;
       padding: 0 0.5em;
@@ -216,7 +219,6 @@ export default function generateHTMLTPL006(invoiceData) {
       font-weight: 400;
       font-style: normal;
       font-size: 18px;
-      font-weight: 400;
       color: #777777;
       padding: 16px;
     }
@@ -256,21 +258,13 @@ export default function generateHTMLTPL006(invoiceData) {
       font-size: 2em;
     }
 
-    .signature {
-      margin-top: 40px;
-      text-align: right;
-      font-family: cursive;
-      font-size: 18px;
-    }
-
     .terms {
       margin-top: 40px;
-      font-size: 12px;
     }
   
     .terms .grid-container {
       display: grid;
-      grid-template-columns: 1fr 6fr;
+      grid-template-columns: 1fr 4fr;
       gap: 10px;
       align-items: start;
     }
@@ -280,17 +274,38 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     @media print {
-        .table th {
-            font-size: 22px
-        }
-     
-    .terms .grid-container {
-      grid-template-columns: 2fr 6fr;
-    }
 
-    @page {
-        margin: 1cm; /* Ensure adequate margins for print */
-        }
+      .header h1 {
+        font-size: 6em;
+      }
+      .table th {
+        font-size: 18px
+      }
+     
+      .table td {
+        font-size: 14px
+      }
+
+      .details{
+        line-height: 20px;
+      }
+
+      .details-title{
+        font-size: 18px;
+      }
+
+      .details-data{
+        font-size: 14px;
+      }
+
+      .terms .grid-container {
+        grid-template-columns: 1fr 3fr;
+        gap: 8px;
+      }
+
+      @page {
+          margin: 0.5cm;
+      }
     }
   </style>
 </head>
