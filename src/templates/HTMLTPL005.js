@@ -153,7 +153,9 @@ export default function generateHTMLTPL003(invoiceData) {
           text-align: center;
           max-width: 150px;
       }
-
+      .invoice-table .item-name-cls p{
+        color: #555555 !important;
+      }
       .invoice-summary {
         display: flex;
         justify-content: space-between;
@@ -378,7 +380,7 @@ export default function generateHTMLTPL003(invoiceData) {
       <table class="invoice-table">
         <thead>
         <tr>
-          <th>#</th>
+          <th>No.</th>
           <th class="item-name-cls">NAME</th>
           <th>PRICE</th>
           <th>QTY</th>

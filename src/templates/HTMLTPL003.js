@@ -157,6 +157,9 @@ export default function generateHTMLTPL003(invoiceData) {
         max-width: 150px;
     }
 
+    .items .item-name-cls p{
+      color: #555555 !important;
+    }
     .total-section {
         margin: 30px 0;
     }
@@ -452,7 +455,7 @@ export default function generateHTMLTPL003(invoiceData) {
     <table class="items">
       <thead>
         <tr>
-          <th>#</th>
+          <th>No.</th>
           <th class="item-name-cls">NAME</th>
           <th>PRICE</th>
           <th>QTY</th>

@@ -70,6 +70,7 @@ export default function generateHTMLTPL003(invoiceData) {
       .invoice-container {
         background: #ffffff;
       }
+        
      .invoice-container p {
         color: #555555;
         margin: 3px 0;
@@ -365,7 +366,7 @@ export default function generateHTMLTPL003(invoiceData) {
         <table>
           <thead>
             <tr>
-                <th>#</th>
+                <th>No.</th>
                 <th class="item-name-cls">NAME</th>
                 <th>PRICE</th>
                 <th>QTY</th>

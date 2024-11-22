@@ -227,7 +227,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .table td .description {
-      opacity: 0.9;
+      color: #555555 !important;
       font-size: 16px;  
     }
  
@@ -283,6 +283,10 @@ export default function generateHTMLTPL006(invoiceData) {
 
     @media print {
 
+      .invoice-container {
+        border-left: 2em solid #003366;
+        padding: 0 4em 0 2.5em;
+      }
       .invoice-header h1 {
         font-size: 6em;
       }

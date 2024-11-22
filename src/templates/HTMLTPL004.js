@@ -139,6 +139,9 @@ export default function generateHTMLTPL004(invoiceData) {
         max-width: 150px;
         text-align: center !important;
     }
+    .product-description .item-name-cls p{
+      color: #555555 !important;
+    }
 
     .product-description .item-cls {
         text-align: left !important;
@@ -346,7 +349,7 @@ export default function generateHTMLTPL004(invoiceData) {
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>No.</th>
                     <th>Item Name</th>
                     <th>Price</th>
                     <th>Qty</th>

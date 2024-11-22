@@ -256,7 +256,7 @@ export default function generateHTMLTPL007(invoiceData) {
     }
 
     .table td .description {
-      opacity: 0.9;
+      color: #555555 !important;
       font-size: 16px;  
     }
 
@@ -335,10 +335,10 @@ export default function generateHTMLTPL007(invoiceData) {
 
     @media print {
       .invoice-header{
-        height: 200px;
+        height: 180px;
       }
       .invoice-header h1 {
-        font-size: 6em;
+        font-size: 4.5em;
       }
       .table th {
         font-size: 18px
@@ -367,7 +367,6 @@ export default function generateHTMLTPL007(invoiceData) {
       .terms{
         min-height: 200px;
         page-break-inside: avoid;
-        page-break-after: always;
       }
 
       .terms .grid-container {
