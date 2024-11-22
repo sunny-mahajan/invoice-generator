@@ -28,6 +28,7 @@ import InvoiceDetailsForm from "../components/InvoiceForms/invoiceDetails";
 import ItemDetails from "../components/InvoiceForms/items";
 import InvoicePreview from "../components/InvoicePreview";
 import { useUser } from "../app/context/userContext";
+import AdBanner from "../components/AdBanner";
 
 let formDataInitialValues = {
   invoiceNo: "",
@@ -504,19 +505,11 @@ const InvoiceForm = () => {
   return (
     <Layout>
       <div className="content d-flex flex-direction-column">
-        <div>
-          <h1>Welcome to My Website</h1>
-
-          <ins
-            class="adsbygoogle"
-            style={{ display: "block", width: "100%" }}
-            data-ad-client="ca-pub-4374900296081612"
-            data-ad-slot="8786526439"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          ></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+        <AdBanner
+          data-ad-slot="8786526439"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
         <div>
           <h2 style={styles.title}>New Invoice</h2>
           <div style={styles.mainSection}>
