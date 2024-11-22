@@ -107,9 +107,9 @@ const InvoiceTemplates = ({
                     : ""
                 }`}
               >
-                <div className="template-preview-image-container w-full overflow-hidden relative pt-[90%]">
+                <div className="template-preview-image-container w-full overflow-hidden relative">
                   <img
-                    className="template-preview-image h-full w-full absolute top-0 left-0"
+                    className="template-preview-image h-full w-full"
                     src={invoiceTemplate.previewUrl}
                     alt={invoiceTemplate.name}
                   />

@@ -357,10 +357,10 @@ export function LightThemeIcon() {
 export function PreviewIcon() {
   return (
     <svg
-      fill="#000000"
+      fill="#252945"
       xmlns="http://www.w3.org/2000/svg"
-      width="80px"
-      height="80px"
+      width="60px"
+      height="60px"
       viewBox="0 0 52 52"
       enable-background="new 0 0 52 52"
     >
