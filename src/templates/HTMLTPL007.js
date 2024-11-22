@@ -88,6 +88,12 @@ export default function generateHTMLTPL007(invoiceData) {
       background-color: #fff;
     }
       
+    .invoice-container {
+      font-family: "Bebas Neue", sans-serif !important;
+      font-weight: 400;
+      font-style: normal;
+    }
+
     p{
       margin: 0;
       padding: 0;
@@ -100,26 +106,26 @@ export default function generateHTMLTPL007(invoiceData) {
     .align-right{
       text-align: right;
     }
-
-    .border-left{
-      border-left: 3px solid #013264;
-    }
-
-    .border-right{
-      border-right: 3px solid #013264;
-    }
     
     .v-align-top{
       vertical-align: top;
     }
 
-    img {
+    .w-10px{
+      width: 10px;
+    }
+    
+    .w-25{
+      width: 25%;
+    }
+
+    .invoice-container img {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
     
-    .header {
+    .invoice-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
@@ -127,11 +133,11 @@ export default function generateHTMLTPL007(invoiceData) {
       background: white; 
       color: white;
       z-index: 1;
-      padding: 2em 5em;
+      padding: 2em 4em;
       height: 270px;
     }
 
-    .header::before {
+    .invoice-header::before {
       content: '';
       position: absolute;
       top: 0;
@@ -143,7 +149,7 @@ export default function generateHTMLTPL007(invoiceData) {
       clip-path: polygon(0 0, 100% 0, 100% 60%, 0% 100%);
     }
 
-    .header::after {
+    .invoice-header::after {
       content: '';
       position: absolute;
       bottom: 10px;
@@ -155,7 +161,7 @@ export default function generateHTMLTPL007(invoiceData) {
       clip-path: polygon(0 96%, 100% 56%, 100% 60%, 0% 100%);
     }
 
-    .header h1 {
+    .invoice-header h1 {
       font-size: 6rem;
       line-height: unset;
       letter-spacing: unset;
@@ -163,13 +169,13 @@ export default function generateHTMLTPL007(invoiceData) {
       color: #fff;
     }
 
-    .header figure {
+    .invoice-header figure {
       margin: 0;
       padding: 0;
       height: 100px;
     }
 
-    .header span{
+    .invoice-header span{
       display: block;
       color: #fff;
     }
@@ -177,7 +183,7 @@ export default function generateHTMLTPL007(invoiceData) {
     .details {
       display: flex;
       justify-content: space-between;
-      padding: 0 5em;
+      padding: 0 4em;
       gap:10px;
       margin-top: 20px;
     }
@@ -213,12 +219,6 @@ export default function generateHTMLTPL007(invoiceData) {
     .custom-field-value{
       display: unset !important;
     }
-
-    .invoice-container {
-      font-family: "Bebas Neue", sans-serif !important;
-      font-weight: 400;
-      font-style: normal;
-    }
     
     .invoice-number .grid-container {
       display: grid;
@@ -228,7 +228,7 @@ export default function generateHTMLTPL007(invoiceData) {
     } 
 
     .table-container{
-      padding: 0 5em;
+      padding: 0 4em;
     }
 
     .table {
@@ -241,7 +241,7 @@ export default function generateHTMLTPL007(invoiceData) {
       font-size: 24px;
       font-weight: 500;
       color: #fff;
-      padding: 0 0.5em;
+      padding: 0 0.4em;
       background: #5983af;
     }
 
@@ -252,45 +252,40 @@ export default function generateHTMLTPL007(invoiceData) {
       font-style: normal;
       font-size: 18px;
       color: #000;
-      padding: 16px;
+      padding: 10px;
+    }
+
+    .table td .description {
+      opacity: 0.9;
+      font-size: 16px;  
     }
 
     .totals {
-      display: flex;
-      justify-content: flex-end;
-      text-align: right;
-      margin-top: 20px;
       width: 100%;
       margin-bottom: 5px;
-      padding: 0 5em;
+      text-align: right;
     }
     
     .totals .grid-container {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      align-items: start;
-    } 
-
-    .totals span {
-      display: block;
-    }
-
-    .total-details {
-      display: flex;
-      flex-direction: column;
+      grid-template-columns: 4fr 1fr;
+      margin: 0 4em;
     }
     
+    .totals span {
+      padding: 10px;
+    }
+
     .totals .result {
-      margin-top: 1em; 
-      color: #5983af;
       font-size: 2em;
+      margin-top: 0.5em; 
+      color: #5983af;
     }
 
     .terms {
       position: relative;
       z-index: 0;
-      padding: 2em 5em; 
+      padding: 2em 4em; 
       margin-top: 40px;
       font-size: 12px;
       text-align: end;
@@ -339,10 +334,10 @@ export default function generateHTMLTPL007(invoiceData) {
     }
 
     @media print {
-      .header{
+      .invoice-header{
         height: 200px;
       }
-      .header h1 {
+      .invoice-header h1 {
         font-size: 6em;
       }
       .table th {
@@ -351,6 +346,10 @@ export default function generateHTMLTPL007(invoiceData) {
      
       .table td {
         font-size: 14px
+      }
+
+     .table td .description {
+        font-size: 12px;  
       }
 
       .details{
@@ -365,13 +364,15 @@ export default function generateHTMLTPL007(invoiceData) {
         font-size: 14px;
       }
 
+      .terms{
+        min-height: 200px;
+        page-break-inside: avoid;
+        page-break-after: always;
+      }
+
       .terms .grid-container {
         grid-template-columns: 3fr 1fr;
         gap: 8px;
-      }
-
-      .terms{
-        min-height: 200px;
       }
 
       @page {
@@ -382,7 +383,7 @@ export default function generateHTMLTPL007(invoiceData) {
 </head>
 <body>
   <div class="invoice-container">
-    <div class="header">
+    <div class="invoice-header">
       <figure>
          ${
            invoiceData["Logo"]
@@ -552,35 +553,35 @@ export default function generateHTMLTPL007(invoiceData) {
         }
       </div>
       <div class="invoice-number">
-      <div class="grid-container">
-          <span class="details-title align-left" >INVOICE # </span>
-          <span class="details-data align-right">${invoiceData["Invoice No."]}</span>
-          <span class="details-title align-left">INVOICE DATE</span>
-          <span class="details-data align-right">${invoiceData["Invoice Issue Date"]}</span>
-          ${
-            invoiceData["Invoice Due Date"]
-              ? `<span class="details-title align-left">DUE DATE </span>
-                <span class="details-data align-right">${invoiceData["Invoice Due Date"]}</span>`
-              : ""
-          }
-          ${ invoiceData["newFields"]?.length > 0 ? `
-              ${invoiceData["newFields"].map((item) =>
-                    `${
-                      item["fieldName"] && item["fieldValue"] ? `
-                    <span class="details-title align-left">${item["fieldName"]}:</span>
-                    <span class="details-data align-right">${item["fieldValue"]}</span>
-                    ` : "" } ` ).join("")}
-              ` : ""
-          }
-        </div>
+        <div class="grid-container">
+            <span class="details-title align-left" >INVOICE # </span>
+            <span class="details-data align-right">${invoiceData["Invoice No."]}</span>
+            <span class="details-title align-left">INVOICE DATE</span>
+            <span class="details-data align-right">${invoiceData["Invoice Issue Date"]}</span>
+            ${
+              invoiceData["Invoice Due Date"]
+                ? `<span class="details-title align-left">DUE DATE </span>
+                  <span class="details-data align-right">${invoiceData["Invoice Due Date"]}</span>`
+                : ""
+            }
+            ${ invoiceData["newFields"]?.length > 0 ? `
+                ${invoiceData["newFields"].map((item) =>
+                      `${
+                        item["fieldName"] && item["fieldValue"] ? `
+                      <span class="details-title align-left">${item["fieldName"]}:</span>
+                      <span class="details-data align-right">${item["fieldValue"]}</span>
+                      ` : "" } ` ).join("")}
+                ` : ""
+            }
+          </div>
       </div>
     </div>
     <div class="table-container">
     <table class="table">
       <thead>
         <tr>
-          <th class="align-left">No.</th>
-          <th class="align-left">Item Name</th>
+          <th class="align-left w-10px">No.</th>
+          <th class="align-left w-25">Item Name</th>
           <th class="align-left">Price</th>
           <th class="align-right">QTY</th>
           <th class="align-right">Amount</th>
@@ -588,7 +589,7 @@ export default function generateHTMLTPL007(invoiceData) {
           <th class="align-right">Tax ${currencySymbol(
             invoiceData["Currency"]
           )}</th>
-          <th class="align-right">Total</th
+          <th class="align-right">Total</th>
         </tr>
       </thead>
       <tbody>
@@ -602,7 +603,7 @@ export default function generateHTMLTPL007(invoiceData) {
             </br>
             ${
               isDescriptionAvailable && item["description"]
-                ? `${item["description"]}`
+                ? `<span class="description">${item["description"]} </span>`
                 : ""
             }
           </td>
@@ -642,42 +643,20 @@ export default function generateHTMLTPL007(invoiceData) {
     </div>
     <div class="totals">
       <div class="grid-container">
-          <div class="title">
             ${taxPercentage > 0 ? `
               <span class="details-data">Subtotal</span>
+              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${subAmount.toFixed(1)}</span>
               ${invoiceData["Sender's Tax Type"] === "IGST" ? `
-              <span class="details-data">${invoiceData["Sender's Tax Type"]} (${taxPercentage.toFixed(1)}%)</span> 
+              <span class="details-data">${invoiceData["Sender's Tax Type"]} (${taxPercentage.toFixed(1)}%)</span>
+              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount).toFixed(1)}</span>
               ` : `
               <span class="details-data">CGST(${(taxPercentage / 2 ).toFixed(1)}%)</span>
+              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount / 2).toFixed(1)}</span>
               <span class="details-data">SGST(${(taxPercentage / 2 ).toFixed(1)}%)</span>
+              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount / 2).toFixed(1)}</span>
               ` } ` : ""}
               <span class="details-title result">TOTAL</span>
-          </div>
-          <div class="data">
-          ${taxPercentage > 0 ? `
-            <span class="details-data">
-              ${currencySymbol(invoiceData["Currency"])}
-              ${subAmount.toFixed(1)}
-            </span> 
-            ${invoiceData["Sender's Tax Type"] === "IGST" ? `
-             <span class="details-data">
-              ${currencySymbol(invoiceData["Currency"])}
-              ${(taxAmount).toFixed(1)}
-            </span> ` : `
-            <span class="details-data">
-                ${currencySymbol(invoiceData["Currency"])}
-                ${(taxAmount / 2).toFixed(1)}
-            </span>
-            <span class="details-data">
-                ${currencySymbol(invoiceData["Currency"])}
-                ${(taxAmount / 2).toFixed(1)}
-            </span>
-            ` } ` : ""}
-              <span class="details-title result">
-                ${currencySymbol(invoiceData["Currency"])}
-                ${totalAmount.toFixed(1)}
-              </span>
-          </div>
+              <span class="details-title result">${currencySymbol(invoiceData["Currency"])}${totalAmount.toFixed(1)}</span>
       </div>
     </div>
     <div class="terms">

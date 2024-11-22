@@ -101,25 +101,25 @@ export default function generateHTMLTPL006(invoiceData) {
       text-align: right;
     }
 
-    .border-left{
-      border-left: 3px solid #013264;
-    }
-
-    .border-right{
-      border-right: 3px solid #013264;
-    }
-
     .v-align-top{
       vertical-align: top;
     }
 
-    img {
+    .w-10px{
+      width: 10px;
+    }
+    
+    .w-25{
+      width: 25%;
+    }
+
+    .invoice-container img {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
     
-    .header {
+    .invoice-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -127,7 +127,7 @@ export default function generateHTMLTPL006(invoiceData) {
       height: 200px;
     }
 
-    .header h1 {
+    .invoice-header h1 {
       font-size: 8em;
       color: #013264;
       margin: 0;
@@ -136,7 +136,7 @@ export default function generateHTMLTPL006(invoiceData) {
       letter-spacing: unset;
     }
 
-    .header figure {
+    .invoice-header figure {
       margin: 0;
       padding: 0;
       height: 100px;
@@ -210,7 +210,9 @@ export default function generateHTMLTPL006(invoiceData) {
       font-style: normal;
       font-weight: 500;
       color: #013264;
-      padding: 0 0.5em;
+      padding: 6px 10px;
+      background-color: #f5f5f5;
+      border: 1px solid #939393;
     }
 
     .table td {
@@ -220,9 +222,15 @@ export default function generateHTMLTPL006(invoiceData) {
       font-style: normal;
       font-size: 18px;
       color: #777777;
-      padding: 16px;
+      padding: 10px;
+      border: 1px solid #939393;
     }
 
+    .table td .description {
+      opacity: 0.9;
+      font-size: 16px;  
+    }
+ 
     .totals {
       display: flex;
       justify-content: flex-end;
@@ -275,9 +283,10 @@ export default function generateHTMLTPL006(invoiceData) {
 
     @media print {
 
-      .header h1 {
+      .invoice-header h1 {
         font-size: 6em;
       }
+
       .table th {
         font-size: 18px
       }
@@ -290,6 +299,9 @@ export default function generateHTMLTPL006(invoiceData) {
         line-height: 20px;
       }
 
+     .table td .description {
+        font-size: 12px;  
+      }
       .details-title{
         font-size: 18px;
       }
@@ -311,7 +323,7 @@ export default function generateHTMLTPL006(invoiceData) {
 </head>
 <body>
   <div class="invoice-container">
-    <div class="header">
+    <div class="invoice-header">
       <h1>INVOICE</h1>
       <figure>
         ${invoiceData["Logo"] ? `<img src=${invoiceData["Logo"]} alt="Company Logo">` : ""}
@@ -477,42 +489,42 @@ export default function generateHTMLTPL006(invoiceData) {
         }
       </div>
       <div class="invoice-number">
-      <div class="grid-container">
-          <span class="details-title" >INVOICE # </span>
-          <span class="details-data">${invoiceData["Invoice No."]}</span>
-          <span class="details-title">INVOICE DATE</span>
-          <span class="details-data">${invoiceData["Invoice Issue Date"]}</span>
-          ${
-            invoiceData["Invoice Due Date"]
-              ? `<span class="details-title">DUE DATE </span>
-                <span class="details-data">${invoiceData["Invoice Due Date"]}</span>`
-              : ""
-          }
-          ${ invoiceData["newFields"]?.length > 0 ? `
-              ${invoiceData["newFields"].map((item) =>
-                    `${
-                      item["fieldName"] && item["fieldValue"] ? `
-                    <span class="details-title align-left">${item["fieldName"]}:</span>
-                    <span class="details-data align-right">${item["fieldValue"]}</span>
-                    ` : "" } ` ).join("")}
-              ` : ""
-          }
-        </div>
+        <div class="grid-container">
+            <span class="details-title" >INVOICE # </span>
+            <span class="details-data">${invoiceData["Invoice No."]}</span>
+            <span class="details-title">INVOICE DATE</span>
+            <span class="details-data">${invoiceData["Invoice Issue Date"]}</span>
+            ${
+              invoiceData["Invoice Due Date"]
+                ? `<span class="details-title">DUE DATE </span>
+                  <span class="details-data">${invoiceData["Invoice Due Date"]}</span>`
+                : ""
+            }
+            ${ invoiceData["newFields"]?.length > 0 ? `
+                ${invoiceData["newFields"].map((item) =>
+                      `${
+                        item["fieldName"] && item["fieldValue"] ? `
+                      <span class="details-title align-left">${item["fieldName"]}:</span>
+                      <span class="details-data align-right">${item["fieldValue"]}</span>
+                      ` : "" } ` ).join("")}
+                ` : ""
+            }
+          </div>
       </div>
     </div>
     <table class="table">
       <thead>
         <tr>
-          <th class="align-left border-left">No.</th>
-          <th class="align-left border-left">Item Name</th>
-          <th class="align-left border-left">Price</th>
-          <th class="align-right border-right">QTY</th>
-          <th class="align-right border-right">Amount</th>
-          <th class="align-right border-right">Tax %</th>
-          <th class="align-right border-right">Tax ${currencySymbol(
+          <th class="align-left  w-10px">No.</th>
+          <th class="align-left  w-25">Item Name</th>
+          <th class="align-right ">Price</th>
+          <th class="align-right">QTY</th>
+          <th class="align-right">Amount</th>
+          <th class="align-right">Tax %</th>
+          <th class="align-right">Tax ${currencySymbol(
             invoiceData["Currency"]
           )}</th>
-          <th class="align-right border-right">Total</th>
+          <th class="align-right">Total</th>
         </tr>
       </thead>
       <tbody>
@@ -522,13 +534,13 @@ export default function generateHTMLTPL006(invoiceData) {
           <td class="align-left v-align-top">${index + 1}</td>
           <td class="align-left">
             ${item["name"]}
-            </br>
+            <br>
             ${isDescriptionAvailable && item["description"]
-                  ? `${item["description"]}`
+                  ? `<span class="description">${item["description"]}</span>`
                   : ""
             }
           </td>
-          <td class="align-left">
+          <td class="align-right">
               ${currencySymbol(invoiceData["Currency"])}
               ${item["price"]}
           </td>
@@ -556,42 +568,20 @@ export default function generateHTMLTPL006(invoiceData) {
     </table>
     <div class="totals">
         <div class="grid-container">
-          <div class="title">
-            ${taxPercentage > 0 ? `
+              ${taxPercentage > 0 ? `
               <span class="details-data">Subtotal</span>
+              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${subAmount.toFixed(1)}</span>
               ${invoiceData["Sender's Tax Type"] === "IGST" ? `
-              <span class="details-data">${invoiceData["Sender's Tax Type"]} (${taxPercentage.toFixed(1)}%)</span> 
+              <span class="details-data">${invoiceData["Sender's Tax Type"]} (${taxPercentage.toFixed(1)}%)</span>
+              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount).toFixed(1)}</span>
               ` : `
               <span class="details-data">CGST(${(taxPercentage / 2 ).toFixed(1)}%)</span>
+              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount / 2).toFixed(1)}</span>
               <span class="details-data">SGST(${(taxPercentage / 2 ).toFixed(1)}%)</span>
+              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount / 2).toFixed(1)}</span>
               ` } ` : ""}
               <span class="details-title result">TOTAL</span>
-          </div>
-          <div class="data">
-              ${taxPercentage > 0 ? `
-                <span class="details-data">
-                  ${currencySymbol(invoiceData["Currency"])}
-                  ${subAmount.toFixed(1)}
-                </span> 
-                ${invoiceData["Sender's Tax Type"] === "IGST" ? `
-                 <span class="details-data">
-                  ${currencySymbol(invoiceData["Currency"])}
-                  ${(taxAmount).toFixed(1)}
-                </span> ` : `
-               <span class="details-data">
-                  ${currencySymbol(invoiceData["Currency"])}
-                  ${(taxAmount / 2).toFixed(1)}
-              </span>
-              <span class="details-data">
-                  ${currencySymbol(invoiceData["Currency"])}
-                  ${(taxAmount / 2).toFixed(1)}
-              </span>
-                ` } ` : ""}
-              <span class="details-title result">
-                ${currencySymbol(invoiceData["Currency"])}
-                ${totalAmount.toFixed(1)}
-              </span>
-          </div>
+              <span class="details-title result">${currencySymbol(invoiceData["Currency"])}${totalAmount.toFixed(1)}</span>
       </div>
     </div>
     <div class="terms">
