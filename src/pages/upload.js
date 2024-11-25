@@ -335,11 +335,11 @@ export default function UploadCSV() {
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className="flex items-center justify-center w-[60%] h-[200px] transition duration-200 min-w-[400px] flex-1"
+            className="flex items-center justify-center w-[60%] h-[200px] transition duration-200 min-w-[280px] flex-1"
           >
             <div
               onClick={() => fileInputRef.current.click()}
-              className="file-upload-container flex flex-col items-center justify-center w-full h-full border-2 border-dashed rounded-xl cursor-pointer"
+              className="file-upload-container flex flex-col items-center justify-center w-full h-full border-2 border-dashed rounded-xl cursor-pointer py-4"
             >
               <DropImageIcon />
               {selectedFileName ? (
@@ -382,7 +382,7 @@ export default function UploadCSV() {
               className="hidden"
             />
           </div>
-          <div className="instruction-container w-[40%]">
+          <div className="instruction-container w-full md:[width:40%]">
             <h2 className="text-lg font-semibold mb-2">Instructions</h2>
             <ol className="list-decimal list-inside space-y-1">
               <li>Download the sample CSV file to see the correct format.</li>

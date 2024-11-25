@@ -73,3 +73,21 @@ export const fileToBase64 = (file) => {
     reader.onerror = (error) => reject(error);
   });
 };
+
+//handle Generate PDF
+// export const handleGeneratePDF = async () => {
+//   try {
+//     const pdfBlob = await generateHTMLPDF(invoiceData, userData);
+//     if (pdfBlob) {
+//       const blobURL = URL.createObjectURL(pdfBlob);
+//       // window.open(blobURL, "_blank");
+//       const link = document.createElement("a");
+//       link.href = blobURL;
+//       link.download = "invoice.pdf";
+//       link.click();
+//       setTimeout(() => URL.revokeObjectURL(blobURL), 100);
+//     }
+//   } catch (error) {
+//     toast.error("Error generating invoice PDF: " + error.message);
+//   }
+// };

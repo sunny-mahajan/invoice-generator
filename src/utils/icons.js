@@ -140,7 +140,7 @@ export function DownArrowIcon({ w = "11", h = "7", f = "#7C5DFA" }) {
 export function UpArrowIcon({ w = "13", h = "13", f = "#7C5DFA" }) {
   return (
     <svg
-      enable-background="new 0 0 32 32"
+      enableBackground="new 0 0 32 32"
       height={h}
       id="Layer_1"
       version="1.1"
@@ -362,7 +362,7 @@ export function PreviewIcon() {
       width="60px"
       height="60px"
       viewBox="0 0 52 52"
-      enable-background="new 0 0 52 52"
+      enableBackground="new 0 0 52 52"
     >
       <g>
         <path

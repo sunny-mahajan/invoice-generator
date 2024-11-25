@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 const AdBanner = (props) => {
-  console.log(process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID, "client id");
   useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});

@@ -20,7 +20,7 @@ export default function InvoicePreview({
   data = {},
   selectedTemplateId,
   InvoiceTemplatePreview = false,
-  invoiceData = {},
+  previewUrl = "",
 }) {
   const [previewHtml, setPreviewHtml] = useState("");
 
@@ -88,38 +88,81 @@ export default function InvoicePreview({
     setPreviewHtml(htmlString);
   };
 
+  const calculateScaleFactor = (pdfContainer, mainContainer) => {
+    const baseWidth = pdfContainer?.scrollWidth || 1080;
+    const computedStyle = window.getComputedStyle(mainContainer);
+    const paddingLeft = parseFloat(computedStyle.paddingLeft);
+    const paddingRight = parseFloat(computedStyle.paddingRight);
+    const containerWidth =
+      mainContainer.clientWidth - paddingLeft - paddingRight;
+
+    return containerWidth / baseWidth;
+  };
+
+  const adjustZoomForPDF = () => {
+    const pdfContainer = document.querySelector(".invoice-preview-cls");
+    const mainContainer = document.querySelector(".main");
+    const previewContainer = document.querySelector(
+      ".invoice-preview-container"
+    );
+
+    if (!pdfContainer || !mainContainer || !previewContainer) return;
+
+    const scaleFactor = calculateScaleFactor(pdfContainer, mainContainer);
+
+    // Apply transformations
+    pdfContainer.style.transform = `scale(${scaleFactor})`;
+    pdfContainer.style.transformOrigin = "top left";
+    pdfContainer.style.width = `${pdfContainer.scrollWidth}px`;
+    const scaledHeight = pdfContainer.scrollHeight * scaleFactor;
+    previewContainer.style.height = `${scaledHeight + 100}px`;
+  };
+
+  useEffect(() => {
+    adjustZoomForPDF();
+    window.addEventListener("resize", adjustZoomForPDF);
+    return () => {
+      window.removeEventListener("resize", adjustZoomForPDF);
+    };
+  }, [previewHtml]); // Adjust zoom when `previewHtml` changes
+
   useEffect(() => {
     if (!InvoiceTemplatePreview) {
       handleData(formData, data, generatePreview);
     }
   }, [formData, selectedTemplateId, data]);
-  useEffect(() => {
-    if (InvoiceTemplatePreview) {
-      generatePreview(invoiceData);
-    }
-  }, [InvoiceTemplatePreview, invoiceData]);
 
   return (
     <div className="invoice-preview-container mb-5">
-      {!InvoiceTemplatePreview && (
-        <h2
-          style={{
-            padding: "25px 0 20px",
-            color: "var(--color)",
-          }}
-        >
-          Invoice Preview
-        </h2>
+      {!InvoiceTemplatePreview ? (
+        <div className="w-full h-full">
+          <h2
+            style={{
+              padding: "25px 0 20px",
+              color: "var(--color)",
+            }}
+          >
+            Invoice Preview
+          </h2>
+          <div
+            dangerouslySetInnerHTML={{ __html: previewHtml }}
+            className="invoice-preview-cls"
+            style={{
+              border: "1px solid #ddd",
+              padding: "20px",
+              background: "#fff",
+              color: "#000",
+              minHeight: "max-content",
+            }}
+          />
+        </div>
+      ) : (
+        <img
+          className="template-preview-image h-full w-full"
+          src={previewUrl}
+          alt="Invoice Preview"
+        />
       )}
-      <div
-        dangerouslySetInnerHTML={{ __html: previewHtml }}
-        style={{
-          border: "1px solid #ddd",
-          padding: "20px",
-          background: "#fff",
-          color: "#000",
-        }}
-      ></div>
     </div>
   );
 }
