@@ -2,7 +2,6 @@ import { Html, Head, Main, NextScript } from "next/document";
 import Script from "next/script";
 
 export default function Document() {
-  console.log(process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID, "client id");
   return (
     <Html lang="en">
       <Head>

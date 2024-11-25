@@ -401,3 +401,13 @@ body[data-theme="light"] .add-new-btn-cls {
 .instruction-container li {
   font-size: 14px;
 }
+
+.invoice-preview-container {
+  width: 100%;
+}
+
+.invoice-preview-cls {
+  width: 100%; /* Scales the content to parent container width */
+  max-width: 1080px;
+  max-height: max-content;
+}
