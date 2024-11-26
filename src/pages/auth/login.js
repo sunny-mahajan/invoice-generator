@@ -7,6 +7,7 @@ import CustomButton from "../../components/Button";
 import "./style.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AdBanner from "../../components/AdBanner";
 
 export default function Login() {
   const router = useRouter();
@@ -45,6 +46,11 @@ export default function Login() {
 
   return (
     <div className="login-container-cls">
+      {/* <AdBanner
+        data-ad-slot="8786526439"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      /> */}
       <div className="login-container-wrapper">
         <div className="login-form-cls">
           <h1>Login</h1>

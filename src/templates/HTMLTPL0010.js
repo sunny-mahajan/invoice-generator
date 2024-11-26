@@ -77,15 +77,10 @@ export default function generateHTMLTPL0010(invoiceData) {
       background-color: #fff;
     }
 
-    .container{
+    .container-cls{
       max-width: 90%;
       margin: 0 auto;
       height: 100%;
-    }
-
-    p{
-      margin: 0;
-      padding: 0;
     }
     
     .align-left{
@@ -108,6 +103,16 @@ export default function generateHTMLTPL0010(invoiceData) {
       width: 25%;
     }
 
+    .invoice-container p {
+      color: #000000 !important;
+      margin: 0;
+      padding: 0;
+    }
+
+    .invoice-container span {
+      color: #000000 !important;
+    }
+
     .invoice-container img {
       width: 100%;
       height: 100%;
@@ -116,7 +121,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     
     .invoice-header{
       background-color: #f1ebeb;
-      height: 160px;
+      height: 120px;
     }
 
     .invoice-header .header {
@@ -129,7 +134,7 @@ export default function generateHTMLTPL0010(invoiceData) {
 
     .invoice-header .header h1 {
       font-family: "Della Respira", serif;
-      font-size: 4em;
+      font-size: 3em;
       color: #545454;
       margin: 0;
       padding: 0;
@@ -144,7 +149,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     .details-title{
-      font-size: 24px;
+      font-size: 18px;
       font-weight: 500;
       color: #545454;
     }
@@ -152,7 +157,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     .details-data{
       font-family: font-family: "Work Sans", sans-serif;
       font-optical-sizing: auto;
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 400;
       font-style: normal;
       color: #777777;
@@ -204,7 +209,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     .table th {
-      font-size: 24px;
+      font-size: 18px;
       font-weight: 500;
       color: #545454;
       padding: 0.2em 0.5em;
@@ -212,15 +217,15 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     .table td {
-      font-size: 20px;
+      font-size: 16px;
       font-style: normal;
       font-weight: 400;
-      color: #777777;
+      color: #555555;
       padding: 10px;
     }
 
     .table td .description {
-      color: #555555 !important;
+      color: #777777 !important;
       font-size: 16px;  
     }
 
@@ -263,12 +268,12 @@ export default function generateHTMLTPL0010(invoiceData) {
 
     .result-container .result {
       color: #545454;
-      font-size: 24px;
+      font-size: 18px;
     }
 
     .terms {
       margin-top: 40px;
-      font-size: 12px;
+      font-size: 14px;
     }
   
     .terms .grid-container {
@@ -288,7 +293,7 @@ export default function generateHTMLTPL0010(invoiceData) {
         
       }
       .table th {
-        font-size: 18px
+        font-size: 16px
       }
      
       .table td {
@@ -300,11 +305,11 @@ export default function generateHTMLTPL0010(invoiceData) {
       }
 
       .table td .description {
-        font-size: 12px;  
+        font-size: 14px;  
       }
 
       .details-title{
-        font-size: 18px;
+        font-size: 16px;
       }
 
       .details-data{
@@ -330,7 +335,7 @@ export default function generateHTMLTPL0010(invoiceData) {
 <body>
   <div class="invoice-container">
   <header class="invoice-header">
-  <div class="container">
+  <div class="container-cls">
     <div class="header">
       <h1>INVOICE</h1>
       <figure>
@@ -344,7 +349,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     </div>
   </header>
   <main class="invoice-main">
-  <div class="container">
+  <div class="container-cls">
     <div class="details">
       <div>
         <span class="details-title">FROM</span>

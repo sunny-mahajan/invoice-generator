@@ -66,6 +66,9 @@ body {
   padding: 20px 80px;
   border-radius: 10px;
   gap: 15px;
+  @media (max-width: 480px) {
+    padding: 20px 30px;
+  }
 }
 
 .phone-number-input-container {

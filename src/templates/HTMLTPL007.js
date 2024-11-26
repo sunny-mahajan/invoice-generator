@@ -85,7 +85,7 @@ export default function generateHTMLTPL007(invoiceData) {
     body {
       margin: 0;
       padding: 0;
-      background-color: #fff;
+      background-color: #fff !important;
     }
       
     .invoice-container {
@@ -131,7 +131,7 @@ export default function generateHTMLTPL007(invoiceData) {
       align-items: flex-start;
       position: relative;
       background: white; 
-      color: white;
+      color: white !important;
       z-index: 1;
       padding: 2em 4em;
       height: 270px;
@@ -166,7 +166,7 @@ export default function generateHTMLTPL007(invoiceData) {
       line-height: unset;
       letter-spacing: unset;
       margin: 0;
-      color: #fff;
+      color: #fff !important;
     }
 
     .invoice-header figure {
@@ -177,7 +177,7 @@ export default function generateHTMLTPL007(invoiceData) {
 
     .invoice-header span{
       display: block;
-      color: #fff;
+      color: #fff !important;
     }
 
     .details {
@@ -195,7 +195,7 @@ export default function generateHTMLTPL007(invoiceData) {
     .details-title{
       font-size: 24px;
       font-weight: 500;
-      color: #5983af;
+      color: #5983af !important;
       line-height: unset;
       letter-spacing: unset;
     }
@@ -206,7 +206,7 @@ export default function generateHTMLTPL007(invoiceData) {
       font-weight: 400;
       font-style: normal;
       font-size: 18px;
-      color: #000;
+      color: #000 !important;
       line-height: unset;
       letter-spacing: unset;
     }
@@ -240,7 +240,7 @@ export default function generateHTMLTPL007(invoiceData) {
     .table th {
       font-size: 24px;
       font-weight: 500;
-      color: #fff;
+      color: #fff !important;
       padding: 0 0.4em;
       background: #5983af;
     }
@@ -251,7 +251,7 @@ export default function generateHTMLTPL007(invoiceData) {
       font-weight: 400;
       font-style: normal;
       font-size: 18px;
-      color: #000;
+      color: #000 !important;
       padding: 10px;
     }
 
@@ -279,7 +279,7 @@ export default function generateHTMLTPL007(invoiceData) {
     .totals .result {
       font-size: 2em;
       margin-top: 0.5em; 
-      color: #5983af;
+      color: #5983af !important;
     }
 
     .terms {
@@ -326,11 +326,11 @@ export default function generateHTMLTPL007(invoiceData) {
     .terms h3 {
       margin-top: 1.2em;
       margin-bottom: 10px;
-      color: #fff;
+      color: #fff !important;
     }
 
     .terms p {
-      color: #fff;
+      color: #fff !important;
     }
 
     @media print {
@@ -554,23 +554,37 @@ export default function generateHTMLTPL007(invoiceData) {
       <div class="invoice-number">
         <div class="grid-container">
             <span class="details-title align-left" >INVOICE # </span>
-            <span class="details-data align-right">${invoiceData["Invoice No."]}</span>
+            <span class="details-data align-right">${
+              invoiceData["Invoice No."]
+            }</span>
             <span class="details-title align-left">INVOICE DATE</span>
-            <span class="details-data align-right">${invoiceData["Invoice Issue Date"]}</span>
+            <span class="details-data align-right">${
+              invoiceData["Invoice Issue Date"]
+            }</span>
             ${
               invoiceData["Invoice Due Date"]
                 ? `<span class="details-title align-left">DUE DATE </span>
                   <span class="details-data align-right">${invoiceData["Invoice Due Date"]}</span>`
                 : ""
             }
-            ${ invoiceData["newFields"]?.length > 0 ? `
-                ${invoiceData["newFields"].map((item) =>
+            ${
+              invoiceData["newFields"]?.length > 0
+                ? `
+                ${invoiceData["newFields"]
+                  .map(
+                    (item) =>
                       `${
-                        item["fieldName"] && item["fieldValue"] ? `
+                        item["fieldName"] && item["fieldValue"]
+                          ? `
                       <span class="details-title align-left">${item["fieldName"]}:</span>
                       <span class="details-data align-right">${item["fieldValue"]}</span>
-                      ` : "" } ` ).join("")}
-                ` : ""
+                      `
+                          : ""
+                      } `
+                  )
+                  .join("")}
+                `
+                : ""
             }
           </div>
       </div>
@@ -642,20 +656,44 @@ export default function generateHTMLTPL007(invoiceData) {
     </div>
     <div class="totals">
       <div class="grid-container">
-            ${taxPercentage > 0 ? `
+            ${
+              taxPercentage > 0
+                ? `
               <span class="details-data">Subtotal</span>
-              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${subAmount.toFixed(1)}</span>
-              ${invoiceData["Sender's Tax Type"] === "IGST" ? `
-              <span class="details-data">${invoiceData["Sender's Tax Type"]} (${taxPercentage.toFixed(1)}%)</span>
-              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount).toFixed(1)}</span>
-              ` : `
-              <span class="details-data">CGST(${(taxPercentage / 2 ).toFixed(1)}%)</span>
-              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount / 2).toFixed(1)}</span>
-              <span class="details-data">SGST(${(taxPercentage / 2 ).toFixed(1)}%)</span>
-              <span class="details-data">${currencySymbol(invoiceData["Currency"])}${(taxAmount / 2).toFixed(1)}</span>
-              ` } ` : ""}
+              <span class="details-data">${currencySymbol(
+                invoiceData["Currency"]
+              )}${subAmount.toFixed(1)}</span>
+              ${
+                invoiceData["Sender's Tax Type"] === "IGST"
+                  ? `
+              <span class="details-data">${
+                invoiceData["Sender's Tax Type"]
+              } (${taxPercentage.toFixed(1)}%)</span>
+              <span class="details-data">${currencySymbol(
+                invoiceData["Currency"]
+              )}${taxAmount.toFixed(1)}</span>
+              `
+                  : `
+              <span class="details-data">CGST(${(taxPercentage / 2).toFixed(
+                1
+              )}%)</span>
+              <span class="details-data">${currencySymbol(
+                invoiceData["Currency"]
+              )}${(taxAmount / 2).toFixed(1)}</span>
+              <span class="details-data">SGST(${(taxPercentage / 2).toFixed(
+                1
+              )}%)</span>
+              <span class="details-data">${currencySymbol(
+                invoiceData["Currency"]
+              )}${(taxAmount / 2).toFixed(1)}</span>
+              `
+              } `
+                : ""
+            }
               <span class="details-title result">TOTAL</span>
-              <span class="details-title result">${currencySymbol(invoiceData["Currency"])}${totalAmount.toFixed(1)}</span>
+              <span class="details-title result">${currencySymbol(
+                invoiceData["Currency"]
+              )}${totalAmount.toFixed(1)}</span>
       </div>
     </div>
     <div class="terms">
@@ -664,35 +702,53 @@ export default function generateHTMLTPL007(invoiceData) {
         ? `
       <h3 class="details-title">Bank Details</h3>
       <div class="grid-container">
-          ${invoiceData["Bank Name"] ? `
+          ${
+            invoiceData["Bank Name"]
+              ? `
                     <p class="details-data">Bank Name:</p>
                     <p class="details-data">${invoiceData["Bank Name"]}</p>
-              ` : ""
-              }
-              ${invoiceData["Account No"] ? `
+              `
+              : ""
+          }
+              ${
+                invoiceData["Account No"]
+                  ? `
                     <p class="details-data">A/c No:</p>
                     <p class="details-data">${invoiceData["Account No"]}</p>
-              ` : ""
+              `
+                  : ""
               }
-              ${invoiceData["Account Holder Name"] ? `
+              ${
+                invoiceData["Account Holder Name"]
+                  ? `
                     <p class="details-data">A/c Holder Name:</p>
                     <p class="details-data">${invoiceData["Account Holder Name"]}</p>
-              ` : ""
+              `
+                  : ""
               }
-              ${invoiceData["IFSC Code"] ? `
+              ${
+                invoiceData["IFSC Code"]
+                  ? `
                     <p class="details-data">IFSC Code:</p>
                     <p class="details-data">${invoiceData["IFSC Code"]}</p>
-              ` : ""
+              `
+                  : ""
               }
-              ${invoiceData["Account Type"] ? `
+              ${
+                invoiceData["Account Type"]
+                  ? `
                     <p class="details-data">A/c Type:</p>
                     <p class="details-data">${invoiceData["Account Type"]}</p>
-              ` : ""
+              `
+                  : ""
               }
-              ${invoiceData["Bank Address"] ? `
+              ${
+                invoiceData["Bank Address"]
+                  ? `
                     <p class="details-data">Bank Address:</p>
                     <p class="details-data">${invoiceData["Bank Address"]}</p>
-              ` : ""
+              `
+                  : ""
               }
         </div>
         `
