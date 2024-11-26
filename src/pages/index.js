@@ -506,11 +506,11 @@ const InvoiceForm = () => {
   return (
     <Layout>
       <div className="content d-flex flex-direction-column">
-        {/* <AdBanner
+        <AdBanner
           data-ad-slot="8786526439"
           data-ad-format="auto"
           data-full-width-responsive="true"
-        /> */}
+        />
         <div>
           <h2 style={styles.title}>New Invoice</h2>
           <div style={styles.mainSection}>

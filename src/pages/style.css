@@ -310,6 +310,9 @@ p {
   background-color: var(--tertiary-color) !important;
   border-radius: 10px;
   border: 1px solid var(--input-border-color);
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
 }
 .slick-prev::before,
 .slick-next::before {
