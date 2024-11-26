@@ -76,6 +76,10 @@ export default function generateHTMLTPL003(invoiceData) {
         margin: 3px 0;
       }
 
+      .header-cls span {
+        color: #ffffff !important;
+      }
+
       .header-cls {
         background: linear-gradient(135deg, #4caf50, #2f8e41);
         color: white;

@@ -75,6 +75,9 @@ export default function generateHTMLTPL003(invoiceData) {
             color: #fff;
             padding: 20px;
         }
+        .invoice-container p, .invoice-container span {
+            color: #fff !important;
+        }
         .bill-ship {
             display: flex;
             justify-content: space-between;

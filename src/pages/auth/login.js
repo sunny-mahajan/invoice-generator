@@ -46,11 +46,11 @@ export default function Login() {
 
   return (
     <div className="login-container-cls">
-      <AdBanner
+      {/* <AdBanner
         data-ad-slot="8786526439"
         data-ad-format="auto"
         data-full-width-responsive="true"
-      />
+      /> */}
       <div className="login-container-wrapper">
         <div className="login-form-cls">
           <h1>Login</h1>
