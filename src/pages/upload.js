@@ -409,7 +409,7 @@ export default function UploadCSV() {
         <ToastContainer />
       </div>
       {invoices.length > 0 && isInvoceTrue && (
-        <div className="mt-0 md:mb-6">
+        <div className="mt-0 md:mb-6 px-4">
           <CustomButton
             type="purple"
             onClick={handleDownloadZip}

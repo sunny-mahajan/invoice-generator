@@ -73,7 +73,7 @@ export default function generateHTMLTPL001(invoiceData) {
     }
 
     .main-container-cls p {
-        color: #000000 !important;
+        color: #000000;
     }
 
     .title-container-cls {
@@ -166,6 +166,7 @@ export default function generateHTMLTPL001(invoiceData) {
         word-wrap: break-word;
         padding: 0 !important;
         margin: 0 !important;
+        color: #555555 !important;
     }
 
     .sub-sec4-item-quantity {
@@ -480,7 +481,7 @@ export default function generateHTMLTPL001(invoiceData) {
         <div class="sec4-container">
             <div class="sub-sec4-container">
                  <div class="sub-sec4-header">
-                    <h2 class="sub-sec4-item-no">#</h2>
+                    <h2 class="sub-sec4-item-no">No.</h2>
                     <h2 class="sub-sec4-item-name">Name</h2>
                     <h2 class="sub-sec4-item-price">Price</h2>
                     <h2 class="sub-sec4-item-quantity">Qty</h2>

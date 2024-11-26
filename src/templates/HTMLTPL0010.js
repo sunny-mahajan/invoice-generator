@@ -116,7 +116,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     
     .invoice-header{
       background-color: #f1ebeb;
-      height: 200px;
+      height: 160px;
     }
 
     .invoice-header .header {
@@ -220,9 +220,10 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     .table td .description {
-      opacity: 0.9;
+      color: #555555 !important;
       font-size: 16px;  
     }
+
     .totals {
       display: flex;
       justify-content: flex-end;
@@ -282,9 +283,8 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     @media print {
-
       .invoice-header .header h1 {
-        font-size: 4em;
+        font-size: 3.5em;
         
       }
       .table th {
