@@ -21,6 +21,7 @@ export default function InvoicePreview({
   selectedTemplateId,
   InvoiceTemplatePreview = false,
   previewUrl = "",
+  isDialogOpen = false,
 }) {
   const [previewHtml, setPreviewHtml] = useState("");
 
@@ -124,7 +125,7 @@ export default function InvoicePreview({
     return () => {
       window.removeEventListener("resize", adjustZoomForPDF);
     };
-  }, [previewHtml]); // Adjust zoom when `previewHtml` changes
+  }, [previewHtml, isDialogOpen]); // Adjust zoom when `previewHtml` changes
 
   useEffect(() => {
     if (!InvoiceTemplatePreview) {
