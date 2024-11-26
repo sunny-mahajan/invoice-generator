@@ -33,7 +33,7 @@ const PhoneInputField = ({
       <div>
         <div className="phone-number-input-container flex items-center">
           <div
-            className={`input-cont-color-cls phone-number-input-cls flex items-center border font-semibold text-[13px] h-[40px] w-max lg:w-[27%] p-[3px] rounded-l ${
+            className={`input-cont-color-cls phone-number-input-cls flex items-center border font-semibold text-[13px] h-[40px] min-w-max w-[20%] lg:w-[27%] p-[3px] rounded-l ${
               required && fieldError ? "input-error-cls" : ""
             }`}
           >
@@ -44,7 +44,7 @@ const PhoneInputField = ({
             />
             <span className="mt-[3px]">+91</span>
           </div>
-          <div className="w-[70%] lg:w-[73%]">
+          <div className="w-[80%] lg:w-[73%]">
             <input
               className={`tel-input-field input-cont-color-cls w-full py-[10px] px-[5px] h-[40px] rounded-r border font-semibold text-[14px] focus:outline-none ${
                 required && fieldError ? "input-error-cls" : ""

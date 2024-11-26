@@ -158,7 +158,7 @@ const ItemDetails = ({
                       />
                     )}
                 </div>
-                <div className="flex items-center ">
+                <div className="flex items-center">
                   {formData.senderDetails.taxType &&
                     formData.senderDetails.taxType !== "None" && (
                       <>

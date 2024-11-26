@@ -10,8 +10,8 @@ const DialogBox = ({
   cancelText,
   onConfirm,
   InvoiceTemplatePreview = false,
-  invoiceData = {},
   selectedTemplateId,
+  previewUrl = "",
 }) => {
   if (!isOpen) return null; // Don't render if the dialog is not open
 
@@ -39,8 +39,8 @@ const DialogBox = ({
           </div>
           <InvoicePreview
             InvoiceTemplatePreview={InvoiceTemplatePreview}
-            invoiceData={invoiceData} // Make sure to pass the correct invoice data here
             selectedTemplateId={selectedTemplateId}
+            previewUrl={previewUrl}
           />
         </div>
       )}

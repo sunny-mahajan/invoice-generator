@@ -7,13 +7,14 @@ const InvoiceTemplates = ({
   selectable = false,
   handleTemplateSelection = () => {},
   isShowRandomSelection = false,
-  invoiceData = {},
   isRandomSelectionChecked = false,
 }) => {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [invoiceTemplates, setTemplates] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [selectPreviewUrl, setSelectPreviewUrl] = useState("");
+
   useEffect(() => {
     fetchTemplates();
   }, []);
@@ -37,7 +38,9 @@ const InvoiceTemplates = ({
     }
   };
 
-  const handleTemplatePreview = (templateId) => {
+  const handleTemplatePreview = (previewUrl) => {
+    setSelectPreviewUrl(previewUrl);
+    // handleGeneratePDF();
     setIsDialogOpen(true);
   };
   const handleCloseDialog = () => setIsDialogOpen(false);
@@ -54,7 +57,7 @@ const InvoiceTemplates = ({
 
   return (
     <div>
-      <div className="flex items-center justify-between pb-2.5 pt-5">
+      <div className="flex md:items-center items-start gap-5  flex-col md:flex-row justify-between pb-2.5 pt-5">
         <h2 style={styles.title}>
           {selectable ? "Select Template" : "Templates"}
         </h2>
@@ -88,7 +91,7 @@ const InvoiceTemplates = ({
       </div>
 
       <div
-        className={`invoice-templates-cls grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 p-4 ${
+        className={`invoice-templates-cls grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 p-4 ${
           isRandomSelectionChecked ? "opacity-50 pointer-events-none" : ""
         }`}
       >
@@ -107,14 +110,16 @@ const InvoiceTemplates = ({
                     : ""
                 }`}
               >
-                <div className="template-preview-image-container w-full overflow-hidden relative pt-[90%]">
+                <div className="template-preview-image-container w-full overflow-hidden relative">
                   <img
-                    className="template-preview-image h-full w-full absolute top-0 left-0"
+                    className="template-preview-image h-full w-full"
                     src={invoiceTemplate.previewUrl}
                     alt={invoiceTemplate.name}
                   />
                   <div
-                    onClick={() => handleTemplatePreview(invoiceTemplate.id)}
+                    onClick={() =>
+                      handleTemplatePreview(invoiceTemplate.previewUrl)
+                    }
                     className="absolute top-[50%] right-[50%] translate-x-[50%] translate-y-[-50%] hidden group-hover:block"
                   >
                     <PreviewIcon />
@@ -126,8 +131,8 @@ const InvoiceTemplates = ({
                     onClose={handleCloseDialog}
                     title="Invoice Template Preview"
                     InvoiceTemplatePreview={true}
-                    invoiceData={invoiceData}
                     selectedTemplateId={selectedTemplateId}
+                    previewUrl={selectPreviewUrl}
                   />
                 </div>
                 <div className="template-name">
