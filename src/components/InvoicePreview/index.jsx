@@ -18,7 +18,7 @@ import generateHTMLTPL0010 from "../../templates/HTMLTPL0010";
 export default function InvoicePreview({
   formData = {},
   data = {},
-  selectedTemplateId,
+  selectedTemplateId = "TPL001",
   InvoiceTemplatePreview = false,
   previewUrl = "",
   isDialogOpen = false,
