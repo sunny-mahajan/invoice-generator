@@ -99,6 +99,7 @@ const InvoiceForm = () => {
   const [isDueDatePickerOpen, setIsDueDatePickerOpen] = useState(false);
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
   const [dueDateAfter, setDueDateAfter] = useState(15);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { userData } = useUser();
 
   const [isItemDataUpdated, setIsItemDataUpdated] = useState({
@@ -571,6 +572,8 @@ const InvoiceForm = () => {
               handleSelectTemplates={handleSelectTemplate}
               selectable={true}
               invoiceData={previewInvoiceData}
+              isDialogOpen={isDialogOpen}
+              setIsDialogOpen={setIsDialogOpen}
             />
           </div>
           <div className="flex justify-center md:justify-between rounded-r-lg w-full py-5">
@@ -591,6 +594,7 @@ const InvoiceForm = () => {
             formData={formData}
             data={getValues()}
             selectedTemplateId={selectedTemplateId}
+            isDialogOpen={isDialogOpen}
           />
         </div>
       </div>

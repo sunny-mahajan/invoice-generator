@@ -8,10 +8,11 @@ const InvoiceTemplates = ({
   handleTemplateSelection = () => {},
   isShowRandomSelection = false,
   isRandomSelectionChecked = false,
+  isDialogOpen = false,
+  setIsDialogOpen = () => {},
 }) => {
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
   const [invoiceTemplates, setTemplates] = useState([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [selectPreviewUrl, setSelectPreviewUrl] = useState("");
 
