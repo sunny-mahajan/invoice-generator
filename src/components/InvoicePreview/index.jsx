@@ -15,6 +15,14 @@ import generateHTMLTPL008 from "../../templates/HTMLTPL008";
 import generateHTMLTPL009 from "../../templates/HTMLTPL009";
 import generateHTMLTPL0010 from "../../templates/HTMLTPL0010";
 
+const debounce = (func, delay) => {
+  let timeout;
+  return () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(func, delay);
+  };
+};
+
 export default function InvoicePreview({
   formData = {},
   data = {},
@@ -121,9 +129,12 @@ export default function InvoicePreview({
 
   useEffect(() => {
     adjustZoomForPDF();
-    window.addEventListener("resize", adjustZoomForPDF);
+    const handleResize = debounce(() => {
+      adjustZoomForPDF();
+    }, 20);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener("resize", adjustZoomForPDF);
+      window.removeEventListener("resize", handleResize);
     };
   }, [previewHtml, isDialogOpen]); // Adjust zoom when `previewHtml` changes
 
