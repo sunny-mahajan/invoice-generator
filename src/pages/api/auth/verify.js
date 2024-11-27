@@ -1,5 +1,12 @@
 import { db } from "../../../../firebaseConfig";
-import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -10,7 +17,10 @@ export default async function handler(req, res) {
 
   try {
     const usersCollection = collection(db, "users");
-    const userQuery = query(usersCollection, where("verificationToken", "==", token));
+    const userQuery = query(
+      usersCollection,
+      where("verificationToken", "==", token)
+    );
     const userSnapshot = await getDocs(userQuery);
 
     if (userSnapshot.empty) {
@@ -23,9 +33,12 @@ export default async function handler(req, res) {
     await updateDoc(userRef, {
       verified: true,
       verificationToken: null,
+      id: userDoc.id,
     });
 
-    res.status(200).json({ message: "Email verified successfully. You can now log in." });
+    res
+      .status(200)
+      .json({ message: "Email verified successfully. You can now log in." });
   } catch (error) {
     console.error("Verification error:", error);
     res.status(500).json({ error: "Internal server error" });

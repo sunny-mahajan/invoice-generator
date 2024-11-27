@@ -1,9 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import useClickOutside from "../hooks/useClickOutside";
-import CustomButton from "./Button";
 import "../styles/globals.css";
 import { useRouter } from "next/router";
-import { DarkThemeIcon, LightThemeIcon, logOutIcon } from "../utils/icons";
+import {
+  DarkThemeIcon,
+  LightThemeIcon,
+  logOutIcon,
+  ChangePasswordIcon,
+} from "../utils/icons";
 import { useTheme } from "../utils/themeContext";
 import { useUser } from "../app/context/userContext";
 
@@ -17,6 +21,7 @@ const Header = () => {
   const [activeUpload, setActiveUpload] = useState("single");
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
+  const body = document.body;
   const handleProfileClick = () => {
     const avatarRect = avatarRef.current.getBoundingClientRect();
     setMenuPosition({
@@ -43,7 +48,7 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     clearUser();
-    router.push("auth/login");
+    router.push("/auth/login");
     setIsMenuOpen(false);
   };
 
@@ -117,14 +122,28 @@ const Header = () => {
           ref={menuRef}
           style={{ position: "fixed", top: menuPosition.top, right: "5px" }}
         >
-          <CustomButton
-            type="red"
-            onClick={handleLogout}
-            className="sidebar-logout-button"
+          <div
+            className="flex items-center cursor-pointer gap-4 m-2 p-1"
+            onClick={() => router.push("/auth/change-password")}
           >
-            {logOutIcon()}
-            <span className="pl-1">Logout</span>
-          </CustomButton>
+            <span>
+              {ChangePasswordIcon(
+                body.getAttribute("data-theme") === "dark" ? "#fff" : "#000"
+              )}
+            </span>
+            <span>Change Password</span>
+          </div>
+          <div
+            className="flex items-center cursor-pointer gap-4 m-2 p-1"
+            onClick={handleLogout}
+          >
+            <span>
+              {logOutIcon(
+                body.getAttribute("data-theme") === "dark" ? "#fff" : "#000"
+              )}
+            </span>
+            <span>Logout</span>
+          </div>
         </div>
       )}
     </header>

@@ -35,6 +35,7 @@ export default async function handler(req, res) {
     const newUser = {
       name,
       email,
+      id: "",
       contactNo,
       password: hashedPassword,
       verified: false,
