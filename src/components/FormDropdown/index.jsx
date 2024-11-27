@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./style.css";
 import { DownArrowIcon } from "../../utils/icons";
+import useClickOutside from "../../hooks/useClickOutside";
 
 const FormCustomDropdown = ({
   options,
@@ -12,10 +13,15 @@ const FormCustomDropdown = ({
   containerClass,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropDownRef = useRef();
   const [selectedOption, setSelectedOption] = useState({
     label: "",
     value: "",
   });
+
+  useClickOutside([dropDownRef], () =>
+    setIsOpen(false)
+  );
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -38,6 +44,7 @@ const FormCustomDropdown = ({
       className={`FormDropdown-container ${
         containerClass ? containerClass : ""
       }`}
+      ref={dropDownRef}
     >
       {title && (
         <div className="invoice-title-container">

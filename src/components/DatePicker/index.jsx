@@ -12,12 +12,10 @@ const DatePicker = ({
   inputClass,
   onChange,
   isDatePickerOpen,
-  customDatePickerRef,
+  setIsDatePickerOpen,
   invoiceCreatedDate,
   isDueDate = false,
 }) => {
-  const datePickerRef = useRef(null); // Reference for the calendar
-  const [isOpen, setIsOpen] = useState(isDatePickerOpen || false);
   // Ensure the date is parsed correctly
   const parseDateFromString = (dateString) => {
     if (!dateString) return null;
@@ -52,28 +50,6 @@ const DatePicker = ({
       setSelectedDate(parsedDate);
     }
   }, [value]);
-
-  // useEffect(() => {
-  //   if (isDatePickerOpen != isOpen) setIsOpen(isDatePickerOpen);
-  // }, [isDatePickerOpen]);
-
-  // Handle clicks outside the calendar to close it
-  // useEffect(() => {
-  //   console.log("CLIKKED---", datePickerRef.current);
-  //   const handleClickOutside = (event) => {
-  //     if (
-  //       datePickerRef.current &&
-  //       !datePickerRef.current.contains(event.target)
-  //     ) {
-  //       setIsOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
 
   const formatDate = (date) => {
     return date
@@ -154,7 +130,7 @@ const DatePicker = ({
             if (!isPastDate) {
               setSelectedDate(dateObj);
               onChange && onChange({ name, value: formatDateToISO(dateObj) });
-              setIsOpen(false);
+              setIsDatePickerOpen(false);
             }
           }}
         >
@@ -188,7 +164,7 @@ const DatePicker = ({
       <div
         className={`input-field ${inputClass ? inputClass : ""}`}
         style={{ filter: isDisable && "brightness(0.8)" }}
-        onClick={() => (isDisable ? null : setIsOpen(!isOpen))}
+        onClick={() => (isDisable ? null : setIsDatePickerOpen(!isDatePickerOpen))}
       >
         <span style={{ filter: isDisable && "brightness(0.5)" }}>
           {formatDate(selectedDate || currentDate)}
@@ -198,8 +174,8 @@ const DatePicker = ({
         </span>
       </div>
 
-      {isOpen && (
-        <span className="date-picker-container" ref={customDatePickerRef}>
+      {isDatePickerOpen && (
+        <span className="date-picker-container">
           <div className="date-picker">
             <div className="header">
               <div onClick={prevMonth} className="nav-arrow">
