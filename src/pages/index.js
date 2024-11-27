@@ -118,14 +118,17 @@ const InvoiceForm = () => {
     mode: "onChange",
     reValidateMode: "onChange",
   });
-
-  const customDatePickerRef = useRef(null);
   const datePickerInputRef = useRef(null);
+  const dueDatePickerInputRef = useRef(null);
   const formValues = watch();
-  useClickOutside([customDatePickerRef, datePickerInputRef], () =>
+  
+  useClickOutside([datePickerInputRef], () =>
     setIsDatePickerOpen(false)
   );
 
+  useClickOutside([dueDatePickerInputRef], () =>
+    setIsDueDatePickerOpen(false)
+  );
   useEffect(() => {
     if (formData.createdAt && dueDateAfter >= 0 && isDueDateOpen) {
       setFormData((prev) => ({
@@ -408,13 +411,6 @@ const InvoiceForm = () => {
     }));
   };
 
-  const handleDatePickerInputClick = (isDueDate = false) => {
-    if (isDueDate) {
-      setIsDueDatePickerOpen((prevState) => !prevState);
-      return;
-    }
-    setIsDatePickerOpen((prevState) => !prevState);
-  };
   const mergeData = (formData, data) => {
     for (const key in data) {
       if (
@@ -523,11 +519,12 @@ const InvoiceForm = () => {
               handleFieldChange={handleFieldChange}
               handleAddField={handleAddField}
               handleRemoveField={handleRemoveField}
-              handleDatePickerInputClick={handleDatePickerInputClick}
               datePickerInputRef={datePickerInputRef}
-              customDatePickerRef={customDatePickerRef}
+              dueDatePickerInputRef={dueDatePickerInputRef}
               isDatePickerOpen={isDatePickerOpen}
+              setIsDatePickerOpen={setIsDatePickerOpen}
               isDueDatePickerOpen={isDueDatePickerOpen}
+              setIsDueDatePickerOpen={setIsDueDatePickerOpen}
               errors={errors}
               register={register}
               onFileSelect={onFileSelect}

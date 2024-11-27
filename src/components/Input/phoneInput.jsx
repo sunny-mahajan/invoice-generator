@@ -33,7 +33,7 @@ const PhoneInputField = ({
       <div>
         <div className="phone-number-input-container flex items-center">
           <div
-            className={`input-cont-color-cls phone-number-input-cls flex items-center border font-semibold text-[13px] h-[40px] min-w-max w-[20%] lg:w-[27%] p-[3px] rounded-l ${
+            className={`input-cont-color-cls phone-number-input-cls flex items-center border font-semibold text-[13px] h-[40px] min-w-max px-[5px] rounded-l ${
               required && fieldError ? "input-error-cls" : ""
             }`}
           >
