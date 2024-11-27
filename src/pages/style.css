@@ -258,6 +258,18 @@ p {
   opacity: 0.7 !important; /* Semi-transparent */
 }
 
+.tooltip::after{
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 99%;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent rgb(229 231 235 / var(--tw-bg-opacity)) transparent transparent;
+  transform: rotate(-45deg);
+  transform-origin: bottom left;
+}
+
 .parties-details-container {
   @media (max-width: 1024px) {
     display: block !important;

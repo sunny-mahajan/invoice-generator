@@ -101,13 +101,18 @@ const ItemDetails = ({
                 <div className="block md:flex gap-5 flex-1">
                   <div className="w-full">
                     <CustomInput
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
                       name="quantity"
                       title="Qty/Hrs."
                       placeholder="1"
                       value={item.quantity}
                       // containerClass="max-w-[200px]"
-                      onChange={(e) => handleItemChange(index, e)}
+                      onChange={(e) => {
+                        let sanitizedValue = e.target.value.replace(/[^0-9]/g, ""); 
+                        e.target.value = sanitizedValue; 
+                        handleItemChange(index, e); 
+                      }}
                       inputStyle={{
                         flex: "0.3 1 auto",
                         borderColor: errorsData[index]?.quantity ? "red" : "",
@@ -124,13 +129,18 @@ const ItemDetails = ({
                   </div>
                   <div className="w-full">
                     <CustomInput
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
                       name="price"
                       placeholder="200"
                       title="Price"
                       // containerClass="max-w-[200px]"
                       value={item.price}
-                      onChange={(e) => handleItemChange(index, e)}
+                      onChange={(e) => {
+                        let sanitizedValue = e.target.value.replace(/[^0-9]/g, ""); 
+                        e.target.value = sanitizedValue; 
+                        handleItemChange(index, e); 
+                      }}
                       inputStyle={{
                         flex: "1 1 auto",
                         borderColor: errorsData[index]?.price ? "red" : "",
@@ -148,12 +158,17 @@ const ItemDetails = ({
                   {formData.senderDetails.taxType &&
                     formData.senderDetails.taxType !== "None" && (
                       <CustomInput
-                        type="number"
+                        type="text"
+                        inputMode="numeric"
                         name="taxPercentage"
                         placeholder="18"
                         title="GST Rate"
                         value={item.price}
-                        onChange={(e) => handleItemChange(index, e)}
+                        onChange={(e) => {
+                          let sanitizedValue = e.target.value.replace(/[^0-9]/g, ""); 
+                          e.target.value = sanitizedValue; 
+                          handleItemChange(index, e); 
+                        }}
                         inputStyle={{ flex: "1 1 auto", minWidth: "65px" }}
                       />
                     )}
