@@ -259,30 +259,20 @@ p {
 }
 
 .parties-details-container {
-  @media (max-width: 1024px) {
-    display: block !important;
-  }
+  display: block !important;
+
   .bill-from-main-container {
-    @media (max-width: 1024px) {
-      width: 100% !important;
-    }
+    width: 100% !important;
   }
   .bill-to-main-container {
-    @media (max-width: 1024px) {
-      width: 100% !important;
-    }
+    width: 100% !important;
   }
 }
 .items-details-section {
-  @media (max-width: 1024px) {
-    display: block !important;
-  }
+  display: block !important;
 }
 .invoice-details-section {
-  display: flex;
-  @media (max-width: 1024px) {
-    display: block;
-  }
+  display: block;
 }
 .custom-field-label {
   width: 90%;

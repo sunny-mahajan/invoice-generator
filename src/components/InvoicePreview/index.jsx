@@ -15,14 +15,6 @@ import generateHTMLTPL008 from "../../templates/HTMLTPL008";
 import generateHTMLTPL009 from "../../templates/HTMLTPL009";
 import generateHTMLTPL0010 from "../../templates/HTMLTPL0010";
 
-const debounce = (func, delay) => {
-  let timeout;
-  return () => {
-    clearTimeout(timeout);
-    timeout = setTimeout(func, delay);
-  };
-};
-
 export default function InvoicePreview({
   formData = {},
   data = {},
@@ -32,6 +24,14 @@ export default function InvoicePreview({
   isDialogOpen = false,
 }) {
   const [previewHtml, setPreviewHtml] = useState("");
+
+  const debounce = (func, delay) => {
+    let timeout;
+    return () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(func, delay);
+    };
+  };
 
   const mergeData = (formData, data) => {
     for (const key in data) {
@@ -92,51 +92,43 @@ export default function InvoicePreview({
         ? generateHTMLTPL008(invoiceData)
         : selectedTemplateId === "TPL009"
         ? generateHTMLTPL009(invoiceData)
-        : generateHTMLTPL0010(invoiceData);
+        : selectedTemplateId === "TPL010" && generateHTMLTPL0010(invoiceData);
 
     setPreviewHtml(htmlString);
   };
 
-  const calculateScaleFactor = (pdfContainer, mainContainer) => {
-    const baseWidth = pdfContainer?.scrollWidth || 1080;
-    const computedStyle = window.getComputedStyle(mainContainer);
-    const paddingLeft = parseFloat(computedStyle.paddingLeft);
-    const paddingRight = parseFloat(computedStyle.paddingRight);
-    const containerWidth =
-      mainContainer.clientWidth - paddingLeft - paddingRight;
-
-    return containerWidth / baseWidth;
-  };
-
-  const adjustZoomForPDF = () => {
+  const adjustZoom = () => {
     const pdfContainer = document.querySelector(".invoice-preview-cls");
-    const mainContainer = document.querySelector(".main");
-    const previewContainer = document.querySelector(
-      ".invoice-preview-container"
-    );
+    const mainContainer = document.querySelector(".preview-container-cls");
 
-    if (!pdfContainer || !mainContainer || !previewContainer) return;
+    if (!pdfContainer || !mainContainer) return;
 
-    const scaleFactor = calculateScaleFactor(pdfContainer, mainContainer);
+    const screenWidth = mainContainer.clientWidth;
+    console.log(screenWidth, "screenWidth");
+    let zoomFactor = 1;
 
-    // Apply transformations
-    pdfContainer.style.transform = `scale(${scaleFactor})`;
-    pdfContainer.style.transformOrigin = "top left";
-    pdfContainer.style.width = `${pdfContainer.scrollWidth}px`;
-    const scaledHeight = pdfContainer.scrollHeight * scaleFactor;
-    previewContainer.style.height = `${scaledHeight + 100}px`;
+    if (screenWidth <= 600) {
+      zoomFactor = 0.6;
+    } else if (screenWidth <= 768) {
+      zoomFactor = 0.7;
+    } else if (screenWidth <= 1024) {
+      zoomFactor = 0.4;
+    } else {
+      zoomFactor = 0.5;
+    }
+
+    pdfContainer.style.zoom = zoomFactor;
   };
 
   useEffect(() => {
-    adjustZoomForPDF();
-    const handleResize = debounce(() => {
-      adjustZoomForPDF();
-    }, 20);
+    adjustZoom();
+    const handleResize = debounce(adjustZoom, 100);
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [previewHtml, isDialogOpen]); // Adjust zoom when `previewHtml` changes
+  }, [previewHtml, isDialogOpen]);
 
   useEffect(() => {
     if (!InvoiceTemplatePreview) {
@@ -164,7 +156,6 @@ export default function InvoicePreview({
               padding: "20px",
               background: "#fff",
               color: "#000",
-              minHeight: "max-content",
             }}
           />
         </div>
