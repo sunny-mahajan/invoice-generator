@@ -82,9 +82,10 @@ export default function generateHTMLTPL003(invoiceData) {
       .invoice-container {
         padding: 20px;
       }
-        .invoice-container h2,.invoice-container h3 {
-            font-weight: 700 !important;
-        }
+        
+      .invoice-container h2,.invoice-container h3 {
+          font-weight: 700 !important;
+      }
 
     .invoice-container p {
         color: #000000 !important;

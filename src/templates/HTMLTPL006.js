@@ -521,17 +521,11 @@ export default function generateHTMLTPL006(invoiceData) {
                   .map(
                     (item) =>
                       `${
-                        item["fieldName"] && item["fieldValue"]
-                          ? `
-                      <span class="details-title align-left">${item["fieldName"]}:</span>
-                      <span class="details-data align-right">${item["fieldValue"]}</span>
-                      `
-                          : ""
-                      } `
-                  )
-                  .join("")}
-                `
-                : ""
+                        item["fieldName"] && item["fieldValue"] ? `
+                      <span class="details-title">${item["fieldName"]}:</span>
+                      <span class="details-data">${item["fieldValue"]}</span>
+                      ` : "" } ` ).join("")}
+                ` : ""
             }
           </div>
       </div>

@@ -15,11 +15,12 @@ const InvoiceDetailsForm = ({
   handleFieldChange,
   handleAddField,
   handleRemoveField,
-  handleDatePickerInputClick,
   datePickerInputRef,
-  customDatePickerRef,
+  dueDatePickerInputRef,
   isDatePickerOpen,
+  setIsDatePickerOpen,
   isDueDatePickerOpen,
+  setIsDueDatePickerOpen,
   errors,
   register,
   onFileSelect,
@@ -88,7 +89,6 @@ const InvoiceDetailsForm = ({
           <div
             className="flex w-[90%] mb-5 flex-col"
             ref={datePickerInputRef}
-            onClick={() => handleDatePickerInputClick(false)}
           >
             <CustomDatePicker
               name="createdAt"
@@ -96,7 +96,7 @@ const InvoiceDetailsForm = ({
               value={formData.createdAt}
               onChange={handleChange}
               isDatePickerOpen={isDatePickerOpen}
-              customDatePickerRef={customDatePickerRef}
+              setIsDatePickerOpen={setIsDatePickerOpen}
               containerClass="input-container-cls date-picker-cls"
               required={true}
             />
@@ -123,7 +123,7 @@ const InvoiceDetailsForm = ({
           ) : (
             <div
               className="due-date-picker-sec flex w-[100%] mb-5 items-center"
-              onClick={() => handleDatePickerInputClick(true)}
+              ref={dueDatePickerInputRef}
             >
               <CustomDatePicker
                 name="dueDate"
@@ -131,6 +131,7 @@ const InvoiceDetailsForm = ({
                 value={formData.dueDate}
                 onChange={handleChange}
                 isDatePickerOpen={isDueDatePickerOpen}
+                setIsDatePickerOpen={setIsDueDatePickerOpen}
                 containerClass="input-container-cls due-date-picker-container"
                 invoiceCreatedDate={formData.createdAt}
                 isDueDate={true}
