@@ -20,12 +20,11 @@ export default function ChangePassword() {
   const router = useRouter();
 
   const handleChangePassword = async (e) => {
-    setLoading(true);
     if (e.newPassword !== e.confirmPassword) {
       toast.error("New password and confirm password do not match");
       return;
     }
-
+    setLoading(true);
     try {
       const token = localStorage.getItem("token"); // Assumes JWT is stored here
       const response = await fetch("/api/auth/change-password", {
