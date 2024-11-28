@@ -58,7 +58,7 @@ const PhoneInputField = ({
             />
           </div>
         </div>
-        <div className="h-4">
+        <div className="h-4" style={{ minHeight: "16px" }}>
           {fieldError &&
             touched && ( // Show error only if touched and error exists
               <p className="input-error text-red-600">{fieldError.message}</p>

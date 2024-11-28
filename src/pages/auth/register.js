@@ -110,7 +110,7 @@ export default function Register() {
               title="Password"
               placeholder="Enter your password"
               inputClass="inputInvoiceCls"
-              containerStyle={{ maxWidth: "250px" }}
+              containerStyle={{ maxWidth: "266px" }}
               required
               register={register}
               errors={errors}

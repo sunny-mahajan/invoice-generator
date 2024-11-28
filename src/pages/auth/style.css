@@ -75,6 +75,14 @@ body[data-theme="light"] .auth-container .inputInvoiceCls {
   }
 }
 
+.auth-form h1 {
+  font-size: 30px !important;
+  font-weight: 700 !important;
+}
+.change-password-cls {
+  padding: 40px 80px !important;
+  margin-bottom: 70px !important;
+}
 body[data-theme="light"] .change-password-cls {
   background-color: #f7faff !important;
   border: 1px solid #143f83 !important;

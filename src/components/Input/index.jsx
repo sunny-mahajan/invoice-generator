@@ -87,7 +87,10 @@ const CustomInput = ({
         )}
         {/* Display validation error if exists */}
         {Object.keys(itemErrorsData).length === 0 && (
-          <div className="h-4 input-error-container">
+          <div
+            className="h-4 input-error-container"
+            style={{ minHeight: "16px" }}
+          >
             {fieldError && touched && (
               <p className="input-error text-red-600">{fieldError.message}</p>
             )}
