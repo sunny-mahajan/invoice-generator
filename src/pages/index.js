@@ -503,84 +503,87 @@ const InvoiceForm = () => {
           data-ad-format="auto"
           data-full-width-responsive="true"
         /> */}
-        <div className="flex gap-5">
-          <div className="w-full">
-            <h2 style={styles.title}>New Invoice</h2>
-            <div style={styles.mainSection}>
-              <InvoiceDetailsForm
-                formData={formData}
-                handleChange={handleChange}
-                handleDueDate={handleDueDate}
-                isDueDateOpen={isDueDateOpen}
-                handleRemoveDueDate={handleRemoveDueDate}
-                handleFieldChange={handleFieldChange}
-                handleAddField={handleAddField}
-                handleRemoveField={handleRemoveField}
-                datePickerInputRef={datePickerInputRef}
-                dueDatePickerInputRef={dueDatePickerInputRef}
-                isDatePickerOpen={isDatePickerOpen}
-                setIsDatePickerOpen={setIsDatePickerOpen}
-                isDueDatePickerOpen={isDueDatePickerOpen}
-                setIsDueDatePickerOpen={setIsDueDatePickerOpen}
-                errors={errors}
-                register={register}
-                onFileSelect={onFileSelect}
-                onFileRemove={onFileRemove}
-              />
-              <div className="parties-details-container flex justify-between gap-12">
-                <BillFromForm
+        <div className="w-full">
+          <h2 style={styles.title}>New Invoice</h2>
+          <div style={styles.mainSection}>
+            <InvoiceDetailsForm
+              formData={formData}
+              handleChange={handleChange}
+              handleDueDate={handleDueDate}
+              isDueDateOpen={isDueDateOpen}
+              handleRemoveDueDate={handleRemoveDueDate}
+              handleFieldChange={handleFieldChange}
+              handleAddField={handleAddField}
+              handleRemoveField={handleRemoveField}
+              datePickerInputRef={datePickerInputRef}
+              dueDatePickerInputRef={dueDatePickerInputRef}
+              isDatePickerOpen={isDatePickerOpen}
+              setIsDatePickerOpen={setIsDatePickerOpen}
+              isDueDatePickerOpen={isDueDatePickerOpen}
+              setIsDueDatePickerOpen={setIsDueDatePickerOpen}
+              errors={errors}
+              register={register}
+              onFileSelect={onFileSelect}
+              onFileRemove={onFileRemove}
+            />
+            <div className="flex gap-5">
+              <div className="w-full">
+                <div className="parties-details-container flex justify-between gap-12">
+                  <BillFromForm
+                    formData={formData}
+                    handleChange={handleChange}
+                    errors={errors}
+                    register={register}
+                    taxTypeOptions={taxTypeOptions}
+                    handleFieldChange={handleFieldChange}
+                    handleAddField={handleAddField}
+                    handleRemoveField={handleRemoveField}
+                  />
+                  <BillToForm
+                    formData={formData}
+                    handleChange={handleChange}
+                    errors={errors}
+                    register={register}
+                    taxTypeOptions={taxTypeOptions}
+                    handleFieldChange={handleFieldChange}
+                    handleAddField={handleAddField}
+                    handleRemoveField={handleRemoveField}
+                  />
+                </div>
+                <div className="items-details-container">
+                  <ItemDetails
+                    formData={formData}
+                    handleItemChange={handleItemChange}
+                    handleRemoveItem={handleRemoveItem}
+                    handleAddItem={handleAddItem}
+                    currencySymbols={currencySymbols}
+                    validateForm={validateForm}
+                    errorsData={errorsData}
+                  />
+                </div>
+              </div>
+
+              <div className="preview-container-cls w-full">
+                <InvoicePreview
                   formData={formData}
-                  handleChange={handleChange}
-                  errors={errors}
-                  register={register}
-                  taxTypeOptions={taxTypeOptions}
-                  handleFieldChange={handleFieldChange}
-                  handleAddField={handleAddField}
-                  handleRemoveField={handleRemoveField}
-                />
-                <BillToForm
-                  formData={formData}
-                  handleChange={handleChange}
-                  errors={errors}
-                  register={register}
-                  taxTypeOptions={taxTypeOptions}
-                  handleFieldChange={handleFieldChange}
-                  handleAddField={handleAddField}
-                  handleRemoveField={handleRemoveField}
+                  data={getValues()}
+                  selectedTemplateId={selectedTemplateId}
+                  isDialogOpen={isDialogOpen}
                 />
               </div>
-              <div className="items-details-container">
-                <ItemDetails
-                  formData={formData}
-                  handleItemChange={handleItemChange}
-                  handleRemoveItem={handleRemoveItem}
-                  handleAddItem={handleAddItem}
-                  currencySymbols={currencySymbols}
-                  validateForm={validateForm}
-                  errorsData={errorsData}
-                />
-              </div>
-            </div>
-            <div className="flex justify-center md:justify-between rounded-r-lg w-full py-5">
-              <CustomButton
-                type="purple"
-                onClick={onSubmit}
-                buttonStyle={{ minWidth: "200px" }}
-                isLoading={loading}
-                disabled={downloadInvoiceIsDisabled}
-              >
-                Generate Invoice
-              </CustomButton>
-              <ToastContainer />
             </div>
           </div>
-          <div className="preview-container-cls w-full">
-            <InvoicePreview
-              formData={formData}
-              data={getValues()}
-              selectedTemplateId={selectedTemplateId}
-              isDialogOpen={isDialogOpen}
-            />
+          <div className="flex justify-center md:justify-between rounded-r-lg w-full py-5">
+            <CustomButton
+              type="purple"
+              onClick={onSubmit}
+              buttonStyle={{ minWidth: "200px" }}
+              isLoading={loading}
+              disabled={downloadInvoiceIsDisabled}
+            >
+              Generate Invoice
+            </CustomButton>
+            <ToastContainer />
           </div>
         </div>
         <div>

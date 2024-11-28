@@ -140,14 +140,6 @@ export default function InvoicePreview({
     <div className="invoice-preview-container mb-5">
       {!InvoiceTemplatePreview ? (
         <div className="w-full h-full">
-          <h2
-            style={{
-              padding: "25px 0 20px",
-              color: "var(--color)",
-            }}
-          >
-            Invoice Preview
-          </h2>
           <div
             dangerouslySetInnerHTML={{ __html: previewHtml }}
             className="invoice-preview-cls"
