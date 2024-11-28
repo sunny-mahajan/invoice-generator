@@ -45,9 +45,9 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="login-container-cls">
-      <div className="login-container-wrapper">
-        <div className="login-form-cls">
+    <div className="auth-container">
+      <div className="auth-wrapper">
+        <div className="auth-form">
           <h1>Reset Password</h1>
           <form onSubmit={handleSubmit(handleResetPassword)}>
             <CustomInput
@@ -56,11 +56,17 @@ export default function ResetPassword() {
               title="Password"
               placeholder="Enter your password"
               inputClass="inputInvoiceCls"
+              containerStyle={{ maxWidth: "250px" }}
               required
               register={register}
               errors={errors}
               validationRules={{
                 required: "Password is required",
+                pattern: {
+                  value:
+                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  message: "Password must be 8+ chars, $@, 0-9, A-Z, a-z.",
+                },
               }}
             />
             <CustomButton

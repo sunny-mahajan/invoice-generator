@@ -2,12 +2,12 @@ body {
   background-color: #141625;
   color: #fff;
 }
-.login-container-cls {
+.auth-container {
   height: 100vh;
   font-family: "Spartan", sans-serif !important;
 }
 
-.login-container-wrapper {
+.auth-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +15,7 @@ body {
   justify-content: center;
 }
 
-.login-container-cls .inputInvoiceCls {
+.auth-container .inputInvoiceCls {
   width: 100%;
   padding: 10px;
   height: 40px !important;
@@ -26,39 +26,43 @@ body {
   font-size: 14px;
 }
 
-.login-container-cls .input-error-cls {
+body[data-theme="light"] .auth-container .inputInvoiceCls {
+  border: 1px solid #b4c2d5 !important;
+}
+
+.auth-container .input-error-cls {
   border-color: rgb(239 68 68) !important;
 }
 
-.login-container-cls label,
-.login-container-cls span {
+.auth-container label,
+.auth-container span {
   font-size: 14px !important;
   color: white !important;
 }
 
-.login-container-cls .input-error {
+.auth-container .input-error {
   color: rgb(220 38 38);
 }
 
-.login-container-cls .input-error-container {
-  height: 16px;
+.auth-container .input-error-container {
+  height: auto;
 }
 
-.login-container-cls .purple-button {
+.auth-container .purple-button {
   padding: 0 !important;
   min-height: 45px;
 }
 
-.login-container-cls .signup-signin-cls {
+.auth-container .signup-signin-cls {
   cursor: pointer;
   font-weight: 600;
 }
 
-.login-container-cls .signup-signin-cls:hover {
+.auth-container .signup-signin-cls:hover {
   text-decoration: underline;
 }
 
-.login-container-cls .login-form-cls {
+.auth-container .auth-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,19 +75,27 @@ body {
   }
 }
 
+body[data-theme="light"] .change-password-cls {
+  background-color: #f7faff !important;
+  border: 1px solid #143f83 !important;
+  h1 {
+    color: #161c26 !important;
+  }
+}
+
 .phone-number-input-container {
   display: flex;
   align-items: center;
 }
 
-.login-container-cls .phone-number-input-cls {
+.auth-container .phone-number-input-cls {
   display: flex; /* Equivalent to `flex` */
   align-items: center; /* Equivalent to `items-center` */
   border: 1px solid #ddd; /* Default border; you can customize the color */
   font-weight: 600; /* Equivalent to `font-semibold` */
   font-size: 13px; /* Equivalent to `text-[13px]` */
   height: 40px; /* Equivalent to `h-[40px]` */
-  width: max-content; /* Equivalent to `w-max` */
+  width: 65px; /* Equivalent to `w-max` */
   padding: 3px;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
@@ -96,15 +108,19 @@ body {
   }
 }
 
-.login-container-cls .phone-number-input-cls img {
+.auth-container .phone-number-input-cls img {
   width: 1.5rem;
   height: 1rem;
 }
-.login-container-cls .input-container {
+.auth-container .input-container {
   margin: 5px 0;
 }
 
-.login-container-cls .tel-input-field {
+body[data-theme="light"] .auth-container .input-title {
+  color: #161c26 !important;
+}
+
+.auth-container .tel-input-field {
   width: 100%; /* Equivalent to `w-full` */
   padding-top: 10px; /* Equivalent to `py-[10px]` */
   padding-bottom: 10px; /* Equivalent to `py-[10px]` */
