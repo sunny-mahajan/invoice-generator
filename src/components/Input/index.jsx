@@ -4,6 +4,7 @@ import { HidePasswordIcon, ShowPasswordIcon } from "../../utils/icons";
 
 const CustomInput = ({
   type,
+  inputMode,
   name,
   placeholder,
   value,
@@ -54,9 +55,10 @@ const CustomInput = ({
       )}
       <div className="input-cont-cls w-full">
         {!isText ? (
-          <>
+          <div className="input-field-container">
             <input
               type={inputType}
+              inputMode={inputMode}
               name={name}
               style={inputStyle}
               placeholder={placeholder}
@@ -79,7 +81,7 @@ const CustomInput = ({
                 {showPassword ? <ShowPasswordIcon /> : <HidePasswordIcon />}
               </span>
             )}
-          </>
+          </div>
         ) : (
           <div className="input-field-text">{value}</div>
         )}

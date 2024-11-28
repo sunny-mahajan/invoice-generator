@@ -44,7 +44,7 @@ const PhoneInputField = ({
             />
             <span className="mt-[3px]">+91</span>
           </div>
-          <div className="w-[80%] lg:w-[73%]">
+          <div style={{ width: "100%" }}>
             <input
               className={`tel-input-field input-cont-color-cls w-full py-[10px] px-[5px] h-[40px] rounded-r border font-semibold text-[14px] focus:outline-none ${
                 required && fieldError ? "input-error-cls" : ""
@@ -58,7 +58,7 @@ const PhoneInputField = ({
             />
           </div>
         </div>
-        <div style={{ height: "16px" }}>
+        <div className="h-4">
           {fieldError &&
             touched && ( // Show error only if touched and error exists
               <p className="input-error text-red-600">{fieldError.message}</p>

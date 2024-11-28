@@ -45,14 +45,14 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container-cls">
+    <div className="auth-container">
       {/* <AdBanner
         data-ad-slot="8786526439"
         data-ad-format="auto"
         data-full-width-responsive="true"
       /> */}
-      <div className="login-container-wrapper">
-        <div className="login-form-cls">
+      <div className="auth-wrapper">
+        <div className="auth-form">
           <h1>Login</h1>
           <form onSubmit={handleSubmit(handleLogin)}>
             <CustomInput
@@ -79,6 +79,7 @@ export default function Login() {
               title="Password"
               placeholder="Enter your password"
               inputClass="inputInvoiceCls"
+              containerStyle={{ maxWidth: "250px" }}
               required
               register={register}
               errors={errors}
