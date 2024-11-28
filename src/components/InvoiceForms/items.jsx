@@ -162,7 +162,7 @@ const ItemDetails = ({
                         inputMode="numeric"
                         name="taxPercentage"
                         placeholder="18"
-                        title="GST Rate"
+                        title="GST %"
                         value={item.price}
                         onChange={(e) => {
                           let sanitizedValue = e.target.value.replace(/[^0-9]/g, ""); 

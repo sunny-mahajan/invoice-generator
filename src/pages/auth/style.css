@@ -114,6 +114,6 @@ body {
   border-radius: 0 4px 4px 0; /* Equivalent to `rounded-r` */
   border: 1px solid #ddd; /* Default border; adjust as needed */
   font-weight: 600; /* Equivalent to `font-semibold` */
-  font-size: 14px; /* Equivalent to `text-[14px]` */
+  font-size: 12px; /* Equivalent to `text-[14px]` */
   outline: none; /* Equivalent to `focus:outline-none` */
 }

@@ -247,6 +247,16 @@ const BillFromForm = ({
                   onChange={handleChange}
                   style={styles.input}
                   title="GST Number"
+                  errors={errors}
+                  onBlur={handleBlur}
+                  touched={touched}
+                  register={register}
+                  validationRules={{
+                    pattern: {
+                      value: /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/,
+                      message: "Invalid GST number",
+                    },
+                  }}
                 />
               </div>
               <div className="flex w-full flex-col">
@@ -258,6 +268,16 @@ const BillFromForm = ({
                   onChange={handleChange}
                   style={styles.input}
                   title="PAN Number"
+                  errors={errors}
+                  onBlur={handleBlur}
+                  touched={touched}
+                  register={register}
+                  validationRules={{
+                    pattern: {
+                      value: /[A-Z]{5}[0-9]{4}[A-Z]{1}/,
+                      message: "Invalid PAN number",
+                    },
+                  }}
                 />
               </div>
             </div>

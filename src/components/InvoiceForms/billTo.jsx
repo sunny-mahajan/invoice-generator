@@ -34,7 +34,7 @@ const BillToForm = ({
 
   return (
     <div style={styles.section} className="bill-to-main-container w-3/6">
-      <div className="bill-to-container p-4 rounded-lg min-h-[25em]">
+      <div className="bill-to-container p-4 rounded-lg">
         <h3 style={styles.titleText}>Bill To</h3>
         <div className="block md:flex gap-5">
           <div className="flex w-full flex-col">
@@ -246,7 +246,7 @@ const BillToForm = ({
                 </div>
               </div>
             ))}
-          <div className="mb-4 flex align-items-center">
+          <div className="mb-16 flex align-items-center">
             <CustomButton
               type="gray"
               onClick={(e) => {
