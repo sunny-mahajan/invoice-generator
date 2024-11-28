@@ -4,6 +4,7 @@ import { HidePasswordIcon, ShowPasswordIcon } from "../../utils/icons";
 
 const CustomInput = ({
   type,
+  inputMode,
   name,
   placeholder,
   value,
@@ -57,6 +58,7 @@ const CustomInput = ({
           <>
             <input
               type={inputType}
+              inputMode={inputMode}
               name={name}
               style={inputStyle}
               placeholder={placeholder}
