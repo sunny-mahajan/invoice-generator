@@ -83,7 +83,7 @@ const ItemDetails = ({
                   />
                 </div>
               </div>
-              <div className={`d-flex w-full gap-4`}>
+              <div className={`d-flex w-full gap-4 flex-wrap`}>
                 <div className="flex gap-5 flex-1">
                   <div className="w-full">
                     <CustomInput
