@@ -147,13 +147,25 @@ const BillFromForm = ({
               </div>
               <div className="flex w-full flex-col">
                 <CustomInput
-                  type="number"
+                  type="text"
+                  inputMode="numeric"
                   name="senderDetails.postCode"
                   title="Pin Code"
                   placeholder={"700001"}
+                  maxLength={6}
                   value={formData?.senderDetails?.postCode}
                   onChange={handleChange}
                   style={styles.input}
+                  errors={errors}
+                  onBlur={handleBlur}
+                  touched={touched}
+                  register={register}
+                  validationRules={{
+                    pattern: {
+                      value: /^\d{6}$/,
+                      message: "Invalid Pin Code",
+                    },
+                  }}
                 />
               </div>
             </div>
