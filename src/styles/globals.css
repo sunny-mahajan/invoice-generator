@@ -28,6 +28,7 @@ body[data-theme="dark"] {
   --color-file-upload-hover: #1c1f32;
   --color: #fff;
   --border-radius: 10px;
+  scroll-behavior: smooth;
 }
 body {
   margin: 0;

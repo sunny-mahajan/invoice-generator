@@ -252,7 +252,7 @@ export default function generateHTMLTPL003(invoiceData) {
         
           ${
             invoiceData["Receiver's Contact No"]
-              ? `<p>+91${invoiceData["Receiver's Contact No"]}</p>`
+              ? `<p>+91-${invoiceData["Receiver's Contact No"]}</p>`
               : ""
           }
           ${
@@ -262,12 +262,12 @@ export default function generateHTMLTPL003(invoiceData) {
           }
           ${
             invoiceData["Receiver's Tax No"]
-              ? `<p>${invoiceData["Receiver's Tax No"]}</p>`
+              ? `<p><span>GST No: </span>${invoiceData["Receiver's Tax No"]}</p>`
               : ""
           }
           ${
             invoiceData["Receiver's PAN No"]
-              ? `<p>${invoiceData["Receiver's PAN No"]}</p>`
+              ? `<p><span>PAN No: </span>${invoiceData["Receiver's PAN No"]}</p>`
               : ""
           }
           ${
@@ -335,7 +335,7 @@ export default function generateHTMLTPL003(invoiceData) {
           
           ${
             invoiceData["Sender's Contact No"]
-              ? `<p>+91${invoiceData["Sender's Contact No"]}</p>`
+              ? `<p>+91-${invoiceData["Sender's Contact No"]}</p>`
               : ""
           }
           ${
@@ -345,12 +345,12 @@ export default function generateHTMLTPL003(invoiceData) {
           }
           ${
             invoiceData["Sender's Tax No"]
-              ? `<p>${invoiceData["Sender's Tax No"]}</p>`
+              ? `<p><span>GST No: </span>${invoiceData["Sender's Tax No"]}</p>`
               : ""
           }
           ${
             invoiceData["Sender's PAN No"]
-              ? `<p>${invoiceData["Sender's PAN No"]}</p>`
+              ? `<p><span>PAN No: </span>${invoiceData["Sender's PAN No"]}</p>`
               : ""
           }
           ${

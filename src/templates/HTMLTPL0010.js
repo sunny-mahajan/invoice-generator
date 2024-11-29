@@ -385,7 +385,7 @@ export default function generateHTMLTPL0010(invoiceData) {
         }
         ${
           invoiceData["Sender's Contact No"]
-            ? `<span class="details-data">+91${invoiceData["Sender's Contact No"]}</span>`
+            ? `<span class="details-data">+91-${invoiceData["Sender's Contact No"]}</span>`
             : ""
         }
         ${
@@ -395,12 +395,12 @@ export default function generateHTMLTPL0010(invoiceData) {
         }
         ${
           invoiceData["Sender's Tax No"]
-            ? `<span class="details-data">${invoiceData["Sender's Tax No"]}</span>`
+            ? `<span class="details-data"><span>GST No: </span>${invoiceData["Sender's Tax No"]}</span>`
             : ""
         }
         ${
           invoiceData["Sender's PAN No"]
-            ? `<span class="details-data">${invoiceData["Sender's PAN No"]}</span>`
+            ? `<span class="details-data"><span>PAN No: </span>${invoiceData["Sender's PAN No"]}</span>`
             : ""
         }
         ${
@@ -465,7 +465,7 @@ export default function generateHTMLTPL0010(invoiceData) {
       
         ${
           invoiceData["Receiver's Contact No"]
-            ? `<span class="details-data">+91${invoiceData["Receiver's Contact No"]}</span>`
+            ? `<span class="details-data">+91-${invoiceData["Receiver's Contact No"]}</span>`
             : ""
         }
         ${
@@ -475,12 +475,12 @@ export default function generateHTMLTPL0010(invoiceData) {
         }
         ${
           invoiceData["Receiver's Tax No"]
-            ? `<span class="details-data">${invoiceData["Receiver's Tax No"]}</span>`
+            ? `<span class="details-data"><span>GST No: </span>${invoiceData["Receiver's Tax No"]}</span>`
             : ""
         }
         ${
           invoiceData["Receiver's PAN No"]
-            ? `<span class="details-data">${invoiceData["Receiver's PAN No"]}</span>`
+            ? `<span class="details-data"><span>PAN No: </span>${invoiceData["Receiver's PAN No"]}</span>`
             : ""
         }
         ${

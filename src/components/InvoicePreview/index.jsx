@@ -92,7 +92,7 @@ export default function InvoicePreview({
         ? generateHTMLTPL008(invoiceData)
         : selectedTemplateId === "TPL009"
         ? generateHTMLTPL009(invoiceData)
-        : selectedTemplateId === "TPL010" && generateHTMLTPL0010(invoiceData);
+        : selectedTemplateId === "TPL0010" && generateHTMLTPL0010(invoiceData);
 
     setPreviewHtml(htmlString);
   };
