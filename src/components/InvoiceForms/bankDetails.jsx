@@ -35,6 +35,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 name="bankDetails.bankName"
                 title="Bank Name"
                 placeholder="First National Bank"
+                maxLength={50}
                 value={formData.bankDetails.bankName}
                 onChange={handleChange}
                 style={styles.input}
@@ -43,12 +44,16 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
 
             <div className="w-full flex flex-col">
               <CustomInput
-                type="number"
+                type="text"
                 name="bankDetails.accountNumber"
                 title="Account No."
                 placeholder="1234567890"
+                maxLength={18}
                 value={formData.bankDetails.accountNumber}
-                onChange={handleChange}
+                onChange={(e) => {
+                  let sanitizedValue = e.target.value.replace(/[^0-9]/g,"");
+                  e.target.value = sanitizedValue;
+                  handleChange}}
                 style={styles.input}
               />
             </div>
@@ -61,6 +66,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 name="bankDetails.ifscCode"
                 title="IFSC Code"
                 placeholder="FNB0001234"
+                maxLength={11}
                 value={formData.bankDetails.ifscCode}
                 onChange={handleChange}
                 style={styles.input}
@@ -72,6 +78,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 name="bankDetails.accountHolderName"
                 title="Account Holder Name"
                 placeholder="John Doe"
+                maxLength={50}
                 value={formData.bankDetails.accountHolderName}
                 onChange={handleChange}
                 style={styles.input}
@@ -96,6 +103,7 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 name="bankDetails.bankAddress"
                 title="Bank Address"
                 placeholder="789 Bank St, Kolkata, India"
+                maxLength={50}
                 value={formData.bankDetails.bankAddress}
                 onChange={handleChange}
                 style={styles.input}
