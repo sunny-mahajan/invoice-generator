@@ -118,10 +118,6 @@ export default function generateHTMLTPL006(invoiceData) {
       height: 100%;
       object-fit: contain;
     }
-
-    .invoice-container span {
-      color: #000000;
-    }
     
     .invoice-header {
       display: flex;
@@ -200,7 +196,7 @@ export default function generateHTMLTPL006(invoiceData) {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      align-items: start;
+      align-items: center;
     }
 
     .table {
@@ -248,7 +244,7 @@ export default function generateHTMLTPL006(invoiceData) {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      align-items: start;
+      align-items: center;
     } 
 
     .totals span {
@@ -278,7 +274,7 @@ export default function generateHTMLTPL006(invoiceData) {
       display: grid;
       grid-template-columns: 1fr 4fr;
       gap: 10px;
-      align-items: start;
+      align-items: center;
     }
 
     .terms h3 {

@@ -69,7 +69,7 @@ const InvoiceDetailsForm = ({
     <div className="flex gap-5 flex-col">
       <div className="invoice-details-section">
         <div className="w-full">
-          <div className="flex w-[90%] mb-1 flex-col">
+          <div className="flex w-[90%] mb-5 flex-col">
             <CustomInput
               type="text"
               name="invoiceNo"
@@ -82,7 +82,7 @@ const InvoiceDetailsForm = ({
               required={true}
               errors={errors}
               register={register}
-              validationRules={{ required: "Invoice No. is required" }}
+              validationRules={{ required: "Invoice Number is Required" }}
             />
           </div>
 
@@ -237,7 +237,7 @@ const InvoiceDetailsForm = ({
                 <button
                   type="button"
                   onClick={handleDeselectFile}
-                  className="text-red-500 mt-2"
+                  className="text-red-500 mt-2 text-[12px]"
                 >
                   ✖ Remove
                 </button>

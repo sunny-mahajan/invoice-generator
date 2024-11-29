@@ -91,7 +91,7 @@ const ItemDetails = ({
                 />
               </div>
               <div
-                className={`d-flex w-full gap-4 ${
+                className={`d-flex items-start w-full gap-4 ${
                   formData.senderDetails.taxType === "IGST" ||
                   formData.senderDetails.taxType === "CGST & SGST"
                     ? "lg:w-[70%]"
@@ -162,7 +162,7 @@ const ItemDetails = ({
                         inputMode="numeric"
                         name="taxPercentage"
                         placeholder="18"
-                        title="GST Rate"
+                        title="GST %"
                         value={item.price}
                         onChange={(e) => {
                           let sanitizedValue = e.target.value.replace(/[^0-9]/g, ""); 

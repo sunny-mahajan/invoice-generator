@@ -21,8 +21,7 @@
   border-radius: 4px;
   border: 1px solid var(--input-border-color);
   font-family: inherit;
-  font-weight: 600;
-  font-size: 14px;
+  font-size: 12px;
   background-color: var(--secondary-color);
   color: var(--color);
   margin-bottom: 10px;

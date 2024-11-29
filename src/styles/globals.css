@@ -385,7 +385,8 @@ body[data-theme="light"] .user-profile-cls {
 }
 
 .input-error {
-  font-size: 14px;
+  padding: 3px 0;
+  font-size: 12px;
 }
 
 .input-error-cls {

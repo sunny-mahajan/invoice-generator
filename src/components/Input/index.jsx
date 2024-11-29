@@ -11,6 +11,7 @@ const CustomInput = ({
   onChange,
   onKeyDown,
   title,
+  maxLength,
   inputClass,
   inputStyle,
   containerStyle,
@@ -62,6 +63,7 @@ const CustomInput = ({
               name={name}
               style={inputStyle}
               placeholder={placeholder}
+              maxLength={maxLength}
               className={`${inputClass ? inputClass : ""} ${
                 inputClass !== "input-invoice-cls" ? "input-field" : ""
               }
