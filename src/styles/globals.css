@@ -28,6 +28,7 @@ body[data-theme="dark"] {
   --color-file-upload-hover: #1c1f32;
   --color: #fff;
   --border-radius: 10px;
+  scroll-behavior: smooth;
 }
 body {
   margin: 0;
@@ -405,10 +406,12 @@ body[data-theme="light"] .add-new-btn-cls {
 
 .invoice-preview-container {
   width: 100%;
+  position: sticky;
+  top: 77px;
 }
 
 .invoice-preview-cls {
   width: 100%; /* Scales the content to parent container width */
-  max-width: 1080px;
   max-height: max-content;
+  min-height: 50rem;
 }
