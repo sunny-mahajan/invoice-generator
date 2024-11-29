@@ -69,13 +69,13 @@ input[type="number"] {
   user-select: none;
   position: absolute;
   right: 0; /* Convert `right-3` (3 * 4px = 12px) */
-  top: 35%; /* Equivalent to `top-1/2` */
+  top: 48%; /* Equivalent to `top-1/2` */
   transform: translateY(-50%); /* Equivalent to `-translate-y-1/2` */
   cursor: pointer;
 }
 .show-hide-icon:hover {
   color: #000;
 }
-.input-cont-cls {
+.input-field-container {
   position: relative;
 }

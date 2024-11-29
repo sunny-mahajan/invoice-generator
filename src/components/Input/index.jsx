@@ -56,7 +56,7 @@ const CustomInput = ({
       )}
       <div className="input-cont-cls w-full">
         {!isText ? (
-          <>
+          <div className="input-field-container">
             <input
               type={inputType}
               inputMode={inputMode}
@@ -83,17 +83,16 @@ const CustomInput = ({
                 {showPassword ? <ShowPasswordIcon /> : <HidePasswordIcon />}
               </span>
             )}
-          </>
+          </div>
         ) : (
           <div className="input-field-text">{value}</div>
         )}
         {/* Display validation error if exists */}
-        {Object.keys(itemErrorsData).length === 0 && 
-          fieldError && touched && (
+        {Object.keys(itemErrorsData).length === 0 && fieldError && touched && (
           <div className="h-8 input-error-container">
-              <p className="input-error text-red-600">{fieldError.message}</p>
-              </div>
-            )}
+            <p className="input-error text-red-600">{fieldError.message}</p>
+          </div>
+        )}
       </div>
     </div>
   );

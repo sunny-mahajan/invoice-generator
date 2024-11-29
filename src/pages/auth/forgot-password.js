@@ -41,9 +41,9 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="login-container-cls">
-      <div className="login-container-wrapper">
-        <div className="login-form-cls">
+    <div className="auth-container">
+      <div className="auth-wrapper">
+        <div className="auth-form">
           <h1>Forgot Password</h1>
           <form onSubmit={handleSubmit(handleForgotPassword)}>
             <CustomInput
