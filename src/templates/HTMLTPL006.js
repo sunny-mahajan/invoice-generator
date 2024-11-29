@@ -118,10 +118,6 @@ export default function generateHTMLTPL006(invoiceData) {
       height: 100%;
       object-fit: contain;
     }
-
-    .invoice-container span {
-      color: #000000;
-    }
     
     .invoice-header {
       display: flex;
@@ -200,7 +196,7 @@ export default function generateHTMLTPL006(invoiceData) {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      align-items: start;
+      align-items: center;
     }
 
     .table {
@@ -248,7 +244,7 @@ export default function generateHTMLTPL006(invoiceData) {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      align-items: start;
+      align-items: center;
     } 
 
     .totals span {
@@ -278,7 +274,7 @@ export default function generateHTMLTPL006(invoiceData) {
       display: grid;
       grid-template-columns: 1fr 4fr;
       gap: 10px;
-      align-items: start;
+      align-items: center;
     }
 
     .terms h3 {
@@ -381,7 +377,7 @@ export default function generateHTMLTPL006(invoiceData) {
         }
         ${
           invoiceData["Sender's Contact No"]
-            ? `<span class="details-data">+91${invoiceData["Sender's Contact No"]}</span>`
+            ? `<span class="details-data">+91-${invoiceData["Sender's Contact No"]}</span>`
             : ""
         }
         ${
@@ -391,12 +387,12 @@ export default function generateHTMLTPL006(invoiceData) {
         }
         ${
           invoiceData["Sender's Tax No"]
-            ? `<span class="details-data">${invoiceData["Sender's Tax No"]}</span>`
+            ? `<span class="details-data"><span>GST No: </span>${invoiceData["Sender's Tax No"]}</span>`
             : ""
         }
         ${
           invoiceData["Sender's PAN No"]
-            ? `<span class="details-data">${invoiceData["Sender's PAN No"]}</span>`
+            ? `<span class="details-data"><span>PAN No: </span>${invoiceData["Sender's PAN No"]}</span>`
             : ""
         }
         ${
@@ -461,7 +457,7 @@ export default function generateHTMLTPL006(invoiceData) {
       
         ${
           invoiceData["Receiver's Contact No"]
-            ? `<span class="details-data">+91${invoiceData["Receiver's Contact No"]}</span>`
+            ? `<span class="details-data">+91-${invoiceData["Receiver's Contact No"]}</span>`
             : ""
         }
         ${
@@ -471,12 +467,12 @@ export default function generateHTMLTPL006(invoiceData) {
         }
         ${
           invoiceData["Receiver's Tax No"]
-            ? `<span class="details-data">${invoiceData["Receiver's Tax No"]}</span>`
+            ? `<span class="details-data"><span>GST No: </span>${invoiceData["Receiver's Tax No"]}</span>`
             : ""
         }
         ${
           invoiceData["Receiver's PAN No"]
-            ? `<span class="details-data">${invoiceData["Receiver's PAN No"]}</span>`
+            ? `<span class="details-data"><span>PAN No: </span>${invoiceData["Receiver's PAN No"]}</span>`
             : ""
         }
         ${
@@ -521,11 +517,17 @@ export default function generateHTMLTPL006(invoiceData) {
                   .map(
                     (item) =>
                       `${
-                        item["fieldName"] && item["fieldValue"] ? `
+                        item["fieldName"] && item["fieldValue"]
+                          ? `
                       <span class="details-title">${item["fieldName"]}:</span>
                       <span class="details-data">${item["fieldValue"]}</span>
-                      ` : "" } ` ).join("")}
-                ` : ""
+                      `
+                          : ""
+                      } `
+                  )
+                  .join("")}
+                `
+                : ""
             }
           </div>
       </div>
