@@ -23,7 +23,7 @@ export default function generateHTMLTPL004(invoiceData) {
     const year = d.getFullYear();
     const month = `0${d.getMonth() + 1}`.slice(-2); // Adding leading zero
     const day = `0${d.getDate()}`.slice(-2); // Adding leading zero
-    return `${month}-${day}-${year}`;
+    return `${day}-${month}-${year}`;
   };
 
   const currencySymbol = (currency) => {
@@ -173,6 +173,7 @@ export default function generateHTMLTPL004(invoiceData) {
 
     .footer-cls .bill-info-cls, .footer-cls .bank-details-container {
         margin-top: 20px;
+        max-width: 400px;
     }
 
     .footer-cls p {
@@ -188,7 +189,12 @@ export default function generateHTMLTPL004(invoiceData) {
     }
 
     .bank-details-container .sub-bank-details-title {
-        width: 165px;
+        width: 135px;
+    }
+
+    .bank-details-container .sub-bank-details-value {
+        max-width: 255px;
+        word-break: break-all;
     }
 
     .invoice-logo {
@@ -537,7 +543,7 @@ export default function generateHTMLTPL004(invoiceData) {
                 .join("")}
                 `
                 : ""
-            }+
+            }
         </div>
         ${
           bankDetailsAvailable
@@ -547,7 +553,7 @@ export default function generateHTMLTPL004(invoiceData) {
               invoiceData["Bank Name"]
                 ? `
             <div class="sub-bank-details-container">
-                <span class="sub-bank-details-title">Bank Name:</span><span>${invoiceData["Bank Name"]}</span>
+                <span class="sub-bank-details-title">Bank Name:</span><span class="sub-bank-details-value">${invoiceData["Bank Name"]}</span>
             </div>`
                 : ""
             }
@@ -555,7 +561,7 @@ export default function generateHTMLTPL004(invoiceData) {
               invoiceData["Account No"]
                 ? `
             <div class="sub-bank-details-container">
-                <span class="sub-bank-details-title">A/c No:</span><span>${invoiceData["Account No"]}</span>
+                <span class="sub-bank-details-title">A/c No:</span><span class="sub-bank-details-value">${invoiceData["Account No"]}</span>
             </div>`
                 : ""
             }
@@ -563,7 +569,7 @@ export default function generateHTMLTPL004(invoiceData) {
               invoiceData["Account Holder Name"]
                 ? `
             <div class="sub-bank-details-container">
-                <span class="sub-bank-details-title">A/c Holder Name:</span><span>${invoiceData["Account Holder Name"]}</span>
+                <span class="sub-bank-details-title">A/c Holder Name:</span><span class="sub-bank-details-value">${invoiceData["Account Holder Name"]}</span>
             </div>`
                 : ""
             }
@@ -571,7 +577,7 @@ export default function generateHTMLTPL004(invoiceData) {
               invoiceData["IFSC Code"]
                 ? `
             <div class="sub-bank-details-container">
-                <span class="sub-bank-details-title">IFSC Code:</span><span>${invoiceData["IFSC Code"]}</span>
+                <span class="sub-bank-details-title">IFSC Code:</span><span class="sub-bank-details-value">${invoiceData["IFSC Code"]}</span>
             </div>`
                 : ""
             }
@@ -579,14 +585,14 @@ export default function generateHTMLTPL004(invoiceData) {
               invoiceData["Account Type"]
                 ? `
             <div class="sub-bank-details-container">
-                <span class="sub-bank-details-title">A/c Type:</span><span>${invoiceData["Account Type"]}</span>
+                <span class="sub-bank-details-title">A/c Type:</span><span class="sub-bank-details-value">${invoiceData["Account Type"]}</span>
             </div>`
                 : ""
             }
             ${
               invoiceData["Bank Address"]
                 ? `<div class="sub-bank-details-container">
-            <span class="sub-bank-details-title">Bank Address:</span><span>${invoiceData["Bank Address"]}</span>
+            <span class="sub-bank-details-title">Bank Address:</span><span class="sub-bank-details-value">${invoiceData["Bank Address"]}</span>
         </div>`
                 : ""
             }

@@ -23,7 +23,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     const year = d.getFullYear();
     const month = `0${d.getMonth() + 1}`.slice(-2); // Adding leading zero
     const day = `0${d.getDate()}`.slice(-2); // Adding leading zero
-    return `${month}-${day}-${year}`;
+    return `${day}-${month}-${year}`;
   };
 
   const currencySymbol = (currency) => {
@@ -269,6 +269,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     .terms {
       margin-top: 40px;
       font-size: 14px;
+      max-width: 500px;
     }
   
     .terms .grid-container {

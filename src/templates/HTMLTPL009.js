@@ -23,7 +23,7 @@ export default function generateHTMLTPL003(invoiceData) {
     const year = d.getFullYear();
     const month = `0${d.getMonth() + 1}`.slice(-2); // Adding leading zero
     const day = `0${d.getDate()}`.slice(-2); // Adding leading zero
-    return `${month}-${day}-${year}`;
+    return `${day}-${month}-${year}`;
   };
 
   const currencySymbol = (currency) => {
@@ -108,6 +108,7 @@ export default function generateHTMLTPL003(invoiceData) {
         font-size: 16px;
         margin-top: 15px;
         line-height: 1.5;
+        max-width: 300px;
       }
 
       .header-cls .from span,
@@ -119,7 +120,7 @@ export default function generateHTMLTPL003(invoiceData) {
         display: flex;
       }
       .invoice-details strong {
-        min-width: 115px;
+        width: 150px;
       }
       .details {
         padding: 20px 30px;
@@ -215,6 +216,7 @@ export default function generateHTMLTPL003(invoiceData) {
         background: white;
         font-size: 14px;
         color: #555;
+        max-width: 300px;
       }
     </style>
   </head>
