@@ -91,7 +91,7 @@ const ItemDetails = ({
                 />
               </div>
               <div
-                className={`d-flex w-full gap-4 ${
+                className={`d-flex items-start w-full gap-4 ${
                   formData.senderDetails.taxType === "IGST" ||
                   formData.senderDetails.taxType === "CGST & SGST"
                     ? "lg:w-[70%]"
