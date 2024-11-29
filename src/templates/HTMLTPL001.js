@@ -113,6 +113,7 @@ export default function generateHTMLTPL001(invoiceData) {
     .sec2-container .sub-sec2-container .sub-sec2-title,
     .sec2-container .sub-sec2-container .sub-sec2-title-value {
         text-align: left;
+        max-width: 200px;
     }
 
     .sec3-container {
@@ -218,10 +219,16 @@ export default function generateHTMLTPL001(invoiceData) {
         align-items: center;
         gap: 10px;
         margin-bottom: 7px;
+        max-width: 500px;
     }
 
     .sec7-container .sub-sec7-container .sub-sec7-title {
         width: 130px;
+    }
+
+    .sub-sec7-value {
+      max-width: 360px;
+      word-break: break-word;
     }
 
     .main-container-cls {
@@ -599,7 +606,7 @@ export default function generateHTMLTPL001(invoiceData) {
             invoiceData["Bank Name"]
               ? `
           <div class="sub-sec7-container">
-              <span class="sub-sec7-title">Bank Name:</span><span>${invoiceData["Bank Name"]}</span>
+              <span class="sub-sec7-title">Bank Name:</span><span class="sub-sec7-value">${invoiceData["Bank Name"]}</span>
           </div>`
               : ""
           }
@@ -607,7 +614,7 @@ export default function generateHTMLTPL001(invoiceData) {
             invoiceData["Account No"]
               ? `
           <div class="sub-sec7-container">
-              <span class="sub-sec7-title">A/c No:</span><span>${invoiceData["Account No"]}</span>
+              <span class="sub-sec7-title">A/c No:</span><span class="sub-sec7-value">${invoiceData["Account No"]}</span>
           </div>`
               : ""
           }
@@ -615,7 +622,7 @@ export default function generateHTMLTPL001(invoiceData) {
             invoiceData["Account Holder Name"]
               ? `
           <div class="sub-sec7-container">
-              <span class="sub-sec7-title">A/c Holder Name:</span><span>${invoiceData["Account Holder Name"]}</span>
+              <span class="sub-sec7-title">A/c Holder Name:</span><span class="sub-sec7-value">${invoiceData["Account Holder Name"]}</span>
           </div>`
               : ""
           }
@@ -623,7 +630,7 @@ export default function generateHTMLTPL001(invoiceData) {
             invoiceData["IFSC Code"]
               ? `
           <div class="sub-sec7-container">
-              <span class="sub-sec7-title">IFSC Code:</span><span>${invoiceData["IFSC Code"]}</span>
+              <span class="sub-sec7-title">IFSC Code:</span><span class="sub-sec7-value">${invoiceData["IFSC Code"]}</span>
           </div>`
               : ""
           }
@@ -631,7 +638,7 @@ export default function generateHTMLTPL001(invoiceData) {
             invoiceData["Account Type"]
               ? `
           <div class="sub-sec7-container">
-              <span class="sub-sec7-title">A/c Type:</span><span>${invoiceData["Account Type"]}</span>
+              <span class="sub-sec7-title">A/c Type:</span><span class="sub-sec7-value">${invoiceData["Account Type"]}</span>
           </div>`
               : ""
           }
@@ -639,7 +646,7 @@ export default function generateHTMLTPL001(invoiceData) {
             invoiceData["Bank Address"]
               ? `
             <div class="sub-sec7-container">
-                <span class="sub-sec7-title">Bank Address:</span><span>${invoiceData["Bank Address"]}</span>
+                <span class="sub-sec7-title">Bank Address:</span><span class="sub-sec7-value">${invoiceData["Bank Address"]}</span>
             </div>`
               : ""
           }

@@ -108,6 +108,7 @@ export default function generateHTMLTPL003(invoiceData) {
         font-size: 16px;
         margin-top: 15px;
         line-height: 1.5;
+        max-width: 300px;
       }
 
       .header-cls .from span,
@@ -119,7 +120,7 @@ export default function generateHTMLTPL003(invoiceData) {
         display: flex;
       }
       .invoice-details strong {
-        min-width: 115px;
+        width: 150px;
       }
       .details {
         padding: 20px 30px;
@@ -215,6 +216,7 @@ export default function generateHTMLTPL003(invoiceData) {
         background: white;
         font-size: 14px;
         color: #555;
+        max-width: 300px;
       }
     </style>
   </head>

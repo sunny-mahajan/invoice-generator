@@ -269,6 +269,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     .terms {
       margin-top: 40px;
       font-size: 14px;
+      max-width: 500px;
     }
   
     .terms .grid-container {
