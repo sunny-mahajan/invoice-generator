@@ -32,6 +32,9 @@ export default function Register() {
 
       if (response.ok) {
         toast.success("Registration successful! Please verify your email.");
+        setTimeout(() => {
+          router.push("/auth/login");
+        }, 3000);
         reset();
       } else {
         const errorData = await response.json();
@@ -47,9 +50,9 @@ export default function Register() {
   };
 
   return (
-    <div className="login-container-cls">
-      <div className="login-container-wrapper">
-        <div className="login-form-cls">
+    <div className="auth-container">
+      <div className="auth-wrapper">
+        <div className="auth-form">
           <h1>Register</h1>
           <form onSubmit={handleSubmit(handleRegister)}>
             <CustomInput
@@ -107,11 +110,17 @@ export default function Register() {
               title="Password"
               placeholder="Enter your password"
               inputClass="inputInvoiceCls"
+              containerStyle={{ maxWidth: "266px" }}
               required
               register={register}
               errors={errors}
               validationRules={{
                 required: "Password is required",
+                pattern: {
+                  value:
+                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  message: "Password must be 8+ chars, $@, 0-9, A-Z, a-z.",
+                },
               }}
             />
 

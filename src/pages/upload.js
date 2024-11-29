@@ -368,7 +368,7 @@ export default function UploadCSV() {
                 <button
                   type="button"
                   onClick={handleDeselectFile}
-                  className="text-red-500 mt-2"
+                  className="text-red-500 mt-2 text-[12px]"
                 >
                   ✖ Remove
                 </button>

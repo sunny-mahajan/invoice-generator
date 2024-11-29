@@ -20,12 +20,11 @@ export default function ChangePassword() {
   const router = useRouter();
 
   const handleChangePassword = async (e) => {
-    setLoading(true);
     if (e.newPassword !== e.confirmPassword) {
       toast.error("New password and confirm password do not match");
       return;
     }
-
+    setLoading(true);
     try {
       const token = localStorage.getItem("token"); // Assumes JWT is stored here
       const response = await fetch("/api/auth/change-password", {
@@ -64,17 +63,18 @@ export default function ChangePassword() {
 
   return (
     <Layout>
-      <div className="login-container-cls">
-        <div className="login-container-wrapper">
-          <div className="login-form-cls">
+      <div className="auth-container">
+        <div className="auth-wrapper">
+          <div className="auth-form change-password-cls">
             <h1>Change Password</h1>
             <form onSubmit={handleSubmit(handleChangePassword)}>
               <CustomInput
                 type="password"
                 name="currentPassword"
-                title="currentPassword"
-                placeholder="Enter your current password"
+                title="Current Password"
+                placeholder="Enter current password"
                 inputClass="inputInvoiceCls"
+                containerStyle={{ maxWidth: "250px" }}
                 required
                 register={register}
                 errors={errors}
@@ -86,28 +86,40 @@ export default function ChangePassword() {
               <CustomInput
                 type="password"
                 name="newPassword"
-                title="newPassword"
-                placeholder="Enter your new password"
+                title="New Password"
+                placeholder="Enter new password"
                 inputClass="inputInvoiceCls"
+                containerStyle={{ maxWidth: "250px" }}
                 required
                 register={register}
                 errors={errors}
                 validationRules={{
                   required: "New password is required",
+                  pattern: {
+                    value:
+                      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    message: "Password must be 8+ chars, $@, 0-9, A-Z, a-z.",
+                  },
                 }}
               />
 
               <CustomInput
                 type="password"
                 name="confirmPassword"
-                title="confirmPassword"
-                placeholder="Enter your confirm password"
+                title="Confirm Password"
+                placeholder="Enter confirm password"
                 inputClass="inputInvoiceCls"
+                containerStyle={{ maxWidth: "250px" }}
                 required
                 register={register}
                 errors={errors}
                 validationRules={{
                   required: "Confirm password is required",
+                  pattern: {
+                    value:
+                      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    message: "Password must be 8+ chars, $@, 0-9, A-Z, a-z.",
+                  },
                 }}
               />
               <CustomButton

@@ -224,7 +224,7 @@ export default function generateHTMLTPL007(invoiceData) {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      align-items: start;
+      align-items: center;
     } 
 
     .table-container{
@@ -270,6 +270,7 @@ export default function generateHTMLTPL007(invoiceData) {
       display: grid;
       grid-template-columns: 4fr 1fr;
       margin: 0 4em;
+      align-items: center;
     }
     
     .totals span {
@@ -320,7 +321,7 @@ export default function generateHTMLTPL007(invoiceData) {
       display: grid;
       grid-template-columns: 4fr 1fr;
       gap: 10px;
-      align-items: start;
+      align-items: center;
     }
 
     .terms h3 {
