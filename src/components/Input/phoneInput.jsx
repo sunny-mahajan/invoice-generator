@@ -54,6 +54,10 @@ const PhoneInputField = ({
               maxLength="10"
               placeholder={placeholder}
               onChange={onChange}
+              onInput={(e) => {
+                // Prevent non-numeric characters
+                e.target.value = e.target.value.replace(/[^0-9]/g, "");
+              }}
               {...register(name, { ...validationRules, onBlur: handleBlur })} // Register + custom onBlur
             />
           </div>

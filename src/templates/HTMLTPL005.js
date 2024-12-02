@@ -163,6 +163,7 @@ export default function generateHTMLTPL003(invoiceData) {
       }
         
       .invoice-summary .invoice-details-cls, .invoice-summary .bank-details-cls, .invoice-summary .totals {
+        width: 32%;
         margin-top: 20px;
       }
       .invoice-details-cls h3,
@@ -170,6 +171,10 @@ export default function generateHTMLTPL003(invoiceData) {
         font-size: 18px;
         color: #2c3e50;
         margin-bottom: 10px;
+      }
+
+      .invoice-summary .invoice-details-cls p, .invoice-summary .bank-details-cls p, .invoice-summary .totals p {
+        word-break: break-all;
       }
 
      
@@ -465,26 +470,26 @@ export default function generateHTMLTPL003(invoiceData) {
                   ? `<p>Account No: ${invoiceData["Account No"]}</p>`
                   : ""
               }
-            ${
-              invoiceData["Account Holder Name"]
-                ? `<p>Account Holder Name: ${invoiceData["Account Holder Name"]}</p>`
-                : ""
-            }
-            ${
-              invoiceData["IFSC Code"]
-                ? `<p>IFSC Code: ${invoiceData["IFSC Code"]}</p>`
-                : ""
-            }
               ${
-                invoiceData["Account Type"]
-                  ? `<p>Account Type: ${invoiceData["Account Type"]}</p>`
+                invoiceData["Account Holder Name"]
+                  ? `<p>Account Holder Name: ${invoiceData["Account Holder Name"]}</p>`
                   : ""
               }
-            ${
-              invoiceData["Bank Address"]
-                ? `<p>Bank Address: ${invoiceData["Bank Address"]}</p>`
-                : ""
-            }
+              ${
+                invoiceData["IFSC Code"]
+                  ? `<p>IFSC Code: ${invoiceData["IFSC Code"]}</p>`
+                  : ""
+              }
+                ${
+                  invoiceData["Account Type"]
+                    ? `<p>Account Type: ${invoiceData["Account Type"]}</p>`
+                    : ""
+                }
+              ${
+                invoiceData["Bank Address"]
+                  ? `<p>Bank Address: ${invoiceData["Bank Address"]}</p>`
+                  : ""
+              }
             </div>
             `
             : ""

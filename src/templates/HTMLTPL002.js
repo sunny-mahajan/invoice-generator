@@ -116,7 +116,11 @@ export default function generateHTMLTPL002(invoiceData) {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
-    gap: 20px;
+    gap: 10px;
+  }
+
+  .bill-ship .invoice-info {
+    width: 240px;
   }
 
   .bill-ship p {
@@ -168,6 +172,7 @@ export default function generateHTMLTPL002(invoiceData) {
 
   .bank-details-container {
     margin-top: 20px;
+     max-width: 500px;
   }
 
   .sub-bank-details-container {
@@ -179,6 +184,10 @@ export default function generateHTMLTPL002(invoiceData) {
 
   .sub-bank-details-title {
     width: 165px;
+  }
+  .sub-bank-details-value {
+    width: 330px;
+    word-break: break-word;
   }
 
   .footer-cls {
@@ -516,7 +525,7 @@ export default function generateHTMLTPL002(invoiceData) {
         invoiceData["Bank Name"]
           ? `
       <div class="sub-bank-details-container">
-          <span class="sub-bank-details-title">Bank Name:</span><span>${invoiceData["Bank Name"]}</span>
+          <span class="sub-bank-details-title">Bank Name:</span><span class="sub-bank-details-value">${invoiceData["Bank Name"]}</span>
       </div>`
           : ""
       }
@@ -524,7 +533,7 @@ export default function generateHTMLTPL002(invoiceData) {
         invoiceData["Account No"]
           ? `
       <div class="sub-bank-details-container">
-          <span class="sub-bank-details-title">A/c No:</span><span>${invoiceData["Account No"]}</span>
+          <span class="sub-bank-details-title">A/c No:</span><span class="sub-bank-details-value">${invoiceData["Account No"]}</span>
       </div>`
           : ""
       }
@@ -532,7 +541,7 @@ export default function generateHTMLTPL002(invoiceData) {
         invoiceData["Account Holder Name"]
           ? `
       <div class="sub-bank-details-container">
-          <span class="sub-bank-details-title">A/c Holder Name:</span><span>${invoiceData["Account Holder Name"]}</span>
+          <span class="sub-bank-details-title">A/c Holder Name:</span><span class="sub-bank-details-value">${invoiceData["Account Holder Name"]}</span>
       </div>`
           : ""
       }
@@ -540,7 +549,7 @@ export default function generateHTMLTPL002(invoiceData) {
         invoiceData["IFSC Code"]
           ? `
       <div class="sub-bank-details-container">
-          <span class="sub-bank-details-title">IFSC Code:</span><span>${invoiceData["IFSC Code"]}</span>
+          <span class="sub-bank-details-title">IFSC Code:</span><span class="sub-bank-details-value">${invoiceData["IFSC Code"]}</span>
       </div>`
           : ""
       }
@@ -548,14 +557,14 @@ export default function generateHTMLTPL002(invoiceData) {
         invoiceData["Account Type"]
           ? `
       <div class="sub-bank-details-container">
-          <span class="sub-bank-details-title">A/c Type:</span><span>${invoiceData["Account Type"]}</span>
+          <span class="sub-bank-details-title">A/c Type:</span><span class="sub-bank-details-value">${invoiceData["Account Type"]}</span>
       </div>`
           : ""
       }
       ${
         invoiceData["Bank Address"]
           ? `<div class="sub-bank-details-container">
-        <span class="sub-bank-details-title">Bank Address:</span><span>${invoiceData["Bank Address"]}</span>
+        <span class="sub-bank-details-title">Bank Address:</span><span class="sub-bank-details-value">${invoiceData["Bank Address"]}</span>
         </div>`
           : ""
       }
