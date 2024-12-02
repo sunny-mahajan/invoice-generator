@@ -103,6 +103,10 @@ export default function generateHTMLTPL0010(invoiceData) {
       width: 25%;
     }
 
+    .w-50{
+      width: 50%;
+    }
+
     .invoice-container p {
       margin: 0;
       padding: 0;
@@ -172,7 +176,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     .data-limit{
-      max-width: 220px;
+      max-width: 230px;
       word-wrap: break-word;
     }
 
@@ -181,12 +185,7 @@ export default function generateHTMLTPL0010(invoiceData) {
       word-wrap: break-word;
     }
     .custom-field{
-      display: unset !important;
       font-weight: 600;
-    }
-
-    .custom-field-value{
-      display: unset !important;
     }
 
     .invoice-container {
@@ -418,7 +417,10 @@ export default function generateHTMLTPL0010(invoiceData) {
                 ${
                   item["fieldName"] && item["fieldValue"]
                     ? `
-                      <p class="details-data custom-field">${item["fieldName"]}:</p><p class="details-data custom-field-value"> ${item["fieldValue"]}</p><br>
+                    <div style="display: flex; align-items: center;">
+                      <p class="details-data custom-field w-50">${item["fieldName"]}:</p>
+                      <p class="details-data w-50"> ${item["fieldValue"]}</p>
+                    </div>
                   `
                     : ""
                 }
@@ -499,7 +501,10 @@ export default function generateHTMLTPL0010(invoiceData) {
                 ${
                   item["fieldName"] && item["fieldValue"]
                     ? `
-                      <p class="details-data custom-field">${item["fieldName"]}:</p><p class="details-data custom-field-value"> ${item["fieldValue"]}</p><br>
+                    <div style="display: flex; align-items: center;">
+                      <p class="details-data custom-field w-50">${item["fieldName"]}:</p>
+                      <p class="details-data w-50"> ${item["fieldValue"]}</p>
+                    </div>
                   `
                     : ""
                 }
@@ -512,18 +517,18 @@ export default function generateHTMLTPL0010(invoiceData) {
       </div>
       <div class="invoice-number ">
       <div class="grid-container">
-          <p class="details-title align-left" >INVOICE # </p>
-          <p class="details-data align-right table-data-limit">${
+          <p class="details-title" >INVOICE # </p>
+          <p class="details-data table-data-limit">${
             invoiceData["Invoice No."]
           }</p>
-          <p class="details-title align-left">INVOICE DATE</p>
-          <p class="details-data align-right">${
+          <p class="details-title">INVOICE DATE</p>
+          <p class="details-data">${
             invoiceData["Invoice Issue Date"]
           }</p>
           ${
             invoiceData["Invoice Due Date"]
-              ? `<p class="details-title align-left">DUE DATE </p>
-                <p class="details-data align-right">${invoiceData["Invoice Due Date"]}</p>`
+              ? `<p class="details-title">DUE DATE </p>
+                <p class="details-data">${invoiceData["Invoice Due Date"]}</p>`
               : ""
           }
           ${
@@ -535,8 +540,8 @@ export default function generateHTMLTPL0010(invoiceData) {
                     `${
                       item["fieldName"] && item["fieldValue"]
                         ? `
-                    <p class="details-title align-left table-data-limit">${item["fieldName"]}:</p>
-                    <p class="details-data align-right table-data-limit">${item["fieldValue"]}</p>
+                    <p class="details-title table-data-limit">${item["fieldName"]}:</p>
+                    <p class="details-data table-data-limit">${item["fieldValue"]}</p>
                     `
                         : ""
                     } `
@@ -617,7 +622,7 @@ export default function generateHTMLTPL0010(invoiceData) {
           taxPercentage > 0
             ? `
           <p class="details-data">Subtotal</p>
-          <p class="details-data">${currencySymbol(
+          <p class="details-data data-limit">${currencySymbol(
             invoiceData["Currency"]
           )}${subAmount.toFixed(1)}</p>
           ${
@@ -626,7 +631,7 @@ export default function generateHTMLTPL0010(invoiceData) {
           <p class="details-data">${
             invoiceData["Sender's Tax Type"]
           } (${taxPercentage.toFixed(1)}%)</p>
-          <p class="details-data">${currencySymbol(
+          <p class="details-data data-limit">${currencySymbol(
             invoiceData["Currency"]
           )}${taxAmount.toFixed(1)}</p>
           `
@@ -634,13 +639,13 @@ export default function generateHTMLTPL0010(invoiceData) {
           <p class="details-data">CGST(${(taxPercentage / 2).toFixed(
             1
           )}%)</p>
-          <p class="details-data">${currencySymbol(
+          <p class="details-data data-limit">${currencySymbol(
             invoiceData["Currency"]
           )}${(taxAmount / 2).toFixed(1)}</p>
           <p class="details-data">SGST(${(taxPercentage / 2).toFixed(
             1
           )}%)</p>
-          <p class="details-data">${currencySymbol(
+          <p class="details-data data-limit">${currencySymbol(
             invoiceData["Currency"]
           )}${(taxAmount / 2).toFixed(1)}</p>
           `

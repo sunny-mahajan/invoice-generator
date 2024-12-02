@@ -153,13 +153,24 @@ const BillToForm = ({
               </div>
               <div className="flex w-full flex-col">
                 <CustomInput
-                  type="number"
+                  type="text"
                   name="clientDetails.postCode"
                   placeholder={"400001"}
                   value={formData?.clientDetails?.postCode}
                   onChange={handleChange}
                   title="Pin Code"
+                  maxLength={6}
                   style={styles.input}
+                  errors={errors}
+                  onBlur={handleBlur}
+                  touched={touched}
+                  register={register}
+                  validationRules={{
+                    pattern: {
+                      value: /^\d{6}$/,
+                      message: "Invalid Pin Code",
+                    },
+                  }}
                 />
               </div>
             </div>

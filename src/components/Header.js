@@ -112,8 +112,8 @@ const Header = () => {
           {theme === "light" ? <DarkThemeIcon /> : <LightThemeIcon />}
         </button>
         {isHovered && (
-            <div className="tooltip absolute top-2 right-full w-80 p-2 bg-gray-200 text-black rounded shadow-lg z-50">
-              Change to {theme === "light" ? "dark" : "light"} Mode
+            <div className="tooltip absolute top-full right-0 text-[12px] font-[500] font-[normal] w-40 p-1 bg-gray-200 text-black rounded shadow-lg z-50">
+              Switch to {theme === "light" ? "Dark" : "Light"} Theme
             </div>
         )}
       </div>
