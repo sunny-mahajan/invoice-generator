@@ -43,6 +43,7 @@ const BillToForm = ({
               name="clientDetails.name"
               title="Name / Company Name"
               placeholder={"Acme Corp"}
+              maxLength={50}
               value={formData.clientDetails.name}
               onChange={handleChange}
               style={styles.input}
@@ -77,6 +78,7 @@ const BillToForm = ({
               type="text"
               name="clientDetails.email"
               title="Email"
+              maxLength={50}
               value={formData.clientDetails.email}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -115,6 +117,7 @@ const BillToForm = ({
                   type="text"
                   name="clientDetails.street"
                   placeholder={"123 Main St"}
+                  maxLength={50}
                   value={formData?.clientDetails?.street}
                   onChange={handleChange}
                   title="Street Address"
@@ -126,6 +129,7 @@ const BillToForm = ({
                   type="text"
                   name="clientDetails.city"
                   placeholder={"Mumbai"}
+                  maxLength={50}
                   value={formData?.clientDetails?.city}
                   onChange={handleChange}
                   title="City"
@@ -140,6 +144,7 @@ const BillToForm = ({
                   type="text"
                   name="clientDetails.state"
                   placeholder={"Maharashtra"}
+                  maxLength={50}
                   value={formData?.clientDetails?.state}
                   onChange={handleChange}
                   title="State"
@@ -187,6 +192,7 @@ const BillToForm = ({
                   onChange={handleChange}
                   style={styles.input}
                   title="GST Number"
+                  maxLength={15}
                   errors={errors}
                   onBlur={handleBlur}
                   touched={touched}
@@ -209,15 +215,15 @@ const BillToForm = ({
                   onChange={handleChange}
                   style={styles.input}
                   title="PAN Number"
+                  maxLength={10}
                   errors={errors}
                   onBlur={handleBlur}
                   touched={touched}
                   register={register}
                   validationRules={{
                     pattern: {
-                      value:
-                        /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/,
-                      message: "Invalid GST number",
+                      value: /[A-Z]{5}[0-9]{4}[A-Z]{1}/,
+                      message: "Invalid PAN number",
                     },
                   }}
                 />
@@ -239,6 +245,7 @@ const BillToForm = ({
                     type="text"
                     name="fieldName"
                     placeholder="Field Name"
+                    maxLength={50}
                     containerClass="due-date-input-container"
                     value={field.fieldName}
                     onChange={(e) => handleFieldChange(index, e, "billTo")}
@@ -247,6 +254,7 @@ const BillToForm = ({
                     type="text"
                     name="fieldValue"
                     placeholder="Value"
+                    maxLength={50}
                     containerClass="due-date-input-container"
                     value={field.fieldValue}
                     onChange={(e) => handleFieldChange(index, e, "billTo")}
