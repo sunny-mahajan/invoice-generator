@@ -515,15 +515,15 @@ export default function generateHTMLTPL003(invoiceData) {
                           )}${taxAmount.toFixed(1)}</span>
                     `
                         : `
-                        <div style="display: flex; align-items: center; flex-direction: column; gap: 5px;">
-                          <div style="display: flex; align-items: center;">
+                        <div style="display: flex; align-items: center; flex-direction: column; gap: 5px; width: 100%;">
+                          <div style="display: flex; align-items: center; width: 100%; justify-content: space-between;">
                             <p class="sub-sec5-title">CGST (${(
                               taxPercentage / 2
                             ).toFixed(1)}%)</p><span>${currencySymbol(
                             invoiceData["Currency"]
                           )}${(taxAmount / 2).toFixed(1)}</span>
                           </div>
-                          <div style="display: flex; align-items: center;">
+                          <div style="display: flex; align-items: center; width: 100%; justify-content: space-between;">
                             <p class="sub-sec5-title">SGST (${(
                               taxPercentage / 2
                             ).toFixed(1)}%)</p><span>${currencySymbol(

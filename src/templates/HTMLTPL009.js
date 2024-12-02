@@ -74,6 +74,7 @@ export default function generateHTMLTPL003(invoiceData) {
      .invoice-container p {
         color: #555555;
         margin: 3px 0;
+        word-break: break-all;
       }
 
       .header-cls span {
