@@ -259,13 +259,13 @@ p {
 .tooltip::after{
   content: "";
   position: absolute;
-  top: 7px;
-  left: 99%;
-  border-width: 8px;
+  top: 1px;
+  left: 60%;
+  border-width: 6px;
   border-style: solid;
   border-color: transparent rgb(229 231 235 / var(--tw-bg-opacity)) transparent transparent;
-  transform: rotate(-45deg);
-  transform-origin: bottom left;
+  transform: rotate(220deg);
+  transform-origin: top right;
 }
 
 .parties-details-container {

@@ -113,6 +113,10 @@ export default function generateHTMLTPL006(invoiceData) {
       width: 25%;
     }
 
+    .w-50{
+      width: 50%;
+    }
+
     .invoice-container img {
       width: 100%;
       height: 100%;
@@ -124,7 +128,7 @@ export default function generateHTMLTPL006(invoiceData) {
       justify-content: space-between;
       align-items: center;
       padding-bottom: 10px;
-      height: 200px;
+      height: 120px;
     }
 
     .invoice-header h1 {
@@ -152,7 +156,7 @@ export default function generateHTMLTPL006(invoiceData) {
     .details-data{
       font-family: "Urbanist", sans-serif;
       font-optical-sizing: auto;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 400;
       font-style: normal;
       color: #777777;
@@ -172,7 +176,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .data-limit{
-      max-width: 220px;
+      max-width: 230px;
       word-wrap: break-word;
     }
 
@@ -182,12 +186,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .custom-field{
-      display: unset !important;
       font-weight: 600;
-    }
-
-    .custom-field-value{
-      display: unset !important;
     }
 
     .invoice-container {
@@ -298,7 +297,7 @@ export default function generateHTMLTPL006(invoiceData) {
       }
 
       .table th {
-        font-size: 18px
+        font-size: 22px
       }
      
       .table td {
@@ -313,7 +312,7 @@ export default function generateHTMLTPL006(invoiceData) {
         font-size: 12px;  
       }
       .details-title{
-        font-size: 18px;
+        font-size: 22px;
       }
 
       .details-data{
@@ -410,7 +409,10 @@ export default function generateHTMLTPL006(invoiceData) {
                 ${
                   item["fieldName"] && item["fieldValue"]
                     ? `
-                      <p class="details-data custom-field">${item["fieldName"]}:</p><p class="details-data custom-field-value"> ${item["fieldValue"]}</p><br>
+                    <div style="display: flex; align-items: center;">
+                      <p class="details-data custom-field w-50">${item["fieldName"]}:</p>
+                      <p class="details-data w-50"> ${item["fieldValue"]}</p>
+                    </div>
                   `
                     : ""
                 }
@@ -491,7 +493,10 @@ export default function generateHTMLTPL006(invoiceData) {
                 ${
                   item["fieldName"] && item["fieldValue"]
                     ? `
-                      <p class="details-data custom-field">${item["fieldName"]}:</p><p class="details-data custom-field-value"> ${item["fieldValue"]}</p><br>
+                    <div style="display: flex; align-items: center;">
+                      <p class="details-data custom-field w-50">${item["fieldName"]}:</p>
+                      <p class="details-data w-50"> ${item["fieldValue"]}</p>
+                    </div>
                   `
                     : ""
                 }
@@ -607,7 +612,7 @@ export default function generateHTMLTPL006(invoiceData) {
                 taxPercentage > 0
                   ? `
               <p class="details-data">Subtotal</p>
-              <p class="details-data">${currencySymbol(
+              <p class="details-data data-limit">${currencySymbol(
                 invoiceData["Currency"]
               )}${subAmount.toFixed(1)}</p>
               ${
@@ -616,7 +621,7 @@ export default function generateHTMLTPL006(invoiceData) {
               <p class="details-data">${
                 invoiceData["Sender's Tax Type"]
               } (${taxPercentage.toFixed(1)}%)</p>
-              <p class="details-data">${currencySymbol(
+              <p class="details-data data-limit">${currencySymbol(
                 invoiceData["Currency"]
               )}${taxAmount.toFixed(1)}</p>
               `
@@ -624,13 +629,13 @@ export default function generateHTMLTPL006(invoiceData) {
               <p class="details-data">CGST(${(taxPercentage / 2).toFixed(
                 1
               )}%)</p>
-              <p class="details-data">${currencySymbol(
+              <p class="details-data data-limit">${currencySymbol(
                 invoiceData["Currency"]
               )}${(taxAmount / 2).toFixed(1)}</p>
               <p class="details-data">SGST(${(taxPercentage / 2).toFixed(
                 1
               )}%)</p>
-              <p class="details-data">${currencySymbol(
+              <p class="details-data data-limit">${currencySymbol(
                 invoiceData["Currency"]
               )}${(taxAmount / 2).toFixed(1)}</p>
               `
