@@ -18,7 +18,7 @@ body {
 .auth-container .inputInvoiceCls {
   width: 100%;
   padding: 10px;
-  height: 40px !important;
+  height: 35px !important;
   border-radius: 4px;
   border: 1px solid white !important;
   font-family: inherit;
@@ -102,7 +102,7 @@ body[data-theme="light"] .change-password-cls {
   border: 1px solid #ddd; /* Default border; you can customize the color */
   font-weight: 600; /* Equivalent to `font-semibold` */
   font-size: 13px; /* Equivalent to `text-[13px]` */
-  height: 40px; /* Equivalent to `h-[40px]` */
+  height: 35px; /* Equivalent to `h-[35px]` */
   width: 65px; /* Equivalent to `w-max` */
   padding: 3px;
   border-top-left-radius: 4px;
@@ -134,7 +134,7 @@ body[data-theme="light"] .auth-container .input-title {
   padding-bottom: 10px; /* Equivalent to `py-[10px]` */
   padding-left: 5px; /* Equivalent to `px-[5px]` */
   padding-right: 5px; /* Equivalent to `px-[5px]` */
-  height: 40px; /* Equivalent to `h-[40px]` */
+  height: 35px; /* Equivalent to `h-[35px]` */
   border-radius: 0 4px 4px 0; /* Equivalent to `rounded-r` */
   border: 1px solid #ddd; /* Default border; adjust as needed */
   font-weight: 600; /* Equivalent to `font-semibold` */

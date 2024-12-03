@@ -40,6 +40,7 @@ export const mapSenderDetails = (senderDetails) => ({
   "Sender's Tax No": senderDetails.taxNo,
   "Sender's Tax Type": senderDetails.taxType,
   "Sender's PAN No": senderDetails.panNo,
+  "Sender's Discount": senderDetails.discount,
 });
 
 export const mapReceiverDetails = (clientDetails) => ({

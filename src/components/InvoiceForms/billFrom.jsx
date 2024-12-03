@@ -16,10 +16,10 @@ const BillFromForm = ({
   handleChange,
   errors,
   register,
-  taxTypeOptions,
   handleFieldChange,
   handleAddField,
   handleRemoveField,
+  handleDiscountToggle = () => {},
 }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState([false, false]);
   const [touched, setTouched] = useState(false);
@@ -304,6 +304,21 @@ const BillFromForm = ({
             </div>
           </div>
         </div>
+
+        {/* Discount Accordion */}
+        <div className="border-slate-200 pb-4">
+          <label className="inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              value=""
+              className="sr-only peer"
+              onChange={handleDiscountToggle} // Call the function when the toggle is changed
+            />
+            <div className="random-temp-cls relative w-10 h-6 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <span className="ml-3">Discount</span>
+          </label>
+        </div>
+
         <BankDetails
           formData={formData}
           handleChange={handleChange}
