@@ -179,7 +179,7 @@ p {
 .contact-container .PhoneInputInput {
   width: 100%;
   padding: 10px;
-  height: 40px !important;
+  height: 35px !important;
   border-radius: 0 0 4px;
   border: 1px solid var(--input-border-color);
   font-family: inherit;
@@ -212,7 +212,7 @@ p {
   .input-invoice-cls {
     width: 100%;
     padding: 10px;
-    height: 40px !important;
+    height: 35px !important;
     border-radius: 4px;
     border: 1px solid var(--input-border-color);
     font-family: inherit;
@@ -256,14 +256,15 @@ p {
   opacity: 0.7 !important; /* Semi-transparent */
 }
 
-.tooltip::after{
+.tooltip::after {
   content: "";
   position: absolute;
   top: 1px;
   left: 60%;
   border-width: 6px;
   border-style: solid;
-  border-color: transparent rgb(229 231 235 / var(--tw-bg-opacity)) transparent transparent;
+  border-color: transparent rgb(229 231 235 / var(--tw-bg-opacity)) transparent
+    transparent;
   transform: rotate(220deg);
   transform-origin: top right;
 }

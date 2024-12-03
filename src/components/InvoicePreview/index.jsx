@@ -111,10 +111,14 @@ export default function InvoicePreview({
       zoomFactor = 0.6;
     } else if (screenWidth <= 768) {
       zoomFactor = 0.7;
-    } else if (screenWidth <= 1024) {
-      zoomFactor = 0.4;
-    } else {
+    } else if (screenWidth <= 500) {
       zoomFactor = 0.5;
+    } else if (screenWidth <= 400) {
+      zoomFactor = 0.4;
+    } else if (screenWidth <= 300) {
+      zoomFactor = 0.3;
+    } else {
+      zoomFactor = 1;
     }
 
     pdfContainer.style.zoom = zoomFactor;
