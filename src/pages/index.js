@@ -255,6 +255,7 @@ const InvoiceForm = () => {
               ? afterDiscount * (taxPercentage / 100)
               : quantity * price * (taxPercentage / 100)
           ).toFixed(1);
+          afterDiscount = (quantity * price - amountSaved).toFixed(1);
           total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(1);
         }
         updatedItems[index].amountSaved = amountSaved;

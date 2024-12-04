@@ -151,10 +151,15 @@ export default function generateHTMLTPL001(invoiceData) {
         margin: 0;
         padding: 5px 0;
         box-sizing: border-box;
+        word-wrap: break-word;  
     }
 
     .sub-sec4-item-amount {
-        width: 100px !important;
+        width: 115px !important;
+    }
+
+    .sub-sec4-item-total {
+        width: 115px !important;
     }
 
     .sub-sec4-item-discount {
@@ -178,7 +183,7 @@ export default function generateHTMLTPL001(invoiceData) {
         text-align: center !important;
     }
     .sub-sec4-item-name {
-        text-align: left !important;
+        text-align: center !important;
         width: 140px !important;
         word-wrap: break-word;
     }
@@ -493,15 +498,46 @@ export default function generateHTMLTPL001(invoiceData) {
                     <h2 class="sub-sec4-item-price">Price</h2>
                     <h2 class="sub-sec4-item-quantity">Qty</h2>
                     ${
+                      (invoiceData.itemData["taxPercentage"] <= 0 &&
+                        isDiscountAvailable) ||
+                      (invoiceData.itemData["taxPercentage"] > 0 &&
+                        !isDiscountAvailable)
+                        ? `
+                      <h2 class="sub-sec4-item-amount">Amount</h2>
+                      `
+                        : ""
+                    }
+                    ${
                       isDiscountAvailable
                         ? `<h2 class="sub-sec4-item-discount">Discount</h2>`
                         : ""
                     }
-                    <h2 class="sub-sec4-item-amount">Amount</h2>
-                    <h2 class="sub-sec4-item-tax">GST %</h2>
-                    <h2 class="sub-sec4-item-tax-amount">GST ${currencySymbol(
-                      invoiceData["Currency"]
-                    )}</h2>
+                    ${
+                      invoiceData.itemData["taxPercentage"] > 0 &&
+                      isDiscountAvailable
+                        ? `
+                      <h2 class="sub-sec4-item-amount">Net Price</h2>
+                      `
+                        : ""
+                    }
+
+                    ${
+                      invoiceData.itemData["taxPercentage"] > 0
+                        ? `<h2 class="sub-sec4-item-tax">GST %</h2>
+                          
+                        `
+                        : ""
+                    }
+                    ${
+                      invoiceData.itemData["taxPercentage"] > 0 &&
+                      !isDiscountAvailable
+                        ? `
+                        <h2 class="sub-sec4-item-tax-amount">GST ${currencySymbol(
+                          invoiceData["Currency"]
+                        )}</h2>
+                      `
+                        : ""
+                    }              
                     <h2 class="sub-sec4-item-total">Total</h2>
                 </div>
                 ${invoiceData["Items"]
@@ -516,28 +552,64 @@ export default function generateHTMLTPL001(invoiceData) {
                               ? `<p class="sub-sec4-item-description">${item["description"]}</p>`
                               : ""
                           }
-                          
                       </div>
                       <p class="sub-sec4-item-price">${currencySymbol(
                         invoiceData["Currency"]
                       )}${item["price"]}</p>
                       <p class="sub-sec4-item-quantity">${item["quantity"]}</p>
                       ${
-                        item["discountPercentage"] > 0
+                        (invoiceData.itemData["taxPercentage"] <= 0 &&
+                          isDiscountAvailable) ||
+                        (invoiceData.itemData["taxPercentage"] > 0 &&
+                          !isDiscountAvailable)
                           ? `
-                        <p class="sub-sec4-item-discount">${item["discountPercentage"]}%</p>
+                         <p class="sub-sec4-item-amount">${currencySymbol(
+                           invoiceData["Currency"]
+                         )}${item["amount"]}
+                        </p>
                         `
                           : ""
                       }
-                      <p class="sub-sec4-item-amount">${currencySymbol(
-                        invoiceData["Currency"]
-                      )}${item["afterDiscount"]}</p>
-                      <p class="sub-sec4-item-tax">${
-                        item["taxPercentage"] || 0
-                      }%</p>
-                      <p class="sub-sec4-item-tax-amount">${
-                        item["taxAmount"] || 0
-                      }%</p>
+                      ${
+                        isDiscountAvailable > 0
+                          ? `
+                          <p class="sub-sec4-item-discount">${
+                            item["discountPercentage"] || 0
+                          }%</p>
+                          `
+                          : ""
+                      }
+                        ${
+                          invoiceData.itemData["taxPercentage"] > 0 &&
+                          isDiscountAvailable
+                            ? `
+                          <p class="sub-sec4-item-amount">${currencySymbol(
+                            invoiceData["Currency"]
+                          )}${item["afterDiscount"]}
+                          </p>
+                        `
+                            : ""
+                        }
+                      ${
+                        invoiceData.itemData["taxPercentage"] > 0
+                          ? `
+                        <p class="sub-sec4-item-tax">${
+                          item["taxPercentage"] || 0
+                        }%</p>
+                        
+                        `
+                          : ""
+                      }
+                      ${
+                        invoiceData.itemData["taxPercentage"] > 0 &&
+                        !isDiscountAvailable
+                          ? `
+                          <p class="sub-sec4-item-tax-amount">${currencySymbol(
+                            invoiceData["Currency"]
+                          )}${item["taxAmount"]}</p>
+                          `
+                          : ""
+                      }
                       <p class="sub-sec4-item-total">${currencySymbol(
                         invoiceData["Currency"]
                       )}${item["total"]}</p>
