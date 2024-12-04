@@ -1,7 +1,7 @@
 import ProtectedPage from "../app/protected";
 import "./style.css";
 import { ThemeProvider } from "../utils/themeContext";
-import { UserProvider } from "../app/context/userContext";
+import { UserItemsProvider } from "../app/context/userContext";
 
 function MyApp({ Component, pageProps, router }) {
   const protectedRoutes = ["/", "/upload", "/auth/change-password"]; // Define protected routes
@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps, router }) {
 
   return (
     <ThemeProvider>
-      <UserProvider>
+      <UserItemsProvider>
         {isProtectedRoute ? (
           <ProtectedPage>
             <Component {...pageProps} />
@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps, router }) {
         ) : (
           <Component {...pageProps} />
         )}
-      </UserProvider>
+      </UserItemsProvider>
     </ThemeProvider>
   );
 }

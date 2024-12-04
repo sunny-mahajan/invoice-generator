@@ -26,7 +26,11 @@ import BillToForm from "../components/InvoiceForms/billTo";
 import InvoiceDetailsForm from "../components/InvoiceForms/invoiceDetails";
 import ItemDetails from "../components/InvoiceForms/items";
 import InvoicePreview from "../components/InvoicePreview";
-import { useUser } from "../app/context/userContext";
+import {
+  useUser,
+  handleItemCalculatation,
+  itemData,
+} from "../app/context/userContext";
 
 let formDataInitialValues = {
   invoiceNo: "",
@@ -100,7 +104,7 @@ const InvoiceForm = () => {
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
   const [dueDateAfter, setDueDateAfter] = useState(15);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { userData } = useUser();
+  const { userData, handleItemCalculatation, itemData } = useUser();
 
   const [isItemDataUpdated, setIsItemDataUpdated] = useState({
     name: false,
@@ -135,6 +139,7 @@ const InvoiceForm = () => {
   }, [formData.createdAt, isDueDateOpen]);
 
   useEffect(() => {
+    calculateItems();
     validateForm();
   }, [formData.items, isItemDataUpdated]);
 
@@ -176,6 +181,11 @@ const InvoiceForm = () => {
       }));
     }
   }, [formData.senderDetails.taxType, formData.senderDetails.discount]);
+
+  const calculateItems = () => {
+    handleItemCalculatation(formData);
+    console.log("Updated Item Data:", itemData);
+  };
 
   const handleChange = (e) => {
     const updateFormData = (name, value) => {
@@ -530,8 +540,10 @@ const InvoiceForm = () => {
       Items: formData.items,
       Currency: formData.currency,
       "Tax Percentage": formData.taxPercentage,
+      itemData: itemData,
     };
     try {
+      console.log(mappedData, "mappedData");
       const pdfBlob = await generateHTMLPDF(mappedData, userData);
       if (pdfBlob) {
         const blobURL = URL.createObjectURL(pdfBlob);

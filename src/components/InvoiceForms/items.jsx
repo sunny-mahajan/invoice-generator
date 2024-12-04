@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "../Input/index";
 import CustomButton from "../Button/index";
 import { PlusIcon, DeleteIcon } from "../../utils/icons";
+import { useUser } from "../../app/context/userContext";
 
 const ItemDetails = ({
   formData,
@@ -11,44 +12,17 @@ const ItemDetails = ({
   currencySymbols,
   errorsData = { errorsData },
 }) => {
-  const [subTotal, setSubTotal] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [taxAmount, setTaxAmount] = useState(0);
-  const [taxPercentage, setTaxPercentage] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [afterDiscountAmount, setAfterDiscountAmount] = useState(0);
   const [showDescription, setShowDescription] = useState(false);
+  const { handleItemCalculatation, itemData } = useUser();
 
   useEffect(() => {
     console.log(formData, "formData");
-    handleCalculateTotal();
+    calculateItems();
   }, [formData]);
 
-  const handleCalculateTotal = () => {
-    let subTotal = 0;
-    let total = 0;
-    let taxAmount = 0;
-    let taxPercentages = 0;
-    let discountMoney = 0;
-    let afterDiscountAmount = 0;
-    formData?.items?.forEach((item) => {
-      if (!item.quantity || !item.price) return;
-      subTotal += +item.amount;
-      total += +item.total;
-      discountMoney += +item.amountSaved;
-      taxAmount += +item.taxAmount;
-      afterDiscountAmount += +item.afterDiscount;
-      console.log(item, "item");
-    });
-    taxPercentages =
-      (taxAmount / (afterDiscountAmount ? afterDiscountAmount : subTotal)) *
-      100;
-    setTotal(total.toFixed(1));
-    setSubTotal(subTotal);
-    setTaxAmount(taxAmount.toFixed(1));
-    setTaxPercentage(taxPercentages.toFixed(1));
-    setDiscount(discountMoney.toFixed(1));
-    setAfterDiscountAmount(afterDiscountAmount.toFixed(1));
+  const calculateItems = () => {
+    handleItemCalculatation(formData);
+    console.log("Updated Item Data:", itemData);
   };
 
   const handleSanitizedChange = (e, index, callback, regex) => {
@@ -395,36 +369,36 @@ const ItemDetails = ({
               <>
                 <div className="flex justify-between">
                   <span>SubTotal:</span>
-                  <span>₹{subTotal}</span>
+                  <span>₹{itemData.subTotal}</span>
                 </div>
                 {formData.senderDetails.discount > 0 && (
                   <div className="flex justify-between ">
                     <span>Discount:</span>
-                    <span>₹{discount}</span>
+                    <span>₹{itemData.discount}</span>
                   </div>
                 )}
                 {formData.senderDetails.discount &&
                   formData.senderDetails.taxType !== "None" && (
                     <div className="flex justify-between ">
                       <span>Net Price:</span>
-                      <span>₹{afterDiscountAmount}</span>
+                      <span>₹{itemData.afterDiscountAmount}</span>
                     </div>
                   )}
                 {formData.senderDetails.taxType === "IGST" && (
                   <div className="flex justify-between">
-                    <span>IGST ({taxPercentage}%)</span>
-                    <span>₹{taxAmount}</span>
+                    <span>IGST</span>
+                    <span>₹{itemData.taxAmount}</span>
                   </div>
                 )}
                 {formData.senderDetails.taxType == "CGST & SGST" && (
                   <>
                     <div className="flex justify-between ">
-                      <span>CGST ({taxPercentage / 2}%)</span>
-                      <span>₹{taxAmount / 2}</span>
+                      <span>CGST</span>
+                      <span>₹{itemData.taxAmount / 2}</span>
                     </div>
                     <div className="flex justify-between ">
-                      <span>SGST ({taxPercentage / 2}%)</span>
-                      <span>₹{taxAmount / 2}</span>
+                      <span>SGST</span>
+                      <span>₹{itemData.taxAmount / 2}</span>
                     </div>
                   </>
                 )}
@@ -434,7 +408,7 @@ const ItemDetails = ({
             )}
             <div className="flex justify-between py-2 border-t-2 border-b-2 text-2xl font-semibold">
               <span>Total:</span>
-              <span>₹{total}</span>
+              <span>₹{itemData.total}</span>
             </div>
           </div>
         </div>
