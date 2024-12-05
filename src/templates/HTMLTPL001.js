@@ -1,15 +1,11 @@
 export default function generateHTMLTPL001(invoiceData) {
   console.log("invoiceData: ", invoiceData);
-  let isDiscountAvailable = false;
   let isDescriptionAvailable = false;
 
   // Calculate the sub-amount by summing item prices
   invoiceData?.Items?.forEach((item) => {
     if (item["description"]) {
       isDescriptionAvailable = true;
-    }
-    if (item["discountPercentage"] > 0) {
-      isDiscountAvailable = true;
     }
   });
 
@@ -499,22 +495,22 @@ export default function generateHTMLTPL001(invoiceData) {
                     <h2 class="sub-sec4-item-quantity">Qty</h2>
                     ${
                       (invoiceData.itemData["taxPercentage"] <= 0 &&
-                        isDiscountAvailable) ||
+                        invoiceData.itemData["discount"] > 0) ||
                       (invoiceData.itemData["taxPercentage"] > 0 &&
-                        !isDiscountAvailable)
+                        invoiceData.itemData["discount"] <= 0)
                         ? `
                       <h2 class="sub-sec4-item-amount">Amount</h2>
                       `
                         : ""
                     }
                     ${
-                      isDiscountAvailable
+                      invoiceData.itemData["discount"] > 0
                         ? `<h2 class="sub-sec4-item-discount">Discount</h2>`
                         : ""
                     }
                     ${
                       invoiceData.itemData["taxPercentage"] > 0 &&
-                      isDiscountAvailable
+                      invoiceData.itemData["discount"] > 0
                         ? `
                       <h2 class="sub-sec4-item-amount">Net Price</h2>
                       `
@@ -530,7 +526,7 @@ export default function generateHTMLTPL001(invoiceData) {
                     }
                     ${
                       invoiceData.itemData["taxPercentage"] > 0 &&
-                      !isDiscountAvailable
+                      invoiceData.itemData["discount"] <= 0
                         ? `
                         <h2 class="sub-sec4-item-tax-amount">GST ${currencySymbol(
                           invoiceData["Currency"]
@@ -559,9 +555,9 @@ export default function generateHTMLTPL001(invoiceData) {
                       <p class="sub-sec4-item-quantity">${item["quantity"]}</p>
                       ${
                         (invoiceData.itemData["taxPercentage"] <= 0 &&
-                          isDiscountAvailable) ||
+                          invoiceData.itemData["discount"] > 0) ||
                         (invoiceData.itemData["taxPercentage"] > 0 &&
-                          !isDiscountAvailable)
+                          invoiceData.itemData["discount"] <= 0)
                           ? `
                          <p class="sub-sec4-item-amount">${currencySymbol(
                            invoiceData["Currency"]
@@ -571,7 +567,7 @@ export default function generateHTMLTPL001(invoiceData) {
                           : ""
                       }
                       ${
-                        isDiscountAvailable > 0
+                        invoiceData.itemData["discount"] > 0 > 0
                           ? `
                           <p class="sub-sec4-item-discount">${
                             item["discountPercentage"] || 0
@@ -581,7 +577,7 @@ export default function generateHTMLTPL001(invoiceData) {
                       }
                         ${
                           invoiceData.itemData["taxPercentage"] > 0 &&
-                          isDiscountAvailable
+                          invoiceData.itemData["discount"] > 0
                             ? `
                           <p class="sub-sec4-item-amount">${currencySymbol(
                             invoiceData["Currency"]
@@ -602,7 +598,7 @@ export default function generateHTMLTPL001(invoiceData) {
                       }
                       ${
                         invoiceData.itemData["taxPercentage"] > 0 &&
-                        !isDiscountAvailable
+                        invoiceData.itemData["discount"] <= 0
                           ? `
                           <p class="sub-sec4-item-tax-amount">${currencySymbol(
                             invoiceData["Currency"]
@@ -625,7 +621,8 @@ export default function generateHTMLTPL001(invoiceData) {
           <div>
             <div class="sub-sec5-container">
               ${
-                invoiceData.itemData["taxPercentage"] > 0 || isDiscountAvailable
+                invoiceData.itemData["taxPercentage"] > 0 ||
+                invoiceData.itemData["discount"] > 0
                   ? `
                 <div class="sub-sec5-item">
                   <p class="sub-sec5-title">Subtotal</p>
@@ -634,7 +631,7 @@ export default function generateHTMLTPL001(invoiceData) {
                     }</span>
                 </div>
                 ${
-                  isDiscountAvailable
+                  invoiceData.itemData["discount"] > 0
                     ? `
                   <div class="sub-sec5-item">
                     <p class="sub-sec5-title">Discount</p>
@@ -646,7 +643,7 @@ export default function generateHTMLTPL001(invoiceData) {
                     : ""
                 }
                 ${
-                  isDiscountAvailable &&
+                  invoiceData.itemData["discount"] > 0 &&
                   invoiceData.itemData["taxPercentage"] > 0
                     ? `
                   <div class="sub-sec5-item">
