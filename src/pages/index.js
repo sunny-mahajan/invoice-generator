@@ -5,7 +5,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.css";
 import { generateHTMLPDF } from "../utils/generateHTMLPDF";
-import Script from "next/script";
 import {
   addDays,
   formatDateToISO,
@@ -27,8 +26,11 @@ import BillToForm from "../components/InvoiceForms/billTo";
 import InvoiceDetailsForm from "../components/InvoiceForms/invoiceDetails";
 import ItemDetails from "../components/InvoiceForms/items";
 import InvoicePreview from "../components/InvoicePreview";
-import { useUser } from "../app/context/userContext";
-import AdBanner from "../components/AdBanner";
+import {
+  useUser,
+  handleItemCalculatation,
+  itemData,
+} from "../app/context/userContext";
 
 let formDataInitialValues = {
   invoiceNo: "",
@@ -45,10 +47,13 @@ let formDataInitialValues = {
     postCode: "",
     country: "",
     state: "",
-    taxType: "",
+    taxType: "None",
     taxNo: "",
     panNo: "",
+    discount: false,
     customFields: [],
+    advancedAmount: 0,
+    remarks: "",
   },
   clientDetails: {
     name: "",
@@ -71,6 +76,7 @@ let formDataInitialValues = {
       quantity: "",
       taxPercentage: 0,
       price: "",
+      discountPercentage: 0,
     },
   ],
   newFields: [],
@@ -100,7 +106,7 @@ const InvoiceForm = () => {
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
   const [dueDateAfter, setDueDateAfter] = useState(15);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { userData } = useUser();
+  const { userData, handleItemCalculatation, itemData } = useUser();
 
   const [isItemDataUpdated, setIsItemDataUpdated] = useState({
     name: false,
@@ -135,6 +141,7 @@ const InvoiceForm = () => {
   }, [formData.createdAt, isDueDateOpen]);
 
   useEffect(() => {
+    calculateItems();
     validateForm();
   }, [formData.items, isItemDataUpdated]);
 
@@ -151,11 +158,36 @@ const InvoiceForm = () => {
           taxPercentage: 0,
           taxAmount: 0,
           amount: item.quantity * item.price,
-          total: item.quantity * item.price,
+          total: item.quantity * item.price - item.amountSaved,
         })),
       }));
     }
-  }, [formData.senderDetails.taxType]);
+    if (!formData.senderDetails.discount) {
+      setFormData((prev) => ({
+        ...prev,
+        items: prev.items.map((item) => ({
+          ...item,
+          discountPercentage: 0,
+          amount: item.quantity * item.price,
+          taxAmount: (
+            item.quantity *
+            item.price *
+            (item.taxPercentage / 100)
+          ).toFixed(1),
+          total:
+            item.quantity * item.price +
+            item.quantity * item.price * (item.taxPercentage / 100),
+          afterDiscount: item.quantity * item.price,
+          amountSaved: 0,
+        })),
+      }));
+    }
+  }, [formData.senderDetails.taxType, formData.senderDetails.discount]);
+
+  const calculateItems = () => {
+    handleItemCalculatation(formData);
+  };
+
   const handleChange = (e) => {
     const updateFormData = (name, value) => {
       if (name.includes(".")) {
@@ -199,18 +231,34 @@ const InvoiceForm = () => {
     setFormData((prev) => {
       const updatedItems = [...prev.items];
       updatedItems[index] = { ...updatedItems[index], [name]: value };
-      const { quantity, price, taxPercentage } = updatedItems[index];
+      const { quantity, price, taxPercentage, discountPercentage } =
+        updatedItems[index];
       if (quantity && price) {
         // Calculate total without tax
         let total = (quantity * price).toFixed(1);
         let taxAmount = 0;
         let subTotal = (quantity * price).toFixed(1);
+        let amountSaved = 0;
+        let afterDiscount = 0;
+        if (discountPercentage > 0) {
+          amountSaved = (quantity * price * (discountPercentage / 100)).toFixed(
+            1
+          );
+          afterDiscount = (quantity * price - amountSaved).toFixed(1);
+          total = (quantity * price - amountSaved).toFixed(1);
+        }
         // If taxPercentage is greater than 0, add the tax to the total
         if (taxPercentage > 0) {
-          taxAmount = (quantity * price * (taxPercentage / 100)).toFixed(1);
+          taxAmount = (
+            amountSaved
+              ? afterDiscount * (taxPercentage / 100)
+              : quantity * price * (taxPercentage / 100)
+          ).toFixed(1);
+          afterDiscount = (quantity * price - amountSaved).toFixed(1);
           total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(1);
         }
-
+        updatedItems[index].amountSaved = amountSaved;
+        updatedItems[index].afterDiscount = afterDiscount;
         updatedItems[index].taxAmount = taxAmount;
         updatedItems[index].amount = subTotal;
         updatedItems[index].total = total;
@@ -407,6 +455,22 @@ const InvoiceForm = () => {
     }));
   };
 
+  const handleDiscountToggle = (event) => {
+    const isChecked = event.target.checked;
+
+    setFormData((prev) => ({
+      ...prev, // Spread the previous state
+      senderDetails: {
+        ...prev.senderDetails,
+        discount: isChecked,
+      },
+      items: prev.items.map((item) => ({
+        ...item,
+        discountPercentage: isChecked === false ? 0 : item.discountPercentage,
+      })),
+    }));
+  };
+
   const mergeData = (formData, data) => {
     for (const key in data) {
       if (
@@ -476,8 +540,10 @@ const InvoiceForm = () => {
       Items: formData.items,
       Currency: formData.currency,
       "Tax Percentage": formData.taxPercentage,
+      itemData: itemData,
     };
     try {
+      console.log(mappedData, "mappedData");
       const pdfBlob = await generateHTMLPDF(mappedData, userData);
       if (pdfBlob) {
         const blobURL = URL.createObjectURL(pdfBlob);
@@ -538,6 +604,7 @@ const InvoiceForm = () => {
                     handleFieldChange={handleFieldChange}
                     handleAddField={handleAddField}
                     handleRemoveField={handleRemoveField}
+                    handleDiscountToggle={handleDiscountToggle}
                   />
                   <BillToForm
                     formData={formData}

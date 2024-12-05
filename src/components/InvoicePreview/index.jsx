@@ -14,6 +14,7 @@ import generateHTMLTPL007 from "../../templates/HTMLTPL007";
 import generateHTMLTPL008 from "../../templates/HTMLTPL008";
 import generateHTMLTPL009 from "../../templates/HTMLTPL009";
 import generateHTMLTPL0010 from "../../templates/HTMLTPL0010";
+import { useUser } from "../../app/context/userContext";
 
 export default function InvoicePreview({
   formData = {},
@@ -24,6 +25,7 @@ export default function InvoicePreview({
   isDialogOpen = false,
 }) {
   const [previewHtml, setPreviewHtml] = useState("");
+  const { handleItemCalculatation, itemData } = useUser();
 
   const debounce = (func, delay) => {
     let timeout;
@@ -67,6 +69,7 @@ export default function InvoicePreview({
       Items: formData.items,
       Currency: formData.currency,
       "Tax Percentage": formData.taxPercentage,
+      itemData: itemData,
     };
     generatePreview(mappedData);
   };
@@ -104,17 +107,20 @@ export default function InvoicePreview({
     if (!pdfContainer || !mainContainer) return;
 
     const screenWidth = mainContainer.clientWidth;
-    console.log(screenWidth, "screenWidth");
     let zoomFactor = 1;
 
     if (screenWidth <= 600) {
       zoomFactor = 0.6;
     } else if (screenWidth <= 768) {
       zoomFactor = 0.7;
-    } else if (screenWidth <= 1024) {
-      zoomFactor = 0.4;
-    } else {
+    } else if (screenWidth <= 500) {
       zoomFactor = 0.5;
+    } else if (screenWidth <= 400) {
+      zoomFactor = 0.4;
+    } else if (screenWidth <= 300) {
+      zoomFactor = 0.3;
+    } else {
+      zoomFactor = 1;
     }
 
     pdfContainer.style.zoom = zoomFactor;
@@ -122,6 +128,7 @@ export default function InvoicePreview({
 
   useEffect(() => {
     adjustZoom();
+    calculateItems();
     const handleResize = debounce(adjustZoom, 100);
     window.addEventListener("resize", handleResize);
 
@@ -135,6 +142,10 @@ export default function InvoicePreview({
       handleData(formData, data, generatePreview);
     }
   }, [formData, selectedTemplateId, data]);
+
+  const calculateItems = () => {
+    handleItemCalculatation(formData);
+  };
 
   return (
     <div className="invoice-preview-container mb-5">

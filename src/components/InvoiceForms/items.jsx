@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "../Input/index";
 import CustomButton from "../Button/index";
 import { PlusIcon, DeleteIcon } from "../../utils/icons";
+import { useUser } from "../../app/context/userContext";
 
 const ItemDetails = ({
   formData,
@@ -11,29 +12,25 @@ const ItemDetails = ({
   currencySymbols,
   errorsData = { errorsData },
 }) => {
-  const [subTotal, setSubTotal] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [taxAmount, setTaxAmount] = useState(0);
-  const [taxPercentage, setTaxPercentage] = useState(0);
+  const [showDescription, setShowDescription] = useState(false);
+  const { handleItemCalculatation, itemData } = useUser();
+
   useEffect(() => {
-    handleCalculateTotal();
+    calculateItems();
   }, [formData]);
-  const handleCalculateTotal = () => {
-    let subTotal = 0;
-    let total = 0;
-    let taxAmount = 0;
-    let taxPercentages = 0;
-    formData?.items?.forEach((item) => {
-      if (!item.quantity || !item.price) return;
-      subTotal += item.price * item.quantity;
-      total += +item.total;
-    });
-    taxAmount = total - subTotal;
-    taxPercentages = (taxAmount / subTotal) * 100;
-    setTotal(total.toFixed(1));
-    setSubTotal(subTotal.toFixed(1));
-    setTaxAmount(taxAmount.toFixed(1));
-    setTaxPercentage(taxPercentages.toFixed(1));
+
+  const calculateItems = () => {
+    handleItemCalculatation(formData);
+  };
+
+  const handleSanitizedChange = (e, index, callback, regex) => {
+    const sanitizedValue = e.target.value.replace(regex, "");
+    e.target.value = sanitizedValue;
+    callback(index, e);
+  };
+
+  const handleDescription = () => {
+    setShowDescription(!showDescription);
   };
 
   return (
@@ -47,47 +44,27 @@ const ItemDetails = ({
               style={styles.itemContainer}
               className="items-details-section"
             >
-              <div className={`block w-full gap-4`}>
-                <div className="flex gap-5">
-                  <CustomInput
-                    type="text"
-                    name="name"
-                    title="Item Name"
-                    placeholder="Website Design"
-                    maxLength={50}
-                    // containerStyle={{ width: "50%" }}
-                    containerClass={"w-full"}
-                    value={item.name}
-                    onChange={(e) => handleItemChange(index, e)}
-                    inputStyle={{
-                      flex: "2 1 auto",
-                      borderColor: errorsData[index]?.name ? "red" : "",
-                    }}
-                    required={true}
-                    itemErrorsData={errorsData}
-                  />
-                  {errorsData[index]?.name && (
-                    <p className="input-error text-red-600">
-                      {errorsData[index]?.name}
-                    </p>
-                  )}
-                  <CustomInput
-                    type="text"
-                    name="description"
-                    title="Item Description"
-                    placeholder="Design and development"
-                    maxLength={50}
-                    // containerStyle={{ width: "50%" }}
-                    containerClass={"w-full"}
-                    value={item.description}
-                    onChange={(e) => handleItemChange(index, e)}
-                    inputStyle={{ flex: "2 1 auto" }}
-                  />
-                </div>
-              </div>
-              <div className={`d-flex w-full gap-4 flex-wrap`}>
-                <div className="flex gap-5 flex-1">
-                  <div className="w-full">
+              <div className="block w-full gap-4">
+                <div className="flex gap-2 flex-wrap">
+                  <div className="flex gap-2 mb-2">
+                    {/* Item Name Input */}
+                    <CustomInput
+                      type="text"
+                      name="name"
+                      title="Item Name"
+                      placeholder="Website Design"
+                      maxLength={50}
+                      containerClass="min-w-[150px]"
+                      value={item.name}
+                      onChange={(e) => handleItemChange(index, e)}
+                      inputStyle={{
+                        borderColor: errorsData[index]?.name ? "red" : "",
+                      }}
+                      required
+                      itemErrorsData={errorsData}
+                    />
+
+                    {/* Quantity Input */}
                     <CustomInput
                       type="text"
                       inputMode="numeric"
@@ -95,31 +72,24 @@ const ItemDetails = ({
                       title="Qty/Hrs."
                       placeholder="1"
                       maxLength={20}
+                      containerClass="min-w-[70px]"
                       value={item.quantity}
-                      // containerClass="max-w-[200px]"
-                      onChange={(e) => {
-                        let sanitizedValue = e.target.value.replace(
-                          /[^0-9]/g,
-                          ""
-                        );
-                        e.target.value = sanitizedValue;
-                        handleItemChange(index, e);
-                      }}
+                      onChange={(e) =>
+                        handleSanitizedChange(
+                          e,
+                          index,
+                          handleItemChange,
+                          /[^0-9]/g
+                        )
+                      }
                       inputStyle={{
-                        flex: "0.3 1 auto",
                         borderColor: errorsData[index]?.quantity ? "red" : "",
-                        minWidth: "50px",
                       }}
-                      required={true}
+                      required
                       itemErrorsData={errorsData}
                     />
-                    {errorsData[index]?.quantity && (
-                      <p className="input-error text-red-600">
-                        {errorsData[index]?.quantity}
-                      </p>
-                    )}
-                  </div>
-                  <div className="w-full">
+
+                    {/* Price Input */}
                     <CustomInput
                       type="text"
                       inputMode="numeric"
@@ -127,126 +97,247 @@ const ItemDetails = ({
                       placeholder="200"
                       maxLength={20}
                       title="Price"
-                      // containerClass="max-w-[200px]"
+                      containerClass="min-w-[70px]"
                       value={item.price}
-                      onChange={(e) => {
-                        let sanitizedValue = e.target.value.replace(
-                          /[^0-9]/g,
-                          ""
-                        );
-                        e.target.value = sanitizedValue;
-                        handleItemChange(index, e);
-                      }}
+                      onChange={(e) =>
+                        handleSanitizedChange(
+                          e,
+                          index,
+                          handleItemChange,
+                          /[^0-9]/g
+                        )
+                      }
                       inputStyle={{
-                        flex: "1 1 auto",
                         borderColor: errorsData[index]?.price ? "red" : "",
-                        minWidth: "60px",
                       }}
-                      required={true}
+                      required
                       itemErrorsData={errorsData}
                     />
-                    {errorsData[index]?.price && (
-                      <p className="input-error text-red-600">
-                        {errorsData[index]?.price}
-                      </p>
-                    )}
-                  </div>
-                  {formData.senderDetails.taxType &&
-                    formData.senderDetails.taxType !== "None" && (
+
+                    {/* Discount Percentage Input */}
+                    {formData.senderDetails.discount && (
                       <CustomInput
                         type="text"
                         inputMode="numeric"
-                        name="taxPercentage"
+                        name="discountPercentage"
                         placeholder="18"
-                        maxLength={10}
-                        title="GST %"
-                        value={item.price}
-                        onChange={(e) => {
-                          let sanitizedValue = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          );
-                          e.target.value = sanitizedValue;
-                          handleItemChange(index, e);
-                        }}
-                        inputStyle={{ flex: "1 1 auto", minWidth: "65px" }}
+                        title="Discount %"
+                        value={item.discountPercentage}
+                        containerClass="min-w-[80px]"
+                        itemErrorsData={errorsData}
+                        onChange={(e) =>
+                          handleSanitizedChange(
+                            e,
+                            index,
+                            handleItemChange,
+                            /[^0-9]/g
+                          )
+                        }
                       />
                     )}
-                </div>
-                <div className="flex items-center">
-                  {formData.senderDetails.taxType &&
-                    formData.senderDetails.taxType !== "None" && (
+
+                    {/* Tax Percentage Input */}
+                    {formData.senderDetails.taxType &&
+                      formData.senderDetails.taxType !== "None" && (
+                        <CustomInput
+                          type="text"
+                          inputMode="numeric"
+                          name="taxPercentage"
+                          placeholder="18"
+                          maxLength={10}
+                          title="GST %"
+                          containerClass="min-w-[60px]"
+                          value={item.taxPercentage}
+                          itemErrorsData={errorsData}
+                          onChange={(e) =>
+                            handleSanitizedChange(
+                              e,
+                              index,
+                              handleItemChange,
+                              /[^0-9]/g
+                            )
+                          }
+                        />
+                      )}
+
+                    {formData.senderDetails.taxType == "None" &&
+                      !formData.senderDetails.discount && (
+                        <div className="flex items-center">
+                          <CustomInput
+                            title="Total"
+                            containerClass="items-center min-w-[100px]"
+                            isText
+                            itemErrorsData={errorsData}
+                            value={`${
+                              formData.currency
+                                ? `${currencySymbols[formData.currency] || ""} `
+                                : ""
+                            }${item.total || 0}`}
+                          />
+                          {formData.items.length > 1 && (
+                            <div
+                              onClick={() => handleRemoveItem(index)}
+                              className="flex items-center justify-center cursor-pointer mt-3"
+                            >
+                              <DeleteIcon />
+                            </div>
+                          )}
+                        </div>
+                      )}
+                  </div>
+                  <div className="flex gap-2 w-full">
+                    {/* Conditional Amounts */}
+                    {(formData.senderDetails.taxType !== "None" ||
+                      formData.senderDetails.discount) && (
                       <>
                         <CustomInput
-                          title={"Amount"}
-                          containerStyle={{
-                            minWidth: "110px",
-                            alignItems: "center",
-                          }}
-                          containerClass={"items-center"}
-                          isText={true}
+                          title="Amount"
+                          containerClass="items-center"
+                          isText
                           value={`${
                             formData.currency
                               ? `${currencySymbols[formData.currency] || ""} `
                               : ""
                           }${item.amount || 0}`}
-                          inputStyle={{ flex: "1 1 auto" }}
+                          itemErrorsData={errorsData}
                         />
-                        <CustomInput
-                          title={"Tax Amount"}
-                          containerStyle={{
-                            minWidth: "110px",
-                            alignItems: "center",
-                          }}
-                          containerClass={"items-center"}
-                          isText={true}
-                          value={`${
-                            formData.currency
-                              ? `${currencySymbols[formData.currency] || ""} `
-                              : ""
-                          }${item.taxAmount || 0}`}
-                          inputStyle={{ flex: "1 1 auto" }}
-                        />
+                        {formData.senderDetails.discount && (
+                          <>
+                            <CustomInput
+                              title="Discount"
+                              containerClass="items-center"
+                              isText
+                              value={`${
+                                formData.currency
+                                  ? `${
+                                      currencySymbols[formData.currency] || ""
+                                    } `
+                                  : ""
+                              }${item.amountSaved || 0}`}
+                              itemErrorsData={errorsData}
+                            />
+                            {formData.senderDetails.taxType !== "None" &&
+                              formData.senderDetails.discount && (
+                                <CustomInput
+                                  title="Net Price"
+                                  containerClass="items-center"
+                                  isText
+                                  value={`${
+                                    formData.currency
+                                      ? `${
+                                          currencySymbols[formData.currency] ||
+                                          ""
+                                        } `
+                                      : ""
+                                  }${item.afterDiscount || 0}`}
+                                  itemErrorsData={errorsData}
+                                />
+                              )}
+                          </>
+                        )}
+                        {formData.senderDetails.taxType !== "None" && (
+                          <CustomInput
+                            title="Tax Amount"
+                            containerClass="items-center min-w-[80px]"
+                            isText
+                            value={`${
+                              formData.currency
+                                ? `${currencySymbols[formData.currency] || ""} `
+                                : ""
+                            }${item.taxAmount || 0}`}
+                            itemErrorsData={errorsData}
+                          />
+                        )}
                       </>
                     )}
 
-                  <CustomInput
-                    title={"Total"}
-                    containerStyle={{
-                      minWidth: "110px",
-                      alignItems: "center",
-                    }}
-                    containerClass={"items-center"}
-                    isText={true}
-                    value={`${
-                      formData.currency
-                        ? `${currencySymbols[formData.currency] || ""} `
-                        : ""
-                    }${item.total || 0}`}
-                    // value={item.total || 0}
-                    inputStyle={{ flex: "1 1 auto" }}
-                  />
-                  {formData.items.length > 1 && (
-                    <div
-                      onClick={() => handleRemoveItem(index)}
-                      style={{
-                        cursor: "pointer",
+                    {/* Total Amount */}
+                    {(formData.senderDetails.taxType !== "None" ||
+                      formData.senderDetails.discount) && (
+                      <CustomInput
+                        title="Total"
+                        containerClass="items-center"
+                        isText
+                        value={`${
+                          formData.currency
+                            ? `${currencySymbols[formData.currency] || ""} `
+                            : ""
+                        }${item.total || 0}`}
+                        itemErrorsData={errorsData}
+                      />
+                    )}
+
+                    {/* Remove Item */}
+                    {(formData.senderDetails.taxType !== "None" ||
+                      formData.senderDetails.discount) &&
+                      formData.items.length > 1 && (
+                        <div
+                          onClick={() => handleRemoveItem(index)}
+                          className="flex items-center justify-center cursor-pointer mt-3"
+                          style={{ flex: "0 1 auto", height: "100%" }}
+                        >
+                          <DeleteIcon />
+                        </div>
+                      )}
+                  </div>
+                </div>
+                <div className="flex w-full">
+                  {!showDescription && (
+                    <CustomButton
+                      type="gray"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDescription();
+                      }}
+                      buttonStyle={{
+                        width: "50%",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        height: "100%",
-                        flex: "0 1 auto",
-                        // paddingTop: "10px",
-                        // width: "20%",
+                        gap: "5px",
+                        float: "left",
+                        filter: "brightness(1.3)",
+                        marginBottom: "20px",
                       }}
+                      containerClass="add-new-item-btn add-new-btn-cls"
                     >
-                      <DeleteIcon />
+                      <PlusIcon f={"rgb(124, 93, 250)"} /> Add Description
+                    </CustomButton>
+                  )}
+                  {showDescription && (
+                    <div className="flex gap-5 w-full">
+                      <CustomInput
+                        type="text"
+                        name="description"
+                        title="Item Description"
+                        placeholder="Design and development"
+                        maxLength={50}
+                        containerClass={"w-full"}
+                        value={item.description}
+                        onChange={(e) => handleItemChange(index, e)}
+                        inputStyle={{ flex: "2 1 auto" }}
+                      />
+                      <div
+                        onClick={() => handleDescription()}
+                        className="flex items-center justify-center cursor-pointer mt-2"
+                      >
+                        <DeleteIcon />
+                      </div>
                     </div>
                   )}
                 </div>
               </div>
             </div>
           ))}
+        <div>
+          {errorsData &&
+            Object.values(errorsData).some(
+              (item) => item.price || item.quantity || item.name
+            ) && (
+              <p className="text-red-500 mt-2">
+                Please fill in the required fields for all items.
+              </p>
+            )}
+        </div>
         <CustomButton
           type="gray"
           onClick={(e) => {
@@ -269,36 +360,61 @@ const ItemDetails = ({
       </div>
       {formData.items[0].price && formData.items[0].quantity && (
         <div className="w-full flex justify-end">
-          <div className="d-flex flex-col gap-2 w-[35%]">
-            {formData.senderDetails.taxType &&
-              formData.senderDetails.taxType !== "None" && (
-                <>
-                  <div className="flex justify-end gap-20">
-                    <span>SubTotal:</span>
-                    <span>₹{subTotal}</span>
+          <div className="d-flex flex-col gap-2 w-[40%]">
+            {(formData.senderDetails.taxType &&
+              formData.senderDetails.taxType !== "None") ||
+            formData.senderDetails.discount > 0 ? (
+              <>
+                <div className="flex justify-between">
+                  <span>SubTotal:</span>
+                  <span>₹{itemData.subTotal}</span>
+                </div>
+                {formData.senderDetails.discount > 0 && (
+                  <div className="flex justify-between ">
+                    <span>Discount:</span>
+                    <span>₹{itemData.discount}</span>
                   </div>
-                  {formData.senderDetails.taxType === "IGST" ? (
-                    <div className="flex justify-end gap-20">
-                      <span>IGST ({taxPercentage}%)</span>
-                      <span>₹{taxAmount}</span>
+                )}
+                {formData.senderDetails.discount &&
+                  formData.senderDetails.taxType !== "None" && (
+                    <div className="flex justify-between ">
+                      <span>Net Price:</span>
+                      <span>₹{itemData.afterDiscountAmount}</span>
                     </div>
-                  ) : (
-                    <>
-                      <div className="flex justify-end gap-20">
-                        <span>CGST ({taxPercentage / 2}%)</span>
-                        <span>₹{taxAmount / 2}</span>
-                      </div>
-                      <div className="flex justify-end gap-20">
-                        <span>SGST ({taxPercentage / 2}%)</span>
-                        <span>₹{taxAmount / 2}</span>
-                      </div>
-                    </>
                   )}
-                </>
-              )}
-            <div className="flex justify-end gap-20 py-2 border-t-2 border-b-2 text-2xl font-semibold">
+                {formData.senderDetails.taxType === "IGST" && (
+                  <div className="flex justify-between">
+                    <span>IGST</span>
+                    <span>₹{itemData.taxAmount}</span>
+                  </div>
+                )}
+                {formData.senderDetails.taxType == "CGST & SGST" && (
+                  <>
+                    <div className="flex justify-between ">
+                      <span>CGST</span>
+                      <span>₹{itemData.taxAmount / 2}</span>
+                    </div>
+                    <div className="flex justify-between ">
+                      <span>SGST</span>
+                      <span>₹{itemData.taxAmount / 2}</span>
+                    </div>
+                  </>
+                )}
+              </>
+            ) : (
+              ""
+            )}
+            {formData.senderDetails.advancedAmount && (
+              <>
+                <div className="flex justify-between">
+                  <span>Paid Amount</span>
+                  <span>₹{Number(formData.senderDetails.advancedAmount).toFixed(1)}</span>
+                </div>
+              </>
+            )}
+            <div className="flex justify-between py-2 border-t-2 border-b-2 text-2xl font-semibold">
               <span>Total:</span>
-              <span>₹{total}</span>
+              <span>₹{itemData.total}</span>
             </div>
           </div>
         </div>

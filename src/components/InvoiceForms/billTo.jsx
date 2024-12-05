@@ -14,7 +14,6 @@ const BillToForm = ({
   handleChange,
   errors,
   register,
-  taxTypeOptions,
   handleFieldChange,
   handleAddField,
   handleRemoveField,
