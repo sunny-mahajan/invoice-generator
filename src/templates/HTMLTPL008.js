@@ -165,6 +165,10 @@ export default function generateHTMLTPL003(invoiceData) {
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
+        .invoice-table td {
+          word-break: break-word;
+        }
+
         .invoice-table th {
             background: rgba(255, 255, 255, 0.2);
             text-align: center;
@@ -194,6 +198,7 @@ export default function generateHTMLTPL003(invoiceData) {
         .invoice-total div p {
             margin: 3px 0; /* Prevent extra spacing */
             padding: 0; /* Prevent extra padding */
+            word-break: break-word;
         }
         .total-title-cls {
             min-width: 150px;

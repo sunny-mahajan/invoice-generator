@@ -52,8 +52,8 @@ export const UserItemsProvider = ({ children }) => {
       (taxAmount / (afterDiscountAmount ? afterDiscountAmount : subTotal)) *
       100;
 
-    if(formData.senderDetails.advancedAmount && total > 0){
-      total -= formData.senderDetails.advancedAmount
+    if (formData.senderDetails?.advancedAmount && total > 0) {
+      total -= formData.senderDetails.advancedAmount;
     }
 
     setItemData({

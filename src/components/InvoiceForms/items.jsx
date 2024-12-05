@@ -192,7 +192,7 @@ const ItemDetails = ({
                       <>
                         <CustomInput
                           title="Amount"
-                          containerClass="items-center"
+                          containerClass="items-center break-all"
                           isText
                           value={`${
                             formData.currency
@@ -205,7 +205,7 @@ const ItemDetails = ({
                           <>
                             <CustomInput
                               title="Discount"
-                              containerClass="items-center"
+                              containerClass="items-center break-all"
                               isText
                               value={`${
                                 formData.currency
@@ -220,7 +220,7 @@ const ItemDetails = ({
                               formData.senderDetails.discount && (
                                 <CustomInput
                                   title="Net Price"
-                                  containerClass="items-center"
+                                  containerClass="items-center break-all"
                                   isText
                                   value={`${
                                     formData.currency
@@ -238,7 +238,7 @@ const ItemDetails = ({
                         {formData.senderDetails.taxType !== "None" && (
                           <CustomInput
                             title="Tax Amount"
-                            containerClass="items-center min-w-[80px]"
+                            containerClass="items-center min-w-[80px] break-all"
                             isText
                             value={`${
                               formData.currency
@@ -256,7 +256,7 @@ const ItemDetails = ({
                       formData.senderDetails.discount) && (
                       <CustomInput
                         title="Total"
-                        containerClass="items-center"
+                        containerClass="items-center break-all"
                         isText
                         value={`${
                           formData.currency
@@ -365,36 +365,36 @@ const ItemDetails = ({
               formData.senderDetails.taxType !== "None") ||
             formData.senderDetails.discount > 0 ? (
               <>
-                <div className="flex justify-between">
+                <div className="flex justify-between break-all">
                   <span>SubTotal:</span>
                   <span>₹{itemData.subTotal}</span>
                 </div>
                 {formData.senderDetails.discount > 0 && (
-                  <div className="flex justify-between ">
+                  <div className="flex justify-between break-all">
                     <span>Discount:</span>
                     <span>₹{itemData.discount}</span>
                   </div>
                 )}
                 {formData.senderDetails.discount &&
                   formData.senderDetails.taxType !== "None" && (
-                    <div className="flex justify-between ">
+                    <div className="flex justify-between break-all">
                       <span>Net Price:</span>
                       <span>₹{itemData.afterDiscountAmount}</span>
                     </div>
                   )}
                 {formData.senderDetails.taxType === "IGST" && (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between break-all">
                     <span>IGST</span>
                     <span>₹{itemData.taxAmount}</span>
                   </div>
                 )}
                 {formData.senderDetails.taxType == "CGST & SGST" && (
                   <>
-                    <div className="flex justify-between ">
+                    <div className="flex justify-between break-all">
                       <span>CGST</span>
                       <span>₹{itemData.taxAmount / 2}</span>
                     </div>
-                    <div className="flex justify-between ">
+                    <div className="flex justify-between break-all">
                       <span>SGST</span>
                       <span>₹{itemData.taxAmount / 2}</span>
                     </div>
@@ -414,7 +414,7 @@ const ItemDetails = ({
                 </div>
               </>
             )}
-            <div className="flex justify-between py-2 border-t-2 border-b-2 text-2xl font-semibold">
+            <div className="flex justify-between py-2 border-t-2 border-b-2 text-2xl font-semibold break-all">
               <span>Total:</span>
               <span>₹{itemData.total}</span>
             </div>

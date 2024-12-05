@@ -135,6 +135,10 @@ export default function generateHTMLTPL002(invoiceData) {
     text-align: right;
   }
 
+  .items td {
+    word-break: break-all;
+  }
+
   .items th {
     background-color: #f4f4f4 !important;
     text-align: center;

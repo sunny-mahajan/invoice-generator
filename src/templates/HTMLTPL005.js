@@ -134,6 +134,10 @@ export default function generateHTMLTPL003(invoiceData) {
           padding: 10px;
           text-align: right;
       }
+
+      .invoice-table td {
+        word-break: break-word;
+      }
       .invoice-table td:first-child, .invoice-table th:first-child {
         text-align: center;
       }
@@ -173,6 +177,10 @@ export default function generateHTMLTPL003(invoiceData) {
         display: flex;
         justify-content: space-between;
         align-items: center;
+      }
+
+      .sub-sec5-container .sub-sec5-item span {
+        word-break: break-all;
       }
       .sub-sec5-container {
         display: flex;
