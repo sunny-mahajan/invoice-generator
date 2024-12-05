@@ -169,7 +169,7 @@ const InvoiceForm = () => {
             item.quantity *
             item.price *
             (item.taxPercentage / 100)
-          ).toFixed(1),
+          ).toFixed(2),
           total:
             item.quantity * item.price +
             item.quantity * item.price * (item.taxPercentage / 100),
@@ -231,17 +231,17 @@ const InvoiceForm = () => {
         updatedItems[index];
       if (quantity && price) {
         // Calculate total without tax
-        let total = (quantity * price).toFixed(1);
+        let total = (quantity * price).toFixed(2);
         let taxAmount = 0;
-        let subTotal = (quantity * price).toFixed(1);
+        let subTotal = (quantity * price).toFixed(2);
         let amountSaved = 0;
         let afterDiscount = 0;
         if (discountPercentage > 0) {
           amountSaved = (quantity * price * (discountPercentage / 100)).toFixed(
             1
           );
-          afterDiscount = (quantity * price - amountSaved).toFixed(1);
-          total = (quantity * price - amountSaved).toFixed(1);
+          afterDiscount = (quantity * price - amountSaved).toFixed(2);
+          total = (quantity * price - amountSaved).toFixed(2);
         }
         // If taxPercentage is greater than 0, add the tax to the total
         if (taxPercentage > 0) {
@@ -249,9 +249,9 @@ const InvoiceForm = () => {
             amountSaved
               ? afterDiscount * (taxPercentage / 100)
               : quantity * price * (taxPercentage / 100)
-          ).toFixed(1);
-          afterDiscount = (quantity * price - amountSaved).toFixed(1);
-          total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(1);
+          ).toFixed(2);
+          afterDiscount = (quantity * price - amountSaved).toFixed(2);
+          total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(2);
         }
         updatedItems[index].amountSaved = amountSaved;
         updatedItems[index].afterDiscount = afterDiscount;

@@ -57,12 +57,12 @@ export const UserItemsProvider = ({ children }) => {
     }
 
     setItemData({
-      subTotal: subTotal.toFixed(1),
-      total: total.toFixed(1),
-      taxAmount: taxAmount.toFixed(1),
-      taxPercentage: taxPercentages.toFixed(1),
-      discount: discountMoney.toFixed(1),
-      afterDiscountAmount: afterDiscountAmount.toFixed(1),
+      subTotal: subTotal.toFixed(2),
+      total: total.toFixed(2),
+      taxAmount: taxAmount.toFixed(2),
+      taxPercentage: taxPercentages.toFixed(2),
+      discount: discountMoney.toFixed(2),
+      afterDiscountAmount: afterDiscountAmount.toFixed(2),
     });
   };
 
