@@ -104,7 +104,7 @@ const ItemDetails = ({
                           e,
                           index,
                           handleItemChange,
-                          /[^0-9]/g
+                          /[^0-9.]/g
                         )
                       }
                       inputStyle={{
@@ -130,7 +130,7 @@ const ItemDetails = ({
                             e,
                             index,
                             handleItemChange,
-                            /[^0-9]/g
+                            /[^0-9.]/g
                           )
                         }
                       />
@@ -154,7 +154,7 @@ const ItemDetails = ({
                               e,
                               index,
                               handleItemChange,
-                              /[^0-9]/g
+                              /[^0-9.]/g
                             )
                           }
                         />
@@ -408,7 +408,9 @@ const ItemDetails = ({
               <>
                 <div className="flex justify-between">
                   <span>Paid Amount</span>
-                  <span>₹{Number(formData.senderDetails.advancedAmount).toFixed(1)}</span>
+                  <span>
+                    ₹{Number(formData.senderDetails.advancedAmount).toFixed(1)}
+                  </span>
                 </div>
               </>
             )}
