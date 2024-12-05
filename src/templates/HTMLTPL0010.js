@@ -1,13 +1,9 @@
 export default function generateHTMLTPL0010(invoiceData) {
-  let isDiscountAvailable = false;
   let isDescriptionAvailable = false;
 
   invoiceData?.Items?.forEach((item) => {
     if (item["description"]) {
       isDescriptionAvailable = true;
-    }
-    if (item["discountPercentage"] > 0) {
-      isDiscountAvailable = true;
     }
   });
 
@@ -577,14 +573,14 @@ export default function generateHTMLTPL0010(invoiceData) {
           <th class="align-right">QTY</th>
           ${
             (invoiceData.itemData["taxPercentage"] <= 0 &&
-              isDiscountAvailable) ||
-            (invoiceData.itemData["taxPercentage"] > 0 && !isDiscountAvailable)
+              invoiceData.itemData["discount"] > 0) ||
+            (invoiceData.itemData["taxPercentage"] > 0 && !invoiceData.itemData["discount"] > 0)
               ? `<th class="align-right">Amount</th>`
               : ""
           }
-          ${isDiscountAvailable ? `<th class="align-right">Discount</th>` : ""}
+          ${invoiceData.itemData["discount"] > 0 ? `<th class="align-right">Discount</th>` : ""}
           ${
-            invoiceData.itemData["taxPercentage"] > 0 && isDiscountAvailable
+            invoiceData.itemData["taxPercentage"] > 0 && invoiceData.itemData["discount"] > 0
               ? `<th class="align-right">Net Price</th>
               `
               : ""
@@ -595,7 +591,7 @@ export default function generateHTMLTPL0010(invoiceData) {
               : ""
           }
           ${
-            invoiceData.itemData["taxPercentage"] > 0 && !isDiscountAvailable
+            invoiceData.itemData["taxPercentage"] > 0 && !invoiceData.itemData["discount"] > 0
               ? `<th class="align-right">
               GST ${currencySymbol(invoiceData["Currency"])}
             </th>
@@ -627,22 +623,22 @@ export default function generateHTMLTPL0010(invoiceData) {
           <td class="align-right table-data-limit">${item["quantity"]}</td>
           ${
             (invoiceData.itemData["taxPercentage"] <= 0 &&
-              isDiscountAvailable) ||
-            (invoiceData.itemData["taxPercentage"] > 0 && !isDiscountAvailable)
+              invoiceData.itemData["discount"] > 0) ||
+            (invoiceData.itemData["taxPercentage"] > 0 && !invoiceData.itemData["discount"] > 0)
               ? `<td class="align-right table-data-limit">
               ${currencySymbol(invoiceData["Currency"])}
               ${item["amount"]}</td>`
               : ""
           }
           ${
-            isDiscountAvailable > 0
+            invoiceData.itemData["discount"] > 0 > 0
               ? `<td class="align-right table-data-limit">
             ${item["discountPercentage"] || 0}%
           </td>`
               : ""
           }
           ${
-            invoiceData.itemData["taxPercentage"] > 0 && isDiscountAvailable
+            invoiceData.itemData["taxPercentage"] > 0 && invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
               ${currencySymbol(invoiceData["Currency"])}
               ${item["afterDiscount"]}
@@ -656,7 +652,7 @@ export default function generateHTMLTPL0010(invoiceData) {
               : ""
           }
           ${
-            invoiceData.itemData["taxPercentage"] > 0 && !isDiscountAvailable
+            invoiceData.itemData["taxPercentage"] > 0 && !invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
               ${currencySymbol(invoiceData["Currency"])}
               ${item["taxAmount"]}
@@ -676,7 +672,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     <div class="totals">
         <div class="grid-container">
               ${
-                invoiceData.itemData["taxPercentage"] > 0 || isDiscountAvailable
+                invoiceData.itemData["taxPercentage"] > 0 || invoiceData.itemData["discount"] > 0
                   ? `
               <p class="details-data">Subtotal</p>
               <p class="details-data data-limit">
@@ -684,7 +680,7 @@ export default function generateHTMLTPL0010(invoiceData) {
                 ${invoiceData.itemData["subTotal"]}
               </p>
               ${
-                isDiscountAvailable
+                invoiceData.itemData["discount"] > 0
                   ? `
                   <p class="details-data">Discount</p>
                   <p class="details-data data-limit">
@@ -694,7 +690,7 @@ export default function generateHTMLTPL0010(invoiceData) {
                   : ""
               }
               ${
-                isDiscountAvailable && invoiceData.itemData["taxPercentage"] > 0
+                invoiceData.itemData["discount"] > 0 && invoiceData.itemData["taxPercentage"] > 0
                   ? `<p class="details-data">Net Prize</p>
                 <p class="details-data data-limit">
                   ${currencySymbol(invoiceData["Currency"])}

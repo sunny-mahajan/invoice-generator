@@ -342,7 +342,7 @@ const BillFromForm = ({
             <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
                 <CustomInput
-                  type="text"
+                  type="number"
                   name="senderDetails.advancedAmount"
                   placeholder={"5000.25"}
                   value={formData.senderDetails.advancedAmount}
@@ -350,16 +350,8 @@ const BillFromForm = ({
                   style={styles.input}
                   title="Advance Paid Amount"
                   maxLength={15}
-                  errors={errors}
                   onBlur={handleBlur}
                   touched={touched}
-                  register={register}
-                  validationRules={{
-                    pattern: {
-                      value: /^\d+(\.\d{1,4})?$/,
-                      message: "Invalid Advance Paid Amount",
-                    },
-                  }}
                 />
               </div>
             </div>
