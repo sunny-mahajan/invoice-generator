@@ -107,7 +107,6 @@ export default function InvoicePreview({
     if (!pdfContainer || !mainContainer) return;
 
     const screenWidth = mainContainer.clientWidth;
-    console.log(screenWidth, "screenWidth");
     let zoomFactor = 1;
 
     if (screenWidth <= 600) {
@@ -146,7 +145,6 @@ export default function InvoicePreview({
 
   const calculateItems = () => {
     handleItemCalculatation(formData);
-    console.log("Updated Item Data:", itemData);
   };
 
   return (

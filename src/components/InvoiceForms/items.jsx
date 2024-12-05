@@ -16,13 +16,11 @@ const ItemDetails = ({
   const { handleItemCalculatation, itemData } = useUser();
 
   useEffect(() => {
-    console.log(formData, "formData");
     calculateItems();
   }, [formData]);
 
   const calculateItems = () => {
     handleItemCalculatation(formData);
-    console.log("Updated Item Data:", itemData);
   };
 
   const handleSanitizedChange = (e, index, callback, regex) => {
@@ -405,6 +403,14 @@ const ItemDetails = ({
               </>
             ) : (
               ""
+            )}
+            {formData.senderDetails.advancedAmount && (
+              <>
+                <div className="flex justify-between">
+                  <span>Paid Amount</span>
+                  <span>₹{Number(formData.senderDetails.advancedAmount).toFixed(1)}</span>
+                </div>
+              </>
             )}
             <div className="flex justify-between py-2 border-t-2 border-b-2 text-2xl font-semibold">
               <span>Total:</span>
