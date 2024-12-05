@@ -26,11 +26,7 @@ import BillToForm from "../components/InvoiceForms/billTo";
 import InvoiceDetailsForm from "../components/InvoiceForms/invoiceDetails";
 import ItemDetails from "../components/InvoiceForms/items";
 import InvoicePreview from "../components/InvoicePreview";
-import {
-  useUser,
-  handleItemCalculatation,
-  itemData,
-} from "../app/context/userContext";
+import { useUser } from "../app/context/userContext";
 
 let formDataInitialValues = {
   invoiceNo: "",
@@ -138,7 +134,7 @@ const InvoiceForm = () => {
         dueDate: formatDateToISO(addDays(formData.createdAt, dueDateAfter)),
       }));
     }
-  }, [formData.createdAt, isDueDateOpen]);
+  }, [formData.createdAt]);
 
   useEffect(() => {
     calculateItems();
@@ -320,6 +316,10 @@ const InvoiceForm = () => {
 
   const handleDueDate = () => {
     setIsDueDateOpen(true);
+    setFormData((prev) => ({
+      ...prev,
+      dueDate: formatDateToISO(addDays(formData.createdAt, 15)),
+    }));
   };
 
   const handleRemoveDueDate = () => {
