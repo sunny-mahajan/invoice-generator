@@ -34,6 +34,12 @@ const BillFromForm = ({
     setTouched(true); // Set touched state to true on blur
   };
 
+  const handleSanitizedChange = (e, callback, regex) => {
+    const sanitizedValue = e.target.value.replace(regex, "");
+    e.target.value = sanitizedValue;
+    callback(e);
+  };
+
   return (
     <div style={styles.section} className="bill-from-main-container w-3/6">
       <div className="bill-from-container p-4 rounded-lg">
@@ -325,7 +331,9 @@ const BillFromForm = ({
             onClick={() => toggleAccordion(2)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">Advance Paid Amount (optional)</span>
+            <span className="text-[#7c5dfa]">
+              Advance Paid Amount (optional)
+            </span>
             {isAccordionOpen[2] ? <UpArrowIcon /> : <DownArrowIcon />}
           </button>
           <div
@@ -336,17 +344,18 @@ const BillFromForm = ({
             }`}
           >
             <div className="block md:flex gap-5">
-              <div className="flex w-full flex-col mb-4">
-              </div>
+              <div className="flex w-full flex-col mb-4"></div>
             </div>
             <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
                 <CustomInput
-                  type="number"
+                  type="text"
                   name="senderDetails.advancedAmount"
-                  placeholder={"5000.25"}
+                  placeholder="5000.25"
                   value={formData.senderDetails.advancedAmount}
-                  onChange={handleChange}
+                  onChange={(e) =>
+                    handleSanitizedChange(e, handleChange, /[^0-9.]/g)
+                  }
                   style={styles.input}
                   title="Advance Paid Amount"
                   maxLength={15}
@@ -374,8 +383,7 @@ const BillFromForm = ({
             }`}
           >
             <div className="block md:flex gap-5">
-              <div className="flex w-full flex-col mb-4">
-              </div>
+              <div className="flex w-full flex-col mb-4"></div>
             </div>
             <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
@@ -383,7 +391,9 @@ const BillFromForm = ({
                   className="textarea"
                   type="text"
                   name="senderDetails.remarks"
-                  placeholder={"Thanks for your business! We look forward to working with you again."}
+                  placeholder={
+                    "Thanks for your business! We look forward to working with you again."
+                  }
                   value={formData.senderDetails.remarks}
                   onChange={handleChange}
                   style={styles.input}

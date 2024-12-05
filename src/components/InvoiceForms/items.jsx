@@ -92,7 +92,6 @@ const ItemDetails = ({
                     {/* Price Input */}
                     <CustomInput
                       type="text"
-                      inputMode="numeric"
                       name="price"
                       placeholder="200"
                       maxLength={20}
@@ -360,42 +359,42 @@ const ItemDetails = ({
       </div>
       {formData.items[0].price && formData.items[0].quantity && (
         <div className="w-full flex justify-end">
-          <div className="d-flex flex-col gap-2 w-[40%]">
+          <div className="d-flex flex-col gap-2 w-[50%]">
             {(formData.senderDetails.taxType &&
               formData.senderDetails.taxType !== "None") ||
             formData.senderDetails.discount > 0 ? (
               <>
                 <div className="flex justify-between break-all">
-                  <span>SubTotal:</span>
+                  <span className="min-w-[130px]">SubTotal:</span>
                   <span>₹{itemData.subTotal}</span>
                 </div>
                 {formData.senderDetails.discount > 0 && (
                   <div className="flex justify-between break-all">
-                    <span>Discount:</span>
+                    <span className="min-w-[130px]">Discount:</span>
                     <span>₹{itemData.discount}</span>
                   </div>
                 )}
                 {formData.senderDetails.discount &&
                   formData.senderDetails.taxType !== "None" && (
                     <div className="flex justify-between break-all">
-                      <span>Net Price:</span>
+                      <span className="min-w-[130px]">Net Price:</span>
                       <span>₹{itemData.afterDiscountAmount}</span>
                     </div>
                   )}
                 {formData.senderDetails.taxType === "IGST" && (
                   <div className="flex justify-between break-all">
-                    <span>IGST</span>
+                    <span className="min-w-[130px]">IGST</span>
                     <span>₹{itemData.taxAmount}</span>
                   </div>
                 )}
                 {formData.senderDetails.taxType == "CGST & SGST" && (
                   <>
                     <div className="flex justify-between break-all">
-                      <span>CGST</span>
+                      <span className="min-w-[130px]">CGST</span>
                       <span>₹{itemData.taxAmount / 2}</span>
                     </div>
                     <div className="flex justify-between break-all">
-                      <span>SGST</span>
+                      <span className="min-w-[130px]">SGST</span>
                       <span>₹{itemData.taxAmount / 2}</span>
                     </div>
                   </>
@@ -406,16 +405,16 @@ const ItemDetails = ({
             )}
             {formData.senderDetails.advancedAmount && (
               <>
-                <div className="flex justify-between">
-                  <span>Paid Amount</span>
+                <div className="flex justify-between break-all">
+                  <span className="min-w-[130px]">Paid Amount</span>
                   <span>
-                    ₹{Number(formData.senderDetails.advancedAmount).toFixed(1)}
+                    ₹{Number(formData.senderDetails.advancedAmount).toFixed(2)}
                   </span>
                 </div>
               </>
             )}
             <div className="flex justify-between py-2 border-t-2 border-b-2 text-2xl font-semibold break-all">
-              <span>Total:</span>
+              <span className="min-w-[130px]">Total:</span>
               <span>₹{itemData.total}</span>
             </div>
           </div>
