@@ -319,6 +319,89 @@ const BillFromForm = ({
           </label>
         </div>
 
+        {/* Advance paid amount Accordion */}
+        <div className="border-slate-200">
+          <button
+            onClick={() => toggleAccordion(2)}
+            className="w-full flex justify-between items-center pb-5 text-slate-800"
+          >
+            <span className="text-[#7c5dfa]">Advance Paid Amount (optional)</span>
+            {isAccordionOpen[2] ? <UpArrowIcon /> : <DownArrowIcon />}
+          </button>
+          <div
+            className={`transition-all duration-300 ease-in-out ${
+              isAccordionOpen[2]
+                ? "max-h-screen mb-5"
+                : "overflow-hidden max-h-0"
+            }`}
+          >
+            <div className="block md:flex gap-5">
+              <div className="flex w-full flex-col mb-4">
+              </div>
+            </div>
+            <div className="block md:flex gap-5">
+              <div className="flex w-full flex-col">
+                <CustomInput
+                  type="text"
+                  name="senderDetails.advancedAmount"
+                  placeholder={"5000.25"}
+                  value={formData.senderDetails.advancedAmount}
+                  onChange={handleChange}
+                  style={styles.input}
+                  title="Advance Paid Amount"
+                  maxLength={15}
+                  errors={errors}
+                  onBlur={handleBlur}
+                  touched={touched}
+                  register={register}
+                  validationRules={{
+                    pattern: {
+                      value: /^\d+(\.\d{1,4})?$/,
+                      message: "Invalid Advance Paid Amount",
+                    },
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Remarks Accordion */}
+        <div className="border-slate-200">
+          <button
+            onClick={() => toggleAccordion(3)}
+            className="w-full flex justify-between items-center pb-5 text-slate-800"
+          >
+            <span className="text-[#7c5dfa]">Brief Notes (optional)</span>
+            {isAccordionOpen[3] ? <UpArrowIcon /> : <DownArrowIcon />}
+          </button>
+          <div
+            className={`transition-all duration-300 ease-in-out ${
+              isAccordionOpen[3]
+                ? "max-h-screen mb-5"
+                : "overflow-hidden max-h-0"
+            }`}
+          >
+            <div className="block md:flex gap-5">
+              <div className="flex w-full flex-col mb-4">
+              </div>
+            </div>
+            <div className="block md:flex gap-5">
+              <div className="flex w-full flex-col">
+                <textarea
+                  className="textarea"
+                  type="text"
+                  name="senderDetails.remarks"
+                  placeholder={"Thanks for your business! We look forward to working with you again."}
+                  value={formData.senderDetails.remarks}
+                  onChange={handleChange}
+                  style={styles.input}
+                  title="Advance Paid Amount"
+                  maxLength={100}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
         <BankDetails
           formData={formData}
           handleChange={handleChange}

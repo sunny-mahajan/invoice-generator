@@ -53,11 +53,6 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
-  const toggleTooltip = (state) => {
-    console.log("state: ", state);
-    setIsHovered(state);
-  };
-
   return (
     <header className="sidebar d-flex justify-content-between sticky top-0">
       <link

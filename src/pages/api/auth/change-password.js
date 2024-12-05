@@ -13,7 +13,6 @@ export default async function handler(req, res) {
   try {
     // Use `verifyToken` to authenticate the user
     verifyToken(req, res, async () => {
-      console.log(req.user, "req.user");
       const userId = req.user.id; // Extract user ID from the token's payload
 
       if (!userId) {

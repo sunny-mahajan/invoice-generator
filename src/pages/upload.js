@@ -182,6 +182,7 @@ export default function UploadCSV() {
           "IFSC Code": row["IFSC Code"],
           "Account Type": row["Account Type"],
           "Bank Address": row["Bank Address"],
+          "Paid Amount": row["Paid Amount"],
           Logo: row["Logo Url"],
           Remarks: row["Remarks"],
           Currency: row["Currency"],

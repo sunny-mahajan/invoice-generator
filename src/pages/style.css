@@ -269,6 +269,24 @@ p {
   transform-origin: top right;
 }
 
+.textarea{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  height: auto;
+  field-sizing: content;
+  resize: none; 
+  border-radius: 4px;
+  border: 1px solid var(--input-border-color) !important;
+  font-family: inherit;
+  font-size: 12px;
+  user-select: none;
+  background-color: var(--secondary-color);
+  color: var(--color);
+}
+
 .parties-details-container {
   display: block !important;
 

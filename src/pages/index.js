@@ -52,6 +52,8 @@ let formDataInitialValues = {
     panNo: "",
     discount: false,
     customFields: [],
+    advancedAmount: 0,
+    remarks: "",
   },
   clientDetails: {
     name: "",
@@ -184,7 +186,6 @@ const InvoiceForm = () => {
 
   const calculateItems = () => {
     handleItemCalculatation(formData);
-    console.log("Updated Item Data:", itemData);
   };
 
   const handleChange = (e) => {
@@ -239,7 +240,6 @@ const InvoiceForm = () => {
         let subTotal = (quantity * price).toFixed(1);
         let amountSaved = 0;
         let afterDiscount = 0;
-        console.log(discountPercentage, "discountPercentage");
         if (discountPercentage > 0) {
           amountSaved = (quantity * price * (discountPercentage / 100)).toFixed(
             1
@@ -249,7 +249,6 @@ const InvoiceForm = () => {
         }
         // If taxPercentage is greater than 0, add the tax to the total
         if (taxPercentage > 0) {
-          console.log("taxPercentage: ", taxPercentage, amountSaved);
           taxAmount = (
             amountSaved
               ? afterDiscount * (taxPercentage / 100)
