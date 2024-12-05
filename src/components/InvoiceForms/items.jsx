@@ -413,7 +413,7 @@ const ItemDetails = ({
                 </div>
               </>
             )}
-            <div className="flex justify-between py-2 border-t-2 border-b-2 text-2xl font-semibold break-all">
+            <div className="flex justify-between py-2 border-t-2 border-b-2 text-xl font-semibold break-all">
               <span className="min-w-[130px]">Total:</span>
               <span>₹{itemData.total}</span>
             </div>
