@@ -36,6 +36,35 @@ export default function generateHTMLTPL001(invoiceData) {
     const symbol = currencySymbols[currency] || "INR"; // Default to empty if currency not found
     return symbol;
   };
+
+  const escapeHTML = (text) => {
+    const div = document.createElement("div");
+    div.innerText = text;
+    return div.innerHTML;
+  };
+
+  const remarksUI = invoiceData["Remarks"]
+    ? `<div class="sec7-container" style="page-break-inside: avoid;">
+                 <h2>Notes:</h2>
+                 <div class="sub-bank-details-container">
+                 <span class="sub-bank-details-value">${escapeHTML(
+                   invoiceData["Remarks"]
+                 )}</span>
+                </div>
+            </div>`
+    : "";
+
+  const AdvancePaidAmount =
+    invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
+      ? `<div class="sub-sec5-item">
+            <p class="sub-sec5-title">Paid Amount</p>
+              <span>
+              ${currencySymbol(invoiceData["Currency"])}
+              ${Number(invoiceData["Paid Amount"]).toFixed(1)}
+              </span>
+          </div>
+      ` : "";
+
   const bankDetailsAvailable =
     invoiceData["Bank Name"] ||
     invoiceData["Account No"] ||
@@ -696,6 +725,7 @@ export default function generateHTMLTPL001(invoiceData) {
                 `
                   : ""
               }
+              ${AdvancePaidAmount}
               <div class="sub-sec5-item">
                 <h2 class="sub-sec5-title">Total</h2>
                 <span>${currencySymbol(invoiceData["Currency"])}${
@@ -706,7 +736,7 @@ export default function generateHTMLTPL001(invoiceData) {
           </div>
         </div>
 
-        
+        ${remarksUI}
         ${
           bankDetailsAvailable
             ? `<div class="sec7-container" style="page-break-inside: avoid;">

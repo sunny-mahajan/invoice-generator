@@ -39,6 +39,29 @@ export default function generateHTMLTPL003(invoiceData) {
     ? formatDate(invoiceData["Invoice Due Date"])
     : "";
 
+    const escapeHTML = (text) => {
+      const div = document.createElement("div");
+      div.innerText = text;
+      return div.innerHTML;
+    };
+  
+    const remarksUI = invoiceData["Remarks"]
+      ? `
+      <div class="bank-details">
+                <p><strong>Notes:</strong></p>
+                <p>
+                  ${escapeHTML(invoiceData["Remarks"])}
+                </p>
+              </div>`
+      : "";
+  
+    const AdvancePaidAmount =
+      invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0" ? 
+      `<p><strong>Paid Amount</strong> 
+            ${currencySymbol(invoiceData["Currency"])}
+            ${Number(invoiceData["Paid Amount"]).toFixed(1)}
+        </p> ` : "";
+
   const bankDetailsAvailable =
     invoiceData["Bank Name"] ||
     invoiceData["Account No"] ||
@@ -528,8 +551,9 @@ export default function generateHTMLTPL003(invoiceData) {
                             `
                 }
                 `
-                  : ""
-              }
+                : ""
+                }
+                ${AdvancePaidAmount}
           </div>
           `
             : ""
@@ -542,6 +566,8 @@ export default function generateHTMLTPL003(invoiceData) {
           )}${invoiceData.itemData["total"]}</p>
         </div>
       </div>
+
+      ${remarksUI}
       <div class="bill-to-bank-deatils" style="page-break-inside: avoid;">
         ${
           bankDetailsAvailable

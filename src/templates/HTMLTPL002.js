@@ -52,6 +52,38 @@ export default function generateHTMLTPL002(invoiceData) {
     ? formatDate(invoiceData["Invoice Due Date"])
     : "";
 
+    const escapeHTML = (text) => {
+      const div = document.createElement("div");
+      div.innerText = text;
+      return div.innerHTML;
+    };
+  
+    const remarksUI = invoiceData["Remarks"]
+      ? `<div class="bank-details-container" style="page-break-inside: avoid;">
+                   <h2>Notes:</h2>
+                   <div class="sub-bank-details-container">
+                   <span class="sub-bank-details-value">${escapeHTML(
+                     invoiceData["Remarks"]
+                   )}</span>
+                  </div>
+              </div>`
+      : "";
+  
+    const AdvancePaidAmount =
+      invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
+        ? `<tr>
+            <td 
+              colspan=${calculateColumnSpan(invoiceData.itemData)}
+               style="text-align:right; border: none;">
+               Paid Amount
+            </td>
+            <td style="text-align:right">
+              ${currencySymbol(invoiceData["Currency"])}
+              ${Number(invoiceData["Paid Amount"]).toFixed(1)}
+            </td>
+          </tr>
+        ` : "";
+
   return `
     <!DOCTYPE html>
 <html lang="en">
@@ -607,7 +639,7 @@ export default function generateHTMLTPL002(invoiceData) {
             : ""
         }
         
-        
+        ${AdvancePaidAmount}
         <tr>
           <td colspan=${calculateColumnSpan(
             invoiceData.itemData
@@ -618,6 +650,7 @@ export default function generateHTMLTPL002(invoiceData) {
         </tr>
       </tbody>
     </table>
+    ${remarksUI}
     ${
       bankDetailsAvailable
         ? `<div class="bank-details-container" style="page-break-inside: avoid;">

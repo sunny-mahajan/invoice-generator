@@ -1,18 +1,7 @@
 export default function generateHTMLTPL003(invoiceData) {
-  // Initialize the sub-amount
-  let subAmount = 0;
-  let totalAmount = 0;
-  let taxAmount = 0;
   let isDescriptionAvailable = false;
 
-  // Calculate the sub-amount by summing item prices
   invoiceData?.Items?.forEach((item) => {
-    // Convert item price to a number
-    // subAmount += parseFloat(item["price"]) * parseFloat(item["quantity"]) || 0;
-    subAmount += +item.amount || 0;
-    totalAmount += +item.total || 0;
-    taxAmount += +item.taxAmount || 0;
-
     if (item["description"]) {
       isDescriptionAvailable = true;
     }
@@ -49,8 +38,32 @@ export default function generateHTMLTPL003(invoiceData) {
     ? formatDate(invoiceData["Invoice Due Date"])
     : "";
 
-  // Retrieve tax percentage from invoice data
-  const taxPercentage = (taxAmount / subAmount) * 100 || 0;
+    const escapeHTML = (text) => {
+      const div = document.createElement("div");
+      div.innerText = text;
+      return div.innerHTML;
+    };
+  
+    const remarksUI = invoiceData["Remarks"]
+      ? `<div class="bank-details-container" style="page-break-inside: avoid;">
+                   <h2>Notes:</h2>
+                   <div class="sub-bank-details-container">
+                   <span class="sub-bank-details-value">${escapeHTML(
+                     invoiceData["Remarks"]
+                   )}</span>
+                  </div>
+              </div>`
+      : "";
+  
+    const AdvancePaidAmount =
+      invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0" ? 
+      `<div>
+          <p class="total-title-cls">Paid Amount:</p>
+            <p>
+              ${currencySymbol(invoiceData["Currency"])}
+              ${Number(invoiceData["Paid Amount"]).toFixed(1)}
+            </p>
+        </div> `: "";
 
   const bankDetailsAvailable =
     invoiceData["Bank Name"] ||
@@ -624,6 +637,7 @@ export default function generateHTMLTPL003(invoiceData) {
                           `
                             : ""
                         }
+                        ${AdvancePaidAmount}
                     `
                     : ""
                 }
@@ -635,7 +649,7 @@ export default function generateHTMLTPL003(invoiceData) {
                 </div>
             </div>
         </div>
-
+        ${remarksUI}
         ${
           bankDetailsAvailable
             ? `<div class="bank-details-container" style="page-break-inside: avoid;">
