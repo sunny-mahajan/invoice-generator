@@ -575,7 +575,7 @@ export default function generateHTMLTPL002(invoiceData) {
                         invoiceData.itemData
                       )} style="text-align:right; border: none;">${
                         invoiceData["Sender's Tax Type"]
-                      } (${invoiceData.itemData["taxPercentage"]}%)</td>
+                      }</td>
                       <td style="text-align:right">${currencySymbol(
                         invoiceData["Currency"]
                       )}${invoiceData.itemData["taxAmount"]}</td>
@@ -585,9 +585,7 @@ export default function generateHTMLTPL002(invoiceData) {
                     <tr>
                       <td colspan=${calculateColumnSpan(
                         invoiceData.itemData
-                      )} style="text-align:right; border: none;">CGST (${
-                        invoiceData.itemData["taxPercentage"] / 2
-                      }%)</td>
+                      )} style="text-align:right; border: none;">CGST</td>
                       <td style="text-align:right">${currencySymbol(
                         invoiceData["Currency"]
                       )}${invoiceData.itemData["taxAmount"] / 2}</td>
@@ -595,9 +593,7 @@ export default function generateHTMLTPL002(invoiceData) {
                     <tr>
                       <td colspan=${calculateColumnSpan(
                         invoiceData.itemData
-                      )} style="text-align:right; border: none;">SGST (${
-                        invoiceData.itemData["taxPercentage"] / 2
-                      }%)</td>
+                      )} style="text-align:right; border: none;">SGST</td>
                       <td style="text-align:right">${currencySymbol(
                         invoiceData["Currency"]
                       )}${invoiceData.itemData["taxAmount"] / 2}</td>
