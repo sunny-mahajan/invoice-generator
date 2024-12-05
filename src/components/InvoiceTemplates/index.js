@@ -27,8 +27,8 @@ const InvoiceTemplates = ({
     setTemplates(templates);
 
     if (templates.length > 0) {
-      setSelectedTemplateId(templates[0].id);
-      handleSelectTemplates(templates[0].id);
+      setSelectedTemplateId(templates[2].id);
+      handleSelectTemplates(templates[2].id);
     }
   };
 

@@ -124,6 +124,7 @@ export default function generateHTMLTPL004(invoiceData) {
         border: 1px solid #000;
         padding: 8px;
         text-align: right;
+        word-break: break-word;
     }
     .product-description td:first-child {
       text-align: center;

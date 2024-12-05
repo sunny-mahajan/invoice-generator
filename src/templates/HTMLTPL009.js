@@ -155,6 +155,10 @@ export default function generateHTMLTPL003(invoiceData) {
         text-align: center;
       }
 
+      .items td {
+        word-break: break-word;
+      }
+
       .items .item-name-cls {
         text-align: center;
         max-width: 150px;

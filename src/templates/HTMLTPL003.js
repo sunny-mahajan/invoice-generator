@@ -142,6 +142,10 @@ export default function generateHTMLTPL003(invoiceData) {
         text-align: right;
     }
 
+    .items td {
+      word-break: break-all;
+    }
+
     .items th:first-child, .items td:first-child {
         text-align: left;
     }
