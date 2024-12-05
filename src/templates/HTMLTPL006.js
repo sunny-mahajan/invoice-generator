@@ -53,12 +53,13 @@ export default function generateHTMLTPL006(invoiceData) {
             </div>`
     : "";
 
-  const AdvancePaidAmount = invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0" ?
-   `<p class="details-data">Paid Amount</p>
+  const AdvancePaidAmount =
+    invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
+      ? `<p class="details-data">Paid Amount</p>
           <p class="details-data data-limit">
             ${currencySymbol(invoiceData["Currency"])}${Number(
           invoiceData["Paid Amount"]
-        ).toFixed(1)}</p>`
+        ).toFixed(2)}</p>`
       : "";
 
   const bankDetailsAvailable =
@@ -348,15 +349,8 @@ export default function generateHTMLTPL006(invoiceData) {
             : ""
         }
         ${
-          invoiceData["Sender's Zipcode"] ||
-          invoiceData["Sender's Address"] ||
-          invoiceData["Sender's City"]
+          invoiceData["Sender's Address"] || invoiceData["Sender's City"]
             ? `<p class="details-data">
-          ${
-            invoiceData["Sender's Zipcode"]
-              ? `${invoiceData["Sender's Zipcode"]}, `
-              : ""
-          }
           ${
             invoiceData["Sender's Address"]
               ? `${invoiceData["Sender's Address"]}, `
@@ -367,11 +361,16 @@ export default function generateHTMLTPL006(invoiceData) {
             : ""
         }
         ${
-          invoiceData["Sender's State"]
+          invoiceData["Sender's Zipcode"] || invoiceData["Sender's State"]
             ? `<p class="details-data">
           ${
             invoiceData["Sender's State"]
               ? `${invoiceData["Sender's State"]}, `
+              : ""
+          }
+          ${
+            invoiceData["Sender's Zipcode"]
+              ? `${invoiceData["Sender's Zipcode"]}`
               : ""
           }
           </p>`
@@ -429,15 +428,8 @@ export default function generateHTMLTPL006(invoiceData) {
         }
         
         ${
-          invoiceData["Receiver's Zipcode"] ||
-          invoiceData["Receiver's Address"] ||
-          invoiceData["Receiver's City"]
+          invoiceData["Receiver's Address"] || invoiceData["Receiver's City"]
             ? `<p class="details-data">
-            ${
-              invoiceData["Receiver's Zipcode"]
-                ? `${invoiceData["Receiver's Zipcode"]}, `
-                : ""
-            }
             ${
               invoiceData["Receiver's Address"]
                 ? `${invoiceData["Receiver's Address"]}, `
@@ -449,11 +441,16 @@ export default function generateHTMLTPL006(invoiceData) {
         }
         
         ${
-          invoiceData["Receiver's State"]
+          invoiceData["Receiver's Zipcode"] || invoiceData["Receiver's State"]
             ? `<p class="details-data">
             ${
               invoiceData["Receiver's State"]
                 ? `${invoiceData["Receiver's State"]}, `
+                : ""
+            }
+            ${
+              invoiceData["Receiver's Zipcode"]
+                ? `${invoiceData["Receiver's Zipcode"]}`
                 : ""
             }
           </p>`
@@ -550,13 +547,19 @@ export default function generateHTMLTPL006(invoiceData) {
           ${
             (invoiceData.itemData["taxPercentage"] <= 0 &&
               invoiceData.itemData["discount"] > 0) ||
-            (invoiceData.itemData["taxPercentage"] > 0 && !invoiceData.itemData["discount"] > 0)
+            (invoiceData.itemData["taxPercentage"] > 0 &&
+              !invoiceData.itemData["discount"] > 0)
               ? `<th class="align-right">Amount</th>`
               : ""
           }
-          ${invoiceData.itemData["discount"] > 0 ? `<th class="align-right">Discount</th>` : ""}
           ${
-            invoiceData.itemData["taxPercentage"] > 0 && invoiceData.itemData["discount"] > 0
+            invoiceData.itemData["discount"] > 0
+              ? `<th class="align-right">Discount</th>`
+              : ""
+          }
+          ${
+            invoiceData.itemData["taxPercentage"] > 0 &&
+            invoiceData.itemData["discount"] > 0
               ? `<th class="align-right">Net Price</th>
               `
               : ""
@@ -567,7 +570,8 @@ export default function generateHTMLTPL006(invoiceData) {
               : ""
           }
           ${
-            invoiceData.itemData["taxPercentage"] > 0 && !invoiceData.itemData["discount"] > 0
+            invoiceData.itemData["taxPercentage"] > 0 &&
+            !invoiceData.itemData["discount"] > 0
               ? `<th class="align-right">
               GST ${currencySymbol(invoiceData["Currency"])}
             </th>
@@ -600,7 +604,8 @@ export default function generateHTMLTPL006(invoiceData) {
           ${
             (invoiceData.itemData["taxPercentage"] <= 0 &&
               invoiceData.itemData["discount"] > 0) ||
-            (invoiceData.itemData["taxPercentage"] > 0 && !invoiceData.itemData["discount"] > 0)
+            (invoiceData.itemData["taxPercentage"] > 0 &&
+              !invoiceData.itemData["discount"] > 0)
               ? `<td class="align-right table-data-limit">
               ${currencySymbol(invoiceData["Currency"])}
               ${item["amount"]}</td>`
@@ -614,7 +619,8 @@ export default function generateHTMLTPL006(invoiceData) {
               : ""
           }
           ${
-            invoiceData.itemData["taxPercentage"] > 0 && invoiceData.itemData["discount"] > 0
+            invoiceData.itemData["taxPercentage"] > 0 &&
+            invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
               ${currencySymbol(invoiceData["Currency"])}
               ${item["afterDiscount"]}
@@ -628,7 +634,8 @@ export default function generateHTMLTPL006(invoiceData) {
               : ""
           }
           ${
-            invoiceData.itemData["taxPercentage"] > 0 && !invoiceData.itemData["discount"] > 0
+            invoiceData.itemData["taxPercentage"] > 0 &&
+            !invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
               ${currencySymbol(invoiceData["Currency"])}
               ${item["taxAmount"]}
@@ -648,7 +655,8 @@ export default function generateHTMLTPL006(invoiceData) {
     <div class="totals">
         <div class="grid-container">
               ${
-                invoiceData.itemData["taxPercentage"] > 0 || invoiceData.itemData["discount"] > 0
+                invoiceData.itemData["taxPercentage"] > 0 ||
+                invoiceData.itemData["discount"] > 0
                   ? `
               <p class="details-data">Subtotal</p>
               <p class="details-data data-limit">
@@ -666,7 +674,8 @@ export default function generateHTMLTPL006(invoiceData) {
                   : ""
               }
               ${
-                invoiceData.itemData["discount"] > 0 && invoiceData.itemData["taxPercentage"] > 0
+                invoiceData.itemData["discount"] > 0 &&
+                invoiceData.itemData["taxPercentage"] > 0
                   ? `<p class="details-data">Net Prize</p>
                 <p class="details-data data-limit">
                   ${currencySymbol(invoiceData["Currency"])}
@@ -696,7 +705,7 @@ export default function generateHTMLTPL006(invoiceData) {
               ${invoiceData.itemData["taxAmount"] / 2}</p>`
                   : ""
               }`
-                 : ""
+                  : ""
               }
               ${AdvancePaidAmount}
               <p class="details-title result">TOTAL</p>

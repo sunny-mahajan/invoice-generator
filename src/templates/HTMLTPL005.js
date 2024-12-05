@@ -39,28 +39,30 @@ export default function generateHTMLTPL003(invoiceData) {
     ? formatDate(invoiceData["Invoice Due Date"])
     : "";
 
-    const escapeHTML = (text) => {
-      const div = document.createElement("div");
-      div.innerText = text;
-      return div.innerHTML;
-    };
-  
-    const remarksUI = invoiceData["Remarks"]
-      ? ` <div class="bank-details-cls">
+  const escapeHTML = (text) => {
+    const div = document.createElement("div");
+    div.innerText = text;
+    return div.innerHTML;
+  };
+
+  const remarksUI = invoiceData["Remarks"]
+    ? ` <div class="bank-details-cls">
               <h3>Notes:</h3>
               <p>${escapeHTML(invoiceData["Remarks"])}</p>
-          </div>` : "";
-  
-    const AdvancePaidAmount =
-      invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
-        ? `<div class="sub-sec5-item">
+          </div>`
+    : "";
+
+  const AdvancePaidAmount =
+    invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
+      ? `<div class="sub-sec5-item">
             <p class="sub-sec5-title">Paid Amount</p>
             <span>
               ${currencySymbol(invoiceData["Currency"])}
-              ${Number(invoiceData["Paid Amount"]).toFixed(1)}
+              ${Number(invoiceData["Paid Amount"]).toFixed(2)}
             </span>
           </div>
-        ` : "";
+        `
+      : "";
 
   const bankDetailsAvailable =
     invoiceData["Bank Name"] ||
@@ -242,15 +244,8 @@ export default function generateHTMLTPL003(invoiceData) {
           }
           
           ${
-            invoiceData["Receiver's Zipcode"] ||
-            invoiceData["Receiver's Address"] ||
-            invoiceData["Receiver's City"]
+            invoiceData["Receiver's Address"] || invoiceData["Receiver's City"]
               ? `<p>
-              ${
-                invoiceData["Receiver's Zipcode"]
-                  ? `${invoiceData["Receiver's Zipcode"]}, `
-                  : ""
-              }
               ${
                 invoiceData["Receiver's Address"]
                   ? `${invoiceData["Receiver's Address"]}, `
@@ -262,11 +257,16 @@ export default function generateHTMLTPL003(invoiceData) {
           }
           
           ${
-            invoiceData["Receiver's State"]
+            invoiceData["Receiver's Zipcode"] || invoiceData["Receiver's State"]
               ? `<p>
               ${
                 invoiceData["Receiver's State"]
                   ? `${invoiceData["Receiver's State"]}, `
+                  : ""
+              }
+              ${
+                invoiceData["Receiver's Zipcode"]
+                  ? `${invoiceData["Receiver's Zipcode"]}`
                   : ""
               }
             </p>`
@@ -325,15 +325,8 @@ export default function generateHTMLTPL003(invoiceData) {
           }
           
           ${
-            invoiceData["Sender's Zipcode"] ||
-            invoiceData["Sender's Address"] ||
-            invoiceData["Sender's City"]
+            invoiceData["Sender's Address"] || invoiceData["Sender's City"]
               ? `<p>
-              ${
-                invoiceData["Sender's Zipcode"]
-                  ? `${invoiceData["Sender's Zipcode"]}, `
-                  : ""
-              }
               ${
                 invoiceData["Sender's Address"]
                   ? `${invoiceData["Sender's Address"]}, `
@@ -345,11 +338,16 @@ export default function generateHTMLTPL003(invoiceData) {
           }
         
           ${
-            invoiceData["Sender's State"]
+            invoiceData["Sender's Zipcode"] || invoiceData["Sender's State"]
               ? `<p>
               ${
                 invoiceData["Sender's State"]
                   ? `${invoiceData["Sender's State"]}, `
+                  : ""
+              }
+              ${
+                invoiceData["Sender's Zipcode"]
+                  ? `${invoiceData["Sender's Zipcode"]}`
                   : ""
               }
             </p>`
