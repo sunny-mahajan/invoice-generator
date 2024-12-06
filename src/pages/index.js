@@ -592,7 +592,7 @@ const InvoiceForm = () => {
               onFileSelect={onFileSelect}
               onFileRemove={onFileRemove}
             />
-            <div className="flex gap-5">
+            <div className="block lg:flex gap-5">
               <div className="w-full">
                 <div className="parties-details-container flex justify-between gap-12">
                   <BillFromForm

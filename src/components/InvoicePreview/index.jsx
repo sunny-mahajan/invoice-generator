@@ -102,23 +102,22 @@ export default function InvoicePreview({
 
   const adjustZoom = () => {
     const pdfContainer = document.querySelector(".invoice-preview-cls");
-    const mainContainer = document.querySelector(".preview-container-cls");
+    const previewContainer = document.querySelector(".preview-container-cls");
 
-    if (!pdfContainer || !mainContainer) return;
+    if (!pdfContainer || !previewContainer) return;
 
-    const screenWidth = mainContainer.clientWidth;
+    const screenWidth = previewContainer.clientWidth;
+
     let zoomFactor = 1;
 
-    if (screenWidth <= 600) {
+    if (screenWidth <= 400) {
+      zoomFactor = 0.4;
+    } else if (screenWidth <= 500) {
+      zoomFactor = 0.5;
+    } else if (screenWidth <= 600) {
       zoomFactor = 0.6;
     } else if (screenWidth <= 768) {
       zoomFactor = 0.7;
-    } else if (screenWidth <= 500) {
-      zoomFactor = 0.5;
-    } else if (screenWidth <= 400) {
-      zoomFactor = 0.4;
-    } else if (screenWidth <= 300) {
-      zoomFactor = 0.3;
     } else {
       zoomFactor = 1;
     }

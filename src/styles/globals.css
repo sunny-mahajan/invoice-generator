@@ -366,6 +366,10 @@ button:disabled:hover {
 main.main {
   padding-left: clamp(50px, 10%, 200px);
   padding-right: clamp(50px, 10%, 200px);
+  @media (max-width: 768px) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 body[data-theme="light"] span {
   color: var(--color);
