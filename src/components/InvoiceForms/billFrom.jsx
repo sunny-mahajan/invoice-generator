@@ -43,7 +43,7 @@ const BillFromForm = ({
   return (
     <div style={styles.section} className="bill-from-main-container w-3/6">
       <div className="bill-from-container p-4 rounded-lg">
-        <h3 style={styles.titleText}>Bill From</h3>
+        <h3 style={styles.titleText}>Bill From (Your Details)</h3>
         <div className="block md:flex gap-5">
           <div className="flex w-full flex-col">
             <CustomInput
@@ -110,7 +110,9 @@ const BillFromForm = ({
             onClick={() => toggleAccordion(0)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">Address (optional)</span>
+            <span className="text-[#7c5dfa] font-semibold">
+              Address (optional)
+            </span>
             {isAccordionOpen[0] ? <UpArrowIcon /> : <DownArrowIcon />}
           </button>
           <div
@@ -190,7 +192,9 @@ const BillFromForm = ({
             onClick={() => toggleAccordion(1)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">Tax Information (optional)</span>
+            <span className="text-[#7c5dfa] font-semibold">
+              Tax Information (optional)
+            </span>
             {isAccordionOpen[1] ? <UpArrowIcon /> : <DownArrowIcon />}
           </button>
           <div
@@ -331,7 +335,7 @@ const BillFromForm = ({
             onClick={() => toggleAccordion(2)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">
+            <span className="text-[#7c5dfa] font-semibold">
               Advance Paid Amount (optional)
             </span>
             {isAccordionOpen[2] ? <UpArrowIcon /> : <DownArrowIcon />}
@@ -372,7 +376,9 @@ const BillFromForm = ({
             onClick={() => toggleAccordion(3)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">Brief Notes (optional)</span>
+            <span className="text-[#7c5dfa] font-semibold">
+              Brief Notes (optional)
+            </span>
             {isAccordionOpen[3] ? <UpArrowIcon /> : <DownArrowIcon />}
           </button>
           <div
@@ -414,7 +420,9 @@ const BillFromForm = ({
         <div>
           {formData.senderDetails.customFields &&
             formData.senderDetails.customFields.length > 0 && (
-              <h2 className="text-[#7c5dfa] pb-5 text-base">Custom Fields</h2>
+              <h2 className="text-[#7c5dfa] font-semibold pb-5 text-base">
+                Custom Fields
+              </h2>
             )}
           {formData.senderDetails.customFields &&
             formData.senderDetails.customFields.map((field, index) => (
