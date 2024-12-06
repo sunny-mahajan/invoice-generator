@@ -153,7 +153,7 @@ export default function InvoicePreview({
         <div className="w-full h-full">
           <div
             dangerouslySetInnerHTML={{ __html: previewHtml }}
-            className="invoice-preview-cls"
+            className="invoice-preview-cls rounded-lg"
             style={{
               border: "1px solid #ddd",
               padding: "20px",
