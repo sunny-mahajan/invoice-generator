@@ -269,7 +269,7 @@ p {
   transform-origin: top right;
 }
 
-.textarea{
+.textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -277,7 +277,7 @@ p {
   padding: 10px;
   height: auto;
   field-sizing: content;
-  resize: none; 
+  resize: none;
   border-radius: 4px;
   border: 1px solid var(--input-border-color) !important;
   font-family: inherit;
@@ -310,7 +310,7 @@ p {
 }
 .add-new-item-btn {
   @media (max-width: 768px) {
-    width: 50% !important;
+    width: 60% !important;
   }
 }
 
@@ -347,4 +347,8 @@ p {
 }
 .random-temp-cls {
   background-color: rgb(101, 57, 192);
+}
+
+.items-amount-cls .input-container {
+  width: auto !important;
 }

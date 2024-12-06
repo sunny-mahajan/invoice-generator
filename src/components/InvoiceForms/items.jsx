@@ -46,7 +46,7 @@ const ItemDetails = ({
             >
               <div className="block w-full gap-4">
                 <div className="flex gap-2 flex-wrap">
-                  <div className="flex gap-2 mb-2">
+                  <div className="block md:flex gap-2 mb-2">
                     {/* Item Name Input */}
                     <CustomInput
                       type="text"
@@ -184,14 +184,14 @@ const ItemDetails = ({
                         </div>
                       )}
                   </div>
-                  <div className="flex gap-2 w-full">
+                  <div className="items-amount-cls flex gap-2 w-full flex-wrap justify-between">
                     {/* Conditional Amounts */}
                     {(formData.senderDetails.taxType !== "None" ||
                       formData.senderDetails.discount) && (
                       <>
                         <CustomInput
                           title="Amount"
-                          containerClass="items-center break-all"
+                          containerClass="items-center break-all min-w-[90px]"
                           isText
                           value={`${
                             formData.currency
@@ -204,7 +204,7 @@ const ItemDetails = ({
                           <>
                             <CustomInput
                               title="Discount"
-                              containerClass="items-center break-all"
+                              containerClass="items-center break-all min-w-[90px]"
                               isText
                               value={`${
                                 formData.currency
@@ -219,7 +219,7 @@ const ItemDetails = ({
                               formData.senderDetails.discount && (
                                 <CustomInput
                                   title="Net Price"
-                                  containerClass="items-center break-all"
+                                  containerClass="items-center break-all min-w-[90px]"
                                   isText
                                   value={`${
                                     formData.currency
@@ -237,7 +237,7 @@ const ItemDetails = ({
                         {formData.senderDetails.taxType !== "None" && (
                           <CustomInput
                             title="Tax Amount"
-                            containerClass="items-center min-w-[80px] break-all"
+                            containerClass="items-center min-w-[80px] break-all min-w-[90px]"
                             isText
                             value={`${
                               formData.currency
@@ -255,7 +255,7 @@ const ItemDetails = ({
                       formData.senderDetails.discount) && (
                       <CustomInput
                         title="Total"
-                        containerClass="items-center break-all"
+                        containerClass="items-center break-all min-w-[90px]"
                         isText
                         value={`${
                           formData.currency
@@ -333,7 +333,7 @@ const ItemDetails = ({
               (item) => item.price || item.quantity || item.name
             ) && (
               <p className="text-red-500 mt-2">
-                Please fill in the required fields for all items.
+                Please fill required fields for all items.
               </p>
             )}
         </div>
@@ -359,7 +359,7 @@ const ItemDetails = ({
       </div>
       {formData.items[0].price && formData.items[0].quantity && (
         <div className="w-full flex justify-end">
-          <div className="d-flex flex-col gap-2 w-[50%]">
+          <div className="d-flex flex-col gap-2 md:w-[60%] w-[80%]">
             {(formData.senderDetails.taxType &&
               formData.senderDetails.taxType !== "None") ||
             formData.senderDetails.discount > 0 ? (
@@ -403,7 +403,7 @@ const ItemDetails = ({
             ) : (
               ""
             )}
-            {formData.senderDetails.advancedAmount && (
+            {formData.senderDetails.advancedAmount > 0 && (
               <>
                 <div className="flex justify-between break-all">
                   <span className="min-w-[130px]">Paid Amount</span>

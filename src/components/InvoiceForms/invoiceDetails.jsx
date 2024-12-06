@@ -67,9 +67,9 @@ const InvoiceDetailsForm = ({
   };
   return (
     <div className="flex gap-5 flex-col">
-      <div className="invoice-details-section flex">
+      <div className="invoice-details-section block md:flex">
         <div className="w-full">
-          <div className="flex w-[90%] mb-5 flex-col">
+          <div className="flex md:w-[90%] w-full mb-5 flex-col">
             <CustomInput
               type="text"
               name="invoiceNo"
@@ -87,7 +87,10 @@ const InvoiceDetailsForm = ({
             />
           </div>
 
-          <div className="flex w-[90%] mb-5 flex-col" ref={datePickerInputRef}>
+          <div
+            className="flex md:w-[90%] w-full mb-5 flex-col"
+            ref={datePickerInputRef}
+          >
             <CustomDatePicker
               name="createdAt"
               title="Invoice Date"

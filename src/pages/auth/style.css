@@ -71,7 +71,7 @@ body[data-theme="light"] .auth-container .inputInvoiceCls {
   border-radius: 10px;
   gap: 15px;
   @media (max-width: 480px) {
-    padding: 20px 30px;
+    padding: 20px 20px;
   }
 }
 
@@ -82,6 +82,9 @@ body[data-theme="light"] .auth-container .inputInvoiceCls {
 .change-password-cls {
   padding: 40px 80px !important;
   margin-bottom: 70px !important;
+  @media (max-width: 480px) {
+    padding: 20px 20px !important;
+  }
 }
 body[data-theme="light"] .change-password-cls {
   background-color: #f7faff !important;
