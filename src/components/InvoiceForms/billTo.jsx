@@ -8,6 +8,7 @@ import {
   DeleteIcon,
 } from "../../utils/icons"; // Adjust import path
 import CustomButton from "../Button/index";
+import FormCustomDropdown from "../FormDropdown";
 
 const BillToForm = ({
   formData,
@@ -17,6 +18,8 @@ const BillToForm = ({
   handleFieldChange,
   handleAddField,
   handleRemoveField,
+  states = [],
+  cities = [],
 }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState([false, false]);
   const [touched, setTouched] = useState(false);
@@ -108,50 +111,36 @@ const BillToForm = ({
             {isAccordionOpen[3] ? <UpArrowIcon /> : <DownArrowIcon />}
           </button>
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${
-              isAccordionOpen[3] ? "max-h-screen mb-5" : "max-h-0"
+            className={`transition-all duration-300 ease-in-out ${
+              isAccordionOpen[3]
+                ? "max-h-screen mb-5"
+                : "overflow-hidden max-h-0"
             }`}
           >
             <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
-                  name="clientDetails.street"
-                  placeholder={"123 Main St"}
-                  maxLength={50}
-                  value={formData?.clientDetails?.street}
-                  onChange={handleChange}
-                  title="Street Address"
-                  style={styles.input}
+                <FormCustomDropdown
+                  options={states}
+                  label={formData?.clientDetails?.state}
+                  name="clientDetails.state"
+                  title="State"
+                  onSelect={handleChange}
+                  containerClass="mb-4"
                 />
               </div>
               <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
+                <FormCustomDropdown
+                  options={cities}
+                  label={formData?.clientDetails?.city || "Select City"}
                   name="clientDetails.city"
-                  placeholder={"Mumbai"}
-                  maxLength={50}
-                  value={formData?.clientDetails?.city}
-                  onChange={handleChange}
                   title="City"
-                  style={styles.input}
+                  onSelect={handleChange}
+                  containerClass="mb-4"
                 />
               </div>
             </div>
 
             <div className="block md:flex gap-5">
-              <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
-                  name="clientDetails.state"
-                  placeholder={"Maharashtra"}
-                  maxLength={50}
-                  value={formData?.clientDetails?.state}
-                  onChange={handleChange}
-                  title="State"
-                  style={styles.input}
-                />
-              </div>
               <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
@@ -173,6 +162,18 @@ const BillToForm = ({
                       message: "Invalid Pin Code",
                     },
                   }}
+                />
+              </div>
+              <div className="flex w-full flex-col">
+                <CustomInput
+                  type="text"
+                  name="clientDetails.street"
+                  placeholder={"123 Main St"}
+                  maxLength={50}
+                  value={formData?.clientDetails?.street}
+                  onChange={handleChange}
+                  title="Street Address"
+                  style={styles.input}
                 />
               </div>
             </div>
@@ -330,6 +331,7 @@ const styles = {
     fontSize: "16px",
     // marginTop: "15px",
     marginBottom: "10px",
+    fontWeight: "600",
   },
   input: {
     width: "100%",

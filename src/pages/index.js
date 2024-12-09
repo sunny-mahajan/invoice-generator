@@ -27,6 +27,7 @@ import InvoiceDetailsForm from "../components/InvoiceForms/invoiceDetails";
 import ItemDetails from "../components/InvoiceForms/items";
 import InvoicePreview from "../components/InvoicePreview";
 import { useUser } from "../app/context/userContext";
+import { State, City } from "country-state-city";
 
 let formDataInitialValues = {
   invoiceNo: "",
@@ -102,7 +103,10 @@ const InvoiceForm = () => {
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
   const [dueDateAfter, setDueDateAfter] = useState(15);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedState, setSelectedState] = useState("");
   const { userData, handleItemCalculatation, itemData } = useUser();
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
 
   const [isItemDataUpdated, setIsItemDataUpdated] = useState({
     name: false,
@@ -180,6 +184,24 @@ const InvoiceForm = () => {
     }
   }, [formData.senderDetails.taxType, formData.senderDetails.discount]);
 
+  useEffect(() => {
+    const stateOptions = State.getStatesOfCountry("IN").map((state) => ({
+      label: state.name,
+      isoCode: state.isoCode,
+    }));
+    setStates(stateOptions);
+
+    if (selectedState) {
+      const cityOptions = City.getCitiesOfState("IN", selectedState).map(
+        (city) => ({
+          label: city.name,
+          value: city.name,
+        })
+      );
+      setCities(cityOptions);
+    }
+  }, [selectedState]);
+
   const calculateItems = () => {
     handleItemCalculatation(formData);
   };
@@ -195,6 +217,9 @@ const InvoiceForm = () => {
             [child]: value,
           },
         }));
+        if (e?.isoCode) {
+          setSelectedState(e.isoCode);
+        }
       } else {
         if (name === "dueDate") {
           const createdAtDate = new Date(formData.createdAt);
@@ -543,7 +568,6 @@ const InvoiceForm = () => {
       itemData: itemData,
     };
     try {
-      console.log(mappedData, "mappedData");
       const pdfBlob = await generateHTMLPDF(mappedData, userData);
       if (pdfBlob) {
         const blobURL = URL.createObjectURL(pdfBlob);
@@ -605,6 +629,9 @@ const InvoiceForm = () => {
                     handleAddField={handleAddField}
                     handleRemoveField={handleRemoveField}
                     handleDiscountToggle={handleDiscountToggle}
+                    selectedState={selectedState}
+                    states={states}
+                    cities={cities}
                   />
                   <BillToForm
                     formData={formData}
@@ -615,6 +642,9 @@ const InvoiceForm = () => {
                     handleFieldChange={handleFieldChange}
                     handleAddField={handleAddField}
                     handleRemoveField={handleRemoveField}
+                    selectedState={selectedState}
+                    states={states}
+                    cities={cities}
                   />
                 </div>
                 <div className="items-details-container">
@@ -671,6 +701,7 @@ const styles = {
   title: {
     padding: "25px 0px 20px",
     color: "var(--color)",
+    fontWeight: "600",
   },
   mainSection: {
     padding: "10px 0px",
