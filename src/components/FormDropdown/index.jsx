@@ -89,11 +89,6 @@ const FormCustomDropdown = ({
                 <div
                   key={index}
                   className="FormDropdown-item"
-                  style={{
-                    borderBottom:
-                      index !== filteredOptions?.length - 1 &&
-                      "1px solid var(--color)",
-                  }}
                   onClick={() => handleSelect(option)}
                 >
                   {option.label}
