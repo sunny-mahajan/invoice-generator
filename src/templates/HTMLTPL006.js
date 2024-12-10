@@ -57,9 +57,9 @@ export default function generateHTMLTPL006(invoiceData) {
     invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
       ? `<p class="details-data">Paid Amount</p>
           <p class="details-data data-limit">
-            ${currencySymbol(invoiceData["Currency"])}${Number(
-          invoiceData["Paid Amount"]
-        ).toFixed(2)}</p>`
+            <span class="currency-symbol-cls">${currencySymbol(
+              invoiceData["Currency"]
+            )}</span>${Number(invoiceData["Paid Amount"]).toFixed(2)}</p>`
       : "";
 
   const bankDetailsAvailable =
@@ -325,6 +325,11 @@ export default function generateHTMLTPL006(invoiceData) {
       @page {
           margin: 0.5cm;
       }
+
+      .currency-symbol-cls {
+        font-size: 18px;
+      }
+    
     }
   </style>
 </head>
@@ -573,7 +578,9 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             !invoiceData.itemData["discount"] > 0
               ? `<th class="align-right">
-              GST ${currencySymbol(invoiceData["Currency"])}
+              GST <span class="currency-symbol-cls">${currencySymbol(
+                invoiceData["Currency"]
+              )}</span>
             </th>
             `
               : ""
@@ -597,7 +604,9 @@ export default function generateHTMLTPL006(invoiceData) {
             }
           </td>
           <td class="align-right table-data-limit">
-              ${currencySymbol(invoiceData["Currency"])}
+              <span class="currency-symbol-cls">${currencySymbol(
+                invoiceData["Currency"]
+              )}</span>
               ${item["price"]}
           </td>
           <td class="align-right table-data-limit">${item["quantity"]}</td>
@@ -607,7 +616,9 @@ export default function generateHTMLTPL006(invoiceData) {
             (invoiceData.itemData["taxPercentage"] > 0 &&
               !invoiceData.itemData["discount"] > 0)
               ? `<td class="align-right table-data-limit">
-              ${currencySymbol(invoiceData["Currency"])}
+              <span class="currency-symbol-cls">${currencySymbol(
+                invoiceData["Currency"]
+              )}</span>
               ${item["amount"]}</td>`
               : ""
           }
@@ -622,7 +633,9 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
-              ${currencySymbol(invoiceData["Currency"])}
+              <span class="currency-symbol-cls">${currencySymbol(
+                invoiceData["Currency"]
+              )}</span>
               ${item["afterDiscount"]}
             </td>`
               : ""
@@ -637,13 +650,17 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             !invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
-              ${currencySymbol(invoiceData["Currency"])}
+              <span class="currency-symbol-cls">${currencySymbol(
+                invoiceData["Currency"]
+              )}</span>
               ${item["taxAmount"]}
             </td>`
               : ""
           }
           <td class="align-right table-data-limit">
-            ${currencySymbol(invoiceData["Currency"])}
+            <span class="currency-symbol-cls">${currencySymbol(
+              invoiceData["Currency"]
+            )}</span>
             ${item["total"]}
           </td>
         </tr>
@@ -660,7 +677,9 @@ export default function generateHTMLTPL006(invoiceData) {
                   ? `
               <p class="details-data">Subtotal</p>
               <p class="details-data data-limit">
-                ${currencySymbol(invoiceData["Currency"])}
+                <span class="currency-symbol-cls">${currencySymbol(
+                  invoiceData["Currency"]
+                )}</span>
                 ${invoiceData.itemData["subTotal"]}
               </p>
               ${
@@ -668,7 +687,9 @@ export default function generateHTMLTPL006(invoiceData) {
                   ? `
                   <p class="details-data">Discount</p>
                   <p class="details-data data-limit">
-                    ${currencySymbol(invoiceData["Currency"])}
+                    <span class="currency-symbol-cls">${currencySymbol(
+                      invoiceData["Currency"]
+                    )}</span>
                     ${invoiceData.itemData["discount"]}
                   </p> `
                   : ""
@@ -678,7 +699,9 @@ export default function generateHTMLTPL006(invoiceData) {
                 invoiceData.itemData["taxPercentage"] > 0
                   ? `<p class="details-data">Net Prize</p>
                 <p class="details-data data-limit">
-                  ${currencySymbol(invoiceData["Currency"])}
+                  <span class="currency-symbol-cls">${currencySymbol(
+                    invoiceData["Currency"]
+                  )}</span>
                   ${invoiceData.itemData["afterDiscountAmount"]}
                 </p> `
                   : ""
@@ -690,18 +713,24 @@ export default function generateHTMLTPL006(invoiceData) {
                   ${invoiceData["Sender's Tax Type"]}
               </p>
               <p class="details-data data-limit">
-                ${currencySymbol(invoiceData["Currency"])}
+                <span class="currency-symbol-cls">${currencySymbol(
+                  invoiceData["Currency"]
+                )}</span>
                 ${invoiceData.itemData["taxAmount"]}
               </p>`
                     : `
               <p class="details-data">CGST</p>
               <p class="details-data data-limit">
-                ${currencySymbol(invoiceData["Currency"])}
+                <span class="currency-symbol-cls">${currencySymbol(
+                  invoiceData["Currency"]
+                )}</span>
                 ${invoiceData.itemData["taxAmount"] / 2}
               </p>
               <p class="details-data">SGST</p>
               <p class="details-data data-limit">
-              ${currencySymbol(invoiceData["Currency"])}
+              <span class="currency-symbol-cls">${currencySymbol(
+                invoiceData["Currency"]
+              )}</span>
               ${invoiceData.itemData["taxAmount"] / 2}</p>`
                   : ""
               }`
@@ -710,7 +739,9 @@ export default function generateHTMLTPL006(invoiceData) {
               ${AdvancePaidAmount}
               <p class="details-title result">TOTAL</p>
               <p class="details-title result">
-                ${currencySymbol(invoiceData["Currency"])}
+                <span class="currency-symbol-cls">${currencySymbol(
+                  invoiceData["Currency"]
+                )}</span>
                 ${invoiceData.itemData["total"]}
               </p>
       </div>
