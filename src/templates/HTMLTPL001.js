@@ -55,7 +55,9 @@ export default function generateHTMLTPL001(invoiceData) {
       ? `<div class="sub-sec5-item">
             <p class="sub-sec5-title">Paid Amount</p>
               <span>
-              ${currencySymbol(invoiceData["Currency"])}
+              <span class="currency-symbol-cls">${currencySymbol(
+                invoiceData["Currency"]
+              )}</span>
               ${Number(invoiceData["Paid Amount"]).toFixed(2)}
               </span>
           </div>
@@ -172,7 +174,7 @@ export default function generateHTMLTPL001(invoiceData) {
 
     .sub-sec4-header h2,
     .sub-sec4-item p {
-        width: 80px;
+        width: 90px;
         text-align: right;
         margin: 0;
         padding: 5px 0;
@@ -205,7 +207,7 @@ export default function generateHTMLTPL001(invoiceData) {
         width: 60px !important;
      }
     .sub-sec4-item-no {
-        width: 30px !important;
+        width: 35px !important;
         text-align: center !important;
     }
     .sub-sec4-item-name {
@@ -288,6 +290,10 @@ export default function generateHTMLTPL001(invoiceData) {
         position: absolute;
         top: 10px;
         right: 10px;
+    }
+
+    .currency-symbol-cls {
+      font-size: 16px;
     }
 </style>
 
@@ -554,9 +560,9 @@ export default function generateHTMLTPL001(invoiceData) {
                       invoiceData.itemData["taxPercentage"] > 0 &&
                       invoiceData.itemData["discount"] <= 0
                         ? `
-                        <h2 class="sub-sec4-item-tax-amount">GST ${currencySymbol(
+                        <h2 class="sub-sec4-item-tax-amount">GST <span class="currency-symbol-cls">${currencySymbol(
                           invoiceData["Currency"]
-                        )}</h2>
+                        )}</span></h2>
                       `
                         : ""
                     }              
@@ -575,9 +581,9 @@ export default function generateHTMLTPL001(invoiceData) {
                               : ""
                           }
                       </div>
-                      <p class="sub-sec4-item-price">${currencySymbol(
+                      <p class="sub-sec4-item-price"><span class="currency-symbol-cls">${currencySymbol(
                         invoiceData["Currency"]
-                      )}${item["price"]}</p>
+                      )}</span>${item["price"]}</p>
                       <p class="sub-sec4-item-quantity">${item["quantity"]}</p>
                       ${
                         (invoiceData.itemData["taxPercentage"] <= 0 &&
@@ -585,9 +591,9 @@ export default function generateHTMLTPL001(invoiceData) {
                         (invoiceData.itemData["taxPercentage"] > 0 &&
                           invoiceData.itemData["discount"] <= 0)
                           ? `
-                         <p class="sub-sec4-item-amount">${currencySymbol(
+                         <p class="sub-sec4-item-amount"><span class="currency-symbol-cls">${currencySymbol(
                            invoiceData["Currency"]
-                         )}${item["amount"]}
+                         )}</span>${item["amount"]}
                         </p>
                         `
                           : ""
@@ -605,9 +611,9 @@ export default function generateHTMLTPL001(invoiceData) {
                           invoiceData.itemData["taxPercentage"] > 0 &&
                           invoiceData.itemData["discount"] > 0
                             ? `
-                          <p class="sub-sec4-item-amount">${currencySymbol(
+                          <p class="sub-sec4-item-amount"><span class="currency-symbol-cls">${currencySymbol(
                             invoiceData["Currency"]
-                          )}${item["afterDiscount"]}
+                          )}</span>${item["afterDiscount"]}
                           </p>
                         `
                             : ""
@@ -626,15 +632,15 @@ export default function generateHTMLTPL001(invoiceData) {
                         invoiceData.itemData["taxPercentage"] > 0 &&
                         invoiceData.itemData["discount"] <= 0
                           ? `
-                          <p class="sub-sec4-item-tax-amount">${currencySymbol(
+                          <p class="sub-sec4-item-tax-amount"><span class="currency-symbol-cls">${currencySymbol(
                             invoiceData["Currency"]
-                          )}${item["taxAmount"]}</p>
+                          )}</span>${item["taxAmount"]}</p>
                           `
                           : ""
                       }
-                      <p class="sub-sec4-item-total">${currencySymbol(
+                      <p class="sub-sec4-item-total"><span class="currency-symbol-cls">${currencySymbol(
                         invoiceData["Currency"]
-                      )}${item["total"]}</p>
+                      )}</span>${item["total"]}</p>
                     </div>
                 `
                   )
@@ -652,18 +658,18 @@ export default function generateHTMLTPL001(invoiceData) {
                   ? `
                 <div class="sub-sec5-item">
                   <p class="sub-sec5-title">Subtotal</p>
-                  <span>${currencySymbol(invoiceData["Currency"])}${
-                      invoiceData.itemData["subTotal"]
-                    }</span>
+                  <span><span class="currency-symbol-cls">${currencySymbol(
+                    invoiceData["Currency"]
+                  )}</span>${invoiceData.itemData["subTotal"]}</span>
                 </div>
                 ${
                   invoiceData.itemData["discount"] > 0
                     ? `
                   <div class="sub-sec5-item">
                     <p class="sub-sec5-title">Discount</p>
-                    <span>${currencySymbol(invoiceData["Currency"])}${
-                        invoiceData.itemData["discount"]
-                      }</span>
+                    <span><span class="currency-symbol-cls">${currencySymbol(
+                      invoiceData["Currency"]
+                    )}</span>${invoiceData.itemData["discount"]}</span>
                   </div>
                   `
                     : ""
@@ -674,7 +680,9 @@ export default function generateHTMLTPL001(invoiceData) {
                     ? `
                   <div class="sub-sec5-item">
                     <p class="sub-sec5-title">Net Price</p>
-                    <span>${currencySymbol(invoiceData["Currency"])}${
+                    <span><span class="currency-symbol-cls">${currencySymbol(
+                      invoiceData["Currency"]
+                    )}</span>${
                         invoiceData.itemData["afterDiscountAmount"]
                       }</span>
                   </div>
@@ -691,23 +699,23 @@ export default function generateHTMLTPL001(invoiceData) {
                     <p class="sub-sec5-title">
                       ${invoiceData["Sender's Tax Type"]}
                     </p>
-                    <span>${currencySymbol(invoiceData["Currency"])}${
-                            invoiceData.itemData["taxAmount"]
-                          }</span>
+                    <span><span class="currency-symbol-cls">${currencySymbol(
+                      invoiceData["Currency"]
+                    )}</span>${invoiceData.itemData["taxAmount"]}</span>
                     `
                         : `
                     <div style="display: flex; flex-direction: column; gap: 10px;">
                       <div style="display: flex; align-items: center;">
                         <p class="sub-sec5-title">CGST</p>
-                        <span>${currencySymbol(invoiceData["Currency"])}${
-                            invoiceData.itemData["taxAmount"] / 2
-                          }</span>
+                        <span><span class="currency-symbol-cls">${currencySymbol(
+                          invoiceData["Currency"]
+                        )}</span>${invoiceData.itemData["taxAmount"] / 2}</span>
                       </div>
                       <div style="display: flex; align-items: center;">
                         <p class="sub-sec5-title">SGST</p>
-                        <span>${currencySymbol(invoiceData["Currency"])}${
-                            invoiceData.itemData["taxAmount"] / 2
-                          }</span>
+                        <span><span class="currency-symbol-cls">${currencySymbol(
+                          invoiceData["Currency"]
+                        )}</span>${invoiceData.itemData["taxAmount"] / 2}</span>
                       </div>
                     </div>
                     `
@@ -722,9 +730,9 @@ export default function generateHTMLTPL001(invoiceData) {
               ${AdvancePaidAmount}
               <div class="sub-sec5-item">
                 <h2 class="sub-sec5-title">Total</h2>
-                <span>${currencySymbol(invoiceData["Currency"])}${
-    invoiceData.itemData["total"]
-  }</span>
+                <span><span class="currency-symbol-cls">${currencySymbol(
+                  invoiceData["Currency"]
+                )}</span>${invoiceData.itemData["total"]}</span>
               </div>
             </div>
           </div>

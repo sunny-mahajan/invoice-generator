@@ -484,3 +484,46 @@ export function CheckMarkIcon() {
     </svg>
   );
 }
+
+export function HeaderLogoIcon() {
+  return (
+    <svg
+      width="55"
+      height="55"
+      viewBox="0 0 55 55"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="6"
+        y="6"
+        width="40"
+        height="44"
+        rx="4"
+        ry="4"
+        fill="#FFFFFF"
+        stroke="#7B61FF"
+        stroke-width="2"
+      />
+
+      <polygon
+        points="46,6 38,6 46,14"
+        fill="#D1C4FF"
+        stroke="#7B61FF"
+        stroke-width="2"
+      />
+
+      <path
+        d="M12 28 L20 36 L36 18"
+        fill="none"
+        stroke="#7B61FF"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+
+      <line x1="10" y1="14" x2="34" y2="14" stroke="#7B61FF" stroke-width="2" />
+      <line x1="10" y1="20" x2="28" y2="20" stroke="#7B61FF" stroke-width="2" />
+      <line x1="10" y1="42" x2="28" y2="42" stroke="#7B61FF" stroke-width="2" />
+    </svg>
+  );
+}
