@@ -7,7 +7,6 @@ import {
   LightThemeIcon,
   logOutIcon,
   ChangePasswordIcon,
-  CheckMarkIcon,
 } from "../utils/icons";
 import { useTheme } from "../utils/themeContext";
 import { useUser } from "../app/context/userContext";
@@ -60,11 +59,25 @@ const Header = () => {
         href="https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap"
         rel="stylesheet"
       ></link>
-      <div className="flex items-center flex-col ml-1 gap-[2px]">
-        {CheckMarkIcon()}
-        <p className="text-white font-bold tracking-[3px] text-xs">
-          GENINVOICE
-        </p>
+      <div className="sidebar-top h-16 w-16">
+        <div className="sidebar-logo-wrap">
+          <div className="sidebar-logo-wrap-bg-top"></div>
+          <div className="sidebar-logo-wrap-bg-bottom"></div>
+          <div className="sidebar-logowrap-logo">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 28 26"
+            >
+              <path
+                fill="#FFF"
+                fillRule="evenodd"
+                d="M20.513 0C24.965 2.309 28 6.91 28 12.21 28 19.826 21.732 26 14 26S0 19.826 0 12.21C0 6.91 3.035 2.309 7.487 0L14 12.9z"
+              ></path>
+            </svg>
+          </div>
+        </div>
       </div>
       <div className="sidebar-inner-items">
         <div className="sidebar-items">
