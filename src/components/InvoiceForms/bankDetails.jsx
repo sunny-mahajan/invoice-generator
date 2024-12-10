@@ -19,7 +19,9 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
         onClick={() => toggleAccordion(1)}
         className="w-full flex justify-between items-center pb-5 text-slate-800"
       >
-        <span className="text-[#7c5dfa]">Bank Details (optional)</span>
+        <span className="text-[#7c5dfa] font-semibold">
+          Bank Details (optional)
+        </span>
         {isAccordionOpen[1] ? <UpArrowIcon /> : <DownArrowIcon />}
       </button>
       <div
@@ -51,9 +53,10 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
                 maxLength={18}
                 value={formData.bankDetails.accountNumber}
                 onChange={(e) => {
-                  let sanitizedValue = e.target.value.replace(/[^0-9]/g,"");
+                  let sanitizedValue = e.target.value.replace(/[^0-9]/g, "");
                   e.target.value = sanitizedValue;
-                  handleChange}}
+                  handleChange;
+                }}
                 style={styles.input}
               />
             </div>

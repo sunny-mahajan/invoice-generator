@@ -13,15 +13,15 @@ const FormCustomDropdown = ({
   containerClass,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const dropDownRef = useRef();
+  const searchInputRef = useRef();
   const [selectedOption, setSelectedOption] = useState({
     label: "",
     value: "",
   });
 
-  useClickOutside([dropDownRef], () =>
-    setIsOpen(false)
-  );
+  useClickOutside([dropDownRef], () => setIsOpen(false));
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -30,14 +30,19 @@ const FormCustomDropdown = ({
   const handleSelect = (option) => {
     setSelectedOption(option);
     setIsOpen(false);
-    onSelect({ name, value: option?.value });
+    onSelect({ name, value: option?.label, isoCode: option?.isoCode });
   };
 
-  const findLable = () => {
+  const findLabel = () => {
     return options?.find(
       (option) => option.value === (label?.value ? label?.value : label)
     );
   };
+
+  // Filter options based on search query
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div
@@ -57,27 +62,48 @@ const FormCustomDropdown = ({
       )}
       <div className="FormDropdown" onClick={handleToggle}>
         <div className={`FormDropdown-selected ${isOpen ? "open" : ""}`}>
-          {findLable()
-            ? findLable()?.label
-            : selectedOption?.label ?? "Select an option"}
+          {findLabel()
+            ? findLabel()?.label
+            : selectedOption?.label || "Select an option"}
           <DownArrowIcon />
         </div>
-        <div className={`FormDropdown-menu ${isOpen ? "open" : ""}`}>
-          {options &&
-            options?.map((option, index) => (
-              <div
-                key={index}
-                className="FormDropdown-item"
-                style={{
-                  borderBottom:
-                    index !== options?.length - 1 && "1px solid var(--color)",
-                }}
-                onClick={() => handleSelect(option)}
-              >
-                {option.label}
-              </div>
-            ))}
-        </div>
+        {isOpen && (
+          <div className={`FormDropdown-menu ${isOpen ? "open" : ""}`}>
+            {/* Search Input */}
+            <div
+              className="FormDropdown-search"
+              onClick={(e) => e.stopPropagation()} // Prevent dropdown from closing
+            >
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Search..."
+                className="FormDropdown-search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            {/* Options List */}
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className="FormDropdown-item"
+                  style={{
+                    borderBottom:
+                      index !== filteredOptions?.length - 1 &&
+                      "1px solid var(--color)",
+                  }}
+                  onClick={() => handleSelect(option)}
+                >
+                  {option.label}
+                </div>
+              ))
+            ) : (
+              <div className="FormDropdown-no-options">No options found</div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

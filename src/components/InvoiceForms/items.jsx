@@ -433,6 +433,7 @@ const styles = {
     fontSize: "16px",
     marginTop: "15px",
     marginBottom: "10px",
+    fontWeight: "600",
   },
   itemContainer: {
     display: "flex",

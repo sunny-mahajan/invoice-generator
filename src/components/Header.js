@@ -99,17 +99,18 @@ const Header = () => {
           </span>
         </div>
       </div>
-      <div    
-          className="p-3 d-flex items-center cursor-pointer relative"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}>
+      <div
+        className="p-3 d-flex items-center cursor-pointer relative"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <button onClick={toggleTheme}>
           {theme === "light" ? <DarkThemeIcon /> : <LightThemeIcon />}
         </button>
         {isHovered && (
-            <div className="tooltip absolute top-full right-0 text-[12px] font-[500] font-[normal] w-40 p-1 bg-gray-200 text-black rounded shadow-lg z-50">
-              Switch to {theme === "light" ? "Dark" : "Light"} Theme
-            </div>
+          <div className="tooltip absolute top-full right-0 text-[12px] font-[500] font-[normal] w-40 p-1 bg-gray-200 text-black rounded shadow-lg z-50">
+            Switch to {theme === "light" ? "Dark" : "Light"} Theme
+          </div>
         )}
       </div>
       <div className="sidebar-bottom d-flex items-center justify-content-center">

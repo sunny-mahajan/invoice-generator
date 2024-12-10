@@ -154,7 +154,6 @@ export default function InvoicePreview({
             dangerouslySetInnerHTML={{ __html: previewHtml }}
             className="invoice-preview-cls rounded-lg"
             style={{
-              border: "1px solid #ddd",
               padding: "20px",
               background: "#fff",
               color: "#000",

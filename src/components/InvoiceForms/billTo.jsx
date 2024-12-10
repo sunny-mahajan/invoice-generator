@@ -8,6 +8,7 @@ import {
   DeleteIcon,
 } from "../../utils/icons"; // Adjust import path
 import CustomButton from "../Button/index";
+import FormCustomDropdown from "../FormDropdown";
 
 const BillToForm = ({
   formData,
@@ -17,6 +18,8 @@ const BillToForm = ({
   handleFieldChange,
   handleAddField,
   handleRemoveField,
+  states = [],
+  cities = [],
 }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState([false, false]);
   const [touched, setTouched] = useState(false);
@@ -34,7 +37,7 @@ const BillToForm = ({
   return (
     <div style={styles.section} className="bill-to-main-container w-3/6">
       <div className="bill-to-container p-4 rounded-lg">
-        <h3 style={styles.titleText}>Bill To</h3>
+        <h3 style={styles.titleText}>{`Bill To (Client's Details)`}</h3>
         <div className="block md:flex gap-5">
           <div className="flex w-full flex-col">
             <CustomInput
@@ -102,54 +105,42 @@ const BillToForm = ({
             onClick={() => toggleAccordion(3)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">Address (optional)</span>
+            <span className="text-[#7c5dfa] font-semibold">
+              Address (optional)
+            </span>
             {isAccordionOpen[3] ? <UpArrowIcon /> : <DownArrowIcon />}
           </button>
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${
-              isAccordionOpen[3] ? "max-h-screen mb-5" : "max-h-0"
+            className={`transition-all duration-300 ease-in-out ${
+              isAccordionOpen[3]
+                ? "max-h-screen mb-5"
+                : "overflow-hidden max-h-0"
             }`}
           >
             <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
-                  name="clientDetails.street"
-                  placeholder={"123 Main St"}
-                  maxLength={50}
-                  value={formData?.clientDetails?.street}
-                  onChange={handleChange}
-                  title="Street Address"
-                  style={styles.input}
+                <FormCustomDropdown
+                  options={states}
+                  label={formData?.clientDetails?.state}
+                  name="clientDetails.state"
+                  title="State"
+                  onSelect={handleChange}
+                  containerClass="mb-4"
                 />
               </div>
               <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
+                <FormCustomDropdown
+                  options={cities}
+                  label={formData?.clientDetails?.city || "Select City"}
                   name="clientDetails.city"
-                  placeholder={"Mumbai"}
-                  maxLength={50}
-                  value={formData?.clientDetails?.city}
-                  onChange={handleChange}
                   title="City"
-                  style={styles.input}
+                  onSelect={handleChange}
+                  containerClass="mb-4"
                 />
               </div>
             </div>
 
             <div className="block md:flex gap-5">
-              <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
-                  name="clientDetails.state"
-                  placeholder={"Maharashtra"}
-                  maxLength={50}
-                  value={formData?.clientDetails?.state}
-                  onChange={handleChange}
-                  title="State"
-                  style={styles.input}
-                />
-              </div>
               <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
@@ -173,6 +164,18 @@ const BillToForm = ({
                   }}
                 />
               </div>
+              <div className="flex w-full flex-col">
+                <CustomInput
+                  type="text"
+                  name="clientDetails.street"
+                  placeholder={"123 Main St"}
+                  maxLength={50}
+                  value={formData?.clientDetails?.street}
+                  onChange={handleChange}
+                  title="Street Address"
+                  style={styles.input}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -183,7 +186,9 @@ const BillToForm = ({
             onClick={() => toggleAccordion(4)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">Tax Information (optional)</span>
+            <span className="text-[#7c5dfa] font-semibold">
+              Tax Information (optional)
+            </span>
             {isAccordionOpen[4] ? <UpArrowIcon /> : <DownArrowIcon />}
           </button>
           <div
@@ -246,7 +251,9 @@ const BillToForm = ({
         <div>
           {formData.clientDetails.customFields &&
             formData.clientDetails.customFields.length > 0 && (
-              <h2 className="text-[#7c5dfa] pb-5 text-base">Custom Fields</h2>
+              <h2 className="text-[#7c5dfa] font-semibold pb-5 text-base">
+                Custom Fields
+              </h2>
             )}
           {formData.clientDetails.customFields &&
             formData.clientDetails.customFields.map((field, index) => (
@@ -324,6 +331,7 @@ const styles = {
     fontSize: "16px",
     // marginTop: "15px",
     marginBottom: "10px",
+    fontWeight: "600",
   },
   input: {
     width: "100%",
