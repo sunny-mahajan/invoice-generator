@@ -55,41 +55,6 @@ body {
   z-index: 9999;
 }
 
-.sidebar-logo-wrap {
-  width: 100%;
-  padding-top: 100%;
-  position: relative;
-}
-
-.sidebar-logo-wrap > * {
-  position: absolute;
-}
-
-.sidebar-logo-wrap-bg-top {
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 70%;
-  background: #7c5dfa;
-}
-
-.sidebar-logo-wrap-bg-bottom {
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 60%;
-  background: #9277ff;
-  border-radius: 25px 0 25px 0;
-}
-
-.sidebar-logowrap-logo {
-  width: auto;
-  height: auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .sidebar-inner-items {
   display: flex;
   margin-right: auto;
