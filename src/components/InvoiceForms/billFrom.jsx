@@ -10,6 +10,7 @@ import {
 } from "../../utils/icons"; // Adjust import path
 import CustomButton from "../Button/index";
 import BankDetails from "./bankDetails";
+import FormCustomDropdown from "../FormDropdown";
 
 const BillFromForm = ({
   formData,
@@ -20,6 +21,8 @@ const BillFromForm = ({
   handleAddField,
   handleRemoveField,
   handleDiscountToggle = () => {},
+  states = [],
+  cities = [],
 }) => {
   const [isAccordionOpen, setIsAccordionOpen] = useState([false, false]);
   const [touched, setTouched] = useState(false);
@@ -29,7 +32,6 @@ const BillFromForm = ({
     newAccordionState[index] = !newAccordionState[index];
     setIsAccordionOpen(newAccordionState);
   };
-
   const handleBlur = () => {
     setTouched(true); // Set touched state to true on blur
   };
@@ -43,7 +45,7 @@ const BillFromForm = ({
   return (
     <div style={styles.section} className="bill-from-main-container w-3/6">
       <div className="bill-from-container p-4 rounded-lg">
-        <h3 style={styles.titleText}>Bill From</h3>
+        <h3 style={styles.titleText}>Bill From (Your Details)</h3>
         <div className="block md:flex gap-5">
           <div className="flex w-full flex-col">
             <CustomInput
@@ -110,53 +112,41 @@ const BillFromForm = ({
             onClick={() => toggleAccordion(0)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">Address (optional)</span>
+            <span className="text-[#7c5dfa] font-semibold">
+              Address (optional)
+            </span>
             {isAccordionOpen[0] ? <UpArrowIcon /> : <DownArrowIcon />}
           </button>
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${
-              isAccordionOpen[0] ? "max-h-screen mb-5" : "max-h-0"
+            className={`transition-all duration-300 ease-in-out ${
+              isAccordionOpen[0]
+                ? "max-h-screen mb-5"
+                : " overflow-hidden max-h-0"
             }`}
           >
             <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
-                  name="senderDetails.street"
-                  title="Street Address"
-                  placeholder={"456 Broadway Ave"}
-                  maxLength={50}
-                  value={formData?.senderDetails?.street}
-                  onChange={handleChange}
-                  style={styles.input}
+                <FormCustomDropdown
+                  options={states}
+                  label={formData?.senderDetails?.state}
+                  name="senderDetails.state"
+                  title="State"
+                  onSelect={handleChange}
+                  containerClass="mb-4"
                 />
               </div>
               <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
+                <FormCustomDropdown
+                  options={cities}
+                  label={formData?.senderDetails?.city || "Select City"}
                   name="senderDetails.city"
                   title="City"
-                  placeholder={"Kolkata"}
-                  maxLength={50}
-                  value={formData?.senderDetails?.city}
-                  onChange={handleChange}
-                  style={styles.input}
+                  onSelect={handleChange}
+                  containerClass="mb-4"
                 />
               </div>
             </div>
             <div className="block md:flex gap-5">
-              <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
-                  name="senderDetails.state"
-                  title="State"
-                  placeholder={"West Bengal"}
-                  maxLength={50}
-                  value={formData?.senderDetails?.state}
-                  onChange={handleChange}
-                  style={styles.input}
-                />
-              </div>
               <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
@@ -180,6 +170,18 @@ const BillFromForm = ({
                   }}
                 />
               </div>
+              <div className="flex w-full flex-col">
+                <CustomInput
+                  type="text"
+                  name="senderDetails.street"
+                  title="Street Address"
+                  placeholder={"456 Broadway Ave"}
+                  maxLength={50}
+                  value={formData?.senderDetails?.street}
+                  onChange={handleChange}
+                  style={styles.input}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -190,7 +192,9 @@ const BillFromForm = ({
             onClick={() => toggleAccordion(1)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">Tax Information (optional)</span>
+            <span className="text-[#7c5dfa] font-semibold">
+              Tax Information (optional)
+            </span>
             {isAccordionOpen[1] ? <UpArrowIcon /> : <DownArrowIcon />}
           </button>
           <div
@@ -321,7 +325,7 @@ const BillFromForm = ({
               onChange={handleDiscountToggle} // Call the function when the toggle is changed
             />
             <div className="random-temp-cls relative w-10 h-6 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-            <span className="ml-3">Discount</span>
+            <span className="ml-3 font-semibold">Discount</span>
           </label>
         </div>
 
@@ -331,7 +335,7 @@ const BillFromForm = ({
             onClick={() => toggleAccordion(2)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">
+            <span className="text-[#7c5dfa] font-semibold">
               Advance Paid Amount (optional)
             </span>
             {isAccordionOpen[2] ? <UpArrowIcon /> : <DownArrowIcon />}
@@ -372,7 +376,9 @@ const BillFromForm = ({
             onClick={() => toggleAccordion(3)}
             className="w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa]">Brief Notes (optional)</span>
+            <span className="text-[#7c5dfa] font-semibold">
+              Brief Notes (optional)
+            </span>
             {isAccordionOpen[3] ? <UpArrowIcon /> : <DownArrowIcon />}
           </button>
           <div
@@ -414,7 +420,9 @@ const BillFromForm = ({
         <div>
           {formData.senderDetails.customFields &&
             formData.senderDetails.customFields.length > 0 && (
-              <h2 className="text-[#7c5dfa] pb-5 text-base">Custom Fields</h2>
+              <h2 className="text-[#7c5dfa] font-semibold pb-5 text-base">
+                Custom Fields
+              </h2>
             )}
           {formData.senderDetails.customFields &&
             formData.senderDetails.customFields.map((field, index) => (
@@ -492,6 +500,7 @@ const styles = {
     fontSize: "16px",
     // marginTop: "15px",
     marginBottom: "10px",
+    fontWeight: "600",
   },
   input: {
     width: "100%",

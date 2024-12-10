@@ -417,4 +417,5 @@ body[data-theme="light"] .add-new-btn-cls {
   width: 100%; /* Scales the content to parent container width */
   max-height: max-content;
   min-height: 50rem;
+  border: 1px solid var(--color-white-dark);
 }
