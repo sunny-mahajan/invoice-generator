@@ -28,6 +28,7 @@ import ItemDetails from "../components/InvoiceForms/items";
 import InvoicePreview from "../components/InvoicePreview";
 import { useUser } from "../app/context/userContext";
 import { State, City } from "country-state-city";
+import DialogBox from "../components/DialogBox";
 
 let formDataInitialValues = {
   invoiceNo: "",
@@ -89,6 +90,7 @@ let formDataInitialValues = {
   taxPercentage: 0,
   total: 0,
   currency: "INR",
+  userEmail: "",
 };
 
 const InvoiceForm = () => {
@@ -103,6 +105,7 @@ const InvoiceForm = () => {
   const [isDueDateOpen, setIsDueDateOpen] = useState(false);
   const [dueDateAfter, setDueDateAfter] = useState(15);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDownloadPdf, setIsDownloadPdf] = useState(false);
   const [selectedState, setSelectedState] = useState("");
   const { userData, handleItemCalculatation, itemData } = useUser();
   const [states, setStates] = useState([]);
@@ -131,6 +134,7 @@ const InvoiceForm = () => {
   useClickOutside([datePickerInputRef], () => setIsDatePickerOpen(false));
 
   useClickOutside([dueDatePickerInputRef], () => setIsDueDatePickerOpen(false));
+
   useEffect(() => {
     if (formData.createdAt && dueDateAfter >= 0 && isDueDateOpen) {
       setFormData((prev) => ({
@@ -537,9 +541,7 @@ const InvoiceForm = () => {
     ); // Return true if no errors
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const data = getValues();
+  const handleDialogBox = async () => {
     const isValid = await trigger();
     setIsItemDataUpdated({ name: true, quantity: true, price: true });
     validateForm();
@@ -547,8 +549,21 @@ const InvoiceForm = () => {
       toast.error("Please fill all required fields before submitting");
       return;
     }
-    mergeData(formData, data);
+    setIsDownloadPdf(true);
+  };
 
+  const handleCloseDialog = () => setIsDownloadPdf(false);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const data = getValues();
+    const isValid = await trigger();
+
+    if (!isValid) {
+      return;
+    }
+
+    mergeData(formData, data);
     setLoading(true);
     const mappedData = {
       "Invoice No.": formData.invoiceNo,
@@ -566,20 +581,13 @@ const InvoiceForm = () => {
       Currency: formData.currency,
       "Tax Percentage": formData.taxPercentage,
       itemData: itemData,
+      "User Email": formData.userEmail,
     };
     try {
-      const pdfBlob = await generateHTMLPDF(mappedData, userData);
-      if (pdfBlob) {
-        const blobURL = URL.createObjectURL(pdfBlob);
-        // window.open(blobURL, "_blank");
-        const link = document.createElement("a");
-        link.href = blobURL;
-        link.download = "invoice.pdf";
-        link.click();
-        setTimeout(() => URL.revokeObjectURL(blobURL), 100);
-      }
+      await generateHTMLPDF([mappedData], userData, formData.userEmail);
+      toast.success("Invoice generated and sent successfully.");
     } catch (error) {
-      toast.error("Error generating invoice PDF: " + error.message);
+      toast.error(`Error generating invoice PDF: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -670,13 +678,25 @@ const InvoiceForm = () => {
               </div>
             </div>
           </div>
+          <div onClick={(e) => e.stopPropagation()}>
+            <DialogBox
+              isOpen={isDownloadPdf}
+              onClose={handleCloseDialog}
+              onConfirm={onSubmit}
+              title="Enter your email to receive the invoice"
+              confirmText="Send Invoice"
+              cancelText="cancel"
+              errors={errors}
+              register={register}
+              isLoading={loading}
+              disabled={downloadInvoiceIsDisabled}
+            />
+          </div>
           <div className="flex justify-center md:justify-between rounded-r-lg w-full py-5">
             <CustomButton
               type="purple"
-              onClick={onSubmit}
+              onClick={handleDialogBox}
               buttonStyle={{ minWidth: "200px" }}
-              isLoading={loading}
-              disabled={downloadInvoiceIsDisabled}
             >
               Generate Invoice
             </CustomButton>
@@ -705,7 +725,6 @@ const styles = {
   },
   mainSection: {
     padding: "10px 0px",
-    // overflow: "auto",
     scrollbarWidth: "thin",
     scrollbarColor: "var(--secondary-color) transparent",
   },

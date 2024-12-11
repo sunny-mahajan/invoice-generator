@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import InvoicePreview from "../InvoicePreview";
+import CustomInput from "../Input";
+import CustomButton from "../Button";
 
 const DialogBox = ({
   isOpen,
@@ -12,8 +14,17 @@ const DialogBox = ({
   InvoiceTemplatePreview = false,
   selectedTemplateId,
   previewUrl = "",
+  errors,
+  register,
+  isLoading = false,
+  disabled,
 }) => {
+  const [touched, setTouched] = useState(false);
   if (!isOpen) return null; // Don't render if the dialog is not open
+
+  const handleBlur = () => {
+    setTouched(true); // Set touched state to true on blur
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -60,10 +71,26 @@ const DialogBox = ({
           </div>
 
           {/* Content */}
-          <div className="mb-6 text-left">
-            <div className="text-black" style={{ whiteSpace: "pre-line" }}>
-              {content}
-            </div>
+          <div className="mb-6 flex items-center justify-center text-black">
+            <CustomInput
+              type="text"
+              title="Email"
+              name="userEmail"
+              maxLength={50}
+              onBlur={handleBlur}
+              touched={touched}
+              errors={errors}
+              placeholder={"contact@gmail.com"}
+              register={register}
+              required={true}
+              validationRules={{
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              }}
+            />
           </div>
           {/* Buttons */}
           <div className="flex justify-end space-x-4">
@@ -75,13 +102,17 @@ const DialogBox = ({
                 {cancelText}
               </button>
             )}
-
-            <button
-              onClick={onConfirm}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              {confirmText}
-            </button>
+            <div className="flex justify-center md:justify-between rounded-r-lg w-full py-5">
+              <CustomButton
+                type="purple"
+                onClick={onConfirm}
+                buttonStyle={{ minWidth: "200px" }}
+                isLoading={isLoading}
+                disabled={disabled}
+              >
+                {confirmText}
+              </CustomButton>
+            </div>
           </div>
         </div>
       )}

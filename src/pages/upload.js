@@ -14,12 +14,13 @@ import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { previewInvoiceData } from "../utils/constants";
 import { useUser } from "../app/context/userContext";
+import DialogBox from "../components/DialogBox";
+import { useForm } from "react-hook-form";
 
 export default function UploadCSV() {
   const [invoices, setInvoices] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isInvoceTrue, setIsInvoceTrue] = useState(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
   const [templateData, setTemplateData] = useState(null);
@@ -28,8 +29,22 @@ export default function UploadCSV() {
   const [isRandomSelectionChecked, setIsRandomSelectionChecked] =
     useState(false);
   const [isTemplateIdUpdated, setIsTemplateIdUpdated] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDownloadPdf, setIsDownloadPdf] = useState(false);
   const fileInputRef = useRef(null); // Create a reference for the file input
   const { userData } = useUser();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    trigger,
+    getValues,
+    watch,
+  } = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
+  });
 
   useEffect(() => {
     getTemplatesID();
@@ -137,17 +152,53 @@ export default function UploadCSV() {
 
     data.forEach((row, index) => {
       const invoiceNo = row["Invoice No."].trim();
-      const amount = row["Item Quantity"] * row["Item Price"];
-      const taxAmount = amount * (row["Item Tax Percentage"] / 100);
+      let total = (row["Item Quantity"] * row["Item Price"]).toFixed(2);
+      let taxAmount = 0;
+      let subTotal = (row["Item Quantity"] * row["Item Price"]).toFixed(2);
+      let amountSaved = 0;
+      let afterDiscount = 0;
+      if (row["Item Discount Percentage"] > 0) {
+        amountSaved = (
+          row["Item Quantity"] *
+          row["Item Price"] *
+          (row["Item Discount Percentage"] / 100)
+        ).toFixed(2);
+        afterDiscount = (
+          row["Item Quantity"] * row["Item Price"] -
+          amountSaved
+        ).toFixed(2);
+        total = (
+          row["Item Quantity"] * row["Item Price"] -
+          amountSaved
+        ).toFixed(2);
+      }
+      // If taxPercentage is greater than 0, add the tax to the total
+      if (row["Item Tax Percentage"] > 0) {
+        taxAmount = (
+          amountSaved
+            ? afterDiscount * (row["Item Tax Percentage"] / 100)
+            : row["Item Quantity"] *
+              row["Item Price"] *
+              (row["Item Tax Percentage"] / 100)
+        ).toFixed(2);
+        afterDiscount = (
+          row["Item Quantity"] * row["Item Price"] -
+          amountSaved
+        ).toFixed(2);
+        total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(2);
+      }
       const item = {
         name: row["Item Name"],
         description: row["Item Description"],
         quantity: row["Item Quantity"],
         price: row["Item Price"],
-        amount: amount, // Use the calculated amount
-        taxAmount: taxAmount, // Use the calculated taxAmount
+        discountPercentage: row["Item Discount Percentage"],
         taxPercentage: row["Item Tax Percentage"],
-        total: amount + taxAmount, // Now the total can reference amount and taxAmount
+        amountSaved: amountSaved, // Use the calculated amount
+        afterDiscount: afterDiscount, // Use the calculated taxAmount
+        taxAmount: taxAmount,
+        amount: subTotal,
+        total: total, // Now the total can reference amount and taxAmount
       };
       if (invoiceNo && invoiceNo !== lastInvoiceNo) {
         // New invoice detected
@@ -203,6 +254,8 @@ export default function UploadCSV() {
     const invoicesArray = Array.from(invoicesMap.values());
 
     invoicesArray.forEach((invoice) => {
+      const itemData = handleItemCalculatation(invoice);
+      invoice.itemData = itemData;
       const itemsValid = invoice.Items.every((item, itemIndex) =>
         validateItem(item, itemIndex)
       );
@@ -224,6 +277,42 @@ export default function UploadCSV() {
 
   const handleSelectTemplate = (templateId) => {
     setSelectedTemplateId(templateId);
+  };
+
+  const handleItemCalculatation = (formData) => {
+    let subTotal = 0;
+    let total = 0;
+    let taxAmount = 0;
+    let taxPercentages = 0;
+    let discountMoney = 0;
+    let afterDiscountAmount = 0;
+    const items = formData?.Items;
+    const advancedAmount = formData?.advancedAmount;
+    items?.forEach((item) => {
+      if (!item.quantity || !item.price) return;
+      subTotal += +item.amount;
+      total += +item.total;
+      discountMoney += +item.amountSaved;
+      taxAmount += +item.taxAmount;
+      afterDiscountAmount += +item.afterDiscount;
+    });
+    taxPercentages =
+      (taxAmount / (afterDiscountAmount ? afterDiscountAmount : subTotal)) *
+      100;
+
+    if (advancedAmount && total > 0) {
+      total -= advancedAmount;
+    }
+    const itemData = {
+      subTotal: subTotal.toFixed(2),
+      total: total.toFixed(2),
+      taxAmount: taxAmount.toFixed(2),
+      taxPercentage: taxPercentages.toFixed(2),
+      discount: discountMoney.toFixed(2),
+      afterDiscountAmount: afterDiscountAmount.toFixed(2),
+    };
+
+    return itemData;
   };
 
   const assignTemplateToInvoices = (templateIdGenerator) => {
@@ -254,25 +343,33 @@ export default function UploadCSV() {
     }
   };
 
-  const handleDownloadZip = async () => {
-    setLoading(true); // Start loading
+  const handleDialogBox = async () => {
+    setIsDownloadPdf(true);
+  };
 
-    const zip = new JSZip();
-    for (const invoice of invoices) {
-      const pdfBlob = await generateHTMLPDF(invoice, userData);
-      zip.file(`invoice_${invoice["Invoice No."]}.pdf`, pdfBlob);
+  const handleCloseDialog = () => setIsDownloadPdf(false);
+
+  const handleDownloadZip = async () => {
+    const data = getValues();
+    const isValid = await trigger();
+    console.log("valid", isValid);
+    console.log("data", data);
+
+    if (!isValid) {
+      return;
     }
 
-    zip.generateAsync({ type: "blob" }).then((content) => {
-      saveAs(content, "invoices.zip");
-      setInvoices([]);
-      setSelectedFileName("");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ""; // Reset the file input
-      }
-      setTemplateData(null);
-      setLoading(false); // End loading
-    });
+    setLoading(true); // Start loading
+
+    try {
+      const response = await generateHTMLPDF(invoices, userData, data);
+      console.log("Zip file generated successfully", response);
+    } catch (error) {
+      console.error("Error generating Zip file:", error);
+      alert(`An error occurred: ${error.message}`);
+    } finally {
+      setLoading(false); // Stop loading in both success and error cases
+    }
   };
 
   const handleDeselectFile = (event) => {
@@ -406,16 +503,31 @@ export default function UploadCSV() {
           isShowRandomSelection={true}
           invoiceData={previewInvoiceData}
           isRandomSelectionChecked={isRandomSelectionChecked}
+          setIsDialogOpen={setIsDialogOpen}
+          isDialogOpen={isDialogOpen}
         />
         <ToastContainer />
+      </div>
+      <div onClick={(e) => e.stopPropagation()}>
+        <DialogBox
+          isOpen={isDownloadPdf}
+          onClose={handleCloseDialog}
+          onConfirm={handleDownloadZip}
+          title="Enter your email to receive the invoice"
+          confirmText="Send Invoice"
+          cancelText="cancel"
+          errors={errors}
+          register={register}
+          isLoading={loading}
+        />
       </div>
       {invoices.length > 0 && isInvoceTrue && (
         <div className="mt-0 md:mb-6 px-4">
           <CustomButton
             type="purple"
-            onClick={handleDownloadZip}
+            // onClick={handleDownloadZip}
+            onClick={handleDialogBox}
             buttonStyle={{ marginTop: "1rem", minWidth: "250px" }}
-            isLoading={loading}
           >
             {loading ? "Generating ZIP..." : "Generate Invoices as ZIP"}
           </CustomButton>
