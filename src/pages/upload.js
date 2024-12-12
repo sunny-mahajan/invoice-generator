@@ -36,11 +36,9 @@ export default function UploadCSV() {
 
   const {
     register,
-    handleSubmit,
     formState: { errors },
     trigger,
     getValues,
-    watch,
   } = useForm({
     mode: "onChange",
     reValidateMode: "onChange",
@@ -362,7 +360,11 @@ export default function UploadCSV() {
     setLoading(true); // Start loading
 
     try {
-      const response = await generateHTMLPDF(invoices, userData, data);
+      const response = await generateHTMLPDF(
+        invoices,
+        userData,
+        data.userEmail
+      );
       console.log("Zip file generated successfully", response);
     } catch (error) {
       console.error("Error generating Zip file:", error);
