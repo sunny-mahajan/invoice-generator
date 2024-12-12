@@ -664,9 +664,9 @@ export default function generateHTMLTPL002(invoiceData) {
           <td colspan=${calculateColumnSpan(
             invoiceData.itemData
           )} style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
-          <td style="background-color: #f4f4f4; font-weight: bold; text-align:right"><span class="currency-symbol-cls">${currencySymbolTest(
+          <td style="background-color: #f4f4f4; font-weight: bold; text-align:right">${currencySymbolTest(
             invoiceData["Currency"]
-          )}</span>${invoiceData.itemData["total"]}</td>
+          )}${invoiceData.itemData["total"]}</td>
         </tr>
       </tbody>
     </table>
