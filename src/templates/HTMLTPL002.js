@@ -30,6 +30,22 @@ export default function generateHTMLTPL002(invoiceData) {
     return symbols[currency] || ""; // Default to empty string if not found
   };
 
+  const currencySymbolTest = (currency) => {
+    const currencySymbols = {
+      USD: "$", // US Dollar
+      EUR: "€", // Euro
+      GBP: "£", // British Pound
+      JPY: "¥", // Japanese Yen
+      AUD: "A$", // Australian Dollar
+      CAD: "C$", // Canadian Dollar
+      INR: "₹", // Indian Rupee
+      CNY: "¥", // Chinese Yuan
+    };
+
+    const symbol = currencySymbols[currency] || "INR"; // Default to empty if currency not found
+    return symbol;
+  };
+
   const calculateColumnSpan = (itemData) => {
     const { discount, taxPercentage } = itemData;
     if ((discount > 0 && taxPercentage > 0) || taxPercentage > 0) return "7";
@@ -648,8 +664,8 @@ export default function generateHTMLTPL002(invoiceData) {
           <td colspan=${calculateColumnSpan(
             invoiceData.itemData
           )} style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
-          <td style="background-color: #f4f4f4; font-weight: bold; text-align:right"><span class="currency-symbol-cls">${currencySymbol(
-            "INR"
+          <td style="background-color: #f4f4f4; font-weight: bold; text-align:right"><span class="currency-symbol-cls">${currencySymbolTest(
+            invoiceData["Currency"]
           )}</span>${invoiceData.itemData["total"]}</td>
         </tr>
       </tbody>
