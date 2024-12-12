@@ -69,7 +69,7 @@ export default function InvoicePreview({
       Items: formData.items,
       "Tax Percentage": formData.taxPercentage,
       itemData: itemData,
-      Currency: "INR",
+      Currency: formData.currency,
     };
     generatePreview(mappedData);
   };
