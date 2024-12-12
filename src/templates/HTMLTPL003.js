@@ -16,7 +16,9 @@ export default function generateHTMLTPL003(invoiceData) {
     return `${day}-${month}-${year}`;
   };
 
-  const currencySymbol = () => "₹";
+  const currencySymbol = () => {
+    return "₹";
+  };
 
   invoiceData["Invoice Issue Date"] = formatDate(
     invoiceData["Invoice Issue Date"]
