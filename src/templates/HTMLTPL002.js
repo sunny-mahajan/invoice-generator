@@ -23,7 +23,9 @@ export default function generateHTMLTPL002(invoiceData) {
     invoiceData["IFSC Code"] ||
     invoiceData["Bank Address"];
 
-  const currencySymbol = "₹";
+  const currencySymbol = {
+    INR: "₹",
+  };
 
   const calculateColumnSpan = (itemData) => {
     const { discount, taxPercentage } = itemData;
@@ -64,7 +66,7 @@ export default function generateHTMLTPL002(invoiceData) {
                Paid Amount
             </td>
             <td style="text-align:right">
-              <span class="currency-symbol-cls">${currencySymbol}</span>
+              <span class="currency-symbol-cls">${currencySymbol["INR"]}</span>
               ${Number(invoiceData["Paid Amount"]).toFixed(2)}
             </td>
           </tr>
@@ -475,7 +477,7 @@ export default function generateHTMLTPL002(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] <= 0
               ? `
-              <th>GST <span class="currency-symbol-cls">${currencySymbol}</span></th>
+              <th>GST <span class="currency-symbol-cls">${currencySymbol["INR"]}</span></th>
             `
               : ""
           }
@@ -491,9 +493,9 @@ export default function generateHTMLTPL002(invoiceData) {
             <td class="item-cls">${item["name"]}
             ${isDescriptionAvailable ? `<p>${item["description"]}</p>` : ""}
             </td>
-            <td><span class="currency-symbol-cls">${currencySymbol}</span>${
-            item["price"]
-          }</td>
+            <td><span class="currency-symbol-cls">${
+              currencySymbol["INR"]
+            }</span>${item["price"]}</td>
             <td>${item["quantity"]}</td>
             ${
               (invoiceData.itemData["taxPercentage"] <= 0 &&
@@ -501,7 +503,7 @@ export default function generateHTMLTPL002(invoiceData) {
               (invoiceData.itemData["taxPercentage"] > 0 &&
                 invoiceData.itemData["discount"] <= 0)
                 ? `
-                <td><span class="currency-symbol-cls">${currencySymbol}</span>${item["amount"]}
+                <td><span class="currency-symbol-cls">${currencySymbol["INR"]}</span>${item["amount"]}
               </td>
               `
                 : ""
@@ -518,7 +520,7 @@ export default function generateHTMLTPL002(invoiceData) {
               invoiceData.itemData["taxPercentage"] > 0 &&
               invoiceData.itemData["discount"] > 0
                 ? `
-              <td><span class="currency-symbol-cls">${currencySymbol}</span>${item["afterDiscount"]}
+              <td><span class="currency-symbol-cls">${currencySymbol["INR"]}</span>${item["afterDiscount"]}
               </td>
             `
                 : ""
@@ -535,13 +537,13 @@ export default function generateHTMLTPL002(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] <= 0
               ? `
-              <td><span class="currency-symbol-cls">${currencySymbol}</span>${item["taxAmount"]}</td>
+              <td><span class="currency-symbol-cls">${currencySymbol["INR"]}</span>${item["taxAmount"]}</td>
               `
               : ""
           }
-          <td><span class="currency-symbol-cls">${currencySymbol}</span>${
-            item["total"]
-          }
+          <td><span class="currency-symbol-cls">${
+            currencySymbol["INR"]
+          }</span>${item["total"]}
           </td>
         </tr>`
         )
@@ -554,9 +556,9 @@ export default function generateHTMLTPL002(invoiceData) {
             <td colspan=${calculateColumnSpan(
               invoiceData.itemData
             )} style="text-align:right; border: none;">Subtotal</td>
-            <td style="text-align:right"><span class="currency-symbol-cls">${currencySymbol}</span>${
-                invoiceData.itemData["subTotal"]
-              }</td>
+            <td style="text-align:right"><span class="currency-symbol-cls">${
+              currencySymbol["INR"]
+            }</span>${invoiceData.itemData["subTotal"]}</td>
           </tr>
           ${
             invoiceData.itemData["discount"] > 0
@@ -565,9 +567,9 @@ export default function generateHTMLTPL002(invoiceData) {
                     <td colspan=${calculateColumnSpan(
                       invoiceData.itemData
                     )} style="text-align:right; border: none;">Discount</td>
-                    <td style="text-align:right"><span class="currency-symbol-cls">${currencySymbol}</span>${
-                  invoiceData.itemData["discount"]
-                }</td>
+                    <td style="text-align:right"><span class="currency-symbol-cls">${
+                      currencySymbol["INR"]
+                    }</span>${invoiceData.itemData["discount"]}</td>
                   </tr>
                   `
               : ""
@@ -580,9 +582,9 @@ export default function generateHTMLTPL002(invoiceData) {
               <td colspan=${calculateColumnSpan(
                 invoiceData.itemData
               )} style="text-align:right; border: none;">Net Price</td>
-              <td><span class="currency-symbol-cls">${currencySymbol}</span>${
-                  invoiceData.itemData["afterDiscountAmount"]
-                }</td>
+              <td><span class="currency-symbol-cls">${
+                currencySymbol["INR"]
+              }</span>${invoiceData.itemData["afterDiscountAmount"]}</td>
             </tr>
             `
               : ""
@@ -599,9 +601,9 @@ export default function generateHTMLTPL002(invoiceData) {
                       )} style="text-align:right; border: none;">${
                         invoiceData["Sender's Tax Type"]
                       }</td>
-                      <td style="text-align:right"><span class="currency-symbol-cls">${currencySymbol}</span>${
-                        invoiceData.itemData["taxAmount"]
-                      }</td>
+                      <td style="text-align:right"><span class="currency-symbol-cls">${
+                        currencySymbol["INR"]
+                      }</span>${invoiceData.itemData["taxAmount"]}</td>
                     </tr>
                         `
                     : `
@@ -609,17 +611,17 @@ export default function generateHTMLTPL002(invoiceData) {
                       <td colspan=${calculateColumnSpan(
                         invoiceData.itemData
                       )} style="text-align:right; border: none;">CGST</td>
-                      <td style="text-align:right"><span class="currency-symbol-cls">${currencySymbol}</span>${
-                        invoiceData.itemData["taxAmount"] / 2
-                      }</td>
+                      <td style="text-align:right"><span class="currency-symbol-cls">${
+                        currencySymbol["INR"]
+                      }</span>${invoiceData.itemData["taxAmount"] / 2}</td>
                     </tr>
                     <tr>
                       <td colspan=${calculateColumnSpan(
                         invoiceData.itemData
                       )} style="text-align:right; border: none;">SGST</td>
-                      <td style="text-align:right"><span class="currency-symbol-cls">${currencySymbol}</span>${
-                        invoiceData.itemData["taxAmount"] / 2
-                      }</td>
+                      <td style="text-align:right"><span class="currency-symbol-cls">${
+                        currencySymbol["INR"]
+                      }</span>${invoiceData.itemData["taxAmount"] / 2}</td>
                     </tr>
                   `
                 }
@@ -635,9 +637,9 @@ export default function generateHTMLTPL002(invoiceData) {
           <td colspan=${calculateColumnSpan(
             invoiceData.itemData
           )} style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
-          <td style="background-color: #f4f4f4; font-weight: bold; text-align:right"><span class="currency-symbol-cls">${currencySymbol}</span>${
-    invoiceData.itemData["total"]
-  }</td>
+          <td style="background-color: #f4f4f4; font-weight: bold; text-align:right"><span class="currency-symbol-cls">${
+            currencySymbol["INR"]
+          }</span>${invoiceData.itemData["total"]}</td>
         </tr>
       </tbody>
     </table>
