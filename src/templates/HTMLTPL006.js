@@ -701,7 +701,7 @@ export default function generateHTMLTPL006(invoiceData) {
               ${AdvancePaidAmount}
               <p class="details-title result">TOTAL</p>
               <p class="details-title result">
-                <span style="color: #cc3c3a">${currencySymbol()}</span>
+                <span style="color: #cc3c3a;">${currencySymbol()}</span>
                 ${invoiceData.itemData["total"]}
               </p>
       </div>
