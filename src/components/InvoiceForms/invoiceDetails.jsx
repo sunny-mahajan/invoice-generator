@@ -65,6 +65,13 @@ const InvoiceDetailsForm = ({
       fileInputRef.current.value = ""; // Reset the file input
     }
   };
+
+  function generateInvoiceNumber() {
+    const prefix = "INV-";
+    const randomNumber = Math.floor(10000 + Math.random() * 90000); // Generate a 5-digit random number
+    return `${prefix}${randomNumber}`;
+  }
+
   return (
     <div className="flex gap-5 flex-col">
       <div className="invoice-details-section block md:flex">
@@ -78,6 +85,7 @@ const InvoiceDetailsForm = ({
               maxLength={8}
               value={formData?.invoiceNo}
               onChange={handleChange}
+              defaultValue={generateInvoiceNumber()}
               inputClass="input-invoice-cls"
               containerClass="input-container-cls"
               required={true}
