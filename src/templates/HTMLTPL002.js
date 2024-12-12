@@ -23,6 +23,7 @@ export default function generateHTMLTPL002(invoiceData) {
     invoiceData["IFSC Code"] ||
     invoiceData["Bank Address"];
 
+  console.log(currencySymbol(invoiceData["Currency"]), "currencySymbol");
   // const currencySymbol = (currency) => {
   //   const symbols = {
   //     INR: "₹",
