@@ -336,6 +336,7 @@ export default function UploadCSV() {
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, "invoices.zip");
+      toast.success("Invoices downloaded successfully");
       setInvoices([]);
       setSelectedFileName("");
       if (fileInputRef.current) {
