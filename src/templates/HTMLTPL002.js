@@ -23,7 +23,6 @@ export default function generateHTMLTPL002(invoiceData) {
     invoiceData["IFSC Code"] ||
     invoiceData["Bank Address"];
 
-  console.log(currencySymbol(invoiceData["Currency"]), "currencySymbol");
   // const currencySymbol = (currency) => {
   //   const symbols = {
   //     INR: "₹",
@@ -46,6 +45,8 @@ export default function generateHTMLTPL002(invoiceData) {
     const symbol = currencySymbols[currency] || "INR"; // Default to empty if currency not found
     return symbol;
   };
+
+  console.log(currencySymbol(invoiceData["Currency"]), "currencySymbol");
 
   const calculateColumnSpan = (itemData) => {
     const { discount, taxPercentage } = itemData;
