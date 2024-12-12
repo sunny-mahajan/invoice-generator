@@ -67,7 +67,6 @@ export default function InvoicePreview({
       "Sender Custom Fields": formData.senderDetails.customFields,
       "Client Custom Fields": formData.clientDetails.customFields,
       Items: formData.items,
-      Currency: formData.currency,
       "Tax Percentage": formData.taxPercentage,
       itemData: itemData,
     };

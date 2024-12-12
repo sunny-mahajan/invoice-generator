@@ -167,11 +167,7 @@ const ItemDetails = ({
                             containerClass="items-center min-w-[100px]"
                             isText
                             itemErrorsData={errorsData}
-                            value={`${
-                              formData.currency
-                                ? `${currencySymbols[formData.currency] || ""} `
-                                : ""
-                            }${item.total || 0}`}
+                            value={`${currencySymbols}${item.total || 0}`}
                           />
                           {formData.items.length > 1 && (
                             <div
@@ -193,11 +189,7 @@ const ItemDetails = ({
                           title="Amount"
                           containerClass="items-center break-all min-w-[90px]"
                           isText
-                          value={`${
-                            formData.currency
-                              ? `${currencySymbols[formData.currency] || ""} `
-                              : ""
-                          }${item.amount || 0}`}
+                          value={`${currencySymbols}${item.amount || 0}`}
                           itemErrorsData={errorsData}
                         />
                         {formData.senderDetails.discount && (
@@ -206,13 +198,9 @@ const ItemDetails = ({
                               title="Discount"
                               containerClass="items-center break-all min-w-[90px]"
                               isText
-                              value={`${
-                                formData.currency
-                                  ? `${
-                                      currencySymbols[formData.currency] || ""
-                                    } `
-                                  : ""
-                              }${item.amountSaved || 0}`}
+                              value={`${currencySymbols}${
+                                item.amountSaved || 0
+                              }`}
                               itemErrorsData={errorsData}
                             />
                             {formData.senderDetails.taxType !== "None" &&
@@ -221,14 +209,9 @@ const ItemDetails = ({
                                   title="Net Price"
                                   containerClass="items-center break-all min-w-[90px]"
                                   isText
-                                  value={`${
-                                    formData.currency
-                                      ? `${
-                                          currencySymbols[formData.currency] ||
-                                          ""
-                                        } `
-                                      : ""
-                                  }${item.afterDiscount || 0}`}
+                                  value={`${currencySymbols}${
+                                    item.afterDiscount || 0
+                                  }`}
                                   itemErrorsData={errorsData}
                                 />
                               )}
@@ -239,11 +222,7 @@ const ItemDetails = ({
                             title="Tax Amount"
                             containerClass="items-center min-w-[80px] break-all min-w-[90px]"
                             isText
-                            value={`${
-                              formData.currency
-                                ? `${currencySymbols[formData.currency] || ""} `
-                                : ""
-                            }${item.taxAmount || 0}`}
+                            value={`${currencySymbols}${item.taxAmount || 0}`}
                             itemErrorsData={errorsData}
                           />
                         )}
@@ -257,11 +236,7 @@ const ItemDetails = ({
                         title="Total"
                         containerClass="items-center break-all min-w-[90px]"
                         isText
-                        value={`${
-                          formData.currency
-                            ? `${currencySymbols[formData.currency] || ""} `
-                            : ""
-                        }${item.total || 0}`}
+                        value={`${currencySymbols}${item.total || 0}`}
                         itemErrorsData={errorsData}
                       />
                     )}
