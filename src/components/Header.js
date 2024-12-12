@@ -48,6 +48,7 @@ const Header = () => {
   };
 
   const handleLogout = () => {
+    theme === "light" && toggleTheme();
     localStorage.removeItem("token");
     clearUser();
     router.push("/auth/login");
@@ -90,7 +91,7 @@ const Header = () => {
           {theme === "light" ? <DarkThemeIcon /> : <LightThemeIcon />}
         </button>
         {isHovered && (
-          <div className="tooltip absolute top-full right-0 text-[12px] font-[500] font-[normal] w-40 p-1 bg-gray-200 text-black rounded shadow-lg z-50">
+          <div className="tooltip absolute top-full right-0 text-[12px] font-[500] font-[normal] w-[120px] text-center p-1 bg-gray-200 text-black rounded shadow-lg z-50">
             Switch to {theme === "light" ? "Dark" : "Light"} Theme
           </div>
         )}
@@ -103,7 +104,7 @@ const Header = () => {
         >
           <span
             className="user-profile-cls text-lg"
-            style={{ marginTop: "1px" }}
+            style={{ marginTop: "4px" }}
           >
             {userData?.name.charAt(0).toUpperCase()}
           </span>
