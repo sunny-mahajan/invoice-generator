@@ -150,53 +150,17 @@ export default function UploadCSV() {
 
     data.forEach((row, index) => {
       const invoiceNo = row["Invoice No."].trim();
-      let total = (row["Item Quantity"] * row["Item Price"]).toFixed(2);
-      let taxAmount = 0;
-      let subTotal = (row["Item Quantity"] * row["Item Price"]).toFixed(2);
-      let amountSaved = 0;
-      let afterDiscount = 0;
-      if (row["Item Discount Percentage"] > 0) {
-        amountSaved = (
-          row["Item Quantity"] *
-          row["Item Price"] *
-          (row["Item Discount Percentage"] / 100)
-        ).toFixed(2);
-        afterDiscount = (
-          row["Item Quantity"] * row["Item Price"] -
-          amountSaved
-        ).toFixed(2);
-        total = (
-          row["Item Quantity"] * row["Item Price"] -
-          amountSaved
-        ).toFixed(2);
-      }
-      // If taxPercentage is greater than 0, add the tax to the total
-      if (row["Item Tax Percentage"] > 0) {
-        taxAmount = (
-          amountSaved
-            ? afterDiscount * (row["Item Tax Percentage"] / 100)
-            : row["Item Quantity"] *
-              row["Item Price"] *
-              (row["Item Tax Percentage"] / 100)
-        ).toFixed(2);
-        afterDiscount = (
-          row["Item Quantity"] * row["Item Price"] -
-          amountSaved
-        ).toFixed(2);
-        total = (parseFloat(total) + parseFloat(taxAmount)).toFixed(2);
-      }
+      const amount = row["Item Quantity"] * row["Item Price"];
+      const taxAmount = amount * (row["Item Tax Percentage"] / 100);
       const item = {
         name: row["Item Name"],
         description: row["Item Description"],
         quantity: row["Item Quantity"],
         price: row["Item Price"],
-        discountPercentage: row["Item Discount Percentage"],
+        amount: amount, // Use the calculated amount
+        taxAmount: taxAmount, // Use the calculated taxAmount
         taxPercentage: row["Item Tax Percentage"],
-        amountSaved: amountSaved, // Use the calculated amount
-        afterDiscount: afterDiscount, // Use the calculated taxAmount
-        taxAmount: taxAmount,
-        amount: subTotal,
-        total: total, // Now the total can reference amount and taxAmount
+        total: amount + taxAmount, // Now the total can reference amount and taxAmount
       };
       if (invoiceNo && invoiceNo !== lastInvoiceNo) {
         // New invoice detected
@@ -252,8 +216,6 @@ export default function UploadCSV() {
     const invoicesArray = Array.from(invoicesMap.values());
 
     invoicesArray.forEach((invoice) => {
-      const itemData = handleItemCalculatation(invoice);
-      invoice.itemData = itemData;
       const itemsValid = invoice.Items.every((item, itemIndex) =>
         validateItem(item, itemIndex)
       );
@@ -275,42 +237,6 @@ export default function UploadCSV() {
 
   const handleSelectTemplate = (templateId) => {
     setSelectedTemplateId(templateId);
-  };
-
-  const handleItemCalculatation = (formData) => {
-    let subTotal = 0;
-    let total = 0;
-    let taxAmount = 0;
-    let taxPercentages = 0;
-    let discountMoney = 0;
-    let afterDiscountAmount = 0;
-    const items = formData?.Items;
-    const advancedAmount = formData?.advancedAmount;
-    items?.forEach((item) => {
-      if (!item.quantity || !item.price) return;
-      subTotal += +item.amount;
-      total += +item.total;
-      discountMoney += +item.amountSaved;
-      taxAmount += +item.taxAmount;
-      afterDiscountAmount += +item.afterDiscount;
-    });
-    taxPercentages =
-      (taxAmount / (afterDiscountAmount ? afterDiscountAmount : subTotal)) *
-      100;
-
-    if (advancedAmount && total > 0) {
-      total -= advancedAmount;
-    }
-    const itemData = {
-      subTotal: subTotal.toFixed(2),
-      total: total.toFixed(2),
-      taxAmount: taxAmount.toFixed(2),
-      taxPercentage: taxPercentages.toFixed(2),
-      discount: discountMoney.toFixed(2),
-      afterDiscountAmount: afterDiscountAmount.toFixed(2),
-    };
-
-    return itemData;
   };
 
   const assignTemplateToInvoices = (templateIdGenerator) => {
