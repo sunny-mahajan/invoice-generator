@@ -723,9 +723,10 @@ export default function generateHTMLTPL001(invoiceData) {
               ${AdvancePaidAmount}
               <div class="sub-sec5-item">
                 <h2 class="sub-sec5-title">Total</h2>
-                <span class="currency-symbol-cls"><span>${rupeeIcon()}</span>${
-    invoiceData.itemData["total"]
-  }</span>
+                <span class="currency-symbol-cls"><span>${rupeeIcon(
+                  16,
+                  16
+                )}</span>${invoiceData.itemData["total"]}</span>
               </div>
             </div>
           </div>
