@@ -16,8 +16,6 @@ export default function generateHTMLTPL003(invoiceData) {
     return `${day}-${month}-${year}`;
   };
 
-  const currencySymbol = () => "₹";
-
   const rupeeIcon = (w = 13, h = 13, color = "#000000") => {
     return `
       <svg
@@ -668,8 +666,8 @@ export default function generateHTMLTPL003(invoiceData) {
                  ${AdvancePaidAmount}
                      <div class="sub-sec5-item">
                         <h2 class="sub-sec5-title">Total</h2><span class="currency-symbol-cls"><span>${rupeeIcon(
-                          16,
-                          16
+                          15,
+                          15
                         )}</span>${invoiceData.itemData["total"]}</span>
                      </div>
                 </div>

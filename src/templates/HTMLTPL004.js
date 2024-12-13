@@ -598,7 +598,10 @@ export default function generateHTMLTPL004(invoiceData) {
                     <td colspan=${calculateColumnSpan(
                       invoiceData.itemData
                     )} style="text-align:right !important; border: none;"><strong>Total Due</strong></td>
-                    <td style="background-color: #d9d9d9; width: auto; text-align:right !important"><div><strong class="currency-symbol-cls"><span>${rupeeIcon()}</span>${
+                    <td style="background-color: #d9d9d9; width: auto; text-align:right !important"><div><strong class="currency-symbol-cls"><span>${rupeeIcon(
+                      16,
+                      16
+                    )}</span>${
     invoiceData.itemData["total"]
   }</strong></div></td>
                 </tr>

@@ -86,7 +86,6 @@ let formDataInitialValues = {
     bankAccountType: "Savings",
     bankAddress: "",
   },
-  currency: "INR",
   taxPercentage: 0,
   total: 0,
 };
@@ -565,7 +564,6 @@ const InvoiceForm = () => {
       Items: formData.items,
       "Tax Percentage": formData.taxPercentage,
       itemData: itemData,
-      Currency: formData.currency,
     };
     try {
       const pdfBlob = await generateHTMLPDF(mappedData, userData);

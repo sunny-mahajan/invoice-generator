@@ -653,8 +653,8 @@ export default function generateHTMLTPL002(invoiceData) {
             invoiceData.itemData
           )} style="text-align:right; border: none; font-weight: bold;">TOTAL</td>
           <td style="background-color: #f4f4f4; font-weight: bold; text-align:right; display: flex; justify-content: flex-end;"><span class="currency-icon-cls">${rupeeIcon(
-            18,
-            18
+            15,
+            15
           )}${invoiceData.itemData["total"]}</span></td>
         </tr>
       </tbody>

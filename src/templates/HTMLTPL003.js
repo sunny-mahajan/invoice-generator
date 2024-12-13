@@ -16,7 +16,7 @@ export default function generateHTMLTPL003(invoiceData) {
     return `${day}-${month}-${year}`;
   };
 
-  const rupeeIcon = (w = 15, h = 15) => {
+  const rupeeIcon = (w = 16, h = 16) => {
     return `
       <svg
         fill="#000000"
@@ -481,7 +481,7 @@ export default function generateHTMLTPL003(invoiceData) {
     <div class="total-section">
         <div class="total-details">
             <h1><strong>Invoice Total</strong></h1>
-            <h1><strong class="currency-symbol-cls">${rupeeIcon(30, 30)}${
+            <h1><strong class="currency-symbol-cls">${rupeeIcon(29, 29)}${
     invoiceData.itemData["total"]
   }</strong></h1>
         </div>

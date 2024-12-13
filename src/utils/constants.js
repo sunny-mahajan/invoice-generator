@@ -84,7 +84,6 @@ export const previewInvoiceData = {
   Remarks:
     "Thanks for your business! We look forward to working with you again.",
   Logo: "https://img.freepik.com/premium-vector/minimalist-…orporate-brand-business-company_1253202-77511.jpg",
-  Currency: "INR",
   Items: [
     {
       name: "Product A",
