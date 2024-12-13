@@ -4,7 +4,7 @@ import { ThemeProvider } from "../utils/themeContext";
 import { UserItemsProvider } from "../app/context/userContext";
 
 function MyApp({ Component, pageProps, router }) {
-  const protectedRoutes = ["/", "/upload", "/auth/change-password"]; // Define protected routes
+  const protectedRoutes = ["/auth/change-password"]; // Define protected routes
   const isProtectedRoute = protectedRoutes.includes(router.pathname);
 
   return (

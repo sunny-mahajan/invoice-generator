@@ -23,7 +23,7 @@ const Header = () => {
   const [isHovered, setIsHovered] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
-  const body = document.body;
+  const body = userData ? document?.body : null;
   const handleProfileClick = () => {
     const avatarRect = avatarRef.current.getBoundingClientRect();
     setMenuPosition({
@@ -37,7 +37,7 @@ const Header = () => {
   }, [router]);
 
   useClickOutside([avatarRef, menuRef], () => setIsMenuOpen(false));
-
+  console.log("userData", userData);
   // Handler to set active upload option
   const handleUploadClick = (type) => {
     if (type === "bulk") {
@@ -96,18 +96,20 @@ const Header = () => {
         )}
       </div>
       <div className="sidebar-bottom d-flex items-center justify-content-center">
-        <div
-          className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
-          ref={avatarRef}
-          onClick={handleProfileClick}
-        >
-          <span
-            className="user-profile-cls text-lg"
-            style={{ marginTop: "1px" }}
+        {userData && userData.name && (
+          <div
+            className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
+            ref={avatarRef}
+            onClick={handleProfileClick}
           >
-            {userData?.name.charAt(0).toUpperCase()}
-          </span>
-        </div>
+            <span
+              className="user-profile-cls text-lg"
+              style={{ marginTop: "1px" }}
+            >
+              {userData?.name.charAt(0).toUpperCase()}
+            </span>
+          </div>
+        )}
       </div>
 
       {isMenuOpen && ( // Conditionally render the side menu

@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { generateHTMLPDF } from "../utils/generateHTMLPDF";
 import Papa from "papaparse";
-import JSZip from "jszip";
-import { saveAs } from "file-saver";
 import Layout from "../components/Layout";
 import CustomButton from "../components/Button";
 import "./style.css";
@@ -39,6 +37,7 @@ export default function UploadCSV() {
     formState: { errors },
     trigger,
     getValues,
+    setValue,
   } = useForm({
     mode: "onChange",
     reValidateMode: "onChange",
@@ -362,7 +361,16 @@ export default function UploadCSV() {
         userData,
         data.userEmail
       );
-      console.log("Zip file generated successfully", response);
+      setIsDownloadPdf(false);
+      setInvoices([]);
+      setSelectedFileName("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // Reset the file input
+      }
+      setTemplateData(null);
+      setLoading(false); // End loading
+      setValue("userEmail", "");
+      toast.success("Invoice generated and sent successfully.");
     } catch (error) {
       console.error("Error generating Zip file:", error);
       alert(`An error occurred: ${error.message}`);
@@ -514,7 +522,6 @@ export default function UploadCSV() {
           onConfirm={handleDownloadZip}
           title="Enter your email to receive the invoice"
           confirmText="Send Invoice"
-          cancelText="cancel"
           errors={errors}
           register={register}
           isLoading={loading}
@@ -528,7 +535,8 @@ export default function UploadCSV() {
             onClick={handleDialogBox}
             buttonStyle={{ marginTop: "1rem", minWidth: "250px" }}
           >
-            {loading ? "Generating ZIP..." : "Generate Invoices as ZIP"}
+            Generate Invoices as ZIP
+            {/* {loading ? "Generating ZIP..." : "Generate Invoices as ZIP"} */}
           </CustomButton>
         </div>
       )}

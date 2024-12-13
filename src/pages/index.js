@@ -121,6 +121,7 @@ const InvoiceForm = () => {
     formState: { errors },
     trigger,
     getValues,
+    setValue,
     watch,
   } = useForm({
     mode: "onChange",
@@ -583,6 +584,8 @@ const InvoiceForm = () => {
     };
     try {
       await generateHTMLPDF([mappedData], userData, formData.userEmail);
+      setIsDownloadPdf(false);
+      setValue("userEmail", "");
       toast.success("Invoice generated and sent successfully.");
     } catch (error) {
       toast.error(`Error generating invoice PDF: ${error.message}`);
@@ -683,7 +686,6 @@ const InvoiceForm = () => {
               onConfirm={onSubmit}
               title="Enter your email to receive the invoice"
               confirmText="Send Invoice"
-              cancelText="cancel"
               errors={errors}
               register={register}
               isLoading={loading}
