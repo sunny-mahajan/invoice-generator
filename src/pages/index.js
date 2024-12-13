@@ -89,7 +89,6 @@ let formDataInitialValues = {
   },
   taxPercentage: 0,
   total: 0,
-  currency: "INR",
   userEmail: "",
 };
 
@@ -578,7 +577,6 @@ const InvoiceForm = () => {
       "Sender Custom Fields": formData.senderDetails.customFields,
       "Client Custom Fields": formData.clientDetails.customFields,
       Items: formData.items,
-      Currency: formData.currency,
       "Tax Percentage": formData.taxPercentage,
       itemData: itemData,
       "User Email": formData.userEmail,

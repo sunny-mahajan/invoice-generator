@@ -232,7 +232,6 @@ export default function UploadCSV() {
           "Account Type": row["Account Type"],
           "Bank Address": row["Bank Address"],
           "Paid Amount": row["Paid Amount"],
-          Currency: "INR",
           Logo: row["Logo Url"],
           Remarks: row["Remarks"],
           Items: [item],

@@ -40,16 +40,7 @@ export const taxTypeOptions = [
   { label: "GST/HST", value: "GST/HST" }, // Canada
 ];
 
-export const currencySymbols = {
-  USD: "$", // US Dollar
-  EUR: "€", // Euro
-  GBP: "£", // British Pound
-  JPY: "¥", // Japanese Yen
-  AUD: "A$", // Australian Dollar
-  CAD: "C$", // Canadian Dollar
-  INR: "₹", // Indian Rupee
-  CNY: "¥", // Chinese Yuan
-};
+export const currencySymbols = "₹";
 
 export const indianPhoneRegex = /^(?:\+91|0)?[6-9]\d{9}$/;
 
@@ -90,9 +81,9 @@ export const previewInvoiceData = {
   "Account Type": "Savings",
   "Paid Amount": 2000,
   "Bank Address": "New York, NY, USA",
-  "Remarks": "Thanks for your business! We look forward to working with you again.",
+  Remarks:
+    "Thanks for your business! We look forward to working with you again.",
   Logo: "https://img.freepik.com/premium-vector/minimalist-…orporate-brand-business-company_1253202-77511.jpg",
-  Currency: "INR",
   Items: [
     {
       name: "Product A",
