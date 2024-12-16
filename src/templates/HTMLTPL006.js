@@ -714,7 +714,7 @@ export default function generateHTMLTPL006(invoiceData) {
               ${AdvancePaidAmount}
               <p class="details-title result">TOTAL</p>
               <p class="details-title result currency-symbol-cls">
-                &#8377
+                ₹$₹₴௹৳₨₫₱
                 ${invoiceData.itemData["total"]}
               </p>
       </div>
