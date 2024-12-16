@@ -82,6 +82,14 @@ export default async function handler(req, res) {
         }
       `,
     });
+    await page.evaluate(async () => {
+      const notoFont = new FontFace(
+        "Noto Sans",
+        "url(https://fonts.gstatic.com/s/notosans/v27/o-0IIpQlx3QUlC5A4PNb4g.woff2)"
+      );
+      await notoFont.load();
+      document.fonts.add(notoFont);
+    });
     await page.setContent(HTMLTemplate, { waitUntil: "load" });
 
     // Generate PDF from the HTML content
