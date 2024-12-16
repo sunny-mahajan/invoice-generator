@@ -76,12 +76,14 @@ export default function generateHTMLTPL006(invoiceData) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <title>Invoice</title> 
   <style>
     body {
       margin: 0;
       padding: 0;
       background-color: #fff;
+      font-family: 'Arial', sans-serif;
     }
     
     .invoice-container p{
