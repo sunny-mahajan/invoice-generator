@@ -8,6 +8,7 @@ const CustomInput = ({
   name,
   placeholder,
   value,
+  defaultValue,
   onChange,
   onKeyDown,
   title,
@@ -61,6 +62,7 @@ const CustomInput = ({
               type={inputType}
               inputMode={inputMode}
               name={name}
+              defaultValue={defaultValue}
               style={inputStyle}
               placeholder={placeholder}
               maxLength={maxLength}
