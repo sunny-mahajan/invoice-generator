@@ -56,8 +56,8 @@ export default function generateHTMLTPL006(invoiceData) {
       ? `<p class="details-data">Paid Amount</p>
           <p class="details-data data-limit">
             <span class="currency-symbol-cls">₹ ${Number(
-          invoiceData["Paid Amount"]
-        ).toFixed(2)}</span></p>`
+              invoiceData["Paid Amount"]
+            ).toFixed(2)}</span></p>`
       : "";
 
   const bankDetailsAvailable =
@@ -714,7 +714,7 @@ export default function generateHTMLTPL006(invoiceData) {
               ${AdvancePaidAmount}
               <p class="details-title result">TOTAL</p>
               <p class="details-title result currency-symbol-cls">
-                ₹
+                &#8377
                 ${invoiceData.itemData["total"]}
               </p>
       </div>
