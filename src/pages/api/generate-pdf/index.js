@@ -68,6 +68,17 @@ export default async function handler(req, res) {
 
     const page = await browser.newPage();
     await page.addStyleTag({
+      content: `
+        @font-face {
+          font-family: 'Noto Sans';
+          src: url('https://fonts.gstatic.com/s/notosans/v27/o-0IIpQlx3QUlC5A4PNb4g.ttf') format('truetype');
+        }
+        body {
+          font-family: 'Noto Sans', sans-serif;
+        }
+      `,
+    });    
+    await page.addStyleTag({
       content:
         '@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap");',
     });
