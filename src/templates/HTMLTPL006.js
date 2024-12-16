@@ -55,7 +55,7 @@ export default function generateHTMLTPL006(invoiceData) {
     invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
       ? `<p class="details-data">Paid Amount</p>
           <p class="details-data data-limit">
-            <span class="currency-symbol-cls">${rupeeIcon()}${Number(
+            <span class="currency-symbol-cls">₹ ${Number(
           invoiceData["Paid Amount"]
         ).toFixed(2)}</span></p>`
       : "";
@@ -577,7 +577,7 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             !invoiceData.itemData["discount"] > 0
               ? `<th class="align-right"><div class="currency-symbol-cls">
-              GST ${rupeeIcon()}</div>
+              GST ₹</div>
             </th>
             `
               : ""
@@ -601,7 +601,7 @@ export default function generateHTMLTPL006(invoiceData) {
             }
           </td>
           <td class="align-right table-data-limit">
-              <div class="currency-symbol-cls"><span>${rupeeIcon()}</span>
+              <div class="currency-symbol-cls">₹
               ${item["price"]}</div>
           </td>
           <td class="align-right table-data-limit">${item["quantity"]}</td>
@@ -611,7 +611,7 @@ export default function generateHTMLTPL006(invoiceData) {
             (invoiceData.itemData["taxPercentage"] > 0 &&
               !invoiceData.itemData["discount"] > 0)
               ? `<td class="align-right table-data-limit">
-              <div class="currency-symbol-cls">${rupeeIcon()}
+              <div class="currency-symbol-cls">₹
               ${item["amount"]}</div></td>`
               : ""
           }
@@ -626,7 +626,7 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
-              <div class="currency-symbol-cls">${rupeeIcon()}
+              <div class="currency-symbol-cls">₹
               ${item["afterDiscount"]}</div>
             </td>`
               : ""
@@ -641,13 +641,13 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             !invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
-              <div class="currency-symbol-cls">${rupeeIcon()}
+              <div class="currency-symbol-cls">₹
               ${item["taxAmount"]}</div>
             </td>`
               : ""
           }
           <td class="align-right table-data-limit">
-            <div class="currency-symbol-cls">${rupeeIcon()}
+            <div class="currency-symbol-cls">₹
             ${item["total"]}</div>
           </td>
         </tr>
@@ -664,7 +664,7 @@ export default function generateHTMLTPL006(invoiceData) {
                   ? `
               <p class="details-data">Subtotal</p>
               <p class="details-data data-limit currency-symbol-cls">
-                ${rupeeIcon()}
+                ₹
                 ${invoiceData.itemData["subTotal"]}
               </p>
               ${
@@ -672,7 +672,7 @@ export default function generateHTMLTPL006(invoiceData) {
                   ? `
                   <p class="details-data">Discount</p>
                   <p class="details-data data-limit currency-symbol-cls">
-                    ${rupeeIcon()}
+                    ₹
                     ${invoiceData.itemData["discount"]}
                   </p> `
                   : ""
@@ -682,7 +682,7 @@ export default function generateHTMLTPL006(invoiceData) {
                 invoiceData.itemData["taxPercentage"] > 0
                   ? `<p class="details-data">Net Prize</p>
                 <p class="details-data data-limit currency-symbol-cls">
-                  ${rupeeIcon()}
+                  ₹
                   ${invoiceData.itemData["afterDiscountAmount"]}
                 </p> `
                   : ""
@@ -694,18 +694,18 @@ export default function generateHTMLTPL006(invoiceData) {
                   ${invoiceData["Sender's Tax Type"]}
               </p>
               <p class="details-data data-limit currency-symbol-cls">
-                ${rupeeIcon()}
+                ₹
                 ${invoiceData.itemData["taxAmount"]}
               </p>`
                     : `
               <p class="details-data">CGST</p>
               <p class="details-data data-limit currency-symbol-cls">
-                ${rupeeIcon()}
+                ₹
                 ${invoiceData.itemData["taxAmount"] / 2}
               </p>
               <p class="details-data">SGST</p>
               <p class="details-data data-limit currency-symbol-cls">
-              ${rupeeIcon()}
+              ₹
               ${invoiceData.itemData["taxAmount"] / 2}</p>`
                   : ""
               }`
@@ -714,7 +714,7 @@ export default function generateHTMLTPL006(invoiceData) {
               ${AdvancePaidAmount}
               <p class="details-title result">TOTAL</p>
               <p class="details-title result currency-symbol-cls">
-                ${rupeeIcon(26, 26, "#cc3c3a")}
+                ₹
                 ${invoiceData.itemData["total"]}
               </p>
       </div>
