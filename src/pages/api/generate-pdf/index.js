@@ -1,6 +1,6 @@
 const production = process.env.VERCEL_ENV === "production";
 const chrome = production ? require("@sparticuz/chromium") : null;
-const puppeteer = production ? require("puppeteer-core") : require("puppeteer");
+const puppeteer = require("puppeteer");
 import { db } from "../../../../firebaseConfig";
 import {
   collection,
@@ -56,10 +56,10 @@ export default async function handler(req, res) {
   try {
     if (production) {
       browser = await puppeteer.launch({
-        args: chrome.args,
-        defaultViewport: chrome.defaultViewport,
-        executablePath: await chrome.executablePath(),
-        headless: "new",
+        args: puppeteer.defaultArgs(),
+        defaultViewport: null,
+        executablePath: puppeteer.executablePath(),
+        headless: true,
         ignoreHTTPSErrors: true,
       });
     } else {
