@@ -31,6 +31,7 @@ export default function UploadCSV() {
   const [isDownloadPdf, setIsDownloadPdf] = useState(false);
   const fileInputRef = useRef(null); // Create a reference for the file input
   const { userData } = useUser();
+  const [touched, setTouched] = useState(false);
 
   const {
     register,
@@ -346,6 +347,7 @@ export default function UploadCSV() {
   const handleDownloadZip = async () => {
     const data = getValues();
     const isValid = await trigger();
+    setTouched(true);
     console.log("valid", isValid);
     console.log("data", data);
 
@@ -525,6 +527,7 @@ export default function UploadCSV() {
           errors={errors}
           register={register}
           isLoading={loading}
+          touchedInput={touched}
         />
       </div>
       {invoices.length > 0 && isInvoceTrue && (

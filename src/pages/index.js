@@ -109,6 +109,7 @@ const InvoiceForm = () => {
   const { userData, handleItemCalculatation, itemData } = useUser();
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [touched, setTouched] = useState(false);
 
   const [isItemDataUpdated, setIsItemDataUpdated] = useState({
     name: false,
@@ -556,6 +557,7 @@ const InvoiceForm = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setTouched(true);
     const data = getValues();
     const isValid = await trigger();
 
@@ -689,6 +691,7 @@ const InvoiceForm = () => {
               errors={errors}
               register={register}
               isLoading={loading}
+              touchedInput={touched}
               disabled={downloadInvoiceIsDisabled}
             />
           </div>

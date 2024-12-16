@@ -8,10 +8,12 @@ import "./style.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdBanner from "../../components/AdBanner";
+import { useUser } from "../../app/context/userContext";
 
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { setUser, clearUser } = useUser();
 
   const {
     register,
@@ -32,6 +34,7 @@ export default function Login() {
 
       if (response.ok) {
         localStorage.setItem("token", result.token);
+        fetchProtectedData(result.token);
         router.push("/");
       } else {
         toast.error(result.error || "An error occurred");
@@ -41,6 +44,28 @@ export default function Login() {
       toast.error("Login failed");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchProtectedData = async (token) => {
+    try {
+      const response = await fetch("/api/auth/protected", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // Parse the response JSON data
+      const data = await response.json();
+      setUser(data.user);
+      if (!response.ok || !data.user.verified) {
+        toast.info("Please verify your email to access this page.");
+        clearUser();
+        router.push("/auth/login");
+        return;
+      }
+      // Protected data is fetched successfully, stop loading
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch protected data:", error);
+      router.push("/auth/login");
     }
   };
 

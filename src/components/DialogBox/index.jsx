@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InvoicePreview from "../InvoicePreview";
 import CustomInput from "../Input";
 import CustomButton from "../Button";
@@ -17,9 +17,14 @@ const DialogBox = ({
   errors,
   register,
   isLoading = false,
+  touchedInput,
   disabled,
 }) => {
   const [touched, setTouched] = useState(false);
+  useEffect(() => {
+    setTouched(touchedInput);
+  }, [touchedInput]);
+
   if (!isOpen) return null; // Don't render if the dialog is not open
 
   const handleBlur = () => {

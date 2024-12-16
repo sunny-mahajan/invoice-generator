@@ -97,7 +97,7 @@ const Header = () => {
         )}
       </div>
       <div className="sidebar-bottom d-flex items-center justify-content-center">
-        {userData && userData.name && (
+        {userData && userData.name ? (
           <div
             className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
             ref={avatarRef}
@@ -108,6 +108,15 @@ const Header = () => {
               style={{ marginTop: "1px" }}
             >
               {userData?.name.charAt(0).toUpperCase()}
+            </span>
+          </div>
+        ) : (
+          <div>
+            <span
+              className="cursor-pointer font-semibold text-sm text-white px-4 py-2 rounded-md"
+              onClick={() => router.push("/auth/login")}
+            >
+              Sign In
             </span>
           </div>
         )}
