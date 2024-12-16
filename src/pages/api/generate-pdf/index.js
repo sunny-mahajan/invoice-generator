@@ -23,11 +23,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "HTMLTemplate is required" });
   }
 
+  try {
   const usersCollection = collection(db, "users");
-  const userQuery = query(
-    usersCollection,
-    where("email", "==", userData.email)
-  );
+  const userQuery = query(usersCollection,where("email", "==", userData.email));
   const querySnapshot = await getDocs(userQuery);
 
   if (querySnapshot.empty) {
@@ -53,7 +51,6 @@ export default async function handler(req, res) {
   });
 
   let browser;
-  try {
     if (production) {
       browser = await puppeteer.launch({
         args: [...chrome.args, "--font-render-hinting=none", "--no-sandbox"],
@@ -70,18 +67,6 @@ export default async function handler(req, res) {
     }
 
     const page = await browser.newPage();
-    await page.addStyleTag({
-      content:
-        '@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap");',
-    });
-    await page.addStyleTag({
-      content: `
-        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
-        body {
-          font-family: 'Noto Sans', sans-serif;
-        }
-      `,
-    });
     await page.setContent(HTMLTemplate, { waitUntil: "load" });
 
     // Generate PDF from the HTML content
