@@ -56,20 +56,31 @@ export default async function handler(req, res) {
   try {
     if (production) {
       browser = await puppeteer.launch({
-        args: [...chrome.args, '--font-render-hinting=none', '--no-sandbox'],
+        args: [...chrome.args, "--font-render-hinting=none", "--no-sandbox"],
         defaultViewport: chrome.defaultViewport,
         executablePath: await chrome.executablePath(),
         headless: true,
         ignoreHTTPSErrors: true,
       });
     } else {
-      browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+      browser = await puppeteer.launch({
+        headless: true,
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      });
     }
 
     const page = await browser.newPage();
     await page.addStyleTag({
       content:
         '@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap");',
+    });
+    await page.addStyleTag({
+      content: `
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
+        body {
+          font-family: 'Noto Sans', sans-serif;
+        }
+      `,
     });
     await page.setContent(HTMLTemplate, { waitUntil: "load" });
 
