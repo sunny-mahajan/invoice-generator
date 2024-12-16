@@ -575,6 +575,7 @@ const InvoiceForm = () => {
         link.download = "invoice.pdf";
         link.click();
         setTimeout(() => URL.revokeObjectURL(blobURL), 100);
+        toast.success("Invoice generated successfully");
       }
     } catch (error) {
       toast.error("Error generating invoice PDF: " + error.message);
