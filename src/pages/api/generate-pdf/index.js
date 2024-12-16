@@ -1,4 +1,4 @@
-const production = "production";
+const production = process.env.VERCEL_ENV === "production";
 const chrome = production ? require("@sparticuz/chromium") : null;
 const puppeteer = production ? require("puppeteer-core") : require("puppeteer");
 import { db } from "../../../../firebaseConfig";
