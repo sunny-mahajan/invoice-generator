@@ -70,7 +70,6 @@ export default function generateHTMLTPL006(invoiceData) {
       margin: 0;
       padding: 0;
       background-color: #fff;
-      font-family: "Noto Sans", sans-serif;
     }
     
     .invoice-container p{
@@ -117,7 +116,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .invoice-header h1 {
-      font-size: 8em;
+      font-size: 6em;
       color: #013264;
       margin: 0;
       padding: 0;
@@ -132,7 +131,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .details-title{
-      font-size: 24px;
+      font-size: 20px;
       font-style: normal;
       font-weight: 500;
       color: #013264;
@@ -178,6 +177,7 @@ export default function generateHTMLTPL006(invoiceData) {
       font-style: normal;
       border-left: 2.5em solid #003366;
       padding: 0 4em 0 2.5em;
+      font-family: "Noto Sans", sans-serif !important;
     }
 
     .invoice-number .grid-container {
@@ -194,7 +194,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .table th {
-      font-size: 24px;
+      font-size: 20px;
       font-style: normal;
       font-weight: 500;
       color: #013264;
@@ -250,7 +250,7 @@ export default function generateHTMLTPL006(invoiceData) {
     .totals .result {
       margin-top: 20px;  
       color: #cc3c3a;
-      font-size: 2em;
+      font-size: 26px;
     }
 
     .terms {
@@ -275,11 +275,11 @@ export default function generateHTMLTPL006(invoiceData) {
         padding: 0 4em 0 2.5em;
       }
       .invoice-header h1 {
-        font-size: 6em;
+        font-size: 5em;
       }
 
       .table th {
-        font-size: 22px
+        font-size: 18px
       }
      
       .table td {
@@ -294,7 +294,7 @@ export default function generateHTMLTPL006(invoiceData) {
         font-size: 12px;  
       }
       .details-title{
-        font-size: 22px;
+        font-size: 18px;
       }
 
       .details-data{
@@ -693,7 +693,7 @@ export default function generateHTMLTPL006(invoiceData) {
               }
               ${AdvancePaidAmount}
               <p class="details-title result">TOTAL</p>
-              <p class="details-title result ">
+              <p class="details-title result data-limit">
               ${currencySymbol}
                 ${invoiceData.itemData["total"]}
               </p>

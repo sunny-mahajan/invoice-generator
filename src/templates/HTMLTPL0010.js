@@ -72,7 +72,6 @@ export default function generateHTMLTPL0010(invoiceData) {
       margin: 0;
       padding: 0;
       background-color: #fff;
-      font-family: "Noto Sans", sans-serif;
     }
 
     .container-cls{
@@ -134,7 +133,7 @@ export default function generateHTMLTPL0010(invoiceData) {
       color: #545454;
       margin: 0;
       padding: 0;
-      letter-spacing: 20px;
+      letter-spacing: 10px;
       line-height: unset;
     }
 
@@ -152,7 +151,7 @@ export default function generateHTMLTPL0010(invoiceData) {
 
     .details-data{
       font-optical-sizing: auto;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 400;
       font-style: normal;
       color: #777777;
@@ -187,6 +186,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     .invoice-container {
       font-weight: 400;
       font-style: normal;
+      font-family: "Noto Sans", sans-serif !important;
     }
 
     .invoice-number .grid-container {
@@ -211,7 +211,7 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     .table td {
-      font-size: 16px;
+      font-size: 14px;
       font-style: normal;
       font-weight: 400;
       color: #555555;

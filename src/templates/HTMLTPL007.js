@@ -71,12 +71,12 @@ export default function generateHTMLTPL007(invoiceData) {
       margin: 0;
       padding: 0;
       background-color: #fff !important;
-      font-family: "Noto Sans", sans-serif;
     }
       
     .invoice-container {
       font-weight: 400;
       font-style: normal;
+      font-family: "Noto Sans", sans-serif !important;
     }
 
     p{
@@ -188,7 +188,7 @@ export default function generateHTMLTPL007(invoiceData) {
     }
 
     .details-title{
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 500;
       color: #5983af !important;
       line-height: unset;
@@ -227,7 +227,7 @@ export default function generateHTMLTPL007(invoiceData) {
     }
 
     .table th {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 500;
       color: #fff !important;
       padding: 0 0.4em;
@@ -266,7 +266,7 @@ export default function generateHTMLTPL007(invoiceData) {
     }
 
     .totals .result {
-      font-size: 2em;
+      font-size: 20px;
       margin-top: 0.5em; 
       color: #5983af !important;
     }
@@ -334,7 +334,7 @@ export default function generateHTMLTPL007(invoiceData) {
         font-size: 4.5em;
       }
       .table th {
-        font-size: 20px
+        font-size: 18px
       }
      
       .table td {
@@ -350,7 +350,7 @@ export default function generateHTMLTPL007(invoiceData) {
       }
 
       .details-title{
-        font-size: 20px;
+        font-size: 18px;
       }
 
       .details-data{
