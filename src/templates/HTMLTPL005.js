@@ -442,7 +442,7 @@ export default function generateHTMLTPL003(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] <= 0
               ? `
-              <th><div class="currency-symbol-cls">GST <span>${
+              <th><div>GST <span>${
                 invoiceData["isPdfPreview"]
                   ? currencySymbol
                   : rupeeIcon(15, 15, "#fff")
