@@ -80,7 +80,7 @@ export default function generateHTMLTPL001(invoiceData) {
 
     .main-container-cls p {
         color: #000000;
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .title-container-cls {
@@ -559,7 +559,7 @@ export default function generateHTMLTPL001(invoiceData) {
                               : ""
                           }
                       </div>
-                      <p class="sub-sec4-item-price "><span>${currencySymbol}</span>${
+                      <p class="sub-sec4-item-price">${currencySymbol}${
                       item["price"]
                     }</p>
                       <p class="sub-sec4-item-quantity">${item["quantity"]}</p>
