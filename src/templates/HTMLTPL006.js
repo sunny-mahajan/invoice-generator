@@ -43,9 +43,9 @@ export default function generateHTMLTPL006(invoiceData) {
     invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
       ? `<p class="details-data">Paid Amount</p>
           <p class="details-data data-limit">
-          ${currencySymbol} ${Number(
-          invoiceData["Paid Amount"]
-        ).toFixed(2)}</p>`
+          ${currencySymbol} ${Number(invoiceData["Paid Amount"]).toFixed(
+          2
+        )}</p>`
       : "";
 
   const bankDetailsAvailable =
@@ -63,7 +63,7 @@ export default function generateHTMLTPL006(invoiceData) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet" ></link>
   <title>Invoice</title> 
   <style type="text/css">
     body {
@@ -139,7 +139,6 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .details-data{
-      font-family: "Urbanist";
       font-optical-sizing: auto;
       font-size: 16px;
       font-weight: 400;
@@ -175,7 +174,6 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .invoice-container {
-      font-family: "Bebas Neue" !important;
       font-weight: 400;
       font-style: normal;
       border-left: 2.5em solid #003366;
@@ -206,7 +204,6 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .table td {
-      font-family: "Urbanist";
       font-optical-sizing: auto;
       font-weight: 400;
       font-style: normal;
