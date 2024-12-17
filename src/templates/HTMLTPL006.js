@@ -43,9 +43,9 @@ export default function generateHTMLTPL006(invoiceData) {
     invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
       ? `<p class="details-data">Paid Amount</p>
           <p class="details-data data-limit">
-            <span>${currencySymbol} ${Number(
+          ${currencySymbol} ${Number(
           invoiceData["Paid Amount"]
-        ).toFixed(2)}</span></p>`
+        ).toFixed(2)}</p>`
       : "";
 
   const bankDetailsAvailable =
@@ -66,20 +66,6 @@ export default function generateHTMLTPL006(invoiceData) {
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <title>Invoice</title> 
   <style type="text/css">
-    @font-face {
-      font-family: "BebasNeue";
-      src: url(assets/fonts/BebasNeue-Regular.ttf);
-      font-weight: 400;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: "Urbanist";
-      src: url(assets/fonts/Urbanist.ttf);
-      font-weight: 400;
-      font-style: normal;
-    }
-
     body {
       margin: 0;
       padding: 0;
@@ -572,7 +558,7 @@ export default function generateHTMLTPL006(invoiceData) {
           }
           ${
             invoiceData.itemData["taxPercentage"] > 0 &&
-            !invoiceData.itemData["discount"] > 0
+            invoiceData.itemData["discount"] <= 0
               ? `<th class="align-right"><div>
               GST ${currencySymbol}</div>
             </th>
@@ -613,7 +599,7 @@ export default function generateHTMLTPL006(invoiceData) {
               : ""
           }
           ${
-            invoiceData.itemData["discount"] > 0 > 0
+            invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
             ${item["discountPercentage"] || 0}%
           </td>`
@@ -636,9 +622,9 @@ export default function generateHTMLTPL006(invoiceData) {
           }
           ${
             invoiceData.itemData["taxPercentage"] > 0 &&
-            !invoiceData.itemData["discount"] > 0
+            invoiceData.itemData["discount"] <= 0
               ? `<td class="align-right table-data-limit">
-              <div">${currencySymbol}
+              <div>${currencySymbol}
               ${item["taxAmount"]}</div>
             </td>`
               : ""
