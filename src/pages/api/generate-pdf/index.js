@@ -23,37 +23,37 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "HTMLTemplate is required" });
   }
 
-  const usersCollection = collection(db, "users");
-  const userQuery = query(
-    usersCollection,
-    where("email", "==", userData.email)
-  );
-  const querySnapshot = await getDocs(userQuery);
-
-  if (querySnapshot.empty) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  const userDoc = querySnapshot.docs[0];
-  const userDocRef = doc(db, "users", userDoc.id);
-
-  // Check if user has invoice data and increment download count, otherwise initialize it
-  const userInvoiceData = userDoc.data() || {};
-  const downloadedInvoiceCount = userInvoiceData.downloadedInvoiceCount || 0;
-
-  const newInvoiceRecord = {
-    downloadedAt: new Date(),
-    invoiceTemplateId: templateId,
-  };
-
-  // Update the user's invoice data in Firestore
-  await updateDoc(userDocRef, {
-    invoiceData: arrayUnion(newInvoiceRecord),
-    downloadedInvoiceCount: downloadedInvoiceCount + 1,
-  });
-
-  let browser;
   try {
+    const usersCollection = collection(db, "users");
+    const userQuery = query(
+      usersCollection,
+      where("email", "==", userData.email)
+    );
+    const querySnapshot = await getDocs(userQuery);
+
+    if (querySnapshot.empty) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const userDoc = querySnapshot.docs[0];
+    const userDocRef = doc(db, "users", userDoc.id);
+
+    // Check if user has invoice data and increment download count, otherwise initialize it
+    const userInvoiceData = userDoc.data() || {};
+    const downloadedInvoiceCount = userInvoiceData.downloadedInvoiceCount || 0;
+
+    const newInvoiceRecord = {
+      downloadedAt: new Date(),
+      invoiceTemplateId: templateId,
+    };
+
+    // Update the user's invoice data in Firestore
+    await updateDoc(userDocRef, {
+      invoiceData: arrayUnion(newInvoiceRecord),
+      downloadedInvoiceCount: downloadedInvoiceCount + 1,
+    });
+
+    let browser;
     if (production) {
       browser = await puppeteer.launch({
         args: [...chrome.args, "--font-render-hinting=none", "--no-sandbox"],
