@@ -75,7 +75,6 @@ export default function generateHTMLTPL007(invoiceData) {
     }
       
     .invoice-container {
-      font-family: "Bebas Neue", sans-serif !important;
       font-weight: 400;
       font-style: normal;
     }
@@ -197,7 +196,6 @@ export default function generateHTMLTPL007(invoiceData) {
     }
 
     .details-data{
-      font-family: "Urbanist", sans-serif;
       font-optical-sizing: auto;
       font-weight: 400;
       font-style: normal;
@@ -237,7 +235,6 @@ export default function generateHTMLTPL007(invoiceData) {
     }
 
     .table td {
-      font-family: "Urbanist", sans-serif;
       font-optical-sizing: auto;
       font-weight: 400;
       font-style: normal;

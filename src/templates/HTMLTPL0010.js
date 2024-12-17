@@ -130,7 +130,6 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     .invoice-header .header h1 {
-      font-family: "Della Respira", serif;
       font-size: 3em;
       color: #545454;
       margin: 0;
@@ -152,7 +151,6 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     .details-data{
-      font-family: font-family: "Work Sans", sans-serif;
       font-optical-sizing: auto;
       font-size: 16px;
       font-weight: 400;
@@ -187,7 +185,6 @@ export default function generateHTMLTPL0010(invoiceData) {
     }
 
     .invoice-container {
-      font-family: "Work Sans", sans-serif !important;
       font-weight: 400;
       font-style: normal;
     }
