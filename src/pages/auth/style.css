@@ -4,7 +4,7 @@ body {
 }
 .auth-container {
   height: 100vh;
-  font-family: "Spartan", sans-serif !important;
+  font-family: "Roboto", sans-serif !important;
 }
 
 .auth-wrapper {
@@ -27,11 +27,11 @@ body {
 }
 
 .auth-container .inputInvoiceCls:-webkit-autofill,
-.auth-container .inputInvoiceCls:-webkit-autofill:hover, 
-.auth-container .inputInvoiceCls:-webkit-autofill:focus, 
-.auth-container .inputInvoiceCls:-webkit-autofill:active{
-    -webkit-text-fill-color: #ffffff;
-    box-shadow: inset 0 0 20px 20px #34374b;
+.auth-container .inputInvoiceCls:-webkit-autofill:hover,
+.auth-container .inputInvoiceCls:-webkit-autofill:focus,
+.auth-container .inputInvoiceCls:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff;
+  box-shadow: inset 0 0 20px 20px #34374b;
 }
 body[data-theme="light"] .auth-container .inputInvoiceCls {
   border: 1px solid #b4c2d5 !important;
