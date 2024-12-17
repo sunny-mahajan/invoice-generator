@@ -55,9 +55,9 @@ export default function generateHTMLTPL006(invoiceData) {
     invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
       ? `<p class="details-data">Paid Amount</p>
           <p class="details-data data-limit">
-            <span class="currency-symbol-cls">₹ ${Number(
-          invoiceData["Paid Amount"]
-        ).toFixed(2)}</span></p>`
+            <span class="currency-symbol-cls">&#8377; ${Number(
+              invoiceData["Paid Amount"]
+            ).toFixed(2)}</span></p>`
       : "";
 
   const bankDetailsAvailable =
@@ -150,7 +150,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .details-data{
-      font-family: "Urbanist", sans-serif;
+      font-family: "Bebas Neue", sans-serif;
       font-optical-sizing: auto;
       font-size: 16px;
       font-weight: 400;
@@ -217,7 +217,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .table td {
-      font-family: "Urbanist", sans-serif;
+      font-family: "Bebas Neue", sans-serif;
       font-optical-sizing: auto;
       font-weight: 400;
       font-style: normal;
