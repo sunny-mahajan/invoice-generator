@@ -69,7 +69,7 @@ export default function InvoicePreview({
       Items: formData.items,
       "Tax Percentage": formData.taxPercentage,
       itemData: itemData,
-      isPdfPreview: true,
+      isPdfPreview: false,
     };
     generatePreview(mappedData);
   };
