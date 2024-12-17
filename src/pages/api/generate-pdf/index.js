@@ -71,7 +71,7 @@ export default async function handler(req, res) {
 
     await page.addStyleTag({
       content:
-        '@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100..900&display=swap");',
+        '@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");',
     });
 
     await page.setContent(HTMLTemplate, { waitUntil: "load" });
