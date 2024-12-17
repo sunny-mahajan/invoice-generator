@@ -113,9 +113,11 @@ const DatePicker = ({
 
     for (let i = 1; i <= totalDays; i++) {
       const dateObj = new Date(year, month, i, 12, 0, 0);
-      const isSelected = selectedDate
-        ? i === selectedDate?.getDate()
-        : i === currentDate?.getDate();
+      const isSelected =
+        selectedDate &&
+        dateObj.getDate() === selectedDate.getDate() &&
+        dateObj.getMonth() === selectedDate.getMonth() &&
+        dateObj.getFullYear() === selectedDate.getFullYear();
       const dateStore = isDueDate ? new Date(invoiceCreatedDate) : todayDate;
       const isPastDate = dateObj < dateStore;
 
@@ -164,7 +166,9 @@ const DatePicker = ({
       <div
         className={`input-field ${inputClass ? inputClass : ""}`}
         style={{ filter: isDisable && "brightness(0.8)" }}
-        onClick={() => (isDisable ? null : setIsDatePickerOpen(!isDatePickerOpen))}
+        onClick={() =>
+          isDisable ? null : setIsDatePickerOpen(!isDatePickerOpen)
+        }
       >
         <span style={{ filter: isDisable && "brightness(0.5)" }}>
           {formatDate(selectedDate || currentDate)}
