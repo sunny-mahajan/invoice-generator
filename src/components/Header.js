@@ -58,7 +58,7 @@ const Header = () => {
   return (
     <header className="sidebar d-flex justify-content-between sticky top-0">
       <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap"
         rel="stylesheet"
       ></link>
       <div className="">{HeaderLogoIcon()}</div>
