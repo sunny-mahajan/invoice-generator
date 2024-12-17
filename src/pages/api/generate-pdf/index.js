@@ -56,10 +56,10 @@ export default async function handler(req, res) {
     let browser;
     if (production) {
       browser = await puppeteer.launch({
-        args: [...chrome.args, "--font-render-hinting=none", "--no-sandbox"],
+        args: chrome.args,
         defaultViewport: chrome.defaultViewport,
         executablePath: await chrome.executablePath(),
-        headless: true,
+        headless: "new",
         ignoreHTTPSErrors: true,
       });
     } else {
