@@ -72,6 +72,10 @@ export default async function handler(req, res) {
     const page = await browser.newPage();
     await page.addStyleTag({
       content:
+        '@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@100..900&display=swap");',
+    });
+    await page.addStyleTag({
+      content:
         '@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100..900&display=swap");',
     });
     await page.addStyleTag({
