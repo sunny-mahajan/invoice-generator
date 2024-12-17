@@ -75,7 +75,7 @@ export default function generateHTMLTPL006(invoiceData) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <title>Invoice</title> 
   <style type="text/css">
     @font-face {
@@ -200,14 +200,14 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .invoice-container {
-      font-family: "BebasNeue", "Bebas Neue" !important;
+      font-family: "Bebas Neue" !important;
       font-weight: 400;
       font-style: normal;
       border-left: 2.5em solid #003366;
       padding: 0 4em 0 2.5em;
     }
     .currency-sym{
-      font-family: "BebasNeue", "Bebas Neue" !important;
+      font-family: "Bebas Neue" !important;
       font-weight: 400;
       font-style: normal;
     }
