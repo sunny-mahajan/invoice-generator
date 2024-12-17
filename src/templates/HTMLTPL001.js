@@ -86,7 +86,7 @@ export default function generateHTMLTPL001(invoiceData) {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Spartan", sans-serif;
+        font-family: "Noto Sans", sans-serif;
     }
 
     .main-container-cls p {
