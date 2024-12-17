@@ -55,7 +55,7 @@ export default function generateHTMLTPL006(invoiceData) {
     invoiceData["Paid Amount"] && invoiceData.itemData["total"] !== "0.0"
       ? `<p class="details-data">Paid Amount</p>
           <p class="details-data data-limit">
-            <span class="currency-symbol-cls">₹ ${Number(
+            <span class="currency-symbol-cls"><span class="currency-sym">₹</span> ${Number(
           invoiceData["Paid Amount"]
         ).toFixed(2)}</span></p>`
       : "";
@@ -75,9 +75,23 @@ export default function generateHTMLTPL006(invoiceData) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <title>Invoice</title> 
-  <style>
+  <style type="text/css">
+    @font-face {
+      font-family: "BebasNeue";
+      src: url(assets/fonts/BebasNeue-Regular.ttf);
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: "Urbanist";
+      src: url(assets/fonts/Urbanist.ttf);
+      font-weight: 400;
+      font-style: normal;
+    }
+
     body {
       margin: 0;
       padding: 0;
@@ -150,7 +164,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .details-data{
-      font-family: "Urbanist", sans-serif;
+      font-family: "Urbanist";
       font-optical-sizing: auto;
       font-size: 16px;
       font-weight: 400;
@@ -186,13 +200,17 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .invoice-container {
-      font-family: "Bebas Neue", sans-serif !important;
+      font-family: "BebasNeue", "Bebas Neue" !important;
       font-weight: 400;
       font-style: normal;
       border-left: 2.5em solid #003366;
       padding: 0 4em 0 2.5em;
     }
-
+    .currency-sym{
+      font-family: "BebasNeue", "Bebas Neue" !important;
+      font-weight: 400;
+      font-style: normal;
+    }
     .invoice-number .grid-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -217,7 +235,7 @@ export default function generateHTMLTPL006(invoiceData) {
     }
 
     .table td {
-      font-family: "Urbanist", sans-serif;
+      font-family: "Urbanist";
       font-optical-sizing: auto;
       font-weight: 400;
       font-style: normal;
@@ -577,7 +595,7 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             !invoiceData.itemData["discount"] > 0
               ? `<th class="align-right"><div class="currency-symbol-cls">
-              GST ₹</div>
+              GST <span class="currency-sym">₹</span></div>
             </th>
             `
               : ""
@@ -601,7 +619,7 @@ export default function generateHTMLTPL006(invoiceData) {
             }
           </td>
           <td class="align-right table-data-limit">
-              <div class="currency-symbol-cls">₹
+              <div class="currency-symbol-cls"><span class="currency-sym">₹</span>
               ${item["price"]}</div>
           </td>
           <td class="align-right table-data-limit">${item["quantity"]}</td>
@@ -611,7 +629,7 @@ export default function generateHTMLTPL006(invoiceData) {
             (invoiceData.itemData["taxPercentage"] > 0 &&
               !invoiceData.itemData["discount"] > 0)
               ? `<td class="align-right table-data-limit">
-              <div class="currency-symbol-cls">₹
+              <div class="currency-symbol-cls"><span class="currency-sym">₹</span>
               ${item["amount"]}</div></td>`
               : ""
           }
@@ -626,7 +644,7 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
-              <div class="currency-symbol-cls">₹
+              <div class="currency-symbol-cls"><span class="currency-sym">₹</span>
               ${item["afterDiscount"]}</div>
             </td>`
               : ""
@@ -641,13 +659,13 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             !invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
-              <div class="currency-symbol-cls">₹
+              <div class="currency-symbol-cls"><span class="currency-sym">₹</span>
               ${item["taxAmount"]}</div>
             </td>`
               : ""
           }
           <td class="align-right table-data-limit">
-            <div class="currency-symbol-cls">₹
+            <div class="currency-symbol-cls"><span class="currency-sym">₹</span>
             ${item["total"]}</div>
           </td>
         </tr>
@@ -664,7 +682,7 @@ export default function generateHTMLTPL006(invoiceData) {
                   ? `
               <p class="details-data">Subtotal</p>
               <p class="details-data data-limit currency-symbol-cls">
-                ₹
+                <span class="currency-sym">₹</span>
                 ${invoiceData.itemData["subTotal"]}
               </p>
               ${
@@ -672,7 +690,7 @@ export default function generateHTMLTPL006(invoiceData) {
                   ? `
                   <p class="details-data">Discount</p>
                   <p class="details-data data-limit currency-symbol-cls">
-                    ₹
+                    <span class="currency-sym">₹</span>
                     ${invoiceData.itemData["discount"]}
                   </p> `
                   : ""
@@ -682,7 +700,7 @@ export default function generateHTMLTPL006(invoiceData) {
                 invoiceData.itemData["taxPercentage"] > 0
                   ? `<p class="details-data">Net Prize</p>
                 <p class="details-data data-limit currency-symbol-cls">
-                  ₹
+                  <span class="currency-sym">₹</span>
                   ${invoiceData.itemData["afterDiscountAmount"]}
                 </p> `
                   : ""
@@ -694,18 +712,18 @@ export default function generateHTMLTPL006(invoiceData) {
                   ${invoiceData["Sender's Tax Type"]}
               </p>
               <p class="details-data data-limit currency-symbol-cls">
-                ₹
+                <span class="currency-sym">₹</span>
                 ${invoiceData.itemData["taxAmount"]}
               </p>`
                     : `
               <p class="details-data">CGST</p>
               <p class="details-data data-limit currency-symbol-cls">
-                ₹
+                <span class="currency-sym">₹</span>
                 ${invoiceData.itemData["taxAmount"] / 2}
               </p>
               <p class="details-data">SGST</p>
               <p class="details-data data-limit currency-symbol-cls">
-              ₹
+              <span class="currency-sym">₹</span>
               ${invoiceData.itemData["taxAmount"] / 2}</p>`
                   : ""
               }`
@@ -714,7 +732,7 @@ export default function generateHTMLTPL006(invoiceData) {
               ${AdvancePaidAmount}
               <p class="details-title result">TOTAL</p>
               <p class="details-title result currency-symbol-cls">
-                ₹
+                <span class="currency-sym">₹</span>
                 ${invoiceData.itemData["total"]}
               </p>
       </div>

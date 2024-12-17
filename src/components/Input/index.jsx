@@ -66,6 +66,7 @@ const CustomInput = ({
               style={inputStyle}
               placeholder={placeholder}
               maxLength={maxLength}
+              autoComplete="on"
               className={`${inputClass ? inputClass : ""} ${
                 inputClass !== "input-invoice-cls" ? "input-field" : ""
               }

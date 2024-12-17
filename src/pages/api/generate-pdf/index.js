@@ -24,36 +24,39 @@ export default async function handler(req, res) {
   }
 
   try {
-  const usersCollection = collection(db, "users");
-  const userQuery = query(usersCollection,where("email", "==", userData.email));
-  const querySnapshot = await getDocs(userQuery);
+    const usersCollection = collection(db, "users");
+    const userQuery = query(
+      usersCollection,
+      where("email", "==", userData.email)
+    );
+    const querySnapshot = await getDocs(userQuery);
 
-  if (querySnapshot.empty) {
-    return res.status(404).json({ error: "User not found" });
-  }
+    if (querySnapshot.empty) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-  const userDoc = querySnapshot.docs[0];
-  const userDocRef = doc(db, "users", userDoc.id);
+    const userDoc = querySnapshot.docs[0];
+    const userDocRef = doc(db, "users", userDoc.id);
 
-  // Check if user has invoice data and increment download count, otherwise initialize it
-  const userInvoiceData = userDoc.data() || {};
-  const downloadedInvoiceCount = userInvoiceData.downloadedInvoiceCount || 0;
+    // Check if user has invoice data and increment download count, otherwise initialize it
+    const userInvoiceData = userDoc.data() || {};
+    const downloadedInvoiceCount = userInvoiceData.downloadedInvoiceCount || 0;
 
-  const newInvoiceRecord = {
-    downloadedAt: new Date(),
-    invoiceTemplateId: templateId,
-  };
+    const newInvoiceRecord = {
+      downloadedAt: new Date(),
+      invoiceTemplateId: templateId,
+    };
 
-  // Update the user's invoice data in Firestore
-  await updateDoc(userDocRef, {
-    invoiceData: arrayUnion(newInvoiceRecord),
-    downloadedInvoiceCount: downloadedInvoiceCount + 1,
-  });
+    // Update the user's invoice data in Firestore
+    await updateDoc(userDocRef, {
+      invoiceData: arrayUnion(newInvoiceRecord),
+      downloadedInvoiceCount: downloadedInvoiceCount + 1,
+    });
 
-  let browser;
+    let browser;
     if (production) {
       browser = await puppeteer.launch({
-        args: [...chrome.args, "--font-render-hinting=none", "--no-sandbox"],
+        args: chrome.args,
         defaultViewport: chrome.defaultViewport,
         executablePath: await chrome.executablePath(),
         headless: true,
@@ -67,6 +70,13 @@ export default async function handler(req, res) {
     }
 
     const page = await browser.newPage();
+    await page.addStyleTag({
+      content: `
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+      `,
+    });
     await page.setContent(HTMLTemplate, { waitUntil: "load" });
 
     // Generate PDF from the HTML content
