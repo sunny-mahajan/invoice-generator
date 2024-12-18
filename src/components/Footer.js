@@ -3,7 +3,7 @@ const Footer = () => {
 
   return (
     <footer className="d-flex justify-center py-4 footer mt-4">
-      <p>
+      <p className="text-center text-sm md:text-base">
         © {currentYear} www.techformation.co.in pvt ltd. All Rights Reserved.
       </p>
     </footer>
