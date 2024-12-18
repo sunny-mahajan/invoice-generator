@@ -76,7 +76,7 @@ const InvoiceDetailsForm = ({
     <div className="flex gap-5 flex-col">
       <div className="invoice-details-section block md:flex">
         <div className="w-full">
-          <div className="flex md:w-[90%] w-full mb-5 flex-col">
+          <div className="flex md:w-[90%] w-full mb-3 flex-col">
             <CustomInput
               type="text"
               name="invoiceNo"
@@ -158,7 +158,7 @@ const InvoiceDetailsForm = ({
             formData.newFields.map((field, index) => (
               <div
                 key={index}
-                className="w-[100%] mb-2 flex align-items-center"
+                className="w-[100%] mb-3 flex align-items-center"
               >
                 <div className="custom-field-label">
                   <CustomInput

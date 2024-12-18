@@ -10,9 +10,11 @@ const ItemDetails = ({
   handleRemoveItem,
   handleAddItem,
   currencySymbols,
+  handleDescription,
+  showDescriptions,
   errorsData = { errorsData },
 }) => {
-  const [showDescription, setShowDescription] = useState(false);
+  // const [showDescription, setShowDescription] = useState(false);
   const { handleItemCalculatation, itemData } = useUser();
 
   useEffect(() => {
@@ -29,9 +31,9 @@ const ItemDetails = ({
     callback(index, e);
   };
 
-  const handleDescription = () => {
-    setShowDescription(!showDescription);
-  };
+  // const handleDescription = () => {
+  //   setShowDescription(!showDescription);
+  // };
 
   return (
     <div className="item-details-section flex flex-col gap-6">
@@ -257,12 +259,12 @@ const ItemDetails = ({
                   </div>
                 </div>
                 <div className="flex w-full">
-                  {!showDescription && (
+                  {!showDescriptions[index] && (
                     <CustomButton
                       type="gray"
                       onClick={(e) => {
                         e.preventDefault();
-                        handleDescription();
+                        handleDescription(index);
                       }}
                       buttonStyle={{
                         width: "50%",
@@ -278,7 +280,7 @@ const ItemDetails = ({
                       <PlusIcon f={"rgb(124, 93, 250)"} /> Add Description
                     </CustomButton>
                   )}
-                  {showDescription && (
+                  {showDescriptions[index] && (
                     <div className="flex gap-5 w-full">
                       <CustomInput
                         type="text"
@@ -292,7 +294,7 @@ const ItemDetails = ({
                         inputStyle={{ flex: "2 1 auto" }}
                       />
                       <div
-                        onClick={() => handleDescription()}
+                        onClick={() => handleDescription(index)}
                         className="flex items-center justify-center cursor-pointer mt-2"
                       >
                         <DeleteIcon />

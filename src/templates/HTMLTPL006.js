@@ -628,7 +628,7 @@ export default function generateHTMLTPL006(invoiceData) {
           }
           <td class="align-right table-data-limit">
             <div>${currencySymbol}
-            ${item["total"]}</div>
+            ${item["total"] || 0}</div>
           </td>
         </tr>
         `
