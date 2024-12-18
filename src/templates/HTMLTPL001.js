@@ -94,12 +94,13 @@ export default function generateHTMLTPL001(invoiceData) {
 
     .title-container-cls h1 {
         border: 1px solid rgb(240, 80, 80);
-        padding: 15px;
+        padding: 8px 6px 8px 12px;
         text-transform: uppercase;
-        letter-spacing: 7px;
-        font-size: 25px;
+        letter-spacing: 5px;
+        font-size: 30px;
         line-height: 30px;
-        font-weight: 600;
+        font-weight: 500;
+        font-family: "Noto Sans", sans-serif !important;
     }
 
     .sec2-container {
