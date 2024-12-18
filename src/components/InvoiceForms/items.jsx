@@ -10,9 +10,10 @@ const ItemDetails = ({
   handleRemoveItem,
   handleAddItem,
   currencySymbols,
+  handleDescription,
+  showDescriptions,
   errorsData = { errorsData },
 }) => {
-  const [showDescription, setShowDescription] = useState(false);
   const { handleItemCalculatation, itemData } = useUser();
 
   useEffect(() => {
@@ -27,10 +28,6 @@ const ItemDetails = ({
     const sanitizedValue = e.target.value.replace(regex, "");
     e.target.value = sanitizedValue;
     callback(index, e);
-  };
-
-  const handleDescription = () => {
-    setShowDescription(!showDescription);
   };
 
   return (
@@ -180,7 +177,7 @@ const ItemDetails = ({
                         </div>
                       )}
                   </div>
-                  <div className="items-amount-cls flex gap-2 w-full flex-wrap justify-between">
+                  <div className="items-amount-cls flex w-full flex-wrap justify-between">
                     {/* Conditional Amounts */}
                     {(formData.senderDetails.taxType !== "None" ||
                       formData.senderDetails.discount) && (
@@ -228,40 +225,41 @@ const ItemDetails = ({
                         )}
                       </>
                     )}
-
-                    {/* Total Amount */}
-                    {(formData.senderDetails.taxType !== "None" ||
-                      formData.senderDetails.discount) && (
-                      <CustomInput
-                        title="Total"
-                        containerClass="items-center break-all min-w-[90px]"
-                        isText
-                        value={`${currencySymbols}${item.total || 0}`}
-                        itemErrorsData={errorsData}
-                      />
-                    )}
-
-                    {/* Remove Item */}
-                    {(formData.senderDetails.taxType !== "None" ||
-                      formData.senderDetails.discount) &&
-                      formData.items.length > 1 && (
-                        <div
-                          onClick={() => handleRemoveItem(index)}
-                          className="flex items-center justify-center cursor-pointer mt-3"
-                          style={{ flex: "0 1 auto", height: "100%" }}
-                        >
-                          <DeleteIcon />
-                        </div>
+                    <div className="flex items-center gap-2">
+                      {/* Total Amount */}
+                      {(formData.senderDetails.taxType !== "None" ||
+                        formData.senderDetails.discount) && (
+                        <CustomInput
+                          title="Total"
+                          containerClass="items-center break-all min-w-[90px]"
+                          isText
+                          value={`${currencySymbols}${item.total || 0}`}
+                          itemErrorsData={errorsData}
+                        />
                       )}
+
+                      {/* Remove Item */}
+                      {(formData.senderDetails.taxType !== "None" ||
+                        formData.senderDetails.discount) &&
+                        formData.items.length > 1 && (
+                          <div
+                            onClick={() => handleRemoveItem(index)}
+                            className="flex items-center justify-center cursor-pointer mt-3"
+                            style={{ flex: "0 1 auto", height: "100%" }}
+                          >
+                            <DeleteIcon />
+                          </div>
+                        )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex w-full">
-                  {!showDescription && (
+                  {!showDescriptions[index] && (
                     <CustomButton
                       type="gray"
                       onClick={(e) => {
                         e.preventDefault();
-                        handleDescription();
+                        handleDescription(index);
                       }}
                       buttonStyle={{
                         width: "50%",
@@ -277,7 +275,7 @@ const ItemDetails = ({
                       <PlusIcon f={"rgb(124, 93, 250)"} /> Add Description
                     </CustomButton>
                   )}
-                  {showDescription && (
+                  {showDescriptions[index] && (
                     <div className="flex gap-5 w-full">
                       <CustomInput
                         type="text"
@@ -291,7 +289,7 @@ const ItemDetails = ({
                         inputStyle={{ flex: "2 1 auto" }}
                       />
                       <div
-                        onClick={() => handleDescription()}
+                        onClick={() => handleDescription(index)}
                         className="flex items-center justify-center cursor-pointer mt-2"
                       >
                         <DeleteIcon />

@@ -569,7 +569,7 @@ export default function generateHTMLTPL003(invoiceData) {
               `
               : ""
           }
-          <td><div><span>${currencySymbol}</span>${item["total"]}</div>
+          <td><div><span>${currencySymbol}</span>${item["total"] || 0}</div>
         </tr>`
         )
         .join("")}

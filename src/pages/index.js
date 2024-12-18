@@ -106,7 +106,9 @@ const InvoiceForm = () => {
   const { userData, handleItemCalculatation, itemData } = useUser();
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-
+  const [showDescriptions, setShowDescriptions] = useState(
+    formData.items.map(() => false)
+  );
   const [isItemDataUpdated, setIsItemDataUpdated] = useState({
     name: false,
     quantity: false,
@@ -306,6 +308,7 @@ const InvoiceForm = () => {
       // Only add a new item if the last item is valid
       if (!lastItem || validateItem(lastItem)) {
         setIsItemDataUpdated({ name: false, quantity: false, price: false });
+        setShowDescriptions((prev) => [...prev, false]);
         return {
           ...prev,
           items: [
@@ -330,7 +333,22 @@ const InvoiceForm = () => {
     if (formData.items.length > 1) {
       const newItems = formData.items.filter((_, i) => i !== index);
       setFormData((prev) => ({ ...prev, items: newItems }));
+      setShowDescriptions((prev) => prev.filter((_, i) => i !== index));
     }
+  };
+
+  const handleDescription = (index) => {
+    setShowDescriptions((prev) =>
+      prev.map((value, i) => (i === index ? !value : value))
+    );
+    setFormData((prev) => ({
+      ...prev,
+      items: prev.items.map((item, i) =>
+        i === index && showDescriptions[index]
+          ? { ...item, description: "" }
+          : item
+      ),
+    }));
   };
 
   const handleSelectTemplate = (templateId) => {
@@ -655,6 +673,8 @@ const InvoiceForm = () => {
                     currencySymbols={currencySymbols}
                     validateForm={validateForm}
                     errorsData={errorsData}
+                    handleDescription={handleDescription}
+                    showDescriptions={showDescriptions}
                   />
                 </div>
               </div>
