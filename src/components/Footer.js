@@ -3,7 +3,9 @@ const Footer = () => {
 
   return (
     <footer className="d-flex justify-center py-4 footer mt-4">
-      <p>© {currentYear} Your Company Name. All Rights Reserved.</p>
+      <p>
+        © {currentYear} www.techformation.co.in pvt ltd. All Rights Reserved.
+      </p>
     </footer>
   );
 };
