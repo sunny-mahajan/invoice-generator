@@ -75,6 +75,7 @@ export default function generateHTMLTPL003(invoiceData) {
             background: linear-gradient(135deg, #7e57c2, #64b5f6);
             color: #fff;
             padding: 20px;
+            min-height: 95vh;
         }
         .invoice-container p, .invoice-container span {
             color: #fff !important;
