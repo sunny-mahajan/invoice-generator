@@ -14,7 +14,6 @@ const ItemDetails = ({
   showDescriptions,
   errorsData = { errorsData },
 }) => {
-  // const [showDescription, setShowDescription] = useState(false);
   const { handleItemCalculatation, itemData } = useUser();
 
   useEffect(() => {
@@ -30,10 +29,6 @@ const ItemDetails = ({
     e.target.value = sanitizedValue;
     callback(index, e);
   };
-
-  // const handleDescription = () => {
-  //   setShowDescription(!showDescription);
-  // };
 
   return (
     <div className="item-details-section flex flex-col gap-6">
