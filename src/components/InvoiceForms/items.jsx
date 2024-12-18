@@ -180,7 +180,7 @@ const ItemDetails = ({
                         </div>
                       )}
                   </div>
-                  <div className="items-amount-cls flex gap-2 w-full flex-wrap justify-between">
+                  <div className="items-amount-cls flex w-full flex-wrap justify-between">
                     {/* Conditional Amounts */}
                     {(formData.senderDetails.taxType !== "None" ||
                       formData.senderDetails.discount) && (
@@ -228,31 +228,32 @@ const ItemDetails = ({
                         )}
                       </>
                     )}
-
-                    {/* Total Amount */}
-                    {(formData.senderDetails.taxType !== "None" ||
-                      formData.senderDetails.discount) && (
-                      <CustomInput
-                        title="Total"
-                        containerClass="items-center break-all min-w-[90px]"
-                        isText
-                        value={`${currencySymbols}${item.total || 0}`}
-                        itemErrorsData={errorsData}
-                      />
-                    )}
-
-                    {/* Remove Item */}
-                    {(formData.senderDetails.taxType !== "None" ||
-                      formData.senderDetails.discount) &&
-                      formData.items.length > 1 && (
-                        <div
-                          onClick={() => handleRemoveItem(index)}
-                          className="flex items-center justify-center cursor-pointer mt-3"
-                          style={{ flex: "0 1 auto", height: "100%" }}
-                        >
-                          <DeleteIcon />
-                        </div>
+                    <div className="flex items-center gap-2">
+                      {/* Total Amount */}
+                      {(formData.senderDetails.taxType !== "None" ||
+                        formData.senderDetails.discount) && (
+                        <CustomInput
+                          title="Total"
+                          containerClass="items-center break-all min-w-[90px]"
+                          isText
+                          value={`${currencySymbols}${item.total || 0}`}
+                          itemErrorsData={errorsData}
+                        />
                       )}
+
+                      {/* Remove Item */}
+                      {(formData.senderDetails.taxType !== "None" ||
+                        formData.senderDetails.discount) &&
+                        formData.items.length > 1 && (
+                          <div
+                            onClick={() => handleRemoveItem(index)}
+                            className="flex items-center justify-center cursor-pointer mt-3"
+                            style={{ flex: "0 1 auto", height: "100%" }}
+                          >
+                            <DeleteIcon />
+                          </div>
+                        )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex w-full">
