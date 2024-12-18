@@ -254,7 +254,7 @@ export default function generateHTMLTPL001(invoiceData) {
     }
 
     .main-container-cls h2 {
-        font-size: 15px;
+        font-size: 16px;
         font-weight: bold;
         margin: 0;
         margin-bottom: 7px;
