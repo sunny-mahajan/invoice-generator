@@ -7,13 +7,13 @@ import CustomButton from "../../components/Button";
 import "./style.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { auth, googleAuthProvider } from "../../../firebaseConfig";
-import { signInWithPopup } from "firebase/auth";
 import AdBanner from "../../components/AdBanner";
+import { useUser } from "../../app/context/userContext";
 
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { handleGoogleSignIn } = useUser();
 
   const {
     register,
@@ -43,20 +43,6 @@ export default function Login() {
       toast.error("Login failed");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleAuthProvider);
-      const user = result.user;
-      localStorage.setItem("token", result.accessToken);
-      router.push("/");
-      console.log("Signed in user:", user);
-
-      // You can save the user information to Firestore or state here
-    } catch (error) {
-      console.error("Error during Google sign-in:", error.message);
     }
   };
 
