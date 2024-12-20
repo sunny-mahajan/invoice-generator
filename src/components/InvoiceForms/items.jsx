@@ -52,7 +52,8 @@ const ItemDetails = ({
                       placeholder="Website Design"
                       maxLength={50}
                       containerClass="min-w-[150px]"
-                      value={item.name}
+                      value={item.name || ""}
+                      autoComplete="off"
                       onChange={(e) => handleItemChange(index, e)}
                       inputStyle={{
                         borderColor: errorsData[index]?.name ? "red" : "",
@@ -69,8 +70,9 @@ const ItemDetails = ({
                       title="Qty/Hrs."
                       placeholder="1"
                       maxLength={20}
+                      autoComplete="off"
                       containerClass="min-w-[70px]"
-                      value={item.quantity}
+                      value={item.quantity || ""}
                       onChange={(e) =>
                         handleSanitizedChange(
                           e,
@@ -93,8 +95,9 @@ const ItemDetails = ({
                       placeholder="200"
                       maxLength={20}
                       title="Price"
+                      autoComplete="off"
                       containerClass="min-w-[70px]"
-                      value={item.price}
+                      value={item.price || ""}
                       onChange={(e) =>
                         handleSanitizedChange(
                           e,
@@ -119,7 +122,8 @@ const ItemDetails = ({
                         placeholder="18"
                         title="Discount %"
                         maxLength={10}
-                        value={item.discountPercentage}
+                        autoComplete="off"
+                        value={item.discountPercentage || ""}
                         containerClass="min-w-[80px]"
                         itemErrorsData={errorsData}
                         onChange={(e) =>
@@ -142,9 +146,10 @@ const ItemDetails = ({
                           name="taxPercentage"
                           placeholder="18"
                           maxLength={10}
+                          autoComplete="off"
                           title={`${formData.senderDetails.taxType} %`}
                           containerClass="min-w-[60px]"
-                          value={item.taxPercentage}
+                          value={item.taxPercentage || ""}
                           itemErrorsData={errorsData}
                           onChange={(e) =>
                             handleSanitizedChange(
@@ -284,8 +289,9 @@ const ItemDetails = ({
                         title="Item Description"
                         placeholder="Design and development"
                         maxLength={50}
+                        autoComplete="off"
                         containerClass={"w-full"}
-                        value={item.description}
+                        value={item.description || ""}
                         onChange={(e) => handleItemChange(index, e)}
                         inputStyle={{ flex: "2 1 auto" }}
                       />

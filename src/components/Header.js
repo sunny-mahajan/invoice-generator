@@ -92,7 +92,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <label ref={avatarRef2} className="burger d-block md:hidden" for="burger">
+        <label ref={avatarRef2} className="burger d-block md:hidden" htmlFor="burger">
           <input type="checkbox" id="burger" onChange={() => setShowSider(!showSider)}/>
           <span></span>
           <span></span>
@@ -115,7 +115,7 @@ const Header = () => {
           </div>
           <div className="sidebar-bottom d-flex items-center justify-content-center">
             <div
-              className="flex items-center justify-center bg-blue-500 rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
+              className="header-profile flex items-center justify-center rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
               ref={avatarRef}
               onClick={handleProfileClick}
             >

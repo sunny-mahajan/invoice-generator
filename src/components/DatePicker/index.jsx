@@ -179,7 +179,7 @@ const DatePicker = ({
       </div>
 
       {isDatePickerOpen && (
-        <span className="date-picker-container">
+        <span className="text-white date-picker-container">
           <div className="date-picker">
             <div className="header">
               <div onClick={prevMonth} className="nav-arrow">

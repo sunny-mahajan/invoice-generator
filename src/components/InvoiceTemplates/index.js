@@ -71,7 +71,7 @@ const InvoiceTemplates = ({
                 className="sr-only peer"
                 onChange={handleTemplateSelection} // Call the function when the toggle is changed
               />
-              <div className="random-temp-cls relative w-12 h-7 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              <div className="random-temp-cls relative w-12 h-7 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
               <span className="ml-3 font-semibold">Use Random Template</span>
             </label>
             <div
@@ -111,9 +111,9 @@ const InvoiceTemplates = ({
                     : ""
                 }`}
               >
-                <div className="template-preview-image-container w-full overflow-hidden relative">
+                <div className="template-preview-image-container w-full">
                   <img
-                    className="template-preview-image h-full w-full"
+                    className="drop-shadow template-preview-image h-full w-full"
                     src={invoiceTemplate.previewUrl}
                     alt={invoiceTemplate.name}
                   />

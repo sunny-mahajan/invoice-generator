@@ -25,6 +25,7 @@ body[data-theme="dark"] {
   --sub-title: rgb(124, 93, 250);
   --toggle-button: #6539c0;
   --sidebar-color: #252945;
+  --header-profile: #3b82f6;
   --primary-color: #141625;
   --secondary-color: #252945;
   --tertiary-color: #34374b;
@@ -48,6 +49,7 @@ body {
   --sub-title: #161c26;
   --toggle-button: #df3439;
   --sidebar-color: #df3439;
+  --header-profile: #3b82f6;
   --primary-color: #ffffff;
   --secondary-color: #ffffff;
   --border: 1px solid #888eb0;
@@ -121,6 +123,9 @@ body {
   color: var(--input-label-color);
 }
 
+.header-profile{
+  background-color: var(--header-profile);
+}
 /* Customize toast appearance */
 .Toastify__toast {
   border-radius: 0.5rem !important; /* Rounded corners */
