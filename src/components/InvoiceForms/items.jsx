@@ -118,6 +118,7 @@ const ItemDetails = ({
                         name="discountPercentage"
                         placeholder="18"
                         title="Discount %"
+                        maxLength={10}
                         value={item.discountPercentage}
                         containerClass="min-w-[80px]"
                         itemErrorsData={errorsData}
@@ -134,14 +135,14 @@ const ItemDetails = ({
 
                     {/* Tax Percentage Input */}
                     {formData.senderDetails.taxType &&
-                      formData.senderDetails.taxType !== "None" && (
+                      formData.senderDetails.taxType !== "" && (
                         <CustomInput
                           type="text"
                           inputMode="numeric"
                           name="taxPercentage"
                           placeholder="18"
                           maxLength={10}
-                          title="GST %"
+                          title={`${formData.senderDetails.taxType} %`}
                           containerClass="min-w-[60px]"
                           value={item.taxPercentage}
                           itemErrorsData={errorsData}
@@ -156,7 +157,7 @@ const ItemDetails = ({
                         />
                       )}
 
-                    {formData.senderDetails.taxType == "None" &&
+                    {formData.senderDetails.taxType == "" &&
                       !formData.senderDetails.discount && (
                         <div className="flex items-center">
                           <CustomInput
@@ -179,7 +180,7 @@ const ItemDetails = ({
                   </div>
                   <div className="items-amount-cls flex w-full flex-wrap justify-between">
                     {/* Conditional Amounts */}
-                    {(formData.senderDetails.taxType !== "None" ||
+                    {(formData.senderDetails.taxType !== "" ||
                       formData.senderDetails.discount) && (
                       <>
                         <CustomInput
@@ -200,7 +201,7 @@ const ItemDetails = ({
                               }`}
                               itemErrorsData={errorsData}
                             />
-                            {formData.senderDetails.taxType !== "None" &&
+                            {formData.senderDetails.taxType !== "" &&
                               formData.senderDetails.discount && (
                                 <CustomInput
                                   title="Net Price"
@@ -214,7 +215,7 @@ const ItemDetails = ({
                               )}
                           </>
                         )}
-                        {formData.senderDetails.taxType !== "None" && (
+                        {formData.senderDetails.taxType !== "" && (
                           <CustomInput
                             title="Tax Amount"
                             containerClass="items-center min-w-[80px] break-all min-w-[90px]"
@@ -227,7 +228,7 @@ const ItemDetails = ({
                     )}
                     <div className="flex items-center gap-2">
                       {/* Total Amount */}
-                      {(formData.senderDetails.taxType !== "None" ||
+                      {(formData.senderDetails.taxType !== "" ||
                         formData.senderDetails.discount) && (
                         <CustomInput
                           title="Total"
@@ -239,7 +240,7 @@ const ItemDetails = ({
                       )}
 
                       {/* Remove Item */}
-                      {(formData.senderDetails.taxType !== "None" ||
+                      {(formData.senderDetails.taxType !== "" ||
                         formData.senderDetails.discount) &&
                         formData.items.length > 1 && (
                           <div
@@ -331,10 +332,10 @@ const ItemDetails = ({
         </CustomButton>
       </div>
       {formData.items[0].price && formData.items[0].quantity && (
-        <div className="w-full flex justify-end">
+        <div className="text-white w-full flex justify-end">
           <div className="d-flex flex-col gap-2 md:w-[60%] w-[80%]">
             {(formData.senderDetails.taxType &&
-              formData.senderDetails.taxType !== "None") ||
+              formData.senderDetails.taxType !== "") ||
             formData.senderDetails.discount > 0 ? (
               <>
                 <div className="flex justify-between break-all">
@@ -348,15 +349,15 @@ const ItemDetails = ({
                   </div>
                 )}
                 {formData.senderDetails.discount &&
-                  formData.senderDetails.taxType !== "None" && (
+                  formData.senderDetails.taxType !== "" && (
                     <div className="flex justify-between break-all">
                       <span className="min-w-[130px]">Net Price:</span>
                       <span>₹{itemData.afterDiscountAmount}</span>
                     </div>
                   )}
-                {formData.senderDetails.taxType === "IGST" && (
+                {formData.senderDetails.taxType !== "" && (
                   <div className="flex justify-between break-all">
-                    <span className="min-w-[130px]">IGST</span>
+                    <span className="min-w-[130px]">{formData.senderDetails.taxType}</span>
                     <span>₹{itemData.taxAmount}</span>
                   </div>
                 )}
@@ -402,7 +403,6 @@ export default ItemDetails;
 // Example styles object
 const styles = {
   titleText: {
-    color: "#7C5DFA",
     fontSize: "16px",
     marginTop: "15px",
     marginBottom: "10px",

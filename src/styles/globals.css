@@ -6,6 +6,12 @@ html,
 body,
 #__next {
   height: 100%;
+  font-family: "Inter", sans-serif;
+  letter-spacing: .01em;
+  line-height: 1.1428571429;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #__next {
@@ -14,7 +20,10 @@ body,
 
 body[data-theme="dark"] {
   margin: 0;
-  font-family: "Spartan" !important;
+  --main-title : rgb(124, 93, 250);
+  --icon-path-stoke: rgb(124, 93, 250);
+  --sub-title: rgb(124, 93, 250);
+  --toggle-button: #6539c0;
   --sidebar-color: #252945;
   --primary-color: #141625;
   --secondary-color: #252945;
@@ -22,18 +31,23 @@ body[data-theme="dark"] {
   --border: 1px solid #888eb0;
   --input-border-color: #20233d;
   --color-white-dark: transparent;
-  --input-label-color: #dfe3fa;
+  --input-label-color: #ffffff;
   --color-white-light: #ffffff;
   --color-white-blue: #141625;
   --color-file-upload-hover: #1c1f32;
   --color: #fff;
   --border-radius: 10px;
+  --header-button-shadow: rgba(238,130,238,.2);
   scroll-behavior: smooth;
 }
 body {
   margin: 0;
-  font-family: "Spartan" !important;
-  --sidebar-color: rgb(101, 57, 192);
+  letter-spacing: 1px;
+  --main-title : #df3439;
+  --icon-path-stoke: #df3439;
+  --sub-title: #161c26;
+  --toggle-button: #df3439;
+  --sidebar-color: #df3439;
   --primary-color: #ffffff;
   --secondary-color: #ffffff;
   --border: 1px solid #888eb0;
@@ -41,11 +55,12 @@ body {
   --input-border-color: rgb(180, 194, 213);
   --color-white-light: rgb(180, 194, 213);
   --input-label-color: #161c26;
-  --color-white-dark: #143f83;
+  --color-white-dark: rgb(180, 194, 213);
   --color-white-blue: #f7faff;
   --color-file-upload-hover: #f3eeeeab;
   --color: #161c26;
   --border-radius: 10px;
+  --header-button-shadow: rgba(255, 255, 255, 0.2);
 }
 
 .sidebar {
@@ -61,6 +76,55 @@ body {
   z-index: 10000;
   background-color: var(--sidebar-color);
   border-right: var(--border);
+}
+
+.bill-from-container{
+  color: var(--main-title);
+}
+.sub-title{
+  color: var(--sub-title);
+}
+
+.sub-title-icon path{
+  stroke: var(--icon-path-stoke);
+}
+
+.bill-to-container{
+  color: var(--main-title);
+}
+
+.item-details-section {
+  color: var(--main-title);
+}
+
+.add-new-btn-cls path {
+  fill: var(--icon-path-stoke);
+}
+
+.file-upload-container path{
+  fill: var(--icon-path-stoke);
+}
+
+.date-picker-container path{
+  stroke: var(--icon-path-stoke);
+}
+.input-field path {
+  stroke: var(--icon-path-stoke);
+  fill: var(--icon-path-stoke);
+}
+
+.rotate-180{
+  transform: rotate(180deg);
+}
+
+.text-white{
+  color: var(--input-label-color);
+}
+
+/* Customize toast appearance */
+.Toastify__toast {
+  border-radius: 0.5rem !important; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important; /* Subtle shadow */
 }
 
 @media screen and (max-width: 768px) {
@@ -199,17 +263,17 @@ body[data-theme="light"] .sidebar-item {
 
 .sidebar-item.active {
   filter: brightness(1.4);
-  color: rgb(238, 130, 238);
-  background-color: rgba(238, 130, 238, 0.1);
+  color: violet;
+  background-color: transparent;
   transition: all 0.3s ease; /* Smooth transition */
-  box-shadow: 0px 0 4px rgba(238, 130, 238, 0.2),
-    /* Slight shadow below */ 0px 0 4px rgba(238, 130, 238, 0.1),
-    /* Slight shadow above */ 2px 0px 4px rgba(238, 130, 238, 0.2),
-    /* Right shadow */ -2px 0px 4px rgba(238, 130, 238, 0.2); /* Left shadow */
+  box-shadow: 0px 0 4px var(--header-button-shadow),
+    /* Slight shadow below */ 0px 0 4px var(--header-button-shadow),
+    /* Slight shadow above */ 2px 0px 4px var(--header-button-shadow),
+    /* Right shadow */ -2px 0px 4px var(--header-button-shadow); /* Left shadow */
 }
 
 /* Hover effect for all items */
-.item-hover-cls:hover {
+.item-hover-cls:not(.active):hover  {
   background: rgba(255, 255, 255, 0.1);
   color: rgb(255, 255, 255);
   transform: scale(1.02);
@@ -295,25 +359,20 @@ a {
 h1 {
   font-size: 32px;
   line-height: 36px;
-  letter-spacing: -1px;
 }
 
 h2 {
   font-size: 20px;
   line-height: 22px;
-  letter-spacing: -0.63px;
 }
 
 h3 {
   font-size: 16px;
-  line-height: 24px;
-  letter-spacing: -0.8px;
 }
 
 h4 {
   font-size: 12px;
   line-height: 15px;
-  letter-spacing: -0.25px;
 }
 
 p {
@@ -402,9 +461,6 @@ main.main {
     padding-left: 20px;
     padding-right: 20px;
   }
-}
-body[data-theme="light"] span {
-  color: var(--color);
 }
 
 body[data-theme="light"] .user-profile-cls {

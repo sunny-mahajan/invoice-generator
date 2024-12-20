@@ -11,7 +11,6 @@
   justify-content: center;
   font-size: 14px;
   font-weight: 600;
-  font-family: inherit;
   border: 0;
   cursor: pointer;
   line-height: 1;
@@ -33,18 +32,29 @@
   border-radius: 30px;
   font-size: 14px;
   font-weight: 600;
-  font-family: inherit;
   border: 0;
   cursor: pointer;
   line-height: 1;
 }
 
-.gray-button:hover {
-  filter: brightness(1.4) !important;
-}
+body[data-theme="dark"] .gray-button:hover {
+  filter: brightness(1.4);
+  background-color: var(--tertiary-color);
+  color: var(--input-label-color);
 
+}
+body[data-theme="dark"] .gray-button:hover path{
+  fill: var(--icon-path-stoke);
+}
+.gray-button:hover {
+  background-color: #272729;
+  color: white;
+}
+.gray-button:hover path{
+  fill: white;
+}
 .purple-button {
-  background-color: #7c5dfa;
+  background-color: var(--main-title);
   color: #f8f8f8;
   padding: 12px;
   padding-left: 20px;
@@ -56,7 +66,6 @@
   border-radius: 30px;
   font-size: 20px;
   font-weight: 600;
-  font-family: inherit;
   border: 0;
   cursor: pointer;
   line-height: 1;
@@ -79,7 +88,6 @@
   border-radius: 30px;
   font-size: 14px;
   font-weight: 600;
-  font-family: inherit;
   border: 0;
   cursor: pointer;
   line-height: 1;

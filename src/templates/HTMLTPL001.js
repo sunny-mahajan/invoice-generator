@@ -293,7 +293,7 @@ export default function generateHTMLTPL001(invoiceData) {
           }
         </div>
         <div class="title-container-cls">
-            <h1>Invoice</h1>
+            <h1>${invoiceData["Invoice Title"]}</h1>
         </div>
         <div class="sec2-container">
           <div class="sub-sec2-container">
@@ -338,7 +338,7 @@ export default function generateHTMLTPL001(invoiceData) {
         </div>
         <div class="sec3-container">
           <div class="sub-sec3-container">
-  <h2>From</h2>
+  <h2>From:</h2>
   ${
     invoiceData["Sender's Name"] ? `<p>${invoiceData["Sender's Name"]}</p>` : ""
   }
@@ -385,7 +385,7 @@ export default function generateHTMLTPL001(invoiceData) {
   }
   ${
     invoiceData["Sender's Tax No"]
-      ? `<p><span>GST No: </span>${invoiceData["Sender's Tax No"]}</p>`
+      ? `<p><span>${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} No: </span>${invoiceData["Sender's Tax No"]}</p>`
       : ""
   }
   ${
@@ -418,7 +418,7 @@ export default function generateHTMLTPL001(invoiceData) {
 </div>
 
 <div class="sub-sec3-container">
-  <h2>To</h2>
+  <h2>To:</h2>
   ${
     invoiceData["Receiver's Name"]
       ? `<p>${invoiceData["Receiver's Name"]}</p>`
@@ -467,7 +467,7 @@ export default function generateHTMLTPL001(invoiceData) {
   }
   ${
     invoiceData["Receiver's Tax No"]
-      ? `<p><span>GST No: </span>${invoiceData["Receiver's Tax No"]}</p>`
+      ? `<p><span>${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} No: </span>${invoiceData["Receiver's Tax No"]}</p>`
       : ""
   }
   ${
@@ -661,7 +661,7 @@ export default function generateHTMLTPL001(invoiceData) {
                     ? `
                   <div class="sub-sec5-item">
                     ${
-                      invoiceData["Sender's Tax Type"] === "IGST"
+                      invoiceData["Sender's Tax Type"]
                         ? `
                     <p class="sub-sec5-title">
                       ${invoiceData["Sender's Tax Type"]}

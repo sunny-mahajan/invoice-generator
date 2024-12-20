@@ -65,7 +65,7 @@ const FormCustomDropdown = ({
           {findLabel()
             ? findLabel()?.label
             : selectedOption?.label || "Select an option"}
-          <DownArrowIcon />
+          <DownArrowIcon className="sub-title-icon"/>
         </div>
         {isOpen && (
           <div className={`FormDropdown-menu ${isOpen ? "open" : ""}`}>

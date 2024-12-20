@@ -58,7 +58,7 @@ const InvoiceTemplates = ({
 
   return (
     <div>
-      <div className="flex md:items-center items-start gap-5  flex-col md:flex-row justify-between pb-2.5 pt-5">
+      <div className="text-white flex md:items-center items-start gap-5  flex-col md:flex-row justify-between pb-2.5 pt-5">
         <h2 style={styles.title}>
           {selectable ? "Select Template" : "Templates"}
         </h2>
@@ -101,7 +101,7 @@ const InvoiceTemplates = ({
           .map((invoiceTemplate) => (
             <div
               key={invoiceTemplate.id}
-              className="template-tile w-full p-2 flex items-center flex-col cursor-pointer"
+              className="text-white template-tile w-full p-2 flex items-center flex-col cursor-pointer"
               onClick={() => selectTemplate(invoiceTemplate.id)}
             >
               <div

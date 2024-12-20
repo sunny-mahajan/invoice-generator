@@ -188,6 +188,7 @@ export default function UploadCSV() {
       if (invoiceNo && invoiceNo !== lastInvoiceNo) {
         // New invoice detected
         invoicesMap.set(invoiceNo, {
+          "Invoice Title": row["Invoice Title"],
           "Invoice No.": invoiceNo,
           "Template Id": selectedTemplateId || templateIds[0],
           "Invoice Issue Date": row["Invoice Issue Date"],
@@ -404,7 +405,7 @@ export default function UploadCSV() {
   return (
     <Layout>
       <div className="container mx-auto pt-8 px-0 upload-container-cls">
-        <div className="flex md:flex-row flex-col items-center mb-5 md:mb-0 p-4 gap-10">
+        <div className="text-white flex md:flex-row flex-col items-center mb-5 md:mb-0 p-4 gap-10">
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
@@ -470,17 +471,6 @@ export default function UploadCSV() {
           </div>
         </div>
       </div>
-      <div className="p-4 mx-auto w-full">
-        <InvoiceTemplates
-          handleSelectTemplates={handleSelectTemplate}
-          selectable={isTemplateSelectable}
-          handleTemplateSelection={handleTemplateSelection}
-          isShowRandomSelection={true}
-          invoiceData={previewInvoiceData}
-          isRandomSelectionChecked={isRandomSelectionChecked}
-        />
-        <ToastContainer />
-      </div>
       {invoices.length > 0 && isInvoceTrue && (
         <div className="mt-0 md:mb-6 px-4">
           <CustomButton
@@ -493,6 +483,17 @@ export default function UploadCSV() {
           </CustomButton>
         </div>
       )}
+      <div className="p-4 mx-auto w-full">
+        <InvoiceTemplates
+          handleSelectTemplates={handleSelectTemplate}
+          selectable={isTemplateSelectable}
+          handleTemplateSelection={handleTemplateSelection}
+          isShowRandomSelection={true}
+          invoiceData={previewInvoiceData}
+          isRandomSelectionChecked={isRandomSelectionChecked}
+        />
+        <ToastContainer />
+      </div>
     </Layout>
   );
 }

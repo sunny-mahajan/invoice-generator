@@ -226,7 +226,7 @@ export default function generateHTMLTPL002(invoiceData) {
     <!-- Header Section -->
     <div class="header-cls">
       <div class="invoice-title">
-        <h2>INVOICE</h2>
+        <h2>${invoiceData["Invoice Title"]}</h2>
       </div>
       ${
         invoiceData["Logo"] &&
@@ -242,7 +242,7 @@ export default function generateHTMLTPL002(invoiceData) {
     
     <div class="bill-ship">
       <div class="bill">
-        <h2>Bill To</h2>
+        <h2>From:</h2>
         ${
           invoiceData["Sender's Name"]
             ? `<p>${invoiceData["Sender's Name"]}</p>`
@@ -291,7 +291,7 @@ export default function generateHTMLTPL002(invoiceData) {
         }
         ${
           invoiceData["Sender's Tax No"]
-            ? `<p><span>GST No: </span>${invoiceData["Sender's Tax No"]}</p>`
+            ? `<p><span>${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} No: </span>${invoiceData["Sender's Tax No"]}</p>`
             : ""
         }
         ${
@@ -322,7 +322,7 @@ export default function generateHTMLTPL002(invoiceData) {
         }
       </div>
       <div class="ship">
-        <h2>Ship To</h2>
+        <h2>To:</h2>
         ${
           invoiceData["Receiver's Name"]
             ? `<p>${invoiceData["Receiver's Name"]}</p>`
@@ -371,7 +371,7 @@ export default function generateHTMLTPL002(invoiceData) {
         }
         ${
           invoiceData["Receiver's Tax No"]
-            ? `<p><span>GST No: </span>${invoiceData["Receiver's Tax No"]}</p>`
+            ? `<p><span>${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} No: </span>${invoiceData["Receiver's Tax No"]}</p>`
             : ""
         }
         ${
@@ -584,7 +584,7 @@ export default function generateHTMLTPL002(invoiceData) {
               invoiceData.itemData["taxPercentage"] > 0
                 ? `
                 ${
-                  invoiceData["Sender's Tax Type"] === "IGST"
+                  invoiceData["Sender's Tax Type"]
                     ? `
                     <tr>
                       <td colspan=${calculateColumnSpan(

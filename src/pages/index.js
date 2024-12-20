@@ -30,6 +30,7 @@ import { useUser } from "../app/context/userContext";
 import { State, City } from "country-state-city";
 
 let formDataInitialValues = {
+  invoiceTitle: "INVOICE",
   invoiceNo: "",
   createdAt: formatDateToISO(new Date()),
   dueDate: "",
@@ -44,7 +45,7 @@ let formDataInitialValues = {
     postCode: "",
     country: "",
     state: "",
-    taxType: "None",
+    taxType: "",
     taxNo: "",
     panNo: "",
     discount: false,
@@ -68,6 +69,7 @@ let formDataInitialValues = {
   },
   items: [
     {
+      id: 0,
       name: "",
       description: "",
       quantity: "",
@@ -151,7 +153,7 @@ const InvoiceForm = () => {
   }, [formValues]); // Dependency on formValues to re-trigger on change
 
   useEffect(() => {
-    if (formData.senderDetails.taxType === "None") {
+    if (formData.senderDetails.taxType === "") {
       setFormData((prev) => ({
         ...prev,
         items: prev.items.map((item) => ({
@@ -314,6 +316,7 @@ const InvoiceForm = () => {
           items: [
             ...prev.items,
             {
+              id: prev.items.length + 1,
               name: "",
               description: "",
               quantity: "",
@@ -568,6 +571,7 @@ const InvoiceForm = () => {
 
     setLoading(true);
     const mappedData = {
+      "Invoice Title": formData.invoiceTitle,
       "Invoice No.": formData.invoiceNo,
       "Template Id": selectedTemplateId,
       "Invoice Issue Date": formData.createdAt,
@@ -632,6 +636,7 @@ const InvoiceForm = () => {
               register={register}
               onFileSelect={onFileSelect}
               onFileRemove={onFileRemove}
+              handleDiscountToggle={handleDiscountToggle}
             />
             <div className="block lg:flex gap-5">
               <div className="w-full">
@@ -645,7 +650,6 @@ const InvoiceForm = () => {
                     handleFieldChange={handleFieldChange}
                     handleAddField={handleAddField}
                     handleRemoveField={handleRemoveField}
-                    handleDiscountToggle={handleDiscountToggle}
                     selectedState={selectedState}
                     states={states}
                     cities={cities}
@@ -699,7 +703,19 @@ const InvoiceForm = () => {
             >
               Generate Invoice
             </CustomButton>
-            <ToastContainer />
+            <ToastContainer 
+             position="top-center"
+             autoClose={3000}
+             hideProgressBar={false}
+             icon={false}
+             newestOnTop={true}
+             closeOnClick={true}
+             rtl={false}
+             pauseOnFocusLoss={false}
+             draggable={true}
+             pauseOnHover={true}
+             theme="colored"
+             />
           </div>
         </div>
         <div>
