@@ -233,8 +233,8 @@ const InvoiceDetailsForm = ({
               className="sr-only peer"
               onChange={handleDiscountToggle} // Call the function when the toggle is changed
             />
-            <div className="random-temp-cls relative w-10 h-6 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-            <span className="ml-3 font-semibold">Discount</span>
+            <div className="random-temp-cls relative w-10 h-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <span className="text-white ml-3 font-semibold">Discount</span>
           </label>
         </div>
         </div>

@@ -147,6 +147,14 @@ p {
 .template-preview-image {
   border-radius: var(--border-radius);
 }
+.drop-shadow{
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.4);
+}
+
+.drop-shadow:hover {
+  box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
+}
 .selected-invoice-template {
   border-color: #3498db;
   border-radius: var(--border-radius);

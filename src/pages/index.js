@@ -69,7 +69,6 @@ let formDataInitialValues = {
   },
   items: [
     {
-      id: 0,
       name: "",
       description: "",
       quantity: "",
@@ -316,7 +315,6 @@ const InvoiceForm = () => {
           items: [
             ...prev.items,
             {
-              id: prev.items.length + 1,
               name: "",
               description: "",
               quantity: "",

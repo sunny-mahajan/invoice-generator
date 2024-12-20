@@ -552,14 +552,14 @@ export default function generateHTMLTPL006(invoiceData) {
           }
           ${
             invoiceData.itemData["taxPercentage"] > 0
-              ? `<th class="align-right">GST %</th>`
+              ? `<th class="align-right">${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} %</th>`
               : ""
           }
           ${
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] <= 0
               ? `<th class="align-right"><div>
-              GST ${currencySymbol}</div>
+              ${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} ${currencySymbol}</div>
             </th>
             `
               : ""
