@@ -6,7 +6,7 @@ import {
   where,
   getDocs,
   updateDoc,
-  doc,
+  serverTimestamp,
 } from "firebase/firestore";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -26,7 +26,18 @@ export default async function handler(req, res) {
     const existingUserSnapshot = await getDocs(userQuery);
 
     if (!existingUserSnapshot.empty) {
-      return res.status(400).json({ error: "User already exists" });
+      // User exists, update the existing document with password and other details
+      if (existingUserSnapshot.docs[0].data().password) {
+        return res.status(400).json({ error: "User already exists" });
+      }
+      const existingUserDocRef = existingUserSnapshot.docs[0].ref;
+      await updateDoc(existingUserDocRef, {
+        name,
+        contactNo,
+        password: await bcrypt.hash(password, 10), // Update password
+        updatedAt: serverTimestamp(),
+      });
+      return res.status(200).json({ message: "User updated successfully" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
