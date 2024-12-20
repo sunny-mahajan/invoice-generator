@@ -2,13 +2,24 @@
 import React, { createContext, useContext, useState } from "react";
 import { auth, googleAuthProvider } from "../../../firebaseConfig"; // Make sure to import from your firebase config
 import { signInWithPopup } from "firebase/auth";
-import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  serverTimestamp,
+  query,
+  getDocs,
+  collection,
+  where,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 const UserItemContext = createContext();
 import { useRouter } from "next/router";
 
 export const UserItemsProvider = ({ children }) => {
   const router = useRouter();
+  const [googleSignInloading, setGoogleSignInloading] = useState(false);
   const [userData, setUserData] = useState(() => {
     if (typeof window !== "undefined") {
       const storedUser = localStorage.getItem("user");
@@ -73,19 +84,34 @@ export const UserItemsProvider = ({ children }) => {
 
   const handleGoogleSignIn = async () => {
     try {
+      setGoogleSignInloading(true);
       const result = await signInWithPopup(auth, googleAuthProvider);
       const user = result.user;
-
       // Get the Firebase ID token
       const idToken = await user.getIdToken();
 
       // Save the token to localStorage
       localStorage.setItem("token", idToken);
-      // Add user details to Firestore if they don't exist
-      const userDocRef = doc(db, "users", user.uid);
-      const existingUser = await getDoc(userDocRef);
 
-      if (!existingUser.exists()) {
+      // Add or update user details in Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const userQuery = query(
+        collection(db, "users"),
+        where("email", "==", user.email)
+      );
+      const existingUserSnapshot = await getDocs(userQuery);
+
+      if (!existingUserSnapshot.empty) {
+        // User exists, update the document with Google login details
+        const existingUserDocRef = existingUserSnapshot.docs[0].ref;
+        await updateDoc(existingUserDocRef, {
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+          updatedAt: serverTimestamp(),
+        });
+      } else {
+        // If no user exists, create a new document
         await setDoc(userDocRef, {
           uid: user.uid,
           displayName: user.displayName,
@@ -95,17 +121,22 @@ export const UserItemsProvider = ({ children }) => {
           createdAt: serverTimestamp(),
         });
       }
-      // Update the context
+
+      // Update the context with the user details
       setUser({
         uid: user.uid,
         displayName: user.displayName,
         email: user.email,
         photoURL: user.photoURL,
+        verified: user.emailVerified,
       });
+
       // Redirect to the protected route
       router.push("/");
     } catch (error) {
       console.error("Error during Google Sign-In:", error.message);
+    } finally {
+      setGoogleSignInloading(false);
     }
   };
 
@@ -118,6 +149,7 @@ export const UserItemsProvider = ({ children }) => {
         itemData,
         handleItemCalculatation,
         handleGoogleSignIn,
+        googleSignInloading,
       }}
     >
       {children}

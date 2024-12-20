@@ -2,10 +2,7 @@
   background-color: var(--color);
   color: #7e88c3;
   padding: 12px;
-  padding-left: 20px;
-  padding-right: 20px;
   border-radius: 30px;
-  padding-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,4 +92,34 @@ button:disabled {
 }
 button:disabled:hover {
   filter: none;
+}
+.google-signin .google-signin-button {
+  background-color: #ffffff;
+  border-radius: 30px;
+  min-width: 250px;
+  min-height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.google-signin .google-signin-button .google-signin-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px;
+}
+
+.google-signin .google-signin-button .google-signin-text {
+  color: #000000 !important;
+}
+
+.google-signin.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
 }
