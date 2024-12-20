@@ -55,6 +55,7 @@ export default function InvoicePreview({
   const handleData = (formData, data, generatePreview) => {
     mergeData(formData, data);
     const mappedData = {
+      "Invoice Title": formData.invoiceTitle,
       "Invoice No.": formData.invoiceNo,
       "Template Id": selectedTemplateId,
       "Invoice Issue Date": formData.createdAt,

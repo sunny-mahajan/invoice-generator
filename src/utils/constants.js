@@ -50,6 +50,7 @@ export const bankAccountTypeOptions = [
 ];
 
 export const previewInvoiceData = {
+  "Invoice Title": "Invoice",
   "Invoice No.": "INV-1",
   "Template Id": "TPL001",
   "Invoice Issue Date": "08-27-2024",

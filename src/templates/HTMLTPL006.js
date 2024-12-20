@@ -112,22 +112,24 @@ export default function generateHTMLTPL006(invoiceData) {
       justify-content: space-between;
       align-items: center;
       padding-bottom: 10px;
-      height: 120px;
+      min-height: 60px;
     }
 
     .invoice-header h1 {
-      font-size: 6em;
+      font-size: 2em;
       color: #013264;
       margin: 0;
       padding: 0;
       line-height: unset;
       letter-spacing: unset;
+      width: 80%;
     }
 
     .invoice-header figure {
       margin: 0;
       padding: 0;
       height: 100px;
+      width: 100px;
     }
 
     .details-title{
@@ -275,7 +277,7 @@ export default function generateHTMLTPL006(invoiceData) {
         padding: 0 4em 0 2.5em;
       }
       .invoice-header h1 {
-        font-size: 5em;
+        font-size: 2em;
       }
 
       .table th {
@@ -315,7 +317,7 @@ export default function generateHTMLTPL006(invoiceData) {
 <body>
   <div class="invoice-container">
     <div class="invoice-header">
-      <h1>INVOICE</h1>
+      <h1>${invoiceData["Invoice Title"]}</h1>
       <figure>
         ${
           invoiceData["Logo"]
@@ -326,7 +328,7 @@ export default function generateHTMLTPL006(invoiceData) {
     </div>
     <div class="details">
       <div class="data-limit">
-        <p class="details-title">FROM</p>
+        <p class="details-title">FROM:</p>
         ${
           invoiceData["Sender's Name"]
             ? `<p class="details-data">${invoiceData["Sender's Name"]}</p>`
@@ -372,7 +374,7 @@ export default function generateHTMLTPL006(invoiceData) {
         }
         ${
           invoiceData["Sender's Tax No"]
-            ? `<p class="details-data">GST No: ${invoiceData["Sender's Tax No"]}</p>`
+            ? `<p class="details-data">${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} No: ${invoiceData["Sender's Tax No"]}</p>`
             : ""
         }
         ${
@@ -404,7 +406,7 @@ export default function generateHTMLTPL006(invoiceData) {
         }
       </div>
       <div class="data-limit">
-        <p class="details-title">TO</p>
+        <p class="details-title">TO:</p>
         ${
           invoiceData["Receiver's Name"]
             ? `<p class="details-data">${invoiceData["Receiver's Name"]}</p>`
@@ -453,7 +455,7 @@ export default function generateHTMLTPL006(invoiceData) {
         }
         ${
           invoiceData["Receiver's Tax No"]
-            ? `<p class="details-data">GST No: ${invoiceData["Receiver's Tax No"]}</p>`
+            ? `<p class="details-data">${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} No: ${invoiceData["Receiver's Tax No"]}</p>`
             : ""
         }
         ${
@@ -550,14 +552,14 @@ export default function generateHTMLTPL006(invoiceData) {
           }
           ${
             invoiceData.itemData["taxPercentage"] > 0
-              ? `<th class="align-right">GST %</th>`
+              ? `<th class="align-right">${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} %</th>`
               : ""
           }
           ${
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] <= 0
               ? `<th class="align-right"><div>
-              GST ${currencySymbol}</div>
+              ${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} ${currencySymbol}</div>
             </th>
             `
               : ""
@@ -581,8 +583,7 @@ export default function generateHTMLTPL006(invoiceData) {
             }
           </td>
           <td class="align-right table-data-limit">
-              <div>${currencySymbol}
-              ${item["price"]}</div>
+              <div>${currencySymbol}${item["price"]}</div>
           </td>
           <td class="align-right table-data-limit">${item["quantity"]}</td>
           ${
@@ -591,8 +592,7 @@ export default function generateHTMLTPL006(invoiceData) {
             (invoiceData.itemData["taxPercentage"] > 0 &&
               !invoiceData.itemData["discount"] > 0)
               ? `<td class="align-right table-data-limit">
-              <div>${currencySymbol}
-              ${item["amount"]}</div></td>`
+              <div>${currencySymbol}${item["amount"]}</div></td>`
               : ""
           }
           ${
@@ -606,8 +606,7 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
-              <div>${currencySymbol}
-              ${item["afterDiscount"]}</div>
+              <div>${currencySymbol}${item["afterDiscount"]}</div>
             </td>`
               : ""
           }
@@ -621,14 +620,12 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] <= 0
               ? `<td class="align-right table-data-limit">
-              <div>${currencySymbol}
-              ${item["taxAmount"]}</div>
+              <div>${currencySymbol}${item["taxAmount"]}</div>
             </td>`
               : ""
           }
           <td class="align-right table-data-limit">
-            <div>${currencySymbol}
-            ${item["total"] || 0}</div>
+            <div>${currencySymbol}${item["total"] || 0}</div>
           </td>
         </tr>
         `
@@ -644,16 +641,14 @@ export default function generateHTMLTPL006(invoiceData) {
                   ? `
               <p class="details-data">Subtotal</p>
               <p class="details-data data-limit ">
-                ${currencySymbol}
-                ${invoiceData.itemData["subTotal"]}
+                ${currencySymbol}${invoiceData.itemData["subTotal"]}
               </p>
               ${
                 invoiceData.itemData["discount"] > 0
                   ? `
                   <p class="details-data">Discount</p>
                   <p class="details-data data-limit">
-                    ${currencySymbol}
-                    ${invoiceData.itemData["discount"]}
+                    ${currencySymbol}${invoiceData.itemData["discount"]}
                   </p> `
                   : ""
               }
@@ -662,31 +657,27 @@ export default function generateHTMLTPL006(invoiceData) {
                 invoiceData.itemData["taxPercentage"] > 0
                   ? `<p class="details-data">Net Prize</p>
                 <p class="details-data data-limit">
-                  ${currencySymbol}
-                  ${invoiceData.itemData["afterDiscountAmount"]}
+                  ${currencySymbol}${invoiceData.itemData["afterDiscountAmount"]}
                 </p> `
                   : ""
               }
               ${
                 invoiceData.itemData["taxPercentage"] > 0
-                  ? invoiceData["Sender's Tax Type"] === "IGST"
+                  ? invoiceData["Sender's Tax Type"]
                     ? `<p class="details-data">
                   ${invoiceData["Sender's Tax Type"]}
               </p>
               <p class="details-data data-limit ">
-                ${currencySymbol}
-                ${invoiceData.itemData["taxAmount"]}
+                ${currencySymbol}${invoiceData.itemData["taxAmount"]}
               </p>`
                     : `
               <p class="details-data">CGST</p>
               <p class="details-data data-limit ">
-                ${currencySymbol}
-                ${invoiceData.itemData["taxAmount"] / 2}
+                ${currencySymbol}${invoiceData.itemData["taxAmount"] / 2}
               </p>
               <p class="details-data">SGST</p>
               <p class="details-data data-limit ">
-              ${currencySymbol}
-              ${invoiceData.itemData["taxAmount"] / 2}</p>`
+              ${currencySymbol}${invoiceData.itemData["taxAmount"] / 2}</p>`
                   : ""
               }`
                   : ""
@@ -694,8 +685,7 @@ export default function generateHTMLTPL006(invoiceData) {
               ${AdvancePaidAmount}
               <p class="details-title result">TOTAL</p>
               <p class="details-title result data-limit">
-              ${currencySymbol}
-                ${invoiceData.itemData["total"]}
+              ${currencySymbol}${invoiceData.itemData["total"]}
               </p>
       </div>
     </div>

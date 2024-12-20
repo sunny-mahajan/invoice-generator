@@ -50,25 +50,20 @@ a {
 h1 {
   font-size: 32px;
   line-height: 36px;
-  letter-spacing: -1px;
 }
 
 h2 {
   font-size: 20px;
   line-height: 22px;
-  letter-spacing: -0.63px;
 }
 
 h3 {
   font-size: 16px;
-  line-height: 24px;
-  letter-spacing: -0.8px;
 }
 
 h4 {
   font-size: 12px;
   line-height: 15px;
-  letter-spacing: -0.25px;
 }
 
 p {
@@ -152,6 +147,14 @@ p {
 .template-preview-image {
   border-radius: var(--border-radius);
 }
+.drop-shadow{
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.4);
+}
+
+.drop-shadow:hover {
+  box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
+}
 .selected-invoice-template {
   border-color: #3498db;
   border-radius: var(--border-radius);
@@ -182,7 +185,6 @@ p {
   height: 35px !important;
   border-radius: 0 0 4px;
   border: 1px solid var(--input-border-color);
-  font-family: inherit;
   font-weight: 600;
   font-size: 14px;
   background-color: var(--secondary-color);
@@ -216,7 +218,6 @@ p {
     height: 35px !important;
     border-radius: 4px;
     border: 1px solid var(--input-border-color);
-    font-family: inherit;
     font-size: 12px;
     background-color: var(--secondary-color);
     color: var(--color);
@@ -281,7 +282,6 @@ p {
   resize: none;
   border-radius: 4px;
   border: 1px solid var(--input-border-color) !important;
-  font-family: inherit;
   font-size: 12px;
   user-select: none;
   background-color: var(--secondary-color);
@@ -347,7 +347,7 @@ p {
   }
 }
 .random-temp-cls {
-  background-color: rgb(101, 57, 192);
+  background-color: var(--toggle-button);
 }
 
 .items-amount-cls .input-container {

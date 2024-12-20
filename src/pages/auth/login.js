@@ -9,11 +9,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdBanner from "../../components/AdBanner";
 import { useUser } from "../../app/context/userContext";
+import Loader from "../../components/Button/loader";
+import { googleIcons } from "../../utils/icons";
 
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { handleGoogleSignIn } = useUser();
+  const { handleGoogleSignIn, googleSignInloading } = useUser();
 
   const {
     register,
@@ -98,8 +100,25 @@ export default function Login() {
             </CustomButton>
           </form>
 
-          <div>
-            <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+          <div
+            className={`google-signin ${googleSignInloading ? "disabled" : ""}`}
+          >
+            <div
+              className="google-signin-button"
+              onClick={handleGoogleSignIn}
+              isLoading={googleSignInloading}
+            >
+              {googleSignInloading ? (
+                <Loader />
+              ) : (
+                <div className="google-signin-icon">
+                  {googleIcons()}
+                  <span className="google-signin-text">
+                    Sign in with Google
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
           <div style={{ textAlign: "center" }}>
             <div style={{ padding: "1rem 0" }}>

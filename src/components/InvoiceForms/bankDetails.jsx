@@ -17,12 +17,12 @@ const BankDetails = ({ formData, handleChange, errors, register }) => {
     <div className="border-slate-200">
       <button
         onClick={() => toggleAccordion(1)}
-        className="w-full flex justify-between items-center pb-5 text-slate-800"
+        className="sub-title w-full flex justify-between items-center pb-5 text-slate-800"
       >
-        <span className="text-[#7c5dfa] font-semibold">
+        <span className="font-semibold">
           Bank Details (optional)
         </span>
-        {isAccordionOpen[1] ? <UpArrowIcon /> : <DownArrowIcon />}
+        {isAccordionOpen[1] ? <DownArrowIcon className="rotate-180 sub-title-icon" /> : <DownArrowIcon className="sub-title-icon"/>}
       </button>
       <div
         className={`transition-all duration-300 ease-in-out ${

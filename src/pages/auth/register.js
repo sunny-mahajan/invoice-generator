@@ -31,7 +31,8 @@ export default function Register() {
       });
 
       if (response.ok) {
-        toast.success("Registration successful! Please verify your email.");
+        const data = await response.json();
+        toast.success(data.message);
         setTimeout(() => {
           router.push("/auth/login");
         }, 3000);
@@ -118,7 +119,7 @@ export default function Register() {
                 required: "Password is required",
                 pattern: {
                   value:
-                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[<>.,/?:;"{}[\]+=_\-()*&^%$#@!|\\]).{8,}$/,
                   message: "Password must be 8+ chars, $@, 0-9, A-Z, a-z.",
                 },
               }}

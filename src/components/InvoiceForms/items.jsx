@@ -52,7 +52,8 @@ const ItemDetails = ({
                       placeholder="Website Design"
                       maxLength={50}
                       containerClass="min-w-[150px]"
-                      value={item.name}
+                      value={item.name || ""}
+                      autoComplete="off"
                       onChange={(e) => handleItemChange(index, e)}
                       inputStyle={{
                         borderColor: errorsData[index]?.name ? "red" : "",
@@ -69,8 +70,9 @@ const ItemDetails = ({
                       title="Qty/Hrs."
                       placeholder="1"
                       maxLength={20}
+                      autoComplete="off"
                       containerClass="min-w-[70px]"
-                      value={item.quantity}
+                      value={item.quantity || ""}
                       onChange={(e) =>
                         handleSanitizedChange(
                           e,
@@ -93,8 +95,9 @@ const ItemDetails = ({
                       placeholder="200"
                       maxLength={20}
                       title="Price"
+                      autoComplete="off"
                       containerClass="min-w-[70px]"
-                      value={item.price}
+                      value={item.price || ""}
                       onChange={(e) =>
                         handleSanitizedChange(
                           e,
@@ -118,7 +121,9 @@ const ItemDetails = ({
                         name="discountPercentage"
                         placeholder="18"
                         title="Discount %"
-                        value={item.discountPercentage}
+                        maxLength={10}
+                        autoComplete="off"
+                        value={item.discountPercentage || ""}
                         containerClass="min-w-[80px]"
                         itemErrorsData={errorsData}
                         onChange={(e) =>
@@ -134,16 +139,17 @@ const ItemDetails = ({
 
                     {/* Tax Percentage Input */}
                     {formData.senderDetails.taxType &&
-                      formData.senderDetails.taxType !== "None" && (
+                      formData.senderDetails.taxType !== "" && (
                         <CustomInput
                           type="text"
                           inputMode="numeric"
                           name="taxPercentage"
                           placeholder="18"
                           maxLength={10}
-                          title="GST %"
+                          autoComplete="off"
+                          title={`${formData.senderDetails.taxType} %`}
                           containerClass="min-w-[60px]"
-                          value={item.taxPercentage}
+                          value={item.taxPercentage || ""}
                           itemErrorsData={errorsData}
                           onChange={(e) =>
                             handleSanitizedChange(
@@ -156,7 +162,7 @@ const ItemDetails = ({
                         />
                       )}
 
-                    {formData.senderDetails.taxType == "None" &&
+                    {formData.senderDetails.taxType == "" &&
                       !formData.senderDetails.discount && (
                         <div className="flex items-center">
                           <CustomInput
@@ -179,7 +185,7 @@ const ItemDetails = ({
                   </div>
                   <div className="items-amount-cls flex w-full flex-wrap justify-between">
                     {/* Conditional Amounts */}
-                    {(formData.senderDetails.taxType !== "None" ||
+                    {(formData.senderDetails.taxType !== "" ||
                       formData.senderDetails.discount) && (
                       <>
                         <CustomInput
@@ -200,7 +206,7 @@ const ItemDetails = ({
                               }`}
                               itemErrorsData={errorsData}
                             />
-                            {formData.senderDetails.taxType !== "None" &&
+                            {formData.senderDetails.taxType !== "" &&
                               formData.senderDetails.discount && (
                                 <CustomInput
                                   title="Net Price"
@@ -214,7 +220,7 @@ const ItemDetails = ({
                               )}
                           </>
                         )}
-                        {formData.senderDetails.taxType !== "None" && (
+                        {formData.senderDetails.taxType !== "" && (
                           <CustomInput
                             title="Tax Amount"
                             containerClass="items-center min-w-[80px] break-all min-w-[90px]"
@@ -227,7 +233,7 @@ const ItemDetails = ({
                     )}
                     <div className="flex items-center gap-2">
                       {/* Total Amount */}
-                      {(formData.senderDetails.taxType !== "None" ||
+                      {(formData.senderDetails.taxType !== "" ||
                         formData.senderDetails.discount) && (
                         <CustomInput
                           title="Total"
@@ -239,7 +245,7 @@ const ItemDetails = ({
                       )}
 
                       {/* Remove Item */}
-                      {(formData.senderDetails.taxType !== "None" ||
+                      {(formData.senderDetails.taxType !== "" ||
                         formData.senderDetails.discount) &&
                         formData.items.length > 1 && (
                           <div
@@ -283,8 +289,9 @@ const ItemDetails = ({
                         title="Item Description"
                         placeholder="Design and development"
                         maxLength={50}
+                        autoComplete="off"
                         containerClass={"w-full"}
-                        value={item.description}
+                        value={item.description || ""}
                         onChange={(e) => handleItemChange(index, e)}
                         inputStyle={{ flex: "2 1 auto" }}
                       />
@@ -331,10 +338,10 @@ const ItemDetails = ({
         </CustomButton>
       </div>
       {formData.items[0].price && formData.items[0].quantity && (
-        <div className="w-full flex justify-end">
+        <div className="text-white w-full flex justify-end">
           <div className="d-flex flex-col gap-2 md:w-[60%] w-[80%]">
             {(formData.senderDetails.taxType &&
-              formData.senderDetails.taxType !== "None") ||
+              formData.senderDetails.taxType !== "") ||
             formData.senderDetails.discount > 0 ? (
               <>
                 <div className="flex justify-between break-all">
@@ -348,15 +355,15 @@ const ItemDetails = ({
                   </div>
                 )}
                 {formData.senderDetails.discount &&
-                  formData.senderDetails.taxType !== "None" && (
+                  formData.senderDetails.taxType !== "" && (
                     <div className="flex justify-between break-all">
                       <span className="min-w-[130px]">Net Price:</span>
                       <span>₹{itemData.afterDiscountAmount}</span>
                     </div>
                   )}
-                {formData.senderDetails.taxType === "IGST" && (
+                {formData.senderDetails.taxType !== "" && (
                   <div className="flex justify-between break-all">
-                    <span className="min-w-[130px]">IGST</span>
+                    <span className="min-w-[130px]">{formData.senderDetails.taxType}</span>
                     <span>₹{itemData.taxAmount}</span>
                   </div>
                 )}
@@ -402,7 +409,6 @@ export default ItemDetails;
 // Example styles object
 const styles = {
   titleText: {
-    color: "#7C5DFA",
     fontSize: "16px",
     marginTop: "15px",
     marginBottom: "10px",
