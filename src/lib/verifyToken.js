@@ -40,7 +40,6 @@ export const verifyToken = async (req, res, next) => {
     let decoded;
     try {
       decoded = await admin.auth().verifyIdToken(token);
-      alert("Verified as Firebase ID token:", decoded);
     } catch (firebaseError) {
       console.warn("Not a Firebase ID token:", firebaseError.message);
 
