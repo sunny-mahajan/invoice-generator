@@ -38,20 +38,19 @@ body[data-theme="dark"] .gray-button:hover {
   filter: brightness(1.4);
   background-color: var(--tertiary-color);
   color: var(--input-label-color);
-
 }
-body[data-theme="dark"] .gray-button:hover path{
+body[data-theme="dark"] .gray-button:hover path {
   fill: var(--icon-path-stoke);
 }
 .gray-button:hover {
   background-color: #272729;
   color: white;
 }
-.gray-button:hover path{
+.gray-button:hover path {
   fill: white;
 }
 .purple-button {
-  background-color: var(--main-title);
+  background-color: #7c5dfa;
   color: #f8f8f8;
   padding: 12px;
   padding-left: 20px;
