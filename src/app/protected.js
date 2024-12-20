@@ -24,13 +24,11 @@ const ProtectedPage = ({ children }) => {
 
   const fetchProtectedData = async (token) => {
     try {
-      console.log("Fetching protected data...", token);
       const response = await fetch("/api/auth/protected", {
         headers: { Authorization: `Bearer ${token}` },
       });
       // Parse the response JSON data
       const data = await response.json();
-      console.log(data, "data");
       setUser(data.user);
       if (!response.ok || (!data.user.email_verified && !data.user.verified)) {
         toast.info("Please verify your email to access this page.");

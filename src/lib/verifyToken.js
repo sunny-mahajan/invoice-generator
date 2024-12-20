@@ -1,21 +1,3 @@
-// // lib/verifyToken.js
-// import jwt from "jsonwebtoken";
-
-// export const verifyToken = (req, res, next) => {
-//   const token = req.headers.authorization?.split(" ")[1];
-//   if (!token) {
-//     return res.status(401).json({ error: "Access denied, token missing" });
-//   }
-
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = decoded;
-//     next();
-//   } catch (error) {
-//     res.status(401).json({ error: "Invalid or expired token" });
-//   }
-// };
-
 // lib/verifyToken.js
 import jwt from "jsonwebtoken";
 import admin from "firebase-admin";
@@ -36,7 +18,6 @@ export const verifyToken = async (req, res, next) => {
   }
 
   try {
-    console.log(token, "token");
     let decoded;
     try {
       decoded = await admin.auth().verifyIdToken(token);
@@ -46,7 +27,6 @@ export const verifyToken = async (req, res, next) => {
       // If it fails, try to verify it as a custom JWT (email-password login)
       try {
         decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Verified as custom JWT:", decoded);
       } catch (jwtError) {
         console.error(
           "Failed to verify both Firebase and custom JWT:",
