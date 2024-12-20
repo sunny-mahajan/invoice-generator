@@ -103,12 +103,12 @@ const BillToForm = ({
         <div className="border-slate-200 mt-4">
           <button
             onClick={() => toggleAccordion(3)}
-            className="w-full flex justify-between items-center pb-5 text-slate-800"
+            className="sub-title w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa] font-semibold">
+            <span className="font-semibold">
               Address (optional)
             </span>
-            {isAccordionOpen[3] ? <UpArrowIcon /> : <DownArrowIcon />}
+            {isAccordionOpen[3] ? <DownArrowIcon className="rotate-180 sub-title-icon" /> : <DownArrowIcon className="sub-title-icon"/>}
           </button>
           <div
             className={`transition-all duration-300 ease-in-out ${
@@ -119,23 +119,27 @@ const BillToForm = ({
           >
             <div className="block md:flex gap-5">
               <div className="flex w-full flex-col">
-                <FormCustomDropdown
-                  options={states}
-                  label={formData?.clientDetails?.state}
-                  name="clientDetails.state"
-                  title="State"
-                  onSelect={handleChange}
-                  containerClass="mb-4"
+                <CustomInput
+                  type="text"
+                  name="clientDetails.street"
+                  placeholder={"123 Main St"}
+                  maxLength={50}
+                  value={formData?.clientDetails?.street}
+                  onChange={handleChange}
+                  title="Street Address"
+                  style={styles.input}
                 />
               </div>
               <div className="flex w-full flex-col">
-                <FormCustomDropdown
-                  options={cities}
-                  label={formData?.clientDetails?.city || "Select City"}
+                <CustomInput
+                  type="text"
                   name="clientDetails.city"
+                  placeholder={"Mumbai"}
+                  maxLength={50}
+                  value={formData?.clientDetails?.city}
+                  onChange={handleChange}
                   title="City"
-                  onSelect={handleChange}
-                  containerClass="mb-4"
+                  style={styles.input}
                 />
               </div>
             </div>
@@ -144,10 +148,20 @@ const BillToForm = ({
               <div className="flex w-full flex-col">
                 <CustomInput
                   type="text"
-                  inputMode="numeric"
+                  name="clientDetails.state"
+                  placeholder={"Maharashtra"}
+                  maxLength={50}
+                  value={formData?.clientDetails?.state}
+                  onChange={handleChange}
+                  title="State"
+                  style={styles.input}
+                />
+              </div>
+              <div className="flex w-full flex-col">
+                <CustomInput
+                  type="number"
                   name="clientDetails.postCode"
                   placeholder={"400001"}
-                  maxLength={6}
                   value={formData?.clientDetails?.postCode}
                   onChange={handleChange}
                   title="Pin Code"
@@ -164,18 +178,6 @@ const BillToForm = ({
                   }}
                 />
               </div>
-              <div className="flex w-full flex-col">
-                <CustomInput
-                  type="text"
-                  name="clientDetails.street"
-                  placeholder={"123 Main St"}
-                  maxLength={50}
-                  value={formData?.clientDetails?.street}
-                  onChange={handleChange}
-                  title="Street Address"
-                  style={styles.input}
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -184,12 +186,12 @@ const BillToForm = ({
         <div className="border-slate-200">
           <button
             onClick={() => toggleAccordion(4)}
-            className="w-full flex justify-between items-center pb-5 text-slate-800"
+            className="sub-title w-full flex justify-between items-center pb-5 text-slate-800"
           >
-            <span className="text-[#7c5dfa] font-semibold">
+            <span className="font-semibold">
               Tax Information (optional)
             </span>
-            {isAccordionOpen[4] ? <UpArrowIcon /> : <DownArrowIcon />}
+            {isAccordionOpen[4] ? <DownArrowIcon className="rotate-180 sub-title-icon" /> : <DownArrowIcon className="sub-title-icon"/>}
           </button>
           <div
             className={`transition-all duration-300 ease-in-out ${
@@ -207,7 +209,7 @@ const BillToForm = ({
                   value={formData.clientDetails.taxNo}
                   onChange={handleChange}
                   style={styles.input}
-                  title="GST Number"
+                  title={`${formData.senderDetails.taxType ? formData.senderDetails.taxType : "Tax"} Number`}
                   maxLength={15}
                   errors={errors}
                   onBlur={handleBlur}
@@ -308,9 +310,9 @@ const BillToForm = ({
                 float: "right",
                 filter: "brightness(1.3)",
               }}
-              containerClass="add-new-btn-cls"
+              containerClass="add-new-btn-cls w-[50%] md:w-[38%]"
             >
-              <PlusIcon f={"rgb(124, 93, 250)"} /> Add Custom Field
+              <PlusIcon /> Add Custom Field
             </CustomButton>
           </div>
         </div>
@@ -327,7 +329,6 @@ const styles = {
     marginBottom: "20px",
   },
   titleText: {
-    color: "#7C5DFA",
     fontSize: "16px",
     // marginTop: "15px",
     marginBottom: "10px",

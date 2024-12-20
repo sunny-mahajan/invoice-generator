@@ -118,13 +118,14 @@ export function infoIcon() {
   );
 }
 
-export function DownArrowIcon({ w = "11", h = "7", f = "#7C5DFA" }) {
+export function DownArrowIcon({ w = "11", h = "7", f = "#7C5DFA", className }) {
   return (
     <svg
       width={w}
       height={h}
       viewBox="0 0 11 7"
       xmlns="http://www.w3.org/2000/svg"
+      className={`${className}`}
     >
       <path
         d="M1 1l4.228 4.228L9.456 1"
@@ -211,7 +212,6 @@ export function PlusIcon({ w = "14", h = "14", f = "#7C5DFA" }) {
     >
       <path
         d="M6.313 10.023v-3.71h3.71v-2.58h-3.71V.023h-2.58v3.71H.023v2.58h3.71v3.71z"
-        fill={f}
         fillRule="nonzero"
       />
     </svg>
@@ -223,7 +223,6 @@ export function CalanderIcon({ w = "16", h = "18", f = "#7C5DFA" }) {
     <svg width={w} height={h} xmlns="http://www.w3.org/2000/svg">
       <path
         d="M14 2h-.667V.667A.667.667 0 0012.667 0H12a.667.667 0 00-.667.667V2H4.667V.667A.667.667 0 004 0h-.667a.667.667 0 00-.666.667V2H2C.897 2 0 2.897 0 4v10c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm.667 12c0 .367-.3.667-.667.667H2A.668.668 0 011.333 14V6.693h13.334V14z"
-        fill={f}
         fillRule="nonzero"
         opacity=".5"
       />
@@ -280,7 +279,6 @@ export function UploadLogoIcon() {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M1 1H15V15H1V1ZM6 9L8 11L13 6V13H3V12L6 9ZM6.5 7C7.32843 7 8 6.32843 8 5.5C8 4.67157 7.32843 4 6.5 4C5.67157 4 5 4.67157 5 5.5C5 6.32843 5.67157 7 6.5 7Z"
-        fill="#7c5dfa"
       />
     </svg>
   );
