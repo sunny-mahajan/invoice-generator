@@ -25,6 +25,7 @@ const InvoiceDetailsForm = ({
   register,
   onFileSelect,
   onFileRemove,
+  handleDiscountToggle = () => {},
 }) => {
   const fileInputRef = useRef(null);
   const [selectedFile, setselectedFile] = useState(null);
@@ -76,6 +77,20 @@ const InvoiceDetailsForm = ({
     <div className="flex gap-5 flex-col">
       <div className="invoice-details-section block md:flex">
         <div className="w-full">
+        <div className="flex md:w-[90%] w-full mb-3 flex-col">
+            <CustomInput
+              type="text"
+              name="invoiceTitle"
+              title="Invoice Title"
+              placeholder="Invoice Title"
+              maxLength={50}
+              value={formData?.invoiceTitle}
+              defaultValue={formData?.invoiceTitle}
+              onChange={handleChange}
+              inputClass="input-invoice-cls"
+              containerClass="input-container-cls"
+            />
+          </div>
           <div className="flex md:w-[90%] w-full mb-3 flex-col">
             <CustomInput
               type="text"
@@ -125,8 +140,9 @@ const InvoiceDetailsForm = ({
                   gap: "5px",
                   float: "right",
                 }}
+                containerClass="add-new-btn-cls w-[50%] md:w-[38%]"
               >
-                <PlusIcon f={"rgb(124, 93, 250)"} /> Add Due Date
+                <PlusIcon /> Add Due Date
               </CustomButton>
             </div>
           ) : (
@@ -203,10 +219,24 @@ const InvoiceDetailsForm = ({
                 gap: "5px",
                 float: "right",
               }}
+              containerClass="add-new-btn-cls w-[50%] md:w-[38%]"
             >
-              <PlusIcon f={"rgb(124, 93, 250)"} /> Add Custom Field
+              <PlusIcon /> Add Custom Field
             </CustomButton>
           </div>
+        {/* Discount Accordion */}
+        <div className="border-slate-200 pb-4">
+          <label className="inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              value=""
+              className="sr-only peer"
+              onChange={handleDiscountToggle} // Call the function when the toggle is changed
+            />
+            <div className="random-temp-cls relative w-10 h-6 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3.66px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <span className="ml-3 font-semibold">Discount</span>
+          </label>
+        </div>
         </div>
         <div className="w-full d-flex justify-end mb-8">
           <div

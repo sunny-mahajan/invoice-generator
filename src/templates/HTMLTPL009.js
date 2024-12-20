@@ -229,7 +229,7 @@ export default function generateHTMLTPL003(invoiceData) {
       <!-- Header Section -->
       <div class="header-cls">
         <div class="header-content">
-          <h1 class="title">INVOICE</h1>
+          <h1 class="title">${invoiceData["Invoice Title"]}</h1>
           <div>
           ${
             invoiceData["Logo"]
@@ -291,7 +291,7 @@ export default function generateHTMLTPL003(invoiceData) {
               }
               ${
                 invoiceData["Sender's Tax No"]
-                  ? `<span><span>GST No: </span>${invoiceData["Sender's Tax No"]}</span>`
+                  ? `<span><span>${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} No: </span>${invoiceData["Sender's Tax No"]}</span>`
                   : ""
               }
               ${
@@ -513,7 +513,7 @@ export default function generateHTMLTPL003(invoiceData) {
                 invoiceData.itemData["taxPercentage"] > 0
                   ? `
                 ${
-                  invoiceData["Sender's Tax Type"] === "IGST"
+                  invoiceData["Sender's Tax Type"]
                     ? `
                         <p><strong>${invoiceData["Sender's Tax Type"]}:</strong>
                         <span><span>${currencySymbol}</span>${invoiceData.itemData["taxAmount"]}</span></p>
@@ -637,7 +637,7 @@ export default function generateHTMLTPL003(invoiceData) {
           }
           ${
             invoiceData["Receiver's Tax No"]
-              ? `<p><span>GST No: </span>${invoiceData["Receiver's Tax No"]}</p>`
+              ? `<p><span>${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} No: </span>${invoiceData["Receiver's Tax No"]}</p>`
               : ""
           }
           ${

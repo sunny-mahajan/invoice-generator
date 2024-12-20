@@ -115,13 +115,12 @@ const Header = () => {
           </div>
           <div className="sidebar-bottom d-flex items-center justify-content-center">
             <div
-              className="flex items-center justify-center bg-blue-500 text-white rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
+              className="flex items-center justify-center bg-blue-500 rounded-full w-10 h-10 cursor-pointer mx-2 md:mx-4"
               ref={avatarRef}
               onClick={handleProfileClick}
             >
               <span
                 className="user-profile-cls text-lg"
-                style={{ marginTop: "4px" }}
               >
                 {userData?.name.charAt(0).toUpperCase()}
               </span>
@@ -130,7 +129,7 @@ const Header = () => {
         </div>
         {isMenuOpen && ( // Conditionally render the side menu
           <div
-            className="sidebar-menu mt-1"
+            className="text-white sidebar-menu mt-1"
             ref={menuRef}
             style={{ position: "fixed", top: menuPosition.top, right: "5px" }}
           >

@@ -218,7 +218,7 @@ export default function generateHTMLTPL003(invoiceData) {
             }
         </div>
         <div class="invoice-info">
-          <h2>INVOICE</h2>
+          <h2>${invoiceData["Invoice Title"]}</h2>
           <p>ID No: ${invoiceData["Invoice No."] || ""}</p>
         </div>
       </div>
@@ -274,7 +274,7 @@ export default function generateHTMLTPL003(invoiceData) {
           }
           ${
             invoiceData["Receiver's Tax No"]
-              ? `<p><span>GST No: </span>${invoiceData["Receiver's Tax No"]}</p>`
+              ? `<p><span>${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} No: </span>${invoiceData["Receiver's Tax No"]}</p>`
               : ""
           }
           ${
@@ -355,7 +355,7 @@ export default function generateHTMLTPL003(invoiceData) {
           }
           ${
             invoiceData["Sender's Tax No"]
-              ? `<p><span>GST No: </span>${invoiceData["Sender's Tax No"]}</p>`
+              ? `<p><span>${invoiceData["Sender's Tax Type"] ? invoiceData["Sender's Tax Type"] : "TAX"} No: </span>${invoiceData["Sender's Tax No"]}</p>`
               : ""
           }
           ${
@@ -600,7 +600,7 @@ export default function generateHTMLTPL003(invoiceData) {
                         ? `
                         <div class="sub-sec5-item">
                           ${
-                            invoiceData["Sender's Tax Type"] === "IGST"
+                            invoiceData["Sender's Tax Type"]
                               ? `
                           <p class="sub-sec5-title">${invoiceData["Sender's Tax Type"]}</p><span><span>${currencySymbol}</span>${invoiceData.itemData["taxAmount"]}</span>
                           `
