@@ -606,7 +606,7 @@ export default function generateHTMLTPL006(invoiceData) {
             invoiceData.itemData["taxPercentage"] > 0 &&
             invoiceData.itemData["discount"] > 0
               ? `<td class="align-right table-data-limit">
-              <div>${currencySymbol}${item["afterDiscount"]}</div>
+              <div>${currencySymbol}${item["afterDiscount"] || 0}</div>
             </td>`
               : ""
           }
