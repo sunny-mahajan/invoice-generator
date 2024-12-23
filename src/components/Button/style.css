@@ -1,9 +1,5 @@
-body[data-theme="dark"] {
-  --main-title : rgb(124, 93, 250);
-}
-
 body {
-  --main-title : #df3439;
+  --main-title : rgb(124, 93, 250);
 }
 
 .white-button {
