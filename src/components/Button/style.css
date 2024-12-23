@@ -1,3 +1,7 @@
+body {
+  --main-title : rgb(124, 93, 250);
+}
+
 .white-button {
   background-color: var(--color);
   color: #7e88c3;
@@ -50,7 +54,7 @@ body[data-theme="dark"] .gray-button:hover path {
   fill: white;
 }
 .purple-button {
-  background-color: #7c5dfa;
+  background-color: var(--main-title);
   color: #f8f8f8;
   padding: 12px;
   padding-left: 20px;
