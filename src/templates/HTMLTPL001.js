@@ -588,7 +588,7 @@ export default function generateHTMLTPL001(invoiceData) {
                           invoiceData.itemData["taxPercentage"] > 0 &&
                           invoiceData.itemData["discount"] > 0
                             ? `
-                          <p class="sub-sec4-item-amount "><span>${currencySymbol}</span>${item["afterDiscount"]}
+                          <p class="sub-sec4-item-amount "><span>${currencySymbol}</span>${item["afterDiscount"] || 0}
                           </p>
                         `
                             : ""
@@ -612,7 +612,7 @@ export default function generateHTMLTPL001(invoiceData) {
                           : ""
                       }
                       <p class="sub-sec4-item-total "><span>${currencySymbol}</span>${
-                      item["total"] ?? 0
+                      item["total"] || 0
                     }</p>
                     </div>
                 `

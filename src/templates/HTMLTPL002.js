@@ -513,7 +513,7 @@ export default function generateHTMLTPL002(invoiceData) {
               invoiceData.itemData["taxPercentage"] > 0 &&
               invoiceData.itemData["discount"] > 0
                 ? `
-              <td><span>${currencySymbol}${item["afterDiscount"]}</span>
+              <td><span>${currencySymbol}${item["afterDiscount"] || 0} </span>
               </td>
             `
                 : ""
